@@ -232,6 +232,7 @@
     .dc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;box-shadow:var(--elev1)}
     .dc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-xl) var(--r-xl) 0 0}
     .dc.tc::before{background:var(--md-primary)}.dc.am::before{background:var(--md-tertiary)}.dc.ro::before{background:var(--md-error)}.dc.bl::before{background:#1565C0}
+    .dc.vi::before{background:#7C3AED}
     .dc:hover{box-shadow:var(--elev3);transform:translateY(-2px)}.dc.act{border-color:var(--md-primary);box-shadow:var(--elev2)}
     .di{font-size:1.6rem;margin-bottom:.52rem}.dn{font-weight:600;font-size:.9rem;color:var(--md-on-background);margin-bottom:.28rem}.dtg{font-size:.68rem;color:var(--md-on-surface-variant);margin-bottom:.62rem;font-weight:400}
     .dd{display:none;border-top:1px solid var(--md-outline-variant);margin-top:.85rem;padding-top:.85rem}.dc.act .dd{display:block}
@@ -1564,6 +1565,10 @@
   <!-- SELECTOR DE MEDICAMENTOS -->
   <div class="sh"><h4>Diccionario interactivo</h4><h2>Elige tu medicamento</h2><p>Selecciona la categoría que aparece en tu receta. Cada medicamento tiene su explicación sin tecnicismos, sus efectos adversos con probabilidades reales y un prompt listo para tu IA.</p></div>
 
+  <div style="margin-bottom:1rem">
+    <input type="text" id="med-search" placeholder="🔍 Buscar medicamento..." oninput="filterMeds(this.value)" style="width:100%;padding:10px 16px;border:1px solid var(--md-outline-variant);border-radius:var(--r-lg);font-size:.88rem;font-family:inherit;background:var(--md-surface);color:var(--md-on-surface);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--md-primary)'" onblur="this.style.borderColor='var(--md-outline-variant)'">
+  </div>
+
   <div class="med-cats">
     <button class="med-cat-btn" onclick="showMedCat('base',this)"><span class="med-cat-icon">🔧</span><div class="med-cat-label">Moduladores base</div><div class="med-cat-sub">Antidepresivos ISRS/Duales</div></button>
     <button class="med-cat-btn" onclick="showMedCat('tdah',this)"><span class="med-cat-icon">⚡</span><div class="med-cat-label">TDAH</div><div class="med-cat-sub">Estimulantes ejecutivos</div></button>
@@ -1901,6 +1906,25 @@
       </div>
     </div>
 
+
+    <div class="med-item" id="med-pregabalina-ext">
+      <div class="med-item-hdr" onclick="toggleMed('pregabalina-ext')">
+        <div class="med-pill amber">No benzo · Ansiolítico</div>
+        <div><div class="med-item-name">Pregabalina</div><div class="med-item-aka">Lyrica · Pregab</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace en crisis?</div><p>Modula los canales de calcio que regulan la liberación de glutamato (el neurotransmisor excitatorio). Reduce la hiperexcitabilidad neuronal sin actuar sobre GABA como las benzodiacepinas. Efecto ansiolítico en 30–60 minutos. <strong>No es benzo, pero sí tiene potencial de uso indebido a dosis altas.</strong></p></div>
+          <div class="med-box neutral"><div class="med-box-label">Pregabalina vs Benzos</div><p><strong>Ventaja:</strong> No causa la misma dependencia farmacológica que alprazolam/clonazepam. Efecto sostenido sin rebote severo.<br><strong>Limitación:</strong> Inicio más lento (30–60 min vs 15 min del alprazolam). No "corta" una crisis aguda tan rápido, pero es mejor opción para ansiedad crónica o como puente.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">30%</div><div class="prob-label">Somnolencia</div><div class="prob-sub">Más intensa los primeros días. Se ajusta.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Mareo</div><div class="prob-sub">Al inicio. Tomar con alimento reduce esto.</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- SUPLEMENTOS -->
@@ -2077,6 +2101,7 @@
       <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('crecimiento',this)"><span class="med-cat-icon">🌱</span><div class="med-cat-label">Crecimiento</div></button>
       <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('progreso',this)"><span class="med-cat-icon">🌟</span><div class="med-cat-label">Progreso</div></button>
       <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('ansiedad',this)"><span class="med-cat-icon">🧘</span><div class="med-cat-label">Ansiedad</div></button>
+      <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('conducir',this)"><span class="med-cat-icon">🚗</span><div class="med-cat-label">Manejar</div></button>
     </div>
     <div id="frases-crecimiento" class="frases-list" style="display:none">
       <div class="frase-item">🌱 "Cada reto es una oportunidad para crecer y aprender."</div>
@@ -2113,6 +2138,18 @@
       <div class="frase-item">🧘 "No soy mis pensamientos. Son datos, no verdades."</div>
       <div class="frase-item">🧘 "Inhalo calma, exhalo lo que no controlo."</div>
       <div class="frase-item">🧘 "He sobrevivido al 100% de mis peores días."</div>
+        <div id="frases-conducir" class="frases-list" style="display:none">
+      <div class="frase-item">🚗 "Cada día me siento más segura al volante."</div>
+      <div class="frase-item">🚗 "Confío en mi capacidad para manejar con seguridad y calma."</div>
+      <div class="frase-item">🚗 "Mi coche es una herramienta de libertad, y yo lo controlo."</div>
+      <div class="frase-item">🚗 "Estoy aprendiendo y mejorando en cada trayecto."</div>
+      <div class="frase-item">🚗 "La práctica me hace más fuerte y segura."</div>
+      <div class="frase-item">🚗 "El tráfico no me intimida, sé cómo manejarlo con paciencia."</div>
+      <div class="frase-item">🚗 "Si me equivoco, aprendo y sigo adelante."</div>
+      <div class="frase-item">🚗 "Voy a mi ritmo, sin presiones. Lo importante es llegar bien."</div>
+      <div class="frase-item">🚗 "Respiro profundo, me concentro y disfruto el trayecto."</div>
+      <div class="frase-item">🚗 "He sobrevivido al 100% de mis trayectos difíciles."</div>
+    </div>
     </div>
     <div class="cot" style="margin-top:1rem"><div class="cot-t">📲 Cómo usarlas</div><p>En tu teléfono, crea una alarma diaria (ej. 8:00 AM) con una frase como nombre. Cámbiala cada lunes. Leer la frase en voz alta al despertar reestructura activamente las creencias centrales. Es activación conductual + reestructuración cognitiva en 10 segundos.</p></div>
   </div>
@@ -2263,6 +2300,25 @@ function toggleDark(){
 
 /* ══ NAVEGACIÓN ══ */
 /* ══ MEDICAMENTOS ══ */
+
+function filterMeds(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.med-item').forEach(item => {
+    const name = item.querySelector('.med-item-name');
+    const aka = item.querySelector('.med-item-aka');
+    const text = ((name?name.textContent:'') + ' ' + (aka?aka.textContent:'')).toLowerCase();
+    item.style.display = text.includes(q) || q === '' ? '' : 'none';
+  });
+  // Show all lists if searching
+  if (q) {
+    document.querySelectorAll('.med-list').forEach(l => l.classList.add('show'));
+  } else {
+    document.querySelectorAll('.med-list').forEach(l => l.classList.remove('show'));
+    const active = document.querySelector('.med-cat-btn.active');
+    if (active) active.click();
+  }
+}
+
 function showMedCat(cat, btn) {
   document.querySelectorAll('.med-list').forEach(l => l.classList.remove('show'));
   document.querySelectorAll('.med-cat-btn').forEach(b => b.classList.remove('active'));
@@ -2393,11 +2449,23 @@ function makeDots(id, arr) {
 /* ══ DISTORSIONES ══ */
 const dists = [
   { n: 'Catastrofismo', ic: '⚡', tg: 'Ansiedad · Anticipación', cl: 'tc', desc: 'El cerebro anticipa el peor escenario como mecanismo de defensa fallido. El paciente sufre dos veces: antes del evento y después rumiando lo que pasó.', ex: '"Me duele la cabeza desde ayer. Seguramente tengo un tumor. Voy a quedar incapacitado y mi familia va a sufrir."', ct: 'Reestructuración socrática', cm: '¿Cuántas veces antes tuviste dolor de cabeza y el resultado fue un tumor? Separa la posibilidad de la probabilidad estadística real.' },
-  { n: 'Falacia de justicia', ic: '⚖️', tg: 'Ira · Resentimiento · Relaciones', cl: 'am', desc: 'La creencia rígida de que el mundo debe operar bajo las propias normas de equidad y moralidad. Genera ira crónica y resentimiento profundo.', ex: '"Yo siempre llego a tiempo, trabajo más que nadie y no me reconocen. Aquí nadie valora el esfuerzo como yo."', ct: 'Perspectiva clínica', cm: 'El mundo no firmó un acuerdo con tu sistema de valores. ¿Cuánta energía vital consumes siendo el auditor de la justicia ajena?' },
+  { n: 'Pensamiento todo o nada', ic: '⚫', tg: 'Perfeccionismo · Depresión', cl: 'bl', desc: 'Ver las cosas en categorías absolutas: blanco/negro, bueno/malo, éxito total/fracaso completo. No existe punto medio. Muy común en perfeccionismo y depresión.', ex: '"Si no soy el mejor de mi clase, soy un mediocre." "O me quieres completamente o no me quieres nada."', ct: 'Pensar en tonos de gris', cm: 'Evalúa las cosas en una escala del 0 al 100 en lugar de todo o nada. ¿Dónde cae realmente esta situación?' },
+  { n: 'Sobregeneralización', ic: '🔄', tg: 'Depresión · Desesperanza', cl: 'bl', desc: 'A partir de un solo evento negativo, crear un patrón universal usando palabras como "siempre", "nunca", "todos", "nadie". Un hecho se convierte en regla permanente.', ex: '"Me fue mal en esta entrevista, nunca conseguiré trabajo." "Me dejó una pareja, nadie me va a querer."', ct: 'Examina la evidencia', cm: '¿Es realmente "siempre"? Haz una lista concreta de veces donde el resultado fue distinto.' },
+  { n: 'Filtro mental', ic: '🕶️', tg: 'Depresión · Rumia', cl: 'ro', desc: 'Focalizarse exclusivamente en un detalle negativo e ignorar todo lo positivo. Como una gota de tinta que oscurece un vaso entero de agua.', ex: '"Recibí muchos elogios por mi presentación, pero uno dijo algo crítico. Fue un desastre."', ct: 'Ampliar el lente', cm: '¿Qué otros datos existen además del negativo? ¿Qué tan importante es ese detalle en el cuadro completo?' },
+  { n: 'Descalificar lo positivo', ic: '🚫', tg: 'Depresión · Autoestima', cl: 'ro', desc: 'Rechazar experiencias positivas insistiendo en que "no cuentan". Si haces algo bien: "fue suerte". Si alguien te elogia: "solo fue educación".', ex: '"Saqué buena nota pero fue porque el examen estaba fácil. Cualquiera lo habría hecho."', ct: 'La regla del amigo', cm: 'Si un amigo te contara ese logro, ¿le dirías que no cuenta? Trátate con la misma justicia.' },
   { n: 'Razonamiento emocional', ic: '🌊', tg: 'Ansiedad · TLP · Depresión', cl: 'ro', desc: '"Si lo siento, debe ser cierto." La convicción de que si una emoción se siente intensa, la realidad que describe debe ser verdadera. Anula la lógica y la evidencia.', ex: '"Siento que mi pareja me va a dejar aunque no ha dicho ni hecho nada. Lo presiento con mucha fuerza."', ct: 'La distinción clave', cm: 'Las emociones son datos de tu estado interno, no evidencia de hechos externos. ¿Qué evidencia concreta tienes, no sentida sino observada?' },
+  { n: 'Lectura de la mente', ic: '🔮', tg: 'Ansiedad social · Relaciones', cl: 'tc', desc: 'Asumir que sabes lo que otros piensan sin evidencia. "Ella piensa que soy poco atractivo." "Él está molesto conmigo."', ex: '"Mi jefe no me saludó en la mañana. Claramente está enojado conmigo. Probablemente me va a despedir."', ct: 'La regla de la evidencia', cm: '¿Tu jefe te dijo que está molesto? ¿O construiste una narrativa completa a partir de un comportamiento neutral?' },
+  { n: 'Adivinar el futuro', ic: '🎱', tg: 'Ansiedad · Evitación', cl: 'tc', desc: 'Predecir de forma arbitraria que las cosas van a salir mal, sin evidencia que lo sustente. Se involucraron fallas o peligros inexistentes.', ex: '"Seguro voy a reprobar este examen. No tiene caso ni estudiar." "Seré infeliz en el matrimonio."', ct: 'El experimento conductual', cm: 'Haz una predicción concreta y después compárala con lo que realmente pasó. ¿Cuántas predicciones negativas se han cumplido?' },
+  { n: 'Los "debería"', ic: '📏', tg: 'Perfeccionismo · Autoexigencia', cl: 'am', desc: 'Una red rígida de reglas: "debería", "tengo que", "debo de". Dirigidas hacia uno generan culpa; dirigidas hacia otros generan ira y frustración.', ex: '"Debería poder manejar esto solo. No debería necesitar ayuda. Una persona fuerte no se rompe por esto."', ct: 'La flexibilidad como fortaleza', cm: '¿De dónde viene esa regla? Reemplazar "debería" por "preferiría" reduce la presión sin eliminar el objetivo.' },
+  { n: 'Etiquetado', ic: '🏷️', tg: 'Autoestima · Relaciones', cl: 'vi', desc: 'Forma extrema del todo-o-nada. En vez de "cometí un error" → "soy un perdedor". Es irracional porque no es lo mismo hacer que ser. Las etiquetas son abstracciones inútiles que generan parálisis.', ex: '"Reprobé un examen, soy un fracasado." "Se le cayó algo, es un inútil."', ct: 'Definir términos', cm: '¿Cuál es la definición real de "fracasado"? No existe tal cosa. Los humanos existimos, los "fracasados" no.' },
+  { n: 'Magnificación y minimización', ic: '🔍', tg: 'Ansiedad · Autoestima', cl: 'am', desc: 'El "truco binocular": exagerar los errores y problemas propios, y reducir los logros y cualidades. En su grado máximo se llega a catastrofizar.', ex: '"Lo que logré no tiene gran mérito, cualquiera lo hubiese hecho." "Cometí algunos errores, soy un completo pecador."', ct: 'La prueba del balance', cm: '¿Estás usando la misma vara de medida para lo bueno y lo malo? Lista ventajas y desventajas con el mismo criterio.' },
+  { n: 'Personalización y culpa', ic: '👤', tg: 'Culpa · Vergüenza', cl: 'vi', desc: 'Culparte por eventos que no están enteramente bajo tu control, o culpar a otros ignorando tu propia contribución. Genera culpa, vergüenza o resentimiento crónico.', ex: '"Mi hijo reprobó. Soy una mala madre." "Mi matrimonio es un desastre porque mi esposo es totalmente irrazonable."', ct: 'Reatribución', cm: '¿Cuáles son TODOS los factores que contribuyeron? Enfócate en resolver, no en culpar.' },
+  { n: 'Falacia de justicia', ic: '⚖️', tg: 'Ira · Resentimiento · Relaciones', cl: 'am', desc: 'La creencia rígida de que el mundo debe operar bajo las propias normas de equidad y moralidad. Genera ira crónica y resentimiento profundo.', ex: '"Yo siempre llego a tiempo, trabajo más que nadie y no me reconocen. Aquí nadie valora el esfuerzo como yo."', ct: 'Perspectiva clínica', cm: 'El mundo no firmó un acuerdo con tu sistema de valores. ¿Cuánta energía vital consumes siendo el auditor de la justicia ajena?' },
   { n: 'Rumiación y autoflagelación', ic: '🔁', tg: 'Depresión · Culpa · Vergüenza', cl: 'bl', desc: 'El ciclo compulsivo de darle vueltas a errores pasados o catástrofes futuras. Drena la memoria de trabajo del córtex prefrontal y bloquea la capacidad de resolver problemas.', ex: '"No debí haber dicho eso. Soy un idiota. Nunca aprendo. Jamás voy a poder cambiar."', ct: 'Autocompasión', cm: '¿Le dirías esas palabras exactas a alguien que quieres? La autocrítica severa produce parálisis, no cambio.' },
-  { n: 'Lectura de la mente', ic: '🔮', tg: 'Ansiedad social · Relaciones', cl: 'tc', desc: 'La suposición de que se sabe con certeza lo que otros piensan, especialmente pensamientos negativos hacia uno, sin ninguna evidencia concreta.', ex: '"Mi jefe no me saludó en la mañana. Claramente está enojado conmigo. Probablemente me va a despedir esta semana."', ct: 'La regla de la evidencia', cm: '¿Tu jefe te dijo que está molesto? ¿O construiste una narrativa completa a partir de un comportamiento neutral?' },
-  { n: 'Los "debería"', ic: '📏', tg: 'Perfeccionismo · Autoexigencia', cl: 'am', desc: 'Una red rígida de reglas internas sobre cómo uno mismo y los demás deberían comportarse. Genera culpa (hacia uno) o ira (hacia otros) cuando no se cumplen.', ex: '"Debería poder manejar esto solo. No debería necesitar ayuda. Una persona fuerte no se rompe por esto."', ct: 'La flexibilidad como fortaleza', cm: '¿De dónde viene esa regla? Reemplazar "debería" por "preferiría" reduce la presión sin eliminar el objetivo.' }
+  { n: 'Inferencia arbitraria', ic: '🎯', tg: 'Ansiedad · Paranoia', cl: 'tc', desc: 'Sacar conclusiones de una situación sin evidencia que las sostenga, incluso cuando la evidencia es contraria a la conclusión.', ex: '"No venderé nada en mi negocio." "El avión se va a caer (aunque la probabilidad es de 0.00001%)."', ct: 'Examina la evidencia', cm: '¿Cuál es la evidencia objetiva? ¿Y cuál es la probabilidad estadística real del escenario temido?' },
+  { n: 'Inhabilidad para desconfirmar', ic: '🛡️', tg: 'Rigidez · Sesgo confirmatorio', cl: 'vi', desc: 'Rechazar cualquier evidencia o argumento que contradiga tus pensamientos negativos. Solo dejas entrar lo que confirma lo peor.', ex: '"Me ascendieron pero seguro fue por lástima, no por mi capacidad."', ct: 'El método de la encuesta', cm: 'Pregunta a varias personas de confianza su perspectiva. ¿Coincide con tu narrativa o la contradice?' },
+  { n: 'Comparación falsa', ic: '📊', tg: 'Inferioridad · Autoestima', cl: 'vi', desc: 'Interpretar los eventos con estándares poco realistas. Focalizarse en quienes son "mejores" ignorando contexto y tus propias fortalezas.', ex: '"Ella es más exitosa que yo." "Soy un completo fracaso porque mis amigos tienen mejores empleos."', ct: 'Cambia el enfoque', cm: '¿Estás comparando tu historia completa con el highlight reel de alguien más? Cada persona tiene un camino único.' },
+  { n: 'Echar la culpa', ic: '☝️', tg: 'Resentimiento · Estancamiento', cl: 'ro', desc: 'Considerar que otras personas son el origen de tus sentimientos negativos y negarse a tomar la responsabilidad del propio cambio.', ex: '"Mi esposo es el culpable de que yo no haya podido estudiar." "Yo soy así porque mis padres no fueron cariñosos conmigo."', ct: 'Responsabilidad vs culpa', cm: 'Otros pudieron haber contribuido, pero ¿qué está en tus manos cambiar ahora? La responsabilidad no es culpa, es poder de acción.' }
 ];
 
 function buildDist() {
@@ -2428,7 +2496,14 @@ const quizData = [
   { thought: 'Me siento muy ansioso, entonces seguramente algo terrible va a pasar hoy.', dist: 'Razonamiento emocional', label: 'ql-red', explain: 'La ansiedad genera sensación de peligro, pero sentir peligro no significa estar en peligro.', alt: 'Estoy sintiendo ansiedad. Eso habla de mi estado interno, no de lo que va a pasar.' },
   { thought: 'Me invitaron a la fiesta pero solo porque les di lástima.', dist: 'Descalificar lo positivo + Lectura de la mente', label: 'ql-teal', explain: 'Rechazas la evidencia positiva y asumes motivaciones negativas sin prueba.', alt: 'Me invitaron. Esa es la evidencia concreta.' },
   { thought: 'Debería ser capaz de manejar todo esto sin ayuda. Pedir ayuda significa que soy débil.', dist: 'Los "debería" + Todo o nada', label: 'ql-amber', explain: 'Regla rígida + clasificación absoluta. Pedir ayuda es habilidad, no debilidad.', alt: 'Preferiría manejar esto solo, pero reconocer que necesito apoyo es fortaleza.' },
-  { thought: 'Mi hijo se enfermó. Seguramente es mi culpa por no cuidarlo bien.', dist: 'Personalización', label: 'ql-red', explain: 'Te asignas toda la responsabilidad de un evento con múltiples causas.', alt: 'Los niños se enferman por muchas razones. Estoy haciendo lo que puedo.' }
+  { thought: 'Mi hijo se enfermó. Seguramente es mi culpa por no cuidarlo bien.', dist: 'Personalización', label: 'ql-red', explain: 'Te asignas toda la responsabilidad de un evento con múltiples causas.', alt: 'Los niños se enferman por muchas razones. Estoy haciendo lo que puedo.' },
+  { thought: 'Todas mis amigas tienen mejores trabajos que yo. Soy la peor de todas.', dist: 'Comparación falsa + Filtro mental', label: 'ql-blue', explain: 'Comparas tu situación completa con un solo aspecto visible de los demás, ignorando tus propios logros.', alt: 'Cada persona tiene un camino diferente. ¿Qué logros propios estoy ignorando?' },
+  { thought: 'Ya probé un antidepresivo y no funcionó. Ningún tratamiento me va a servir.', dist: 'Sobregeneralización + Adivinar el futuro', label: 'ql-amber', explain: 'Un intento se convierte en regla universal. Existen múltiples clases de antidepresivos con mecanismos distintos.', alt: 'Este medicamento no funcionó para mí. Hay múltiples opciones que mi médico puede ajustar.' },
+  { thought: 'No me salió perfecto el proyecto. Todo mi esfuerzo fue en vano.', dist: 'Todo o nada + Descalificar lo positivo', label: 'ql-teal', explain: 'Si no es perfecto = fracaso total. Se descarta todo el esfuerzo y aprendizaje.', alt: 'El proyecto tuvo áreas de mejora y áreas que sí funcionaron. Un resultado parcial sigue siendo avance.' },
+  { thought: 'Si me siento triste es porque mi vida realmente es un desastre y no tiene arreglo.', dist: 'Razonamiento emocional + Desesperanza', label: 'ql-red', explain: 'La tristeza se toma como prueba objetiva. La depresión distorsiona la percepción.', alt: 'Me siento triste y eso es real. Pero mi percepción puede estar sesgada por la depresión.' },
+  { thought: 'Si me da el virus, me voy a morir. No tiene caso tomar precauciones.', dist: 'Catastrofismo + Todo o nada', label: 'ql-red', explain: 'Saltas al peor desenlace y eliminas la opción intermedia. Las precauciones reducen probabilidad.', alt: 'Puedo tomar medidas razonables para reducir el riesgo. La mayoría de las personas se recuperan.' },
+  { thought: 'Mi esposo es el culpable de que yo no haya podido estudiar.', dist: 'Echar la culpa', label: 'ql-amber', explain: 'Asignas toda la responsabilidad a otra persona y te quitas la posibilidad de acción propia.', alt: 'Mi esposo pudo haber influido. Hoy puedo explorar opciones para retomar mis estudios.' },
+  { thought: 'Me ascendieron pero seguro fue por lástima, no por capacidad.', dist: 'Inhabilidad para desconfirmar', label: 'ql-blue', explain: 'Rechazas la evidencia positiva e inventas una explicación negativa sin pruebas.', alt: 'Me ascendieron. Esa es la evidencia objetiva. No tengo datos de que fue por lástima.' }
 ];
 
 function buildQuiz() {
