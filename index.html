@@ -55,8 +55,8 @@
       --forest:#00413B;
     }
 
-    html{scroll-behavior:smooth}
-    body{font-family:'Roboto',sans-serif;background:var(--md-background);color:var(--md-on-background);font-size:14px;line-height:1.6;min-height:100vh}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{overflow-x:hidden;font-family:'Roboto',sans-serif;background:var(--md-background);color:var(--md-on-background);font-size:14px;line-height:1.6;min-height:100vh}
 
     /* ══ INSTALL BANNER ══ */
     #install-banner{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--md-surface-lowest);border-top:1px solid var(--md-outline-variant);box-shadow:0 -4px 20px rgba(0,0,0,.12);padding:1rem 1.25rem;display:none;gap:.75rem;align-items:center;animation:slideUp .35s ease}
@@ -509,7 +509,16 @@
     .med-prompt-wrap h3{color:#fff;font-size:.95rem;margin-bottom:.4rem}
     .med-prompt-wrap p{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:.85rem}
 
-    /* ══ GUÍA DEL MES: NOTIFICACIONES ══ */
+    
+function showFrases(cat,btn){
+  document.querySelectorAll('.frases-list').forEach(l=>{l.style.display='none';l.classList.remove('show')});
+  document.querySelectorAll('[onclick^="showFrases"]').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('frases-'+cat);
+  if(el){el.style.display='flex';el.classList.add('show');}
+  if(btn)btn.classList.add('active');
+}
+
+/* ══ GUÍA DEL MES: NOTIFICACIONES ══ */
     .notif-section{background:var(--md-primary-container);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1.25rem}
     .notif-section h3{color:var(--md-on-primary-container);font-size:.92rem;margin-bottom:.35rem}
     .notif-section p{color:var(--md-on-primary-container);font-size:.8rem;opacity:.8;margin-bottom:1rem}
@@ -536,6 +545,67 @@
     .footer-copy{font-size:.72rem;color:var(--md-on-surface-variant)}
     .footer-logo{font-family:'Roboto Flex',sans-serif;font-size:.78rem;font-weight:600;color:var(--md-on-background)}
     .footer-logo span{color:var(--md-primary)}
+
+    /* ══ DARK MODE ══ */
+    .dark-toggle{background:none;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 10px;cursor:pointer;font-size:15px;color:rgba(255,255,255,.65);transition:all .2s;display:flex;align-items:center;gap:4px}
+    .dark-toggle:hover{border-color:rgba(255,255,255,.35);color:#fff}
+    [data-theme="dark"]{
+      --md-background:#121212;--md-on-background:#E0E0E0;
+      --md-surface:#1E1E1E;--md-surface-lowest:#0D0D0D;--md-surface-low:#1A1A1A;--md-surface-high:#2A2A2A;
+      --md-on-surface:#E0E0E0;--md-on-surface-variant:#B0B0B0;
+      --md-outline:rgba(255,255,255,.12);--md-outline-variant:rgba(255,255,255,.08);
+      --md-primary:#6EDCC8;--md-on-primary:#003730;--md-primary-container:#004D44;--md-on-primary-container:#9EF2E4;
+      --md-secondary:#B0CCC8;--md-on-secondary:#1B3532;--md-secondary-container:#324B48;--md-on-secondary-container:#CCE8E4;
+      --md-tertiary:#D4A373;--md-on-tertiary:#2D1600;--md-tertiary-container:#5A3A16;--md-on-tertiary-container:#FFD6A8;
+      --md-error:#FFB4AB;--md-on-error:#690005;--md-error-container:#93000A;--md-on-error-container:#FFDAD6;
+      color-scheme:dark
+    }
+    [data-theme="dark"] body{background:var(--md-background);color:var(--md-on-background)}
+    [data-theme="dark"] .card{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .hero,.med-hero,[data-theme="dark"] .guide-intro,[data-theme="dark"] .soc,[data-theme="dark"] .sp-contact{background:var(--md-surface-low);border-color:var(--md-outline)}
+    [data-theme="dark"] .slide{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .slide.dark{background:var(--md-surface-lowest)}
+    [data-theme="dark"] .dc{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .quiz-card{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .sleep-card{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .pt{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .med-item{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .gc{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .thc{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .sp-section{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .cochrane-banner{background:var(--md-surface-low);border-color:var(--md-outline)}
+    [data-theme="dark"] .cot{background:var(--md-surface-high)}
+    [data-theme="dark"] .cot.am{background:var(--md-surface-high)}
+    [data-theme="dark"] .never-stop{background:var(--md-surface-high);border-color:var(--md-outline)}
+    [data-theme="dark"] .prompt-box{background:var(--md-surface-lowest)}
+    [data-theme="dark"] .safety-alert{background:var(--md-surface-high)}
+    [data-theme="dark"] .abc-box{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .med-cat-btn{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .cbti-panel{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .woebot-card{background:var(--md-surface-high)}
+    [data-theme="dark"] .notif-section{background:var(--md-surface-high)}
+    [data-theme="dark"] .rule-box{background:var(--md-surface-high)}
+    [data-theme="dark"] .warn-box{background:var(--md-surface-high)}
+    [data-theme="dark"] img{opacity:.88}
+
+
+    /* ══ MOBILE FIXES ══ */
+    @media(max-width:620px){
+      .safety-alert{padding:1rem;margin:.75rem 0}
+      .safety-alert h4{font-size:.72rem;word-break:break-word}
+      .sa-list li{font-size:.76rem}
+      .never-stop{flex-direction:column;gap:.5rem;padding:1rem}
+      .never-stop p{font-size:.78rem}
+      .rb-grid{grid-template-columns:1fr}
+      .med-row{grid-template-columns:1fr}
+      .med-prompt-wrap .prompt-box{font-size:.65rem;padding:.75rem}
+    }
+
+
+    .frases-list{display:flex;flex-direction:column;gap:.3rem;margin-top:.65rem;animation:fadeUp .3s ease}
+    .frases-list.show{display:flex!important}
+    .frase-item{font-size:.8rem;color:var(--md-on-surface);padding:.55rem .75rem;background:var(--md-surface-low);border-radius:var(--r-md);line-height:1.5;font-weight:300;border:1px solid var(--md-outline-variant)}
+
   </style>
 </head>
 <body>
@@ -1310,6 +1380,19 @@
     <p>No son pastillas para "sentirte diferente". Son herramientas que le dan al cerebro la capacidad biológica de aprender, reconectarse y recuperarse. Aquí entenderás exactamente por qué te las recetaron.</p>
   </div>
 
+  <!-- SELECTOR DE MEDICAMENTOS -->
+  <div class="sh"><h4>Diccionario interactivo</h4><h2>Elige tu medicamento</h2><p>Selecciona la categoría que aparece en tu receta. Cada medicamento tiene su explicación sin tecnicismos, sus efectos adversos con probabilidades reales y un prompt listo para tu IA.</p></div>
+
+  <div class="med-cats">
+    <button class="med-cat-btn" onclick="showMedCat('base',this)"><span class="med-cat-icon">🔧</span><div class="med-cat-label">Moduladores base</div><div class="med-cat-sub">Antidepresivos ISRS/Duales</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('tdah',this)"><span class="med-cat-icon">⚡</span><div class="med-cat-label">TDAH</div><div class="med-cat-sub">Estimulantes ejecutivos</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('sueno',this)"><span class="med-cat-icon">🌙</span><div class="med-cat-label">Sueño</div><div class="med-cat-sub">Inductores sin adicción</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('extintores',this)"><span class="med-cat-icon">🚒</span><div class="med-cat-label">Extintores</div><div class="med-cat-sub">Crisis de pánico</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('suplementos',this)"><span class="med-cat-icon">🌿</span><div class="med-cat-label">Suplementos</div><div class="med-cat-sub">Eje intestino-cerebro</div></button>
+  </div>
+
+
+
   <!-- POR QUÉ SE INICIA: RIESGO vs BENEFICIO -->
   <div class="card mb">
     <h4>¿Por qué iniciar medicamento?</h4>
@@ -1352,17 +1435,6 @@
   <div class="never-stop" style="margin-bottom:1.25rem">
     <div class="never-stop-icon">🔴</div>
     <p><strong>Regla de oro: NUNCA suspendas ni modifiques sin avisar.</strong> El síndrome de discontinuación puede incluir mareos intensos, "descargas eléctricas" en la cabeza, llanto, náuseas. No porque el medicamento sea adictivo — sino porque el cerebro necesita ajustarse gradualmente. <strong>Escríbele a tu médico antes de cualquier cambio.</strong></p>
-  </div>
-
-  <!-- SELECTOR DE MEDICAMENTOS -->
-  <div class="sh"><h4>Diccionario interactivo</h4><h2>Elige tu medicamento</h2><p>Selecciona la categoría que aparece en tu receta. Cada medicamento tiene su explicación sin tecnicismos, sus efectos adversos con probabilidades reales y un prompt listo para tu IA.</p></div>
-
-  <div class="med-cats">
-    <button class="med-cat-btn" onclick="showMedCat('base',this)"><span class="med-cat-icon">🔧</span><div class="med-cat-label">Moduladores base</div><div class="med-cat-sub">Antidepresivos ISRS/Duales</div></button>
-    <button class="med-cat-btn" onclick="showMedCat('tdah',this)"><span class="med-cat-icon">⚡</span><div class="med-cat-label">TDAH</div><div class="med-cat-sub">Estimulantes ejecutivos</div></button>
-    <button class="med-cat-btn" onclick="showMedCat('sueno',this)"><span class="med-cat-icon">🌙</span><div class="med-cat-label">Sueño</div><div class="med-cat-sub">Inductores sin adicción</div></button>
-    <button class="med-cat-btn" onclick="showMedCat('extintores',this)"><span class="med-cat-icon">🚒</span><div class="med-cat-label">Extintores</div><div class="med-cat-sub">Crisis de pánico</div></button>
-    <button class="med-cat-btn" onclick="showMedCat('suplementos',this)"><span class="med-cat-icon">🌿</span><div class="med-cat-label">Suplementos</div><div class="med-cat-sub">Eje intestino-cerebro</div></button>
   </div>
 
   <!-- MODULADORES BASE -->
@@ -1457,6 +1529,47 @@
         <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-bupropion" style="margin:0"><button class="copy-btn" onclick="copyP('mp-bupropion',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Me recetaron <span class="hl">Bupropión</span>. Explícame en qué se diferencia de los ISRS, por qué actúa en dopamina y noradrenalina en vez de serotonina, para qué tipo de depresión es mejor, y qué esperar las primeras 2 semanas. <span class="hl">Tono objetivo, sin exagerar riesgos del prospecto.</span></div></div>
       </div>
     </div>
+
+    <div class="med-item" id="med-fluoxetina">
+      <div class="med-item-hdr" onclick="toggleMed('fluoxetina')">
+        <div class="med-pill">ISRS · Base</div>
+        <div><div class="med-item-name">Fluoxetina</div><div class="med-item-aka">Prozac · Fluoxac</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>El ISRS más antiguamente validado. Aumenta la <strong>serotonina</strong> disponible. Tiene vida media muy larga (2–6 días), lo que lo hace el más estable de su clase y el más fácil de retirar. Primera línea en depresión, TOC, bulimia, trastorno de pánico.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Por la <strong>mañana</strong> (es más activante que otros ISRS). Puede causar insomnio si se toma de noche. Dosis habitual: 20–40 mg/día.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">20%</div><div class="prob-label">Náusea inicial</div><div class="prob-sub">Primera semana. Desaparece espontáneamente.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Activación / nerviosismo</div><div class="prob-sub">Más activante que escitalopram. Se ajusta dosis.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">5%</div><div class="prob-label">Disfunción sexual</div><div class="prob-sub">Reversible. Avisar al médico.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p>La ventaja de la fluoxetina: por su vida media larga, el síndrome de discontinuación es raro. Aun así, <strong>no la pares sin avisar.</strong></p></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-duloxetina">
+      <div class="med-item-hdr" onclick="toggleMed('duloxetina')">
+        <div class="med-pill">IRSN · Dual</div>
+        <div><div class="med-item-name">Duloxetina</div><div class="med-item-aka">Cymbalta · Duxetin</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Inhibidor dual de serotonina y noradrenalina (IRSN). Trata depresión, TAG, fibromialgia y dolor neuropático. La noradrenalina añadida mejora la <strong>energía, concentración y dolor crónico</strong>. Especialmente útil si la depresión viene con dolor físico o fatiga severa.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Generalmente por la <strong>mañana con alimento</strong>. Dosis habitual: 60 mg/día. Inicio gradual para minimizar náusea.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">25%</div><div class="prob-label">Náusea</div><div class="prob-sub">Las 2 primeras semanas. Reducir dosis inicial ayuda.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Sudoración</div><div class="prob-sub">Efecto noradrenérgico. Puede persistir.</div></div>
+          <div class="prob-card common"><div class="prob-pct">10%</div><div class="prob-label">Constipación</div><div class="prob-sub">Aumentar fibra e hidratación.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">⚠️</div><p><strong>La duloxetina requiere retiro gradual obligatorio.</strong> Nunca pares de golpe. El síndrome de discontinuación puede ser intenso (mareos, "descargas eléctricas", irritabilidad).</p></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- TDAH -->
@@ -1471,7 +1584,7 @@
       </div>
       <div class="med-item-body">
         <div class="med-row">
-          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Aumenta la <strong>dopamina y noradrenalina</strong> en el lóbulo frontal. Mejora la concentración, la inhibición de impulsos, la planificación y la tolerancia a la frustración. Duración: 8–12 horas según presentación.</p></div>
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Aumenta la <strong>dopamina y noradrenalina</strong> en el lóbulo frontal. Mejora la concentración, la inhibición de impulsos, la planificación y la tolerancia a la frustración.</p></div><div class="med-box neutral"><div class="med-box-label">Liberación inmediata (LI) vs prolongada (LP)</div><p><strong>LI (Ritalin 10mg):</strong> Efecto en 30 min, dura 3–4 h. Útil para necesidades puntuales.<br><strong>LP (Concerta 18/27/36/54mg):</strong> Sistema OROS — efecto 10–12 h con liberación gradual. Una sola toma matutina. Sin "montaña rusa".<br><strong>LP (Tradea 20/30/40/50mg):</strong> Cápsula con microesferas. Duración 8–10 h. Se puede abrir y mezclar con alimento.</p></div>
           <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Solo por la <strong>mañana</strong>, con o sin desayuno. Nunca de tarde/noche. No hace falta tomarlo fines de semana si no se requiere el nivel de concentración.</p></div>
         </div>
         <div class="prob-grid">
@@ -1503,6 +1616,27 @@
         <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-vyvanse" style="margin:0"><button class="copy-btn" onclick="copyP('mp-vyvanse',this)">Copiar</button><span class="hl">Actúa como psiquiatra especialista en TDAH.</span> Tomo <span class="hl">Lisdexanfetamina (Vyvanse)</span>. Explícame por qué se diferencia de otras anfetaminas como profármaco, qué ventaja tiene su duración de 12 horas, cómo funciona en el sistema de recompensa del TDAH y qué señales me dicen que está funcionando bien. <span class="hl">Evidencia de guías clínicas, sin exagerar riesgos.</span></div></div>
       </div>
     </div>
+
+    <div class="med-item" id="med-atomoxetina">
+      <div class="med-item-hdr" onclick="toggleMed('atomoxetina')">
+        <div class="med-pill blue">No estimulante · TDAH</div>
+        <div><div class="med-item-name">Atomoxetina</div><div class="med-item-aka">Strattera · Atonar</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Inhibidor selectivo de la recaptura de noradrenalina (no es estimulante). Mejora la atención y el control de impulsos sin riesgo de abuso. Efecto completo en <strong>4–8 semanas</strong> (no inmediato). Primera línea cuando hay comorbilidad con ansiedad, tics o historia de adicciones.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p><strong>Por la mañana o dividido en dos tomas.</strong> Dosis según peso. Se ajusta gradualmente en 3–4 semanas hasta dosis objetivo.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">20%</div><div class="prob-label">Disminución de apetito</div><div class="prob-sub">Menos intensa que con estimulantes.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Náusea</div><div class="prob-sub">Tomar con alimento reduce este efecto.</div></div>
+          <div class="prob-card common"><div class="prob-pct">10%</div><div class="prob-label">Somnolencia</div><div class="prob-sub">Puede usarse a favor si hay insomnio asociado.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p><strong>La atomoxetina NO es de efecto inmediato</strong> como el metilfenidato. Dale 4–6 semanas antes de decidir que "no funciona". La constancia es clave.</p></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- SUEÑO -->
@@ -1549,6 +1683,26 @@
         <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-preg" style="margin:0"><button class="copy-btn" onclick="copyP('mp-preg',this)">Copiar</button><span class="hl">Actúa como médico clínico.</span> Me recetaron <span class="hl">Pregabalina</span> como rescate para ansiedad nocturna. Explícame cómo reduce la hiperexcitabilidad neuronal, en qué se diferencia de las benzodiacepinas, y cuándo debo preocuparme de estar usándola demasiado seguido. <span class="hl">Tono claro y sin alarmar.</span></div></div>
       </div>
     </div>
+
+    <div class="med-item" id="med-melatonina">
+      <div class="med-item-hdr" onclick="toggleMed('melatonina')">
+        <div class="med-pill moon">Hormona · Regulador circadiano</div>
+        <div><div class="med-item-name">Melatonina</div><div class="med-item-aka">Circadin · Melatonina LP</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Hormona natural producida por la glándula pineal. <strong>No es un sedante, es un regulador del reloj biológico.</strong> Le dice al cerebro "ya es de noche" y ajusta el ciclo sueño-vigilia. La presentación de liberación prolongada (LP) mantiene niveles estables durante la noche.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p><strong>30–60 minutos antes de dormir</strong>, siempre a la misma hora. Dosis habitual: 2–5 mg. La clave es la consistencia del horario, no la dosis alta. Más no es mejor.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">Muy bajo</div><div class="prob-label">Perfil de seguridad</div><div class="prob-sub">Uno de los suplementos con mejor perfil de seguridad. Sin dependencia.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">5%</div><div class="prob-label">Somnolencia matutina</div><div class="prob-sub">Si se toma dosis alta o muy tarde. Ajustar hora y dosis.</div></div>
+        </div>
+        <div class="cot"><div class="cot-t">⚠️ Importante</div><p>La melatonina <strong>no "noquea"</strong>. Si esperas un efecto tipo benzodiacepina, te va a decepcionar. Su trabajo es más sutil: recalibrar tu reloj interno. Funciona mejor combinada con higiene del sueño (punto 11: control de estímulos).</p></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- EXTINTORES -->
@@ -1574,6 +1728,41 @@
         <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-alpraz" style="margin:0"><button class="copy-btn" onclick="copyP('mp-alpraz',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Me recetaron <span class="hl">Alprazolam</span> solo para crisis de pánico. Explícame cómo funciona en el receptor GABA, por qué es efectivo en crisis pero peligroso si se usa diario, y qué diferencia tiene con los antidepresivos que tomo de base. <span class="hl">Ayúdame a entender el límite entre uso correcto y dependencia.</span></div></div>
       </div>
     </div>
+
+    <div class="med-item" id="med-clonazepam">
+      <div class="med-item-hdr" onclick="toggleMed('clonazepam')">
+        <div class="med-pill red">Benzo · Acción prolongada</div>
+        <div><div class="med-item-name">Clonazepam</div><div class="med-item-aka">Rivotril · Klonopin</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Benzodiacepina de <strong>acción prolongada</strong> (vida media 18–50 h). Actúa sobre GABA como el alprazolam pero con efecto más sostenido y gradual. Menos "pico" de alivio pero menos rebote.</p></div>
+          <div class="med-box amber"><div class="med-box-label">Clonazepam vs Alprazolam</div><p><strong>Alprazolam:</strong> Acción rápida (15 min), corta duración (4–6 h), mayor riesgo de rebote y dependencia. Ideal para crisis agudas.<br><strong>Clonazepam:</strong> Inicio más lento (30–60 min), duración larga (8–12 h), menos rebote. Útil para TAG severo o como puente mientras hace efecto el antidepresivo. <strong>Ambas crean dependencia si se usan diario.</strong></p></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">⚠️</div><p>Las mismas reglas que el alprazolam: <strong>máximo 3–4 semanas de uso diario.</strong> El retiro debe ser gradual y supervisado. No pares de golpe si llevas semanas usándolo.</p></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-hidroxizina">
+      <div class="med-item-hdr" onclick="toggleMed('hidroxizina')">
+        <div class="med-pill amber">Antihistamínico · Ansiolítico</div>
+        <div><div class="med-item-name">Hidroxizina</div><div class="med-item-aka">Atarax · Vistaril</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Antihistamínico con efecto ansiolítico. <strong>No es benzodiacepina, no crea dependencia.</strong> Bloquea el receptor H1 reduciendo la activación del SNA. Efecto en 30–60 minutos, duración 4–6 horas. Útil para ansiedad situacional, urticaria por ansiedad, o como inductor de sueño sin riesgo de abuso.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p><strong>PRN (según necesidad)</strong> o como inductor nocturno. Dosis: 25–50 mg. No requiere retiro gradual.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">30%</div><div class="prob-label">Somnolencia</div><div class="prob-sub">El efecto principal. Beneficio si se usa para dormir.</div></div>
+          <div class="prob-card common"><div class="prob-pct">10%</div><div class="prob-label">Boca seca</div><div class="prob-sub">Efecto anticolinérgico leve. Hidratarse bien.</div></div>
+        </div>
+        <div class="cot"><div class="cot-t">Ventaja clave</div><p>Es una alternativa para ansiedad aguda en pacientes con historia de adicciones o donde las benzodiacepinas están contraindicadas.</p></div>
+      </div>
+    </div>
+
   </div>
 
   <!-- SUPLEMENTOS -->
@@ -1695,6 +1884,56 @@
     <div class="gc"><div class="gc-num" aria-hidden="true">12</div><div class="gc-title">El objetivo de este mes: estabilización</div><div class="gc-body">Que los síntomas bajen, que el sueño mejore, que empiece a recuperar claridad, calma y energía. <strong>No se trata de avanzar rápido, sino de avanzar estable.</strong></div></div>
   </div>
   <div class="cot" style="margin-top:1rem"><div class="cot-t">📞 Si tienes dudas, síntomas nuevos o algo te preocupa</div><p>No tienes que aguantarte ni esperar. Punto de partida: <strong>+52 55 6810 1894</strong> · Línea de la Vida: <strong>800-911-2000</strong></p></div>
+
+  <!-- RECORDATORIOS MOTIVACIONALES -->
+  <div class="card mb" style="border-left:4px solid var(--md-primary)">
+    <h4>🔔 Recordatorios para tu bienestar</h4>
+    <h3>Frases de reestructuración cognitiva</h3>
+    <p style="font-size:.82rem">Programa recordatorios en tu teléfono con estas frases. Pon una alarma diaria a una hora fija con una frase distinta cada semana. Leerla en voz alta activa circuitos diferentes que leerla en silencio.</p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.85rem 0">
+      <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('crecimiento',this)"><span class="med-cat-icon">🌱</span><div class="med-cat-label">Crecimiento</div></button>
+      <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('progreso',this)"><span class="med-cat-icon">🌟</span><div class="med-cat-label">Progreso</div></button>
+      <button class="med-cat-btn" style="flex:1;min-width:120px" onclick="showFrases('ansiedad',this)"><span class="med-cat-icon">🧘</span><div class="med-cat-label">Ansiedad</div></button>
+    </div>
+    <div id="frases-crecimiento" class="frases-list" style="display:none">
+      <div class="frase-item">🌱 "Cada reto es una oportunidad para crecer y aprender."</div>
+      <div class="frase-item">🌱 "Mis logros son el resultado de mi esfuerzo y disciplina."</div>
+      <div class="frase-item">🌱 "No tengo que ser perfecta, solo seguir avanzando."</div>
+      <div class="frase-item">🌱 "Me permito disfrutar el presente sin preocuparme por el futuro."</div>
+      <div class="frase-item">🌱 "Soy resiliente, me adapto y sigo adelante."</div>
+      <div class="frase-item">🌱 "No comparo mi proceso con el de nadie más; mi avance es único."</div>
+      <div class="frase-item">🌱 "Estoy construyendo una vida llena de estabilidad y bienestar."</div>
+      <div class="frase-item">🌱 "Mi bienestar emocional es mi prioridad."</div>
+      <div class="frase-item">🌱 "Cada vez tengo más seguridad en mí misma y en mis capacidades."</div>
+      <div class="frase-item">🌱 "Estoy en paz con mi pasado, disfruto mi presente y confío en mi futuro."</div>
+    </div>
+    <div id="frases-progreso" class="frases-list" style="display:none">
+      <div class="frase-item">🌟 "Soy más fuerte y capaz de lo que creo."</div>
+      <div class="frase-item">🌟 "Los problemas que antes me abrumaban, ahora los manejo con calma."</div>
+      <div class="frase-item">🌟 "Tengo herramientas y habilidades para afrontar cualquier situación."</div>
+      <div class="frase-item">🌟 "He superado momentos difíciles antes, y puedo superar cualquier reto nuevo."</div>
+      <div class="frase-item">🌟 "Hoy tengo más control sobre mi vida y mis emociones."</div>
+      <div class="frase-item">🌟 "Confío en mí misma y en mis decisiones."</div>
+      <div class="frase-item">🌟 "Estoy viviendo la vida que antes solo soñaba."</div>
+      <div class="frase-item">🌟 "Cada día me siento más en paz y con más claridad."</div>
+      <div class="frase-item">🌟 "He trabajado mucho para estar donde estoy, y me lo merezco."</div>
+      <div class="frase-item">🌟 "Mi vida es mucho mejor ahora, y sigue mejorando."</div>
+    </div>
+    <div id="frases-ansiedad" class="frases-list" style="display:none">
+      <div class="frase-item">🧘 "Esta emoción es temporal. Ya ha pasado antes y pasará de nuevo."</div>
+      <div class="frase-item">🧘 "No necesito controlarlo todo. Solo lo que está en mis manos."</div>
+      <div class="frase-item">🧘 "Estoy segura ahora mismo, en este momento."</div>
+      <div class="frase-item">🧘 "Mi cuerpo está reaccionando, pero no estoy en peligro real."</div>
+      <div class="frase-item">🧘 "Puedo sentir ansiedad y aun así tomar buenas decisiones."</div>
+      <div class="frase-item">🧘 "La ansiedad miente. Los hechos no confirman lo que me dice."</div>
+      <div class="frase-item">🧘 "Respiro. Nombre 5 cosas que puedo ver. Estoy aquí."</div>
+      <div class="frase-item">🧘 "No soy mis pensamientos. Son datos, no verdades."</div>
+      <div class="frase-item">🧘 "Inhalo calma, exhalo lo que no controlo."</div>
+      <div class="frase-item">🧘 "He sobrevivido al 100% de mis peores días."</div>
+    </div>
+    <div class="cot" style="margin-top:1rem"><div class="cot-t">📲 Cómo usarlas</div><p>En tu teléfono, crea una alarma diaria (ej. 8:00 AM) con una frase como nombre. Cámbiala cada lunes. Leer la frase en voz alta al despertar reestructura activamente las creencias centrales. Es activación conductual + reestructuración cognitiva en 10 segundos.</p></div>
+  </div>
+
 </section>
 
 <!-- ═══════════════ RED ═══════════════ -->
@@ -1814,7 +2053,7 @@
     <span class="footer-sep">|</span>
     <a href="https://eutimya.org" target="_blank" rel="noopener">eutimya.org</a>
     <span class="footer-sep">|</span>
-    <a href="mailto:contacto@eutimya.org">contacto@eutimya.org</a>
+    <a href="/cdn-cgi/l/email-protection#e0838f8e948183948fa0859594898d9981ce8f9287"><span class="__cf_email__" data-cfemail="7e1d11100a1f1d0a113e1b0b0a1713071f50110c19">[email&#160;protected]</span></a>
     <span class="footer-sep">|</span>
     <span class="footer-copy">Psicoeducación clínica para pacientes</span>
   </div>
@@ -1823,7 +2062,22 @@
 <!-- FAB SOS — solo una vez, fuera del main -->
 <a href="#seguridad" class="fab-sos" onclick="show('seguridad', document.querySelectorAll('.tab')[8]);return false;" title="Plan de Seguridad / Emergencia" aria-label="Ir al plan de seguridad y emergencia">🚨</a>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+/* ══ DARK MODE ══ */
+function toggleDark(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  localStorage.setItem('eutimya-theme',isDark?'light':'dark');
+  document.querySelector('.dark-toggle').textContent=isDark?'🌙':'☀️';
+}
+(function(){
+  const saved=localStorage.getItem('eutimya-theme');
+  if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');
+  document.addEventListener('DOMContentLoaded',()=>{const b=document.querySelector('.dark-toggle');if(b)b.textContent='☀️';});}
+})();
+
 /* ══ NAVEGACIÓN ══ */
 /* ══ MEDICAMENTOS ══ */
 function showMedCat(cat, btn) {
@@ -1832,7 +2086,7 @@ function showMedCat(cat, btn) {
   const el = document.getElementById('ml-' + cat);
   if (el) el.classList.add('show');
   if (btn) btn.classList.add('active');
-  window.scrollTo({ top: document.getElementById('meds').offsetTop - 80, behavior: 'smooth' });
+  const cats=document.querySelector('.med-cats');if(cats)cats.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function toggleMed(id) {
@@ -1841,6 +2095,15 @@ function toggleMed(id) {
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.med-item.open').forEach(m => m.classList.remove('open'));
   if (!isOpen) el.classList.add('open');
+}
+
+
+function showFrases(cat,btn){
+  document.querySelectorAll('.frases-list').forEach(l=>{l.style.display='none';l.classList.remove('show')});
+  document.querySelectorAll('[onclick^="showFrases"]').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById('frases-'+cat);
+  if(el){el.style.display='flex';el.classList.add('show');}
+  if(btn)btn.classList.add('active');
 }
 
 /* ══ GUÍA DEL MES: PROMPTS DE IA ══ */
@@ -2371,15 +2634,4 @@ if ('serviceWorker' in navigator) {
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              console.log('Nueva versión disponible. Recarga para actualizar.');
-            }
-          });
-        });
-      })
-      .catch(err => console.warn('Error de registro SW:', err));
-  });
-}
-</script>
-</body>
-</html>
+            if (newWorker.state === 'installed' && navigator.serviceWorker
