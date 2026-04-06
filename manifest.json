@@ -1,0 +1,17 @@
+{
+  "name": "Eutimya Psicoeducación",
+  "short_name": "Eutimya",
+  "description": "Recursos de psicoeducación clínica y herramientas TCC.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4FAF8",
+  "theme_color": "#006A60",
+  "icons": [
+    {
+      "src": "https://psiquiatra-cdmx.eutimya.org/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
