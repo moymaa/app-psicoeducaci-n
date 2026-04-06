@@ -421,6 +421,121 @@
     .ai-modal-timer-bar{height:2px;background:var(--md-outline-variant);border-radius:2px;flex:1;overflow:hidden}
     .ai-modal-timer-fill{height:100%;background:var(--md-primary);border-radius:2px;width:100%;transition:width linear}
     .ai-modal-timer-txt{font-size:.65rem;color:var(--md-on-surface-variant);white-space:nowrap}
+
+    /* ══ MEDICAMENTOS ══ */
+    .med-hero{background:linear-gradient(135deg,var(--md-on-background) 0%,#00302B 100%);border-radius:var(--r-xl);padding:2.5rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+    .med-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.12) 0%,transparent 70%);pointer-events:none}
+    .med-hero h2{color:#fff;font-size:2rem;margin-bottom:.65rem;letter-spacing:-.02em}
+    .med-hero h2 em{font-style:normal;color:var(--md-primary-container)}
+    .med-hero p{color:rgba(255,255,255,.58);font-size:.9rem;margin:0;max-width:480px}
+
+    /* Categorías */
+    .med-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.65rem;margin-bottom:1.5rem}
+    .med-cat-btn{background:var(--md-surface-lowest);border:1.5px solid var(--md-outline-variant);border-radius:var(--r-lg);padding:.9rem .75rem;cursor:pointer;transition:all .2s;text-align:center;font-family:'Roboto',sans-serif}
+    .med-cat-btn:hover{border-color:var(--md-primary);background:var(--md-primary-container);transform:translateY(-2px);box-shadow:var(--elev2)}
+    .med-cat-btn.active{border-color:var(--md-primary);background:var(--md-primary-container)}
+    .med-cat-icon{font-size:1.6rem;margin-bottom:.3rem;display:block}
+    .med-cat-label{font-size:.73rem;font-weight:600;color:var(--md-on-background);text-transform:uppercase;letter-spacing:.06em}
+    .med-cat-sub{font-size:.65rem;color:var(--md-on-surface-variant);margin-top:.15rem}
+
+    /* Lista de medicamentos */
+    .med-list{display:none;animation:fadeUp .25s ease}
+    .med-list.show{display:block}
+    .med-item{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);margin-bottom:.65rem;overflow:hidden;box-shadow:var(--elev1);transition:box-shadow .2s}
+    .med-item:hover{box-shadow:var(--elev2)}
+    .med-item-hdr{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;cursor:pointer;transition:background .15s;background:transparent}
+    .med-item-hdr:hover{background:var(--md-surface-container)}
+    .med-item.open .med-item-hdr{background:var(--md-primary-container)}
+    .med-pill{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:4px 10px;border-radius:var(--r-full);background:var(--md-primary-container);color:var(--md-on-primary-container);flex-shrink:0}
+    .med-pill.amber{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
+    .med-pill.red{background:var(--md-error-container);color:var(--md-on-error-container)}
+    .med-pill.blue{background:#DBEAFE;color:#1E40AF}
+    .med-item-name{font-weight:600;font-size:.95rem;color:var(--md-on-background);flex:1}
+    .med-item-aka{font-size:.72rem;color:var(--md-on-surface-variant);font-weight:400}
+    .med-item-chev{color:var(--md-on-surface-variant);font-size:.8rem;transition:transform .22s}
+    .med-item.open .med-item-chev{transform:rotate(180deg)}
+    .med-item-body{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid var(--md-outline-variant)}
+    .med-item.open .med-item-body{display:block}
+    .med-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem;margin:1rem 0}
+    .med-box{border-radius:var(--r-md);padding:.85rem 1rem}
+    .med-box.green{background:rgba(0,106,96,.08);border-left:3px solid var(--md-primary)}
+    .med-box.amber{background:var(--md-tertiary-container);border-left:3px solid var(--md-tertiary)}
+    .med-box.red{background:var(--md-error-container);border-left:3px solid var(--md-error)}
+    .med-box.neutral{background:var(--md-secondary-container);border-left:3px solid var(--md-secondary)}
+    .med-box-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--md-primary);margin-bottom:.35rem}
+    .med-box.amber .med-box-label{color:var(--md-tertiary)}
+    .med-box.red .med-box-label{color:var(--md-error)}
+    .med-box.neutral .med-box-label{color:var(--md-secondary)}
+    .med-box p{font-size:.8rem;color:var(--md-on-surface-variant);margin:0;line-height:1.6}
+    .med-box strong{color:var(--md-on-background)}
+    .prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;margin:.75rem 0}
+    .prob-card{border-radius:var(--r-md);padding:.7rem .85rem;border:1px solid var(--md-outline-variant)}
+    .prob-card.common{background:rgba(0,106,96,.06)}
+    .prob-card.rare{background:var(--md-surface-container)}
+    .prob-pct{font-family:'Roboto Flex',sans-serif;font-size:1.35rem;font-weight:700;color:var(--md-primary);line-height:1}
+    .prob-card.rare .prob-pct{color:var(--md-on-surface-variant)}
+    .prob-label{font-size:.72rem;color:var(--md-on-background);font-weight:600;margin:.15rem 0 .1rem}
+    .prob-sub{font-size:.65rem;color:var(--md-on-surface-variant)}
+    .never-stop{background:var(--md-on-background);border-radius:var(--r-lg);padding:1.1rem 1.25rem;margin-top:1rem;display:flex;align-items:flex-start;gap:.85rem}
+    .never-stop-icon{font-size:1.4rem;flex-shrink:0}
+    .never-stop p{font-size:.8rem;color:rgba(255,255,255,.65);margin:0;line-height:1.6}
+    .never-stop strong{color:#fff}
+
+    /* Risk/Benefit visual */
+    .rb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1rem 0}
+    .rb-card{border-radius:var(--r-lg);padding:1.1rem}
+    .rb-card.green{background:rgba(0,106,96,.08);border:1.5px solid rgba(0,106,96,.2)}
+    .rb-card.amber{background:var(--md-tertiary-container);border:1.5px solid rgba(122,82,48,.2)}
+    .rb-card-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--md-primary);margin-bottom:.5rem}
+    .rb-card.amber .rb-card-label{color:var(--md-tertiary)}
+    .rb-item{display:flex;align-items:flex-start;gap:.45rem;font-size:.78rem;color:var(--md-on-surface-variant);margin-bottom:.35rem;line-height:1.5}
+    .rb-item:last-child{margin-bottom:0}
+    .rb-dot{width:6px;height:6px;border-radius:50%;background:var(--md-primary);flex-shrink:0;margin-top:.35rem}
+    .rb-card.amber .rb-dot{background:var(--md-tertiary)}
+
+    /* Evidencia Cochrane */
+    .cochrane-banner{background:linear-gradient(135deg,#0F172A,#1E293B);border-radius:var(--r-xl);padding:1.5rem 1.75rem;margin:1.25rem 0;position:relative;overflow:hidden}
+    .cochrane-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(158,242,228,.06);pointer-events:none}
+    .cochrane-tag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:var(--r-full);background:rgba(158,242,228,.12);color:var(--md-primary-container);border:1px solid rgba(158,242,228,.2);margin-bottom:.75rem}
+    .cochrane-banner h3{color:#fff;font-size:1rem;margin-bottom:.85rem}
+    .cochrane-stats{display:flex;gap:1.5rem;flex-wrap:wrap}
+    .cs{text-align:center}
+    .cs-num{font-family:'Roboto Flex',sans-serif;font-size:1.8rem;font-weight:700;color:var(--md-primary-container);line-height:1}
+    .cs-label{font-size:.65rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem}
+    .cochrane-note{font-size:.72rem;color:rgba(255,255,255,.38);margin-top:.85rem;font-style:italic}
+
+    /* Prompt medicamento */
+    .med-prompt-wrap{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem;margin-top:1.5rem}
+    .med-prompt-wrap h3{color:#fff;font-size:.95rem;margin-bottom:.4rem}
+    .med-prompt-wrap p{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:.85rem}
+
+    /* ══ GUÍA DEL MES: NOTIFICACIONES ══ */
+    .notif-section{background:var(--md-primary-container);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1.25rem}
+    .notif-section h3{color:var(--md-on-primary-container);font-size:.92rem;margin-bottom:.35rem}
+    .notif-section p{color:var(--md-on-primary-container);font-size:.8rem;opacity:.8;margin-bottom:1rem}
+    .notif-topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem;margin-bottom:1rem}
+    .notif-topic{background:var(--md-surface-lowest);border-radius:var(--r-lg);padding:.75rem 1rem;cursor:pointer;border:1.5px solid var(--md-outline-variant);transition:all .18s;font-family:'Roboto',sans-serif;text-align:left}
+    .notif-topic:hover,.notif-topic.sel{border-color:var(--md-primary);background:rgba(0,106,96,.06)}
+    .notif-topic-icon{font-size:1.3rem;margin-bottom:.25rem;display:block}
+    .notif-topic-name{font-size:.8rem;font-weight:600;color:var(--md-on-background)}
+    .notif-topic-sub{font-size:.68rem;color:var(--md-on-surface-variant)}
+    .notif-prompt-box{display:none;background:var(--md-on-background);border-radius:var(--r-lg);padding:1.25rem;margin-top:.75rem;font-size:.75rem;font-family:'Roboto Mono',monospace;color:rgba(255,255,255,.65);line-height:1.8;position:relative}
+    .notif-prompt-box.show{display:block;animation:fadeUp .22s ease}
+    .notif-prompt-box .hl{color:var(--md-primary-container);font-weight:600}
+    .notif-copy-btn{position:absolute;top:.6rem;right:.6rem;background:rgba(158,242,228,.12);border:1px solid rgba(158,242,228,.2);color:rgba(255,255,255,.55);font-size:.6rem;padding:5px 10px;border-radius:var(--r-full);cursor:pointer;font-family:'Roboto',sans-serif;transition:all .15s;font-weight:500}
+    .notif-copy-btn:hover{background:rgba(158,242,228,.22);color:rgba(255,255,255,.9)}
+    .notif-enable-btn{display:flex;align-items:center;gap:.6rem;background:var(--md-primary);color:#fff;border:none;padding:10px 20px;border-radius:var(--r-full);font-family:'Roboto',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .18s;margin-top:.75rem}
+    .notif-enable-btn:hover{filter:brightness(1.1)}
+
+    /* ══ FOOTER ══ */
+    .app-footer{background:var(--md-surface-lowest);border-top:1px solid var(--md-outline-variant);padding:1.25rem 1rem;text-align:center;margin-top:2rem}
+    .footer-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.5rem .75rem}
+    .footer-inner a{color:var(--md-on-surface-variant);text-decoration:none;font-size:.72rem;transition:color .15s}
+    .footer-inner a:hover{color:var(--md-primary)}
+    .footer-sep{color:var(--md-outline-variant);font-size:.72rem}
+    .footer-copy{font-size:.72rem;color:var(--md-on-surface-variant)}
+    .footer-logo{font-family:'Roboto Flex',sans-serif;font-size:.78rem;font-weight:600;color:var(--md-on-background)}
+    .footer-logo span{color:var(--md-primary)}
   </style>
 </head>
 <body>
@@ -491,6 +606,7 @@
       <button class="tab" onclick="show('sueno',this)">Sueño</button>
       <button class="tab" onclick="show('ia',this)">IA terapéutica</button>
       <button class="tab" id="tab-cbti" onclick="show('cbti',this)" style="display:none">TCC-I</button>
+      <button class="tab" onclick="show('meds',this)">Medicamentos</button>
       <button class="tab" onclick="show('guia',this)">Guía del mes</button>
       <button class="tab" onclick="show('red',this)">Red terapéutica</button>
       <button class="tab" onclick="show('seguridad',this)">Plan de seguridad</button>
@@ -1185,6 +1301,308 @@
   </div>
 </section>
 
+<!-- ═══════════════ MEDICAMENTOS ═══════════════ -->
+<section class="sec" id="meds" aria-label="Medicamentos y farmacología">
+
+  <div class="med-hero">
+    <div class="hbadge" style="background:rgba(158,242,228,.15);color:var(--md-primary-container);border-color:rgba(158,242,228,.3)" aria-hidden="true">💊 Tu receta explicada sin tecnicismos</div>
+    <h2>Tu <em>hardware</em> y el medicamento</h2>
+    <p>No son pastillas para "sentirte diferente". Son herramientas que le dan al cerebro la capacidad biológica de aprender, reconectarse y recuperarse. Aquí entenderás exactamente por qué te las recetaron.</p>
+  </div>
+
+  <!-- POR QUÉ SE INICIA: RIESGO vs BENEFICIO -->
+  <div class="card mb">
+    <h4>¿Por qué iniciar medicamento?</h4>
+    <h2>Riesgo · Beneficio · Decisión</h2>
+    <p>La decisión de iniciar tratamiento farmacológico nunca es arbitraria. Se basa en que el <strong>riesgo de no tratar</strong> es mayor que el riesgo del medicamento.</p>
+    <div class="rb-grid">
+      <div class="rb-card green">
+        <div class="rb-card-label">✓ Beneficios documentados</div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Reduce la hiperactivación de la amígdala — la alarma que no para.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Reactiva la corteza prefrontal para que puedas razonar bajo estrés.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Genera BDNF (Factor Neurotrófico) — la proteína que repara rutas neuronales.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Hace que la terapia funcione: sin biología estable, el pensamiento no cambia.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Evidencia Cochrane: reduce recaídas 30% a mediano plazo (RR 0.70, IC 95%).</span></div>
+      </div>
+      <div class="rb-card amber">
+        <div class="rb-card-label">⚠ Riesgo de no tratar</div>
+        <div class="rb-item"><div class="rb-dot"></div><span>El cortisol crónico por ansiedad sin tratar daña el hipocampo — la memoria.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>La depresión no tratada hace que la corteza prefrontal trabaje menos cada mes.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>El TDAH sin tratar aumenta el riesgo de adicciones (búsqueda de dopamina).</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Sin base biológica estable, ninguna terapia psicológica puede sostenerse.</span></div>
+      </div>
+    </div>
+    <div class="cot"><div class="cot-t">La metáfora de la balsa</div><p>El medicamento no es el destino. Es la balsa que te saca de la crisis para que puedas nadar solo después. No te lo dan de por vida por default — se revisa en cada etapa del tratamiento.</p></div>
+  </div>
+
+  <!-- EVIDENCIA COCHRANE -->
+  <div class="cochrane-banner">
+    <div class="cochrane-tag">📚 Evidencia Cochrane 2015 · PMID 25854522</div>
+    <h3>¿Qué dice la ciencia sobre entender tu tratamiento?</h3>
+    <div class="cochrane-stats">
+      <div class="cs"><div class="cs-num">37%</div><div class="cs-label">Menos recaídas con psicoeducación breve</div></div>
+      <div class="cs"><div class="cs-num">2,337</div><div class="cs-label">Pacientes en 20 estudios RCT</div></div>
+      <div class="cs"><div class="cs-num">+42%</div><div class="cs-label">Mejor adherencia al medicamento a largo plazo</div></div>
+      <div class="cs"><div class="cs-num">RR 0.63</div><div class="cs-label">Reducción de no-adherencia (corto plazo)</div></div>
+    </div>
+    <p class="cochrane-note">Zhao S, Sampson S, Xia J, Jayaram MB. Cochrane Database Syst Rev. 2015. Los pacientes que entienden su enfermedad y su medicamento tienen mejores resultados clínicos que los que solo lo toman sin comprender por qué.</p>
+  </div>
+
+  <!-- REGLA DE ORO -->
+  <div class="never-stop" style="margin-bottom:1.25rem">
+    <div class="never-stop-icon">🔴</div>
+    <p><strong>Regla de oro: NUNCA suspendas ni modifiques sin avisar.</strong> El síndrome de discontinuación puede incluir mareos intensos, "descargas eléctricas" en la cabeza, llanto, náuseas. No porque el medicamento sea adictivo — sino porque el cerebro necesita ajustarse gradualmente. <strong>Escríbele a tu médico antes de cualquier cambio.</strong></p>
+  </div>
+
+  <!-- SELECTOR DE MEDICAMENTOS -->
+  <div class="sh"><h4>Diccionario interactivo</h4><h2>Elige tu medicamento</h2><p>Selecciona la categoría que aparece en tu receta. Cada medicamento tiene su explicación sin tecnicismos, sus efectos adversos con probabilidades reales y un prompt listo para tu IA.</p></div>
+
+  <div class="med-cats">
+    <button class="med-cat-btn" onclick="showMedCat('base',this)"><span class="med-cat-icon">🔧</span><div class="med-cat-label">Moduladores base</div><div class="med-cat-sub">Antidepresivos ISRS/Duales</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('tdah',this)"><span class="med-cat-icon">⚡</span><div class="med-cat-label">TDAH</div><div class="med-cat-sub">Estimulantes ejecutivos</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('sueno',this)"><span class="med-cat-icon">🌙</span><div class="med-cat-label">Sueño</div><div class="med-cat-sub">Inductores sin adicción</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('extintores',this)"><span class="med-cat-icon">🚒</span><div class="med-cat-label">Extintores</div><div class="med-cat-sub">Crisis de pánico</div></button>
+    <button class="med-cat-btn" onclick="showMedCat('suplementos',this)"><span class="med-cat-icon">🌿</span><div class="med-cat-label">Suplementos</div><div class="med-cat-sub">Eje intestino-cerebro</div></button>
+  </div>
+
+  <!-- MODULADORES BASE -->
+  <div class="med-list" id="ml-base">
+    <div class="cot" style="margin-bottom:1rem"><div class="cot-t">⏱ Paciencia: 4–6 semanas</div><p>Estos medicamentos no son de efecto inmediato. Funcionan creando nuevas rutas neuronales (neuroplasticidad), lo que tarda biológicamente entre 4 y 6 semanas. Tomar y notar el efecto real requiere ese tiempo. El tratamiento completo dura 9–12 meses mínimo para que los cambios sean permanentes.</p></div>
+
+    <div class="med-item" id="med-escitalopram">
+      <div class="med-item-hdr" onclick="toggleMed('escitalopram')">
+        <div class="med-pill">ISRS · Base</div>
+        <div><div class="med-item-name">Escitalopram</div><div class="med-item-aka">Lexapro · Cipralex</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Aumenta la <strong>serotonina</strong> disponible entre neuronas. La serotonina es el "lenguaje de comunicación" del cerebro. Al aumentarla, las neuronas se reconectan y se genera neuroplasticidad real.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Generalmente por la <strong>mañana o mediodía</strong>. Si da sueño, se pasa a la noche. La dosis inicia baja y sube gradualmente para que el estómago no lo sienta.</p></div>
+        </div>
+        <div class="med-box-label" style="margin:.75rem 0 .5rem">Efectos adversos: probabilidad vs posibilidad</div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">20%</div><div class="prob-label">Náusea leve</div><div class="prob-sub">Primera semana. Desaparece al 5.° día.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Insomnio inicial</div><div class="prob-sub">Pasa la toma a la mañana si ocurre.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">5%</div><div class="prob-label">Disfunción sexual</div><div class="prob-sub">Reversible al ajustar dosis. Avisa a tu médico.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">0.03%</div><div class="prob-label">Efectos graves</div><div class="prob-sub">Lo que lees en el prospecto de Google. Posible, no probable.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p>Si algo te preocupa, <strong>escríbele a tu médico antes de suspenderlo.</strong> Nunca pares de golpe. El ajuste tarda 5 minutos de consulta pero evita semanas de malestar por discontinuación.</p></div>
+        <div class="med-prompt-wrap">
+          <h3>Pregúntale a tu IA sobre este medicamento</h3>
+          <p>Copia este prompt y pégalo en ChatGPT, Claude o Gemini:</p>
+          <div class="prompt-box" id="mp-escitalopram" style="margin:0"><button class="copy-btn" onclick="copyP('mp-escitalopram',this)">Copiar</button><span class="hl">Actúa como médico psiquiatra.</span> Mi diagnóstico es <span class="hl">[ansiedad / depresión]</span> y mi médico me recetó <span class="hl">Escitalopram</span>. Explícame cómo funciona en mi cerebro basándote en guías internacionales. Diferencia claramente qué efectos adversos son <span class="hl">probables en la primera semana</span> vs los que son posibles pero extremadamente raros. Aplica diálogo socrático para ayudarme a desarmar mi miedo a tomarlo. <span class="hl">No valides mi ansiedad. Dame respuestas objetivas y calmadas.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-sertralina">
+      <div class="med-item-hdr" onclick="toggleMed('sertralina')">
+        <div class="med-pill">ISRS · Base</div>
+        <div><div class="med-item-name">Sertralina</div><div class="med-item-aka">Zoloft · Altruline</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>ISRS clásico. Excelente para <strong>ansiedad generalizada, depresión y fobias</strong>. También usado en trastorno disfórico premenstrual. Perfil de efectos adversos muy bien tolerado.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Con alimentos por la <strong>mañana</strong>. Reduce significativamente la náusea inicial si se toma con comida.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">18%</div><div class="prob-label">Náusea inicial</div><div class="prob-sub">Con comida casi desaparece. Pasa en 5 días.</div></div>
+          <div class="prob-card common"><div class="prob-pct">12%</div><div class="prob-label">Diarrea leve</div><div class="prob-sub">El intestino tiene receptores de serotonina. Es temporal.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">0.05%</div><div class="prob-label">Efectos graves</div><div class="prob-sub">Posible según el prospecto. Extremadamente improbable.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p><strong>Si sientes algo inusual, avisa antes de suspender.</strong> El médico puede ajustar la dosis o cambiar el horario — son maniobras simples que evitan discontinuación.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><p>Copia y pega en tu IA favorita:</p><div class="prompt-box" id="mp-sertralina" style="margin:0"><button class="copy-btn" onclick="copyP('mp-sertralina',this)">Copiar</button><span class="hl">Actúa como médico psiquiatra.</span> Me recetaron <span class="hl">Sertralina</span> para <span class="hl">[diagnóstico]</span>. Explícame su mecanismo neurobiológico, qué esperar las primeras 2 semanas vs los 2 meses, y cómo distinguir efectos transitorios normales de señales de alerta reales. <span class="hl">Sé directo y objetivo. No exageres riesgos ni los minimices.</span></div></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-desvenlafaxina">
+      <div class="med-item-hdr" onclick="toggleMed('desvenlafaxina')">
+        <div class="med-pill amber">IRSN · Dual</div>
+        <div><div class="med-item-name">Desvenlafaxina / Venlafaxina</div><div class="med-item-aka">Pristiq · Effexor · Anapresin</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Dual: actúa sobre <strong>serotonina y noradrenalina</strong>. La noradrenalina suma energía y concentración. Ideal para depresión con fatiga intensa, burnout o cuando el ISRS solo no fue suficiente.</p></div>
+          <div class="med-box amber"><div class="med-box-label">Importante</div><p>Este medicamento <strong>no se puede parar de golpe</strong> — el síndrome de discontinuación es más intenso que con los ISRS. La bajada siempre debe ser gradual y con guía médica.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">22%</div><div class="prob-label">Náusea primera semana</div><div class="prob-sub">Se toma con comida. Pasa a los 5–7 días.</div></div>
+          <div class="prob-card common"><div class="prob-pct">10%</div><div class="prob-label">Sudoración leve</div><div class="prob-sub">Por la activación noradrenérgica. Generalmente manejable.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">7%</div><div class="prob-label">Aumento de presión</div><div class="prob-sub">Monitoreo estándar. Se ajusta dosis si ocurre.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">⚠️</div><p><strong>Este es uno donde el aviso es especialmente importante.</strong> Si quieres parar, el médico diseña un esquema de reducción gradual para que no lo sientas. Nunca lo cortes solo.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><p>Prompt listo para copiar:</p><div class="prompt-box" id="mp-desv" style="margin:0"><button class="copy-btn" onclick="copyP('mp-desv',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Tomo <span class="hl">Desvenlafaxina</span> para <span class="hl">[diagnóstico]</span>. Explícame por qué actúa en serotonina Y noradrenalina, qué ventaja tiene sobre un ISRS solo, y qué significa el síndrome de discontinuación y por qué importa no parar de golpe. <span class="hl">Basado en evidencia, tono claro y sin alarmar.</span></div></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-bupropion">
+      <div class="med-item-hdr" onclick="toggleMed('bupropion')">
+        <div class="med-pill">Activador</div>
+        <div><div class="med-item-name">Bupropión</div><div class="med-item-aka">Wellbutrin · Elontril</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Actúa sobre <strong>dopamina y noradrenalina</strong>. No sube la serotonina como los ISRS. Ideal para depresión con mucha fatiga, desmotivación profunda, TDAH como coadyuvante o para dejar de fumar. <strong>No causa aumento de peso</strong> ni disfunción sexual.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Por la <strong>mañana</strong>, nunca de noche. Puede quitar el sueño si se toma tarde. Puede causar boca seca los primeros días.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Insomnio inicial</div><div class="prob-sub">Por eso se toma mañana. Pasa en 1–2 semanas.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">0.1%</div><div class="prob-label">Umbral convulsivo</div><div class="prob-sub">Solo con dosis muy altas o si hay epilepsia. Contraindicado en ese caso.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p>Si notas ansiedad o insomnio nuevos, <strong>avisa antes de suspender.</strong> Se puede ajustar la dosis o cambiar el horario — no tienes que aguantarte ni parar solo.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-bupropion" style="margin:0"><button class="copy-btn" onclick="copyP('mp-bupropion',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Me recetaron <span class="hl">Bupropión</span>. Explícame en qué se diferencia de los ISRS, por qué actúa en dopamina y noradrenalina en vez de serotonina, para qué tipo de depresión es mejor, y qué esperar las primeras 2 semanas. <span class="hl">Tono objetivo, sin exagerar riesgos del prospecto.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TDAH -->
+  <div class="med-list" id="ml-tdah">
+    <div class="cot" style="margin-bottom:1rem"><div class="cot-t">⚡ ¿Por qué estimulantes para el TDAH?</div><p>El TDAH es un déficit de dopamina en el lóbulo frontal (el "director ejecutivo" del cerebro). Los estimulantes no aceleran a alguien con TDAH — al contrario: normalizan el nivel de dopamina para que el frontal pueda inhibir impulsos, planear y terminar tareas. Como anteojos para los ojos, no una droga.</p></div>
+
+    <div class="med-item" id="med-metilfenidato">
+      <div class="med-item-hdr" onclick="toggleMed('metilfenidato')">
+        <div class="med-pill blue">Estimulante · TDAH</div>
+        <div><div class="med-item-name">Metilfenidato</div><div class="med-item-aka">Concerta · Tradea · Ritalin</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Aumenta la <strong>dopamina y noradrenalina</strong> en el lóbulo frontal. Mejora la concentración, la inhibición de impulsos, la planificación y la tolerancia a la frustración. Duración: 8–12 horas según presentación.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cuándo tomarlo?</div><p>Solo por la <strong>mañana</strong>, con o sin desayuno. Nunca de tarde/noche. No hace falta tomarlo fines de semana si no se requiere el nivel de concentración.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">25%</div><div class="prob-label">Disminución de apetito</div><div class="prob-sub">En las horas de efecto. Cena bien en la noche cuando pase.</div></div>
+          <div class="prob-card common"><div class="prob-pct">12%</div><div class="prob-label">Insomnio si se toma tarde</div><div class="prob-sub">Solo si se toma después del mediodía. Solución: tomarlo temprano.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">3%</div><div class="prob-label">Leve aumento FC</div><div class="prob-sub">Normal. Se monitorea en consulta. Rara vez requiere ajuste.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p><strong>Si sientes que "ya no funciona igual"</strong> o que te da más ansiedad, avisa. Puede ser una cuestión de dosis o de horario — no lo pares solo.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-metilf" style="margin:0"><button class="copy-btn" onclick="copyP('mp-metilf',this)">Copiar</button><span class="hl">Actúa como psiquiatra especialista en TDAH.</span> Tomo <span class="hl">Metilfenidato</span>. Explícame por qué el cerebro con TDAH necesita un estimulante, cómo funciona en el lóbulo frontal, qué efectos debo esperar el primer mes y cómo distinguir que está funcionando. <span class="hl">Sin estigma, con evidencia. Tono directo.</span></div></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-vyvanse">
+      <div class="med-item-hdr" onclick="toggleMed('vyvanse')">
+        <div class="med-pill blue">Estimulante · TDAH</div>
+        <div><div class="med-item-name">Lisdexanfetamina</div><div class="med-item-aka">Vyvanse · Elvanse</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Profármaco que se convierte en anfetamina en el cuerpo. Duración de <strong>12–14 horas</strong> con inicio más suave y final más gradual que el metilfenidato. Muy eficaz para TDAH severo o cuando hay atracones/craving asociado.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">Diferencia clave</div><p>El "come-off" (cuando pasa el efecto) es mucho más suave que otras presentaciones. Menos "efecto montaña rusa" en el comportamiento durante el día.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">30%</div><div class="prob-label">Pérdida de apetito</div><div class="prob-sub">Planear cena abundante. Pasa con el tiempo.</div></div>
+          <div class="prob-card common"><div class="prob-pct">10%</div><div class="prob-label">Boca seca</div><div class="prob-sub">Tomar agua frecuentemente. No es dañino.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p><strong>Si notas que el nivel de hambre es preocupante</strong> o que tardas mucho en dormirte, avisa. El ajuste de dosis resuelve eso sin necesidad de cambiar medicamento.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-vyvanse" style="margin:0"><button class="copy-btn" onclick="copyP('mp-vyvanse',this)">Copiar</button><span class="hl">Actúa como psiquiatra especialista en TDAH.</span> Tomo <span class="hl">Lisdexanfetamina (Vyvanse)</span>. Explícame por qué se diferencia de otras anfetaminas como profármaco, qué ventaja tiene su duración de 12 horas, cómo funciona en el sistema de recompensa del TDAH y qué señales me dicen que está funcionando bien. <span class="hl">Evidencia de guías clínicas, sin exagerar riesgos.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUEÑO -->
+  <div class="med-list" id="ml-sueno">
+    <div class="cot" style="margin-bottom:1rem"><div class="cot-t">🌙 Inductores sin adicción</div><p>La diferencia crítica: las benzodiacepinas "apagan" el cerebro. Estos medicamentos inducen el sueño a través de mecanismos que no crean dependencia ni afectan la arquitectura del sueño REM de forma crónica.</p></div>
+
+    <div class="med-item" id="med-quetiapina">
+      <div class="med-item-hdr" onclick="toggleMed('quetiapina')">
+        <div class="med-pill">Antihistamínico a dosis bajas</div>
+        <div><div class="med-item-name">Quetiapina (dosis bajas)</div><div class="med-item-aka">Seroquel · 12.5–25 mg para dormir</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace a dosis bajas?</div><p>A 12.5–25 mg <strong>no funciona como antipsicótico</strong>. A esta dosis, actúa como un <strong>potente antihistamínico</strong> que induce sueño profundo y reparador sin crear tolerancia, sin resaca y sin el riesgo de adicción de las benzodiacepinas.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">Importante entender</div><p>Si ves "antipsicótico" en la caja y entras en pánico — no necesitas la dosis de antipsicótico. Tu dosis es micro. Es un medicamento completamente diferente a esas dosis.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">35%</div><div class="prob-label">Somnolencia matinal</div><div class="prob-sub">Los primeros días. Se ajusta tomarla más temprano.</div></div>
+          <div class="prob-card common"><div class="prob-pct">8%</div><div class="prob-label">Boca seca leve</div><div class="prob-sub">Vasos de agua al despertar. Temporal.</div></div>
+          <div class="prob-card rare"><div class="prob-pct">Solo a dosis altas</div><div class="prob-label">Efectos antipsicóticos</div><div class="prob-sub">Tu dosis es 5–10x menor. No aplican.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p>Si sientes resaca o demasiado sueño de día, <strong>avisa antes de suspender.</strong> El ajuste puede ser tan simple como tomarla 30 minutos antes.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-quet" style="margin:0"><button class="copy-btn" onclick="copyP('mp-quet',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Mi médico me recetó <span class="hl">Quetiapina a dosis muy bajas (25 mg)</span> para el insomnio. Explicame por qué a dosis tan bajas no actúa como antipsicótico, cómo funciona como inductor de sueño antihistamínico, y por qué no crea dependencia. <span class="hl">Ayúdame a entender por qué no debo asustarme con el nombre del medicamento.</span></div></div>
+      </div>
+    </div>
+
+    <div class="med-item" id="med-pregabalina">
+      <div class="med-item-hdr" onclick="toggleMed('pregabalina')">
+        <div class="med-pill amber">Gabapentinoide · Rescate</div>
+        <div><div class="med-item-name">Pregabalina</div><div class="med-item-aka">Lyrica · PRN ansiedad nocturna</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace?</div><p>Reduce la <strong>hiperexcitabilidad neuronal</strong>. Excelente para ansiedad nocturna con componente físico (tensión muscular, dolor psicosomático, taquicardia de ansiedad). También ayuda a conciliar el sueño sin el riesgo de adicción de las benzodiacepinas.</p></div>
+          <div class="med-box neutral"><div class="med-box-label">¿Cómo se usa?</div><p>Generalmente como <strong>rescate nocturno o PRN</strong> (cuando se necesita). No se toma todos los días salvo indicación. Se siente en 30–60 minutos.</p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">20%</div><div class="prob-label">Mareo leve</div><div class="prob-sub">Al inicio. Tomarlo sentado o acostado los primeros días.</div></div>
+          <div class="prob-card common"><div class="prob-pct">15%</div><div class="prob-label">Somnolencia</div><div class="prob-sub">El objetivo es ese. Tomarlo al ir a dormir.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">📱</div><p>Si sientes que lo necesitas más días de los indicados, <strong>es señal de que la ansiedad de base no está bien tratada</strong> — avísale a tu médico para revisar el tratamiento global.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-preg" style="margin:0"><button class="copy-btn" onclick="copyP('mp-preg',this)">Copiar</button><span class="hl">Actúa como médico clínico.</span> Me recetaron <span class="hl">Pregabalina</span> como rescate para ansiedad nocturna. Explícame cómo reduce la hiperexcitabilidad neuronal, en qué se diferencia de las benzodiacepinas, y cuándo debo preocuparme de estar usándola demasiado seguido. <span class="hl">Tono claro y sin alarmar.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXTINTORES -->
+  <div class="med-list" id="ml-extintores">
+    <div class="cot am" style="margin-bottom:1rem"><div class="cot-t">🚒 Solo para emergencias: el botón de pánico</div><p>Las benzodiacepinas <strong>NO son tratamiento</strong>. Son extintores. Cortan la crisis en 15–20 minutos pero no resuelven la causa. Usadas diario por más de 3–4 semanas crean dependencia. Su uso correcto: fracciones mínimas, solo en crisis reales, no como ansiolítico preventivo.</p></div>
+
+    <div class="med-item" id="med-alprazolam">
+      <div class="med-item-hdr" onclick="toggleMed('alprazolam')">
+        <div class="med-pill red">Benzo · Solo en crisis</div>
+        <div><div class="med-item-name">Alprazolam</div><div class="med-item-aka">Xanax · Tafil · Frontal</div></div>
+        <div class="med-item-chev">▾</div>
+      </div>
+      <div class="med-item-body">
+        <div class="med-row">
+          <div class="med-box green"><div class="med-box-label">¿Qué hace (bien usado)?</div><p>Actúa sobre el receptor GABA — el freno del sistema nervioso. Detiene una crisis de pánico en 15–20 minutos. Como extintor: necesario en el momento correcto, peligroso si lo usas para todo.</p></div>
+          <div class="med-box red"><div class="med-box-label">¿Qué pasa si lo abusas?</div><p>Más de 3 semanas diarias = tolerancia y dependencia. El cerebro deja de producir GABA solo. Quitar abruptamente causa convulsiones. <strong>Nunca lo cortes de golpe si llevas meses usándolo.</strong></p></div>
+        </div>
+        <div class="prob-grid">
+          <div class="prob-card common"><div class="prob-pct">Corto plazo</div><div class="prob-label">Sedación y calma</div><div class="prob-sub">El efecto buscado en crisis. Dura 4–6 horas.</div></div>
+          <div class="prob-card common"><div class="prob-pct">Largo plazo</div><div class="prob-label">Dependencia y rebote</div><div class="prob-sub">Si se usa diario. Por eso es SOLO emergencia.</div></div>
+        </div>
+        <div class="never-stop"><div class="never-stop-icon">⚠️</div><p>Si llevas semanas usándolo diario, <strong>no lo pares tú solo.</strong> La reducción debe ser gradual y médicamente guiada. Avísale a tu médico para diseñar un esquema de disminución seguro.</p></div>
+        <div class="med-prompt-wrap"><h3>Pregúntale a tu IA</h3><div class="prompt-box" id="mp-alpraz" style="margin:0"><button class="copy-btn" onclick="copyP('mp-alpraz',this)">Copiar</button><span class="hl">Actúa como psiquiatra clínico.</span> Me recetaron <span class="hl">Alprazolam</span> solo para crisis de pánico. Explícame cómo funciona en el receptor GABA, por qué es efectivo en crisis pero peligroso si se usa diario, y qué diferencia tiene con los antidepresivos que tomo de base. <span class="hl">Ayúdame a entender el límite entre uso correcto y dependencia.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPLEMENTOS -->
+  <div class="med-list" id="ml-suplementos">
+    <div class="cot" style="margin-bottom:1rem"><div class="cot-t">🌿 Psiquiatría integrativa: el eje intestino-cerebro</div><p>El 95% de la serotonina se produce en el intestino. La Vitamina D convierte el triptófano en serotonina. Optimizar estos factores no reemplaza el medicamento — lo potencia.</p></div>
+    <div class="g2">
+      <div class="card">
+        <h4>Vitamina D3</h4>
+        <p style="font-size:.83rem">Fundamental para convertir triptófano en serotonina. La vida moderna en interiores impide la síntesis natural. Deficiencia documentada en depresión resistente al tratamiento. Dosificación: según nivel en laboratorio.</p>
+        <div class="cot"><div class="cot-t">¿Por qué en psiquiatría?</div><p style="font-size:.78rem">El receptor de vitamina D está en regiones del cerebro relacionadas con el ánimo. Su deficiencia amplifica la respuesta inflamatoria que agrava la depresión.</p></div>
+      </div>
+      <div class="card">
+        <h4>Omega 3 (EPA/DHA)</h4>
+        <p style="font-size:.83rem">"Limpia las tuberías" neuronales. Los ácidos grasos omega 3 son componentes de la membrana de las neuronas. Mejoran la fluidez de la transmisión sináptica. Potencian el efecto de los antidepresivos.</p>
+        <div class="cot"><div class="cot-t">Dosis clínica</div><p style="font-size:.78rem">Mínimo 1–2g de EPA+DHA al día para efecto clínico. Los aceites de pescado genéricos suelen no alcanzar esa concentración.</p></div>
+      </div>
+      <div class="card">
+        <h4>Probióticos de alta densidad</h4>
+        <p style="font-size:.83rem">La flora intestinal produce precursores de serotonina. La dieta moderna empobrecida en fibra y fermentados deteriora esa flora. Probióticos clínicos (multisouche, alta UFC) mejoran el eje intestino-cerebro directamente.</p>
+      </div>
+      <div class="card">
+        <h4>Metilfolato (B9 activa)</h4>
+        <p style="font-size:.83rem">La vitamina B9 en su forma activa es cofactor en la síntesis de serotonina y dopamina. Especialmente importante en personas con variante MTHFR (frecuente en la población general) que no pueden convertir el ácido fólico regular.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
 <!-- ═══════════════ GUÍA ═══════════════ -->
 <section class="sec" id="guia" aria-label="Guía personal del mes">
   <div class="guide-intro">
@@ -1192,6 +1610,76 @@
     <h2>Guía personal del mes</h2>
     <p>Un recordatorio de lo que está pasando, por qué pasa y hacia dónde va el tratamiento. Para releer cuando el malestar hace dudar de que algo va a mejorar.</p>
   </div>
+
+  <!-- TRABAJO DEL MES CON IA -->
+  <div class="notif-section">
+    <h3>🤖 El trabajo de este mes con tu IA</h3>
+    <p>Elige el tema que trabajarás este mes. Copia el prompt y pégalo en ChatGPT, Gemini o Claude — te dará un programa completo con actividades diarias basadas en TCC y evidencia.</p>
+    <div class="notif-topics">
+      <button class="notif-topic" onclick="showNotifPrompt('autoestima',this)">
+        <span class="notif-topic-icon">💙</span>
+        <div class="notif-topic-name">Autoestima y autocrítica</div>
+        <div class="notif-topic-sub">Creencias nucleares de valor</div>
+      </button>
+      <button class="notif-topic" onclick="showNotifPrompt('ansiedad',this)">
+        <span class="notif-topic-icon">🌊</span>
+        <div class="notif-topic-name">Manejo de ansiedad</div>
+        <div class="notif-topic-sub">TCC · Exposición gradual</div>
+      </button>
+      <button class="notif-topic" onclick="showNotifPrompt('sueno',this)">
+        <span class="notif-topic-icon">🌙</span>
+        <div class="notif-topic-name">Higiene del sueño</div>
+        <div class="notif-topic-sub">TCC-I · Rutinas</div>
+      </button>
+      <button class="notif-topic" onclick="showNotifPrompt('habitos',this)">
+        <span class="notif-topic-icon">🌱</span>
+        <div class="notif-topic-name">Activación conductual</div>
+        <div class="notif-topic-sub">Depresión · Motivación</div>
+      </button>
+      <button class="notif-topic" onclick="showNotifPrompt('relaciones',this)">
+        <span class="notif-topic-icon">🤝</span>
+        <div class="notif-topic-name">Relaciones y límites</div>
+        <div class="notif-topic-sub">Comunicación asertiva</div>
+      </button>
+      <button class="notif-topic" onclick="showNotifPrompt('tdah',this)">
+        <span class="notif-topic-icon">⚡</span>
+        <div class="notif-topic-name">TDAH y productividad</div>
+        <div class="notif-topic-sub">Función ejecutiva · Hábitos</div>
+      </button>
+    </div>
+
+    <div class="notif-prompt-box" id="np-autoestima">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-autoestima',this)">Copiar</button>
+      <span class="hl">Actúa como terapeuta TCC especialista en autoestima y creencias nucleares.</span> Quiero trabajar mi autoestima y autocrítica este mes. Necesito un programa de 4 semanas basado en TCC con evidencia. Para cada semana dame: <span class="hl">(1) el objetivo terapéutico de la semana</span>, (2) la técnica TCC específica a usar, (3) <span class="hl">3 actividades concretas diarias</span> con instrucciones paso a paso, (4) una reflexión de cierre de semana. Incluye técnicas de: registro de pensamientos automáticos, reestructuración cognitiva de creencias de inutilidad, experimentos conductuales para probar creencias negativas y ejercicios de autocompasión de Kristin Neff. <span class="hl">Hazlo práctico, no teórico. Quiero poder hacer algo hoy mismo.</span>
+    </div>
+    <div class="notif-prompt-box" id="np-ansiedad">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-ansiedad',this)">Copiar</button>
+      <span class="hl">Actúa como terapeuta TCC especialista en trastornos de ansiedad.</span> Quiero trabajar el manejo de mi ansiedad este mes con un programa de 4 semanas basado en evidencia. Cada semana: <span class="hl">(1) objetivo clínico de la semana</span>, (2) técnica específica (exposición gradual, reestructuración cognitiva, regulación autonómica), (3) <span class="hl">3 ejercicios diarios con instrucciones exactas</span>, (4) diario de registro de ansiedad. Incluye: jerarquía de exposición gradual, técnica de flecha descendente para creencias nucleares, diálogo socrático aplicado al catastrofismo y técnicas de regulación fisiológica con evidencia (respiración diafragmática, activación vagal). <span class="hl">Quiero ejercicios que pueda hacer en 15 minutos diarios. Empieza con la semana 1 ahora.</span>
+    </div>
+    <div class="notif-prompt-box" id="np-sueno">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-sueno',this)">Copiar</button>
+      <span class="hl">Actúa como especialista en TCC para el Insomnio (TCC-I).</span> Quiero mejorar mi sueño este mes con el protocolo TCC-I en 4 semanas. Para cada semana: <span class="hl">(1) objetivo de la semana</span>, (2) técnica TCC-I específica (restricción del sueño, control de estímulos, reestructuración cognitiva sobre el sueño, técnicas de desactivación), (3) <span class="hl">rutina diaria exacta con horarios</span>, (4) hoja de registro de eficiencia de sueño. Explícame el racional científico de cada técnica. Incluye qué hacer cuando no puedo dormir, cómo calcular mi ventana de sueño y cómo manejar los pensamientos catastróficos nocturnos. <span class="hl">Empieza con la evaluación de línea base y la semana 1.</span>
+    </div>
+    <div class="notif-prompt-box" id="np-habitos">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-habitos',this)">Copiar</button>
+      <span class="hl">Actúa como terapeuta TCC especialista en depresión y activación conductual.</span> Quiero trabajar activación conductual este mes — siento que perdí motivación y placer en las cosas. Programa de 4 semanas: <span class="hl">(1) objetivo conductual de la semana</span>, (2) técnica específica de activación conductual (programación de actividades, monitoreo de ánimo, actividades de maestría y placer), (3) <span class="hl">3 micro-acciones diarias con instrucciones exactas</span>, (4) registro de conexión acción–ánimo. La primera semana que sea muy fácil — micro-hábitos de 5 minutos. Aumenta gradualmente. Incluye cómo distinguir la inercia depresiva de la pereza real, y por qué actuar antes de sentir motivación es la clave TCC. <span class="hl">Quiero empezar hoy con algo de 5 minutos.</span>
+    </div>
+    <div class="notif-prompt-box" id="np-relaciones">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-relaciones',this)">Copiar</button>
+      <span class="hl">Actúa como terapeuta TCC y DBT especialista en relaciones y comunicación asertiva.</span> Quiero mejorar mis relaciones y aprender a poner límites este mes. Programa de 4 semanas: <span class="hl">(1) objetivo relacional de la semana</span>, (2) técnica específica (comunicación asertiva, habilidades DEAR MAN de DBT, análisis de patrones de relación, esquemas interpersonales), (3) <span class="hl">3 ejercicios prácticos diarios con guiones y ejemplos reales</span>, (4) registro de interacciones. Incluye: cómo identificar si estoy siendo pasivo, agresivo o asertivo; fórmulas de comunicación "cuando… siento… necesito…"; cómo manejar la culpa al poner límites; y experimentos conductuales para probar que poner límites no destruye relaciones. <span class="hl">Empieza con la semana 1 y dame un ejercicio para hacer hoy.</span>
+    </div>
+    <div class="notif-prompt-box" id="np-tdah">
+      <button class="notif-copy-btn" onclick="copyNotifP('np-tdah',this)">Copiar</button>
+      <span class="hl">Actúa como terapeuta especialista en TDAH adulto y función ejecutiva.</span> Quiero trabajar mi organización y productividad con TDAH este mes. Programa de 4 semanas adaptado al cerebro con TDAH: <span class="hl">(1) objetivo ejecutivo de la semana</span>, (2) estrategia específica con base en evidencia (tiempo blocking, body doubling, externalización de función ejecutiva, manejo de transiciones), (3) <span class="hl">3 micro-hábitos diarios de máximo 10 minutos</span> con instrucciones exactas, (4) sistema de registro sencillo que no requiera disciplina perfecta. Todo tiene que ser ultra-concreto y hacible con TDAH — sin planes complicados ni listas de 20 pasos. Incluye cómo manejar la parálisis de inicio, el time blindness, y el desequilibrio dopaminérgico al final del día sin medicamento. <span class="hl">Empieza con algo que pueda hacer en los próximos 10 minutos.</span>
+    </div>
+
+    <div style="text-align:center;margin-top:.75rem">
+      <button class="notif-enable-btn" onclick="requestNotifPermission()" id="notif-btn">
+        🔔 Activar recordatorios diarios
+      </button>
+    </div>
+  </div>
+
   <div class="guide-grid">
     <div class="gc"><div class="gc-num" aria-hidden="true">01</div><div class="gc-title">Lo que me está pasando no es exageración</div><div class="gc-body">Mis síntomas tienen explicación clínica. No es debilidad ni drama: es un cuadro médico que afecta cómo pienso, siento y reacciono.</div></div>
     <div class="gc amber"><div class="gc-num" aria-hidden="true">02</div><div class="gc-title">Mi cerebro está en "modo supervivencia"</div><div class="gc-body">Cuando vivo en alerta constante, la mente solo intenta protegerme. Esto explica por qué me canso, me irrito, me preocupo de más, me es difícil disfrutar, y por qué cualquier interacción puede sentirse como amenaza.</div></div>
@@ -1317,11 +1805,118 @@
 
 </main>
 
+<!-- ══ FOOTER ══ -->
+<footer class="app-footer" role="contentinfo">
+  <div class="footer-inner">
+    <span class="footer-logo">eutimya<span>.</span></span>
+    <span class="footer-sep">·</span>
+    <span class="footer-copy">© 2026</span>
+    <span class="footer-sep">|</span>
+    <a href="https://eutimya.org" target="_blank" rel="noopener">eutimya.org</a>
+    <span class="footer-sep">|</span>
+    <a href="mailto:contacto@eutimya.org">contacto@eutimya.org</a>
+    <span class="footer-sep">|</span>
+    <span class="footer-copy">Psicoeducación clínica para pacientes</span>
+  </div>
+</footer>
+
 <!-- FAB SOS — solo una vez, fuera del main -->
 <a href="#seguridad" class="fab-sos" onclick="show('seguridad', document.querySelectorAll('.tab')[8]);return false;" title="Plan de Seguridad / Emergencia" aria-label="Ir al plan de seguridad y emergencia">🚨</a>
 
 <script>
 /* ══ NAVEGACIÓN ══ */
+/* ══ MEDICAMENTOS ══ */
+function showMedCat(cat, btn) {
+  document.querySelectorAll('.med-list').forEach(l => l.classList.remove('show'));
+  document.querySelectorAll('.med-cat-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('ml-' + cat);
+  if (el) el.classList.add('show');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: document.getElementById('meds').offsetTop - 80, behavior: 'smooth' });
+}
+
+function toggleMed(id) {
+  const el = document.getElementById('med-' + id);
+  if (!el) return;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.med-item.open').forEach(m => m.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+/* ══ GUÍA DEL MES: PROMPTS DE IA ══ */
+function showNotifPrompt(topic, btn) {
+  document.querySelectorAll('.notif-prompt-box').forEach(b => b.classList.remove('show'));
+  document.querySelectorAll('.notif-topic').forEach(b => b.classList.remove('sel'));
+  const box = document.getElementById('np-' + topic);
+  if (box) box.classList.add('show');
+  if (btn) btn.classList.add('sel');
+}
+
+function copyNotifP(id, btn) {
+  const box = document.getElementById(id);
+  if (!box) return;
+  const text = box.innerText.replace('Copiar', '').replace('✓ Copiado', '').trim();
+  const onCopied = () => {
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+    openAIModal();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); onCopied(); } catch(e) {}
+      document.body.removeChild(ta);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); onCopied(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+}
+
+/* ══ NOTIFICACIONES ══ */
+async function requestNotifPermission() {
+  const btn = document.getElementById('notif-btn');
+  if (!('Notification' in window)) {
+    btn.textContent = '⚠ Tu navegador no soporta notificaciones';
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    scheduleNotifications();
+    btn.textContent = '✓ Recordatorios activos';
+    btn.style.background = 'var(--md-secondary)';
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    scheduleNotifications();
+    btn.textContent = '✓ Recordatorios activos';
+    btn.style.background = 'var(--md-secondary)';
+    try { localStorage.setItem('eutimya_notif', '1'); } catch(e) {}
+  } else {
+    btn.textContent = '🔕 Permiso denegado en ajustes';
+  }
+}
+
+function scheduleNotifications() {
+  const msgs = [
+    '🧠 Eutimya: ¿Ya revisaste tu práctica del día? Abre tu prompt de IA y trabaja 10 minutos.',
+    '💙 Eutimya: Recuerda: la motivación viene después de la acción, no antes. Empieza pequeño.',
+    '🌙 Eutimya: ¿Cómo estuvo tu sueño? Registra tu eficiencia en el diario TCC-I.',
+    '🤖 Eutimya: Copia tu prompt del mes y trabaja con tu IA — 15 minutos hacen diferencia.',
+    '🌱 Eutimya: Una actividad de placer o maestría hoy. Aunque sea mínima. Cuenta.',
+  ];
+  const msg = msgs[Math.floor(Math.random() * msgs.length)];
+  // Notificación de muestra inmediata
+  if (Notification.permission === 'granted') {
+    new Notification('Eutimya · Psicoeducación', { body: msg, icon: 'https://psiquiatra-cdmx.eutimya.org/favicon.png' });
+  }
+}
+
 function show(id, btn) {
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
