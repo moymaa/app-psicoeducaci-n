@@ -423,7 +423,7 @@
     .ai-modal-timer-txt{font-size:.65rem;color:var(--md-on-surface-variant);white-space:nowrap}
 
     /* ══ MEDICAMENTOS ══ */
-    .med-hero{background:linear-gradient(135deg,var(--md-on-background) 0%,#00302B 100%);border-radius:var(--r-xl);padding:2.5rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+    .med-hero{background:linear-gradient(135deg,#004D44 0%,#00201C 100%);border-radius:var(--r-xl);padding:2.5rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
     .med-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.12) 0%,transparent 70%);pointer-events:none}
     .med-hero h2{color:#fff;font-size:2rem;margin-bottom:.65rem;letter-spacing:-.02em}
     .med-hero h2 em{font-style:normal;color:var(--md-primary-container)}
@@ -562,7 +562,7 @@ function showFrases(cat,btn){
     }
     [data-theme="dark"] body{background:var(--md-background);color:var(--md-on-background)}
     [data-theme="dark"] .card{background:var(--md-surface);border-color:var(--md-outline)}
-    [data-theme="dark"] .hero,.med-hero,[data-theme="dark"] .guide-intro,[data-theme="dark"] .soc,[data-theme="dark"] .sp-contact{background:var(--md-surface-low);border-color:var(--md-outline)}
+    [data-theme="dark"] .hero,[data-theme="dark"] .med-hero,[data-theme="dark"] .guide-intro,[data-theme="dark"] .soc,[data-theme="dark"] .sp-contact{background:var(--md-surface-low);border-color:var(--md-outline)}
     [data-theme="dark"] .slide{background:var(--md-surface);border-color:var(--md-outline)}
     [data-theme="dark"] .slide.dark{background:var(--md-surface-lowest)}
     [data-theme="dark"] .dc{background:var(--md-surface);border-color:var(--md-outline)}
@@ -706,7 +706,7 @@ function showFrases(cat,btn){
 
     <div class="brain-wrap">
       <div class="brain-svg-area" style="position:relative;width:100%;max-width:500px;margin:0 auto">
-        <img src="https://app.eutimya.org/cerebro.png" style="width:100%;height:auto;border-radius:var(--r-md);box-shadow:var(--elev1)" alt="Neurobiología de la ansiedad y el miedo">
+        <img src="cerebro.png" loading="lazy" style="width:100%;height:auto;border-radius:var(--r-md);box-shadow:var(--elev1)" alt="Neurobiología de la ansiedad y el miedo">
         <div class="img-zone" onclick="showBrain('corteza')" tabindex="0" role="button" aria-label="Corteza visual" onkeydown="if(event.key==='Enter')showBrain('corteza')" style="top:25%;left:2%;width:22%;height:11%;"></div>
         <div class="img-zone" onclick="showBrain('talamo')" tabindex="0" role="button" aria-label="Tálamo" onkeydown="if(event.key==='Enter')showBrain('talamo')" style="top:21%;left:28%;width:16%;height:8%;"></div>
         <div class="img-zone" onclick="showBrain('pf')" tabindex="0" role="button" aria-label="Corteza prefrontal" onkeydown="if(event.key==='Enter')showBrain('pf')" style="top:21%;left:61%;width:37%;height:12%;"></div>
@@ -714,6 +714,7 @@ function showFrases(cat,btn){
         <div class="img-zone" onclick="showBrain('tronco')" tabindex="0" role="button" aria-label="Tronco encefálico" onkeydown="if(event.key==='Enter')showBrain('tronco')" style="top:48%;left:4%;width:25%;height:12%;"></div>
         <div class="img-zone" onclick="showBrain('hipo')" tabindex="0" role="button" aria-label="Hipocampo" onkeydown="if(event.key==='Enter')showBrain('hipo')" style="top:64%;left:25%;width:24%;height:11%;"></div>
         <div class="img-zone" onclick="showBrain('cuerpo')" tabindex="0" role="button" aria-label="Respuesta corporal" onkeydown="if(event.key==='Enter')showBrain('cuerpo')" style="top:76%;left:2%;width:48%;height:15%;"></div>
+        <div class="img-zone" onclick="showBrain('serpiente')" tabindex="0" role="button" aria-label="Miedo condicionado — toca la serpiente" onkeydown="if(event.key==='Enter')showBrain('serpiente')" style="top:70%;left:52%;width:46%;height:28%;border:2px dashed rgba(196,114,10,0.45);border-radius:14px;background:rgba(196,114,10,0.06)"></div>
         <!-- hidden SVG placeholder --><svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="display:none" role="img" aria-label="Diagrama interactivo del cerebro">
           <ellipse cx="160" cy="118" rx="118" ry="100" fill="rgba(158,242,228,0.15)" stroke="rgba(0,106,96,0.25)" stroke-width="1.5"/>
           <line x1="160" y1="30" x2="160" y2="210" stroke="rgba(0,106,96,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
@@ -827,6 +828,28 @@ function showFrases(cat,btn){
             </div>
           </div>
         </div>
+
+        <div class="brain-detail" id="bd-serpiente" style="display:none">
+          <div class="bd-emoji" aria-hidden="true">🐍</div>
+          <div class="bd-name" style="color:var(--md-tertiary)">El miedo condicionado</div>
+          <div class="bd-aka">Por qué tu cerebro confunde una deuda con una serpiente</div>
+          <p class="bd-simple">La amígdala aprendió a reaccionar con miedo ante estímulos que alguna vez fueron peligrosos o que se parecen a algo doloroso del pasado. Esto se llama <strong>condicionamiento del miedo</strong> (LeDoux, 1996). El problema: la amígdala no distingue bien entre amenazas reales y recuerdos. Un tono de voz, un lugar, un olor pueden activar la misma alarma que una serpiente real.</p>
+          <div style="margin-top:12px;border-top:1px solid var(--md-outline-variant);padding-top:10px">
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-tertiary-container)" aria-hidden="true">⚡</div>
+              <div><div class="mn">Vía rápida (tálamo → amígdala): 12 ms</div><div class="md">No pasa por la corteza. Por eso te asustan cosas antes de saber qué son. Respuesta de supervivencia pura.</div></div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-primary-container)" aria-hidden="true">🧠</div>
+              <div><div class="mn">Vía lenta (corteza → amígdala)</div><div class="md">El "jefe racional" evalúa: ¿era serpiente real o un cable? Si la corteza está debilitada (depresión, estrés crónico), no puede frenar la alarma.</div></div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-secondary-container)" aria-hidden="true">🔑</div>
+              <div><div class="mn">Por qué importa en tu tratamiento</div><div class="md">El antidepresivo reactiva la corteza para frenar la amígdala. La terapia te enseña a descondicionar los miedos aprendidos. Uno sin el otro no alcanza.</div></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1375,7 +1398,7 @@ function showFrases(cat,btn){
 <section class="sec" id="meds" aria-label="Medicamentos y farmacología">
 
   <div class="med-hero">
-    <div class="hbadge" style="background:rgba(158,242,228,.15);color:var(--md-primary-container);border-color:rgba(158,242,228,.3)" aria-hidden="true">💊 Tu receta explicada sin tecnicismos</div>
+    <div class="hbadge" style="background:rgba(158,242,228,.18);color:#9EF2E4;border-color:rgba(158,242,228,.35)" aria-hidden="true">💊 Tu receta explicada sin tecnicismos</div>
     <h2>Tu <em>hardware</em> y el medicamento</h2>
     <p>No son pastillas para "sentirte diferente". Son herramientas que le dan al cerebro la capacidad biológica de aprender, reconectarse y recuperarse. Aquí entenderás exactamente por qué te las recetaron.</p>
   </div>
@@ -1393,49 +1416,6 @@ function showFrases(cat,btn){
 
 
 
-  <!-- POR QUÉ SE INICIA: RIESGO vs BENEFICIO -->
-  <div class="card mb">
-    <h4>¿Por qué iniciar medicamento?</h4>
-    <h2>Riesgo · Beneficio · Decisión</h2>
-    <p>La decisión de iniciar tratamiento farmacológico nunca es arbitraria. Se basa en que el <strong>riesgo de no tratar</strong> es mayor que el riesgo del medicamento.</p>
-    <div class="rb-grid">
-      <div class="rb-card green">
-        <div class="rb-card-label">✓ Beneficios documentados</div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Reduce la hiperactivación de la amígdala — la alarma que no para.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Reactiva la corteza prefrontal para que puedas razonar bajo estrés.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Genera BDNF (Factor Neurotrófico) — la proteína que repara rutas neuronales.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Hace que la terapia funcione: sin biología estable, el pensamiento no cambia.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Evidencia Cochrane: reduce recaídas 30% a mediano plazo (RR 0.70, IC 95%).</span></div>
-      </div>
-      <div class="rb-card amber">
-        <div class="rb-card-label">⚠ Riesgo de no tratar</div>
-        <div class="rb-item"><div class="rb-dot"></div><span>El cortisol crónico por ansiedad sin tratar daña el hipocampo — la memoria.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>La depresión no tratada hace que la corteza prefrontal trabaje menos cada mes.</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>El TDAH sin tratar aumenta el riesgo de adicciones (búsqueda de dopamina).</span></div>
-        <div class="rb-item"><div class="rb-dot"></div><span>Sin base biológica estable, ninguna terapia psicológica puede sostenerse.</span></div>
-      </div>
-    </div>
-    <div class="cot"><div class="cot-t">La metáfora de la balsa</div><p>El medicamento no es el destino. Es la balsa que te saca de la crisis para que puedas nadar solo después. No te lo dan de por vida por default — se revisa en cada etapa del tratamiento.</p></div>
-  </div>
-
-  <!-- EVIDENCIA COCHRANE -->
-  <div class="cochrane-banner">
-    <div class="cochrane-tag">📚 Evidencia Cochrane 2015 · PMID 25854522</div>
-    <h3>¿Qué dice la ciencia sobre entender tu tratamiento?</h3>
-    <div class="cochrane-stats">
-      <div class="cs"><div class="cs-num">37%</div><div class="cs-label">Menos recaídas con psicoeducación breve</div></div>
-      <div class="cs"><div class="cs-num">2,337</div><div class="cs-label">Pacientes en 20 estudios RCT</div></div>
-      <div class="cs"><div class="cs-num">+42%</div><div class="cs-label">Mejor adherencia al medicamento a largo plazo</div></div>
-      <div class="cs"><div class="cs-num">RR 0.63</div><div class="cs-label">Reducción de no-adherencia (corto plazo)</div></div>
-    </div>
-    <p class="cochrane-note">Zhao S, Sampson S, Xia J, Jayaram MB. Cochrane Database Syst Rev. 2015. Los pacientes que entienden su enfermedad y su medicamento tienen mejores resultados clínicos que los que solo lo toman sin comprender por qué.</p>
-  </div>
-
-  <!-- REGLA DE ORO -->
-  <div class="never-stop" style="margin-bottom:1.25rem">
-    <div class="never-stop-icon">🔴</div>
-    <p><strong>Regla de oro: NUNCA suspendas ni modifiques sin avisar.</strong> El síndrome de discontinuación puede incluir mareos intensos, "descargas eléctricas" en la cabeza, llanto, náuseas. No porque el medicamento sea adictivo — sino porque el cerebro necesita ajustarse gradualmente. <strong>Escríbele a tu médico antes de cualquier cambio.</strong></p>
-  </div>
 
   <!-- MODULADORES BASE -->
   <div class="med-list" id="ml-base">
@@ -1790,6 +1770,51 @@ function showFrases(cat,btn){
     </div>
   </div>
 
+
+  <!-- POR QUÉ SE INICIA: RIESGO vs BENEFICIO -->
+  <div class="card mb">
+    <h4>¿Por qué iniciar medicamento?</h4>
+    <h2>Riesgo · Beneficio · Decisión</h2>
+    <p>La decisión de iniciar tratamiento farmacológico nunca es arbitraria. Se basa en que el <strong>riesgo de no tratar</strong> es mayor que el riesgo del medicamento.</p>
+    <div class="rb-grid">
+      <div class="rb-card green">
+        <div class="rb-card-label">✓ Beneficios documentados</div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Reduce la hiperactivación de la amígdala — la alarma que no para.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Reactiva la corteza prefrontal para que puedas razonar bajo estrés.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Genera BDNF (Factor Neurotrófico) — la proteína que repara rutas neuronales.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Hace que la terapia funcione: sin biología estable, el pensamiento no cambia.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Evidencia Cochrane: reduce recaídas 30% a mediano plazo (RR 0.70, IC 95%).</span></div>
+      </div>
+      <div class="rb-card amber">
+        <div class="rb-card-label">⚠ Riesgo de no tratar</div>
+        <div class="rb-item"><div class="rb-dot"></div><span>El cortisol crónico por ansiedad sin tratar daña el hipocampo — la memoria.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>La depresión no tratada hace que la corteza prefrontal trabaje menos cada mes.</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>El TDAH sin tratar aumenta el riesgo de adicciones (búsqueda de dopamina).</span></div>
+        <div class="rb-item"><div class="rb-dot"></div><span>Sin base biológica estable, ninguna terapia psicológica puede sostenerse.</span></div>
+      </div>
+    </div>
+    <div class="cot"><div class="cot-t">La metáfora de la balsa</div><p>El medicamento no es el destino. Es la balsa que te saca de la crisis para que puedas nadar solo después. No te lo dan de por vida por default — se revisa en cada etapa del tratamiento.</p></div>
+  </div>
+
+  <!-- EVIDENCIA COCHRANE -->
+  <div class="cochrane-banner">
+    <div class="cochrane-tag">📚 Evidencia Cochrane 2015 · PMID 25854522</div>
+    <h3>¿Qué dice la ciencia sobre entender tu tratamiento?</h3>
+    <div class="cochrane-stats">
+      <div class="cs"><div class="cs-num">37%</div><div class="cs-label">Menos recaídas con psicoeducación breve</div></div>
+      <div class="cs"><div class="cs-num">2,337</div><div class="cs-label">Pacientes en 20 estudios RCT</div></div>
+      <div class="cs"><div class="cs-num">+42%</div><div class="cs-label">Mejor adherencia al medicamento a largo plazo</div></div>
+      <div class="cs"><div class="cs-num">RR 0.63</div><div class="cs-label">Reducción de no-adherencia (corto plazo)</div></div>
+    </div>
+    <p class="cochrane-note">Zhao S, Sampson S, Xia J, Jayaram MB. Cochrane Database Syst Rev. 2015. Los pacientes que entienden su enfermedad y su medicamento tienen mejores resultados clínicos que los que solo lo toman sin comprender por qué.</p>
+  </div>
+
+  <!-- REGLA DE ORO -->
+  <div class="never-stop" style="margin-bottom:1.25rem">
+    <div class="never-stop-icon">🔴</div>
+    <p><strong>Regla de oro: NUNCA suspendas ni modifiques sin avisar.</strong> El síndrome de discontinuación puede incluir mareos intensos, "descargas eléctricas" en la cabeza, llanto, náuseas. No porque el medicamento sea adictivo — sino porque el cerebro necesita ajustarse gradualmente. <strong>Escríbele a tu médico antes de cualquier cambio.</strong></p>
+  </div>
+
 </section>
 
 <!-- ═══════════════ GUÍA ═══════════════ -->
@@ -2084,9 +2109,8 @@ function showMedCat(cat, btn) {
   document.querySelectorAll('.med-list').forEach(l => l.classList.remove('show'));
   document.querySelectorAll('.med-cat-btn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById('ml-' + cat);
-  if (el) el.classList.add('show');
+  if (el) { el.classList.add('show'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
   if (btn) btn.classList.add('active');
-  const cats=document.querySelector('.med-cats');if(cats)cats.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function toggleMed(id) {
@@ -2094,7 +2118,7 @@ function toggleMed(id) {
   if (!el) return;
   const isOpen = el.classList.contains('open');
   document.querySelectorAll('.med-item.open').forEach(m => m.classList.remove('open'));
-  if (!isOpen) el.classList.add('open');
+  if (!isOpen) { el.classList.add('open'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80); }
 }
 
 
