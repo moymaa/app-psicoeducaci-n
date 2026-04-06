@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eutimya-v3';
+const CACHE_NAME = 'eutimya-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
