@@ -2630,8 +2630,18 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => {
         console.log('✓ Eutimya PWA lista.');
-        // Verificar actualizaciones
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('Nueva versión disponible. Refresca la página.');
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('SW error:', err));
+  });
+}
+</script>
+</body>
+</html>
