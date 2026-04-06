@@ -2,7 +2,8 @@ const CACHE_NAME = 'eutimya-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json'
+  '/manifest.json',
+  '/cerebro.png'
 ];
 
 // Instalar: cachear recursos esenciales

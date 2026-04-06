@@ -509,16 +509,7 @@
     .med-prompt-wrap h3{color:#fff;font-size:.95rem;margin-bottom:.4rem}
     .med-prompt-wrap p{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:.85rem}
 
-    
-function showFrases(cat,btn){
-  document.querySelectorAll('.frases-list').forEach(l=>{l.style.display='none';l.classList.remove('show')});
-  document.querySelectorAll('[onclick^="showFrases"]').forEach(b=>b.classList.remove('active'));
-  const el=document.getElementById('frases-'+cat);
-  if(el){el.style.display='flex';el.classList.add('show');}
-  if(btn)btn.classList.add('active');
-}
-
-/* ══ GUÍA DEL MES: NOTIFICACIONES ══ */
+    /* ══ GUÍA DEL MES: NOTIFICACIONES ══ */
     .notif-section{background:var(--md-primary-container);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1.25rem}
     .notif-section h3{color:var(--md-on-primary-container);font-size:.92rem;margin-bottom:.35rem}
     .notif-section p{color:var(--md-on-primary-container);font-size:.8rem;opacity:.8;margin-bottom:1rem}
@@ -547,8 +538,8 @@ function showFrases(cat,btn){
     .footer-logo span{color:var(--md-primary)}
 
     /* ══ DARK MODE ══ */
-    .dark-toggle{background:none;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 10px;cursor:pointer;font-size:15px;color:rgba(255,255,255,.65);transition:all .2s;display:flex;align-items:center;gap:4px}
-    .dark-toggle:hover{border-color:rgba(255,255,255,.35);color:#fff}
+    .dark-toggle{background:none;border:1px solid var(--md-outline-variant);border-radius:20px;padding:4px 10px;cursor:pointer;font-size:15px;color:var(--md-on-surface-variant);transition:all .2s;display:flex;align-items:center;gap:4px;font-family:'Roboto',sans-serif}
+    .dark-toggle:hover{border-color:var(--md-primary);color:var(--md-primary)}
     [data-theme="dark"]{
       --md-background:#121212;--md-on-background:#E0E0E0;
       --md-surface:#1E1E1E;--md-surface-lowest:#0D0D0D;--md-surface-low:#1A1A1A;--md-surface-high:#2A2A2A;
@@ -665,6 +656,7 @@ function showFrases(cat,btn){
       <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:40px;width:auto;display:block">
     </div>
     <a href="tel:8009112000" class="hcrisis" aria-label="Línea de crisis: 800-911-2000">🚨 Crisis: 800-911-2000</a>
+    <button class="dark-toggle" onclick="toggleDark()" aria-label="Cambiar modo oscuro">🌙</button>
   </div>
 </header>
 
@@ -857,19 +849,19 @@ function showFrases(cat,btn){
       <h4>Los mensajeros del cerebro</h4>
       <p style="margin-bottom:.85rem">Los neurotransmisores son como mensajes entre neuronas. Cuando hay pocos o los receptores no los captan bien, aparecen los síntomas.</p>
       <div class="nt-grid">
-        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+        <div class="nt-card" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'){this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))}">
           <div class="nt-front"><span class="nt-emoji" aria-hidden="true">😊</span><span class="nt-name">Serotonina</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>La del bienestar general.</strong> Regula el humor, el sueño y el apetito. Cuando baja: tristeza persistente, insomnio, ansiedad. Los antidepresivos ISRS ayudan a que esté disponible más tiempo entre neuronas.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+        <div class="nt-card" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'){this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))}">
           <div class="nt-front"><span class="nt-emoji" aria-hidden="true">🎯</span><span class="nt-name">Dopamina</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>La de la motivación y recompensa.</strong> Cuando baja: no da ganas de nada, nada se siente placentero. En TDAH, hay menos disponible en ciertas vías. En adicciones, el cerebro la busca de forma compulsiva.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+        <div class="nt-card" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'){this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))}">
           <div class="nt-front"><span class="nt-emoji" aria-hidden="true">🛑</span><span class="nt-name">GABA</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>El freno del cerebro.</strong> Calma la actividad neuronal. Cuando hay poco: el cerebro no puede "apagarse", hay ruido mental constante y ansiedad. Las benzodiacepinas actúan sobre los receptores GABA — por eso calman rápido, pero generan dependencia.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+        <div class="nt-card" onclick="this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'){this.classList.toggle('open');this.setAttribute('aria-expanded',this.classList.contains('open'))}">
           <div class="nt-front"><span class="nt-emoji" aria-hidden="true">⚡</span><span class="nt-name">Noradrenalina</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>La del alerta y la energía.</strong> Activa el cuerpo ante estrés: corazón rápido, músculos tensos, pupilas dilatadas. En ansiedad está crónicamente elevada. Es parte de la respuesta "pelea o huye".</div>
         </div>
@@ -932,12 +924,108 @@ function showFrases(cat,btn){
   </div>
 
   <div class="card mb" style="margin-top:1.25rem">
-    <h4>Comparativo · Tomografía PET</h4>
+    <h4>Comparativo · Actividad cerebral</h4>
     <h2>El cerebro deprimido vs. el cerebro sano</h2>
-    <p>Evidencia de que los trastornos psiquiátricos tienen correlatos neurofisiológicos claros. Nota: el PET es herramienta de investigación; el diagnóstico clínico sigue siendo clínico, no por imagen.</p>
-    <div class="bgrid">
-      <div class="bp h"><div class="btag h">✅ Cerebro sano</div><div class="bdots" id="dh" role="img" aria-label="28 puntos activos representando metabolismo cerebral normal"></div><div class="bdes">Metabolismo activo en todo el córtex prefrontal. Planeación, razonamiento y regulación emocional funcionando. La amígdala en reposo.</div></div>
-      <div class="bp d"><div class="btag d">⚠️ Cerebro deprimido / ansioso</div><div class="bdots" id="dd" role="img" aria-label="22 puntos inactivos y 6 puntos representando solo la amígdala activa"></div><div class="bdes">Córtex prefrontal "apagado". Solo la amígdala sigue activa, detectando peligros inexistentes como si fueran amenazas reales.</div></div>
+    <p>Así se ve la diferencia de actividad entre un cerebro sano y uno afectado por depresión o ansiedad. No es debilidad — es biología medible.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0" role="img" aria-label="Comparativo de actividad cerebral">
+
+      <!-- CEREBRO SANO -->
+      <div style="text-align:center">
+        <div class="btag h" style="justify-content:center;margin-bottom:.75rem">✅ Cerebro sano</div>
+        <svg viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto" aria-hidden="true">
+          <defs>
+            <radialGradient id="gSano" cx="50%" cy="45%" r="55%">
+              <stop offset="0%" stop-color="#9EF2E4" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#006A60" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="gSanoAmig" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#CCE8E4"/>
+              <stop offset="100%" stop-color="#4A6360" stop-opacity="0.5"/>
+            </radialGradient>
+          </defs>
+          <!-- Cuerpo del cerebro -->
+          <ellipse cx="80" cy="62" rx="68" ry="52" fill="url(#gSano)" opacity="0.95"/>
+          <!-- Surcos -->
+          <path d="M38 42 Q55 28 80 35 Q105 28 122 42" stroke="rgba(0,65,59,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M30 62 Q50 50 80 55 Q110 50 130 62" stroke="rgba(0,65,59,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M35 80 Q55 70 80 74 Q105 70 125 80" stroke="rgba(0,65,59,0.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M80 18 Q80 30 80 55" stroke="rgba(0,65,59,0.3)" stroke-width="1.5" fill="none"/>
+          <!-- Tronco -->
+          <rect x="68" y="108" width="24" height="18" rx="6" fill="#006A60" opacity="0.6"/>
+          <!-- Zona prefrontal activa (brillante) -->
+          <ellipse cx="80" cy="36" rx="42" ry="18" fill="rgba(158,242,228,0.5)" opacity="0.9"/>
+          <!-- Amígdala pequeña / en reposo -->
+          <ellipse cx="80" cy="82" rx="10" ry="7" fill="#4A6360" opacity="0.45"/>
+          <!-- Destellos de actividad -->
+          <circle cx="55" cy="34" r="3.5" fill="#fff" opacity="0.7"/>
+          <circle cx="80" cy="28" r="3" fill="#fff" opacity="0.65"/>
+          <circle cx="105" cy="34" r="3.5" fill="#fff" opacity="0.7"/>
+          <circle cx="45" cy="52" r="2.5" fill="#fff" opacity="0.55"/>
+          <circle cx="115" cy="52" r="2.5" fill="#fff" opacity="0.55"/>
+          <circle cx="65" cy="48" r="2" fill="#fff" opacity="0.5"/>
+          <circle cx="95" cy="48" r="2" fill="#fff" opacity="0.5"/>
+          <circle cx="80" cy="55" r="2" fill="#fff" opacity="0.45"/>
+        </svg>
+        <!-- Barra de actividad -->
+        <div style="margin:0.75rem auto;max-width:160px">
+          <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--md-on-surface-variant);margin-bottom:.3rem;font-weight:500">
+            <span>Actividad cerebral</span><span style="color:var(--md-primary);font-weight:700">~85%</span>
+          </div>
+          <div style="background:var(--md-outline-variant);border-radius:99px;height:8px;overflow:hidden">
+            <div style="width:85%;height:100%;background:linear-gradient(90deg,var(--md-primary),#9EF2E4);border-radius:99px;transition:width 1s ease"></div>
+          </div>
+        </div>
+        <p style="font-size:.75rem;color:var(--md-on-surface-variant);margin:0;line-height:1.5;text-align:left">Córtex prefrontal encendido. Planeación, razonamiento y regulación emocional funcionando. Amígdala en reposo.</p>
+      </div>
+
+      <!-- CEREBRO DEPRIMIDO -->
+      <div style="text-align:center">
+        <div class="btag d" style="justify-content:center;margin-bottom:.75rem">⚠️ Cerebro deprimido / ansioso</div>
+        <svg viewBox="0 0 160 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto" aria-hidden="true">
+          <defs>
+            <radialGradient id="gDep" cx="50%" cy="45%" r="55%">
+              <stop offset="0%" stop-color="#A0A0A0" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#555" stop-opacity="0.3"/>
+            </radialGradient>
+            <radialGradient id="gAmig" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFDBBE"/>
+              <stop offset="100%" stop-color="#7A5230"/>
+            </radialGradient>
+          </defs>
+          <!-- Cuerpo del cerebro apagado -->
+          <ellipse cx="80" cy="62" rx="68" ry="52" fill="url(#gDep)" opacity="0.8"/>
+          <!-- Surcos -->
+          <path d="M38 42 Q55 28 80 35 Q105 28 122 42" stroke="rgba(100,100,100,0.25)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M30 62 Q50 50 80 55 Q110 50 130 62" stroke="rgba(100,100,100,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M35 80 Q55 70 80 74 Q105 70 125 80" stroke="rgba(100,100,100,0.18)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M80 18 Q80 30 80 55" stroke="rgba(100,100,100,0.2)" stroke-width="1.5" fill="none"/>
+          <!-- Tronco -->
+          <rect x="68" y="108" width="24" height="18" rx="6" fill="#888" opacity="0.35"/>
+          <!-- Zona prefrontal apagada -->
+          <ellipse cx="80" cy="36" rx="42" ry="18" fill="rgba(150,150,150,0.15)" opacity="0.7"/>
+          <!-- Amígdala hiperactiva (grande y brillante) -->
+          <ellipse cx="80" cy="82" rx="18" ry="13" fill="url(#gAmig)" opacity="0.95"/>
+          <ellipse cx="80" cy="82" rx="12" ry="8" fill="#FFDBBE" opacity="0.6"/>
+          <!-- Pulso de amígdala activa -->
+          <ellipse cx="80" cy="82" rx="22" ry="17" fill="none" stroke="rgba(122,82,48,0.4)" stroke-width="1.5"/>
+          <ellipse cx="80" cy="82" rx="27" ry="21" fill="none" stroke="rgba(122,82,48,0.2)" stroke-width="1"/>
+          <!-- Sin destellos en prefrontal, solo un parpadeo débil -->
+          <circle cx="55" cy="34" r="1.5" fill="#bbb" opacity="0.3"/>
+          <circle cx="105" cy="34" r="1.5" fill="#bbb" opacity="0.3"/>
+        </svg>
+        <!-- Barra de actividad -->
+        <div style="margin:0.75rem auto;max-width:160px">
+          <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--md-on-surface-variant);margin-bottom:.3rem;font-weight:500">
+            <span>Actividad cerebral</span><span style="color:var(--md-tertiary);font-weight:700">~20%</span>
+          </div>
+          <div style="background:var(--md-outline-variant);border-radius:99px;height:8px;overflow:hidden">
+            <div style="width:20%;height:100%;background:linear-gradient(90deg,var(--md-tertiary),#FFDBBE);border-radius:99px;transition:width 1s ease"></div>
+          </div>
+        </div>
+        <p style="font-size:.75rem;color:var(--md-on-surface-variant);margin:0;line-height:1.5;text-align:left">Córtex prefrontal "apagado". Solo la amígdala sigue activa, detectando peligros inexistentes como amenazas reales.</p>
+      </div>
+
     </div>
     <div class="cot am" style="margin-top:1rem"><div class="cot-t">⚡ El secuestro amigdalino</div><p>Cuando la amígdala toma el control, el razonamiento lógico se desconecta. No es debilidad: es el circuito de supervivencia primitivo sobreactivado.</p></div>
   </div>
@@ -2576,10 +2664,6 @@ function showBrain(id) {
 
 /* ══ DOM READY ══ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Dots
-  makeDots('dh', Array(28).fill('don'));
-  makeDots('dd', [...Array(22).fill('doff'), 'dal', 'dal', 'dal', 'dal', 'dal', 'dal']);
-
   // Builds
   buildDist();
   buildQuiz();
