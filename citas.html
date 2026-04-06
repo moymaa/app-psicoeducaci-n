@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Citas · Eutimya</title>
+
+  <meta name="description" content="Consulta tu próxima cita en Eutimya. Ingresa tu correo y te enviamos los detalles de forma segura y privada.">
+  <meta name="author" content="Eutimya · Psiquiatría CDMX">
+  <meta property="og:title" content="Mis Citas · Eutimya">
+  <meta property="og:description" content="Consulta tu próxima cita de forma segura. Te enviamos la información a tu correo.">
+  <meta property="og:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <meta property="og:url" content="https://psicoeducacion.eutimya.org/citas">
+  <meta name="theme-color" content="#006A60">
+  <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <link rel="apple-touch-icon" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Flex:opsz,wght@8..144,300;8..144,500;8..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --md-primary: #006A60;
+      --md-on-primary: #fff;
+      --md-primary-container: #9EF2E4;
+      --md-on-primary-container: #00201C;
+      --md-secondary: #4A6360;
+      --md-on-secondary: #fff;
+      --md-secondary-container: #CCE8E4;
+      --md-on-secondary-container: #051F1D;
+      --md-tertiary: #7A5230;
+      --md-on-tertiary: #fff;
+      --md-tertiary-container: #FFDBBE;
+      --md-on-tertiary-container: #2E1400;
+      --md-error: #BA1A1A;
+      --md-on-error: #fff;
+      --md-error-container: #FFDAD6;
+      --md-on-error-container: #410002;
+      --md-background: #F4FAF8;
+      --md-on-background: #161D1C;
+      --md-surface: #F4FAF8;
+      --md-on-surface: #161D1C;
+      --md-surface-variant: #DAE5E2;
+      --md-on-surface-variant: #3F4947;
+      --md-surface-lowest: #fff;
+      --md-surface-low: #EFF5F3;
+      --md-surface-container: #E9F0EE;
+      --md-surface-high: #E3EAE8;
+      --md-surface-highest: #DEE5E3;
+      --md-outline: #6F7978;
+      --md-outline-variant: #BEC9C7;
+      --elev1: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+      --elev2: 0 2px 6px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+      --elev3: 0 4px 12px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.08);
+      --r-xs: 4px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 28px; --r-full: 50px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--md-background);
+      color: var(--md-on-background);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP APP BAR ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--md-surface-lowest);
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 0 1rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      box-shadow: var(--elev1);
+    }
+    .top-bar-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .top-bar-title {
+      font-family: 'Roboto Flex', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--md-on-background);
+      letter-spacing: -.02em;
+    }
+    .top-bar-subtitle {
+      font-size: .72rem;
+      color: var(--md-on-surface-variant);
+      margin-top: -.1rem;
+    }
+    .top-bar-back {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .82rem;
+      color: var(--md-primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: var(--r-full);
+      transition: background .15s;
+      margin-left: auto;
+    }
+    .top-bar-back:hover { background: var(--md-primary-container); }
+    .top-bar-back .material-symbols-outlined { font-size: 18px; }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .5s ease both;
+    }
+    .hero-icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--md-primary-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .hero-icon-wrap .material-symbols-outlined {
+      font-size: 40px;
+      color: var(--md-primary);
+      font-variation-settings: 'FILL' 1;
+    }
+    .hero h1 {
+      font-family: 'Roboto Flex', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--md-on-background);
+      letter-spacing: -.03em;
+      margin-bottom: .5rem;
+    }
+    .hero p {
+      font-size: .9rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--md-surface-lowest);
+      border-radius: var(--r-xl);
+      box-shadow: var(--elev2);
+      padding: 2rem 1.75rem;
+      width: 100%;
+      animation: fadeUp .5s .1s ease both;
+    }
+
+    /* ── FIELD ── */
+    .field {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--md-on-surface-variant);
+      margin-bottom: .4rem;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .field-inner {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--md-surface-low);
+      border: 1.5px solid var(--md-outline-variant);
+      border-radius: var(--r-md);
+      padding: 0 .9rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field-inner:focus-within {
+      border-color: var(--md-primary);
+      box-shadow: 0 0 0 3px rgba(0,106,96,.15);
+    }
+    .field-inner .material-symbols-outlined {
+      font-size: 20px;
+      color: var(--md-on-surface-variant);
+      flex-shrink: 0;
+      font-variation-settings: 'FILL' 0;
+      transition: color .2s;
+    }
+    .field-inner:focus-within .material-symbols-outlined {
+      color: var(--md-primary);
+    }
+    .field-inner input {
+      flex: 1;
+      font-family: 'Roboto', sans-serif;
+      font-size: .95rem;
+      color: var(--md-on-background);
+      background: none;
+      border: none;
+      outline: none;
+      padding: .85rem 0;
+      -webkit-appearance: none;
+    }
+    .field-inner input::placeholder { color: var(--md-outline); }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-primary {
+      width: 100%;
+      font-family: 'Roboto', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 1rem;
+      border: none;
+      border-radius: var(--r-full);
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      transition: filter .15s, transform .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled {
+      background: var(--md-surface-high);
+      color: var(--md-outline);
+      cursor: not-allowed;
+      filter: none;
+    }
+    .btn-primary .material-symbols-outlined { font-size: 20px; }
+
+    /* Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-primary.loading .spinner { display: block; }
+    .btn-primary.loading .btn-text,
+    .btn-primary.loading .btn-icon { display: none; }
+
+    /* ── PRIVACY NOTE ── */
+    .privacy-note {
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      margin-top: 1.25rem;
+      padding: .85rem 1rem;
+      background: var(--md-primary-container);
+      border-radius: var(--r-md);
+      font-size: .78rem;
+      color: var(--md-on-primary-container);
+      line-height: 1.5;
+    }
+    .privacy-note .material-symbols-outlined {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* ── STATUS CARDS ── */
+    .status-wrap {
+      width: 100%;
+      margin-top: 1.5rem;
+      animation: fadeUp .35s ease both;
+    }
+    .status-card {
+      border-radius: var(--r-xl);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: .75rem;
+    }
+    .status-card.success {
+      background: var(--md-secondary-container);
+    }
+    .status-card.error {
+      background: var(--md-error-container);
+    }
+    .status-card.not-found {
+      background: var(--md-tertiary-container);
+    }
+    .status-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-card.success .status-icon { background: var(--md-on-secondary-container); }
+    .status-card.error .status-icon { background: var(--md-on-error-container); }
+    .status-card.not-found .status-icon { background: var(--md-on-tertiary-container); }
+    .status-icon .material-symbols-outlined {
+      font-size: 28px;
+      color: #fff;
+      font-variation-settings: 'FILL' 1;
+    }
+    .status-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--md-on-background);
+    }
+    .status-card.success h3 { color: var(--md-on-secondary-container); }
+    .status-card.error h3 { color: var(--md-on-error-container); }
+    .status-card.not-found h3 { color: var(--md-on-tertiary-container); }
+    .status-card p {
+      font-size: .86rem;
+      line-height: 1.55;
+    }
+    .status-card.success p { color: var(--md-on-secondary-container); }
+    .status-card.error p { color: var(--md-on-error-container); }
+    .status-card.not-found p { color: var(--md-on-tertiary-container); }
+
+    .btn-retry {
+      font-family: 'Roboto', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      padding: .65rem 1.5rem;
+      border-radius: var(--r-full);
+      border: 1.5px solid currentColor;
+      background: none;
+      cursor: pointer;
+      transition: background .15s;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .status-card.success .btn-retry { color: var(--md-on-secondary-container); }
+    .status-card.error .btn-retry { color: var(--md-on-error-container); }
+    .status-card.not-found .btn-retry { color: var(--md-on-tertiary-container); }
+    .btn-retry:hover { background: rgba(0,0,0,.06); }
+    .btn-retry .material-symbols-outlined { font-size: 16px; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin: 2.25rem 0 .9rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      animation: fadeUp .5s .2s ease both;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    /* ── QUICK LINKS GRID ── */
+    .links-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .7rem;
+      animation: fadeUp .5s .25s ease both;
+    }
+    .link-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .35rem;
+      padding: 1rem 1.1rem;
+      border-radius: var(--r-lg);
+      background: var(--md-surface-lowest);
+      border: 1.5px solid var(--md-outline-variant);
+      text-decoration: none;
+      color: var(--md-on-background);
+      transition: border-color .18s, box-shadow .18s, transform .12s;
+      cursor: pointer;
+    }
+    .link-btn:hover {
+      border-color: var(--md-primary);
+      box-shadow: 0 2px 12px rgba(0,106,96,.12);
+      transform: translateY(-1px);
+    }
+    .link-btn:active { transform: translateY(0); }
+    .link-btn .lb-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: .15rem;
+    }
+    .link-btn .lb-icon .material-symbols-outlined {
+      font-size: 20px;
+      font-variation-settings: 'FILL' 1;
+    }
+    .link-btn .lb-title {
+      font-size: .85rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .link-btn .lb-sub {
+      font-size: .72rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    /* Color variants */
+    .lb-teal .lb-icon { background: var(--md-primary-container); color: var(--md-primary); }
+    .lb-blue .lb-icon { background: #e3f2fd; color: #1565c0; }
+    .lb-amber .lb-icon { background: #fff8e1; color: #f57f17; }
+    .lb-purple .lb-icon { background: #f3e5f5; color: #7b1fa2; }
+    .lb-green .lb-icon { background: #e8f5e9; color: #2e7d32; }
+    .lb-red .lb-icon { background: #fce4ec; color: #c62828; }
+
+    /* ── INFO CARDS ── */
+    .info-card {
+      width: 100%;
+      background: var(--md-surface-lowest);
+      border-radius: var(--r-lg);
+      border: 1.5px solid var(--md-outline-variant);
+      overflow: hidden;
+      animation: fadeUp .5s .3s ease both;
+    }
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .info-card-header .ich-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-card-header .ich-icon .material-symbols-outlined {
+      font-size: 20px;
+      font-variation-settings: 'FILL' 1;
+    }
+    .info-card-header .ich-text { flex: 1; }
+    .info-card-header .ich-title {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--md-on-background);
+    }
+    .info-card-header .ich-sub {
+      font-size: .74rem;
+      color: var(--md-on-surface-variant);
+    }
+    .info-card-header .ich-chevron {
+      font-size: 20px;
+      color: var(--md-outline);
+      transition: transform .25s;
+    }
+    .info-card.open .ich-chevron { transform: rotate(180deg); }
+
+    .info-card-body {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    .info-card.open .info-card-body { display: block; }
+
+    .info-steps {
+      list-style: none;
+      margin: .9rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+    .info-steps li {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      font-size: .85rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.5;
+    }
+    .info-steps li .step-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--md-primary);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .info-steps li strong { color: var(--md-on-background); }
+    .info-steps li a {
+      color: var(--md-primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .info-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: 1rem;
+      padding: .65rem 1.25rem;
+      border-radius: var(--r-full);
+      background: #25D366;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: filter .15s;
+    }
+    .info-wa-btn:hover { filter: brightness(1.08); }
+    .info-wa-btn .material-symbols-outlined { font-size: 18px; }
+
+    /* ── DOCTOR TABS ── */
+    .doctor-tabs {
+      width: 100%;
+      display: flex;
+      gap: .5rem;
+      margin-bottom: .9rem;
+      animation: fadeUp .5s .22s ease both;
+    }
+    .doc-tab {
+      flex: 1;
+      padding: .65rem .5rem;
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--md-outline-variant);
+      background: var(--md-surface-lowest);
+      font-family: 'Roboto', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--md-on-surface-variant);
+      cursor: pointer;
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+    .doc-tab.active {
+      background: var(--md-primary);
+      border-color: var(--md-primary);
+      color: #fff;
+    }
+    .doc-tab .material-symbols-outlined { font-size: 18px; }
+
+    .doctor-panel { display: none; width: 100%; }
+    .doctor-panel.active { display: contents; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: .72rem;
+      color: var(--md-outline);
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    footer a { color: var(--md-primary); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 360px) {
+      .card { padding: 1.5rem 1.25rem; }
+      .hero h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP APP BAR -->
+  <header class="top-bar">
+    <img class="top-bar-logo" src="https://psiquiatra-cdmx.eutimya.org/favicon.png" alt="Eutimya">
+    <div>
+      <div class="top-bar-title">Eutimya</div>
+      <div class="top-bar-subtitle">Psiquiatría · CDMX</div>
+    </div>
+    <a class="top-bar-back" href="/">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Inicio
+    </a>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-icon-wrap">
+        <span class="material-symbols-outlined">calendar_month</span>
+      </div>
+      <h1>Mis Citas</h1>
+      <p>Ingresa el correo con el que registraste tu cita y te enviamos los detalles directamente a tu bandeja de entrada.</p>
+    </section>
+
+    <!-- FORM CARD -->
+    <div class="card" id="form-card">
+      <div class="field">
+        <label for="email-input">Tu correo electrónico</label>
+        <div class="field-inner">
+          <span class="material-symbols-outlined">mail</span>
+          <input
+            type="email"
+            id="email-input"
+            placeholder="nombre@correo.com"
+            autocomplete="email"
+            inputmode="email"
+            maxlength="254"
+          >
+        </div>
+      </div>
+
+      <button class="btn-primary" id="submit-btn" onclick="consultarCita()">
+        <span class="material-symbols-outlined btn-icon">search</span>
+        <span class="btn-text">Consultar mis citas</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="privacy-note">
+        <span class="material-symbols-outlined">lock</span>
+        <span>Tu información es privada. No mostramos datos en pantalla — todo se envía directamente a tu correo.</span>
+      </div>
+    </div>
+
+    <!-- STATUS (hidden initially) -->
+    <div class="status-wrap" id="status-wrap" style="display:none"></div>
+
+    <!-- ── DOCTOR SELECTOR ── -->
+    <div class="section-label">Acciones rápidas</div>
+
+    <div class="doctor-tabs">
+      <button class="doc-tab active" onclick="switchDoc('moya', this)">
+        <span class="material-symbols-outlined">person</span>
+        Dr. Moya
+      </button>
+      <button class="doc-tab" onclick="switchDoc('sharon', this)">
+        <span class="material-symbols-outlined">person</span>
+        Dra. Sharon
+      </button>
+    </div>
+
+    <!-- PANEL DR. MOYA -->
+    <div class="doctor-panel active" id="panel-moya">
+      <div class="links-grid">
+        <a class="link-btn lb-teal" href="https://psiquiatra-cdmx.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">calendar_add_on</span></div>
+          <div class="lb-title">Agendar cita</div>
+          <div class="lb-sub">Dr. Moya</div>
+        </a>
+        <a class="link-btn lb-blue" href="https://psiquiatra-cdmx.eutimya.org/agendar" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">event_repeat</span></div>
+          <div class="lb-title">Reagendar</div>
+          <div class="lb-sub">Nueva fecha disponible</div>
+        </a>
+        <a class="link-btn lb-amber" href="https://psiquiatra-cdmx.eutimya.org/pagos" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">payments</span></div>
+          <div class="lb-title">Formas de pago</div>
+          <div class="lb-sub">Métodos aceptados</div>
+        </a>
+        <a class="link-btn lb-purple" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">receipt_long</span></div>
+          <div class="lb-title">Factura</div>
+          <div class="lb-sub">Solicitar CFDI</div>
+        </a>
+        <a class="link-btn lb-green" href="https://psiquiatra-cdmx.eutimya.org/exp" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">folder_open</span></div>
+          <div class="lb-title">Llenar expediente</div>
+          <div class="lb-sub">Antes de tu primera consulta</div>
+        </a>
+      </div>
+
+      <div class="section-label" style="margin-top:1.5rem">Cambios y cancelaciones</div>
+      <div class="info-card" id="cancel-card-moya">
+        <div class="info-card-header" onclick="toggleCard('cancel-card-moya')">
+          <div class="ich-icon" style="background:var(--md-primary-container)">
+            <span class="material-symbols-outlined" style="color:var(--md-primary);font-variation-settings:'FILL' 1">event_busy</span>
+          </div>
+          <div class="ich-text">
+            <div class="ich-title">Cambiar o cancelar cita</div>
+            <div class="ich-sub">Dr. Moya · opciones disponibles</div>
+          </div>
+          <span class="material-symbols-outlined ich-chevron">expand_more</span>
+        </div>
+        <div class="info-card-body">
+          <ul class="info-steps">
+            <li>
+              <span class="step-num">1</span>
+              <span><strong>Reprogramar:</strong> usa el enlace <a href="https://psiquiatra-cdmx.eutimya.org/agendar" target="_blank">reagendar</a> para elegir una nueva fecha, y avisa por WhatsApp para cancelar la cita anterior.</span>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <span><strong>Cancelar desde Google Calendar:</strong> puedes cancelarla directamente ahí. Si lo haces por ese medio, avisa también por WhatsApp.</span>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <span><strong>Por WhatsApp:</strong> también puedes solicitar la cancelación directamente por mensaje.</span>
+            </li>
+          </ul>
+          <a class="info-wa-btn" href="https://wa.me/526731205121" target="_blank" rel="noopener">
+            <span class="material-symbols-outlined">chat</span>
+            WhatsApp Dr. Moya
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL DRA. SHARON -->
+    <div class="doctor-panel" id="panel-sharon">
+      <div class="links-grid">
+        <a class="link-btn lb-teal" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">calendar_add_on</span></div>
+          <div class="lb-title">Agendar cita</div>
+          <div class="lb-sub">Dra. Sharon</div>
+        </a>
+        <a class="link-btn lb-blue" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">event_repeat</span></div>
+          <div class="lb-title">Reagendar</div>
+          <div class="lb-sub">Nueva fecha disponible</div>
+        </a>
+        <a class="link-btn lb-amber" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">payments</span></div>
+          <div class="lb-title">Formas de pago</div>
+          <div class="lb-sub">Dra. Sharon</div>
+        </a>
+        <a class="link-btn lb-green" href="https://psiquiatra-cdmx.eutimya.org/exp" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">folder_open</span></div>
+          <div class="lb-title">Llenar expediente</div>
+          <div class="lb-sub">Antes de tu primera consulta</div>
+        </a>
+      </div>
+
+      <div class="section-label" style="margin-top:1.5rem">Cambios y cancelaciones</div>
+      <div class="info-card" id="cancel-card-sharon">
+        <div class="info-card-header" onclick="toggleCard('cancel-card-sharon')">
+          <div class="ich-icon" style="background:#fce4ec">
+            <span class="material-symbols-outlined" style="color:#c62828;font-variation-settings:'FILL' 1">event_busy</span>
+          </div>
+          <div class="ich-text">
+            <div class="ich-title">Cambiar o cancelar cita</div>
+            <div class="ich-sub">Dra. Sharon · contacto directo</div>
+          </div>
+          <span class="material-symbols-outlined ich-chevron">expand_more</span>
+        </div>
+        <div class="info-card-body">
+          <ul class="info-steps">
+            <li>
+              <span class="step-num">1</span>
+              <span><strong>Reagendar:</strong> usa el mismo enlace de <a href="https://paido.eutimya.org/cita" target="_blank">agendar</a> para elegir una nueva fecha.</span>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <span><strong>Cancelar:</strong> envía un mensaje directo por WhatsApp a la Dra. Sharon.</span>
+            </li>
+          </ul>
+          <a class="info-wa-btn" href="https://wa.me/525513580092" target="_blank" rel="noopener">
+            <span class="material-symbols-outlined">chat</span>
+            WhatsApp Dra. Sharon
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Eutimya · Psiquiatría CDMX &mdash;
+    <a href="/">Psicoeducación</a> ·
+    <a href="mailto:eutimya.mental@gmail.com">Contacto</a>
+  </footer>
+
+<script>
+  // ── CONFIGURACIÓN ──────────────────────────────────────────
+  // Reemplaza esta URL con la de tu Apps Script Web App desplegada
+  const WEB_APP_URL = "https://script.google.com/macros/s/TU_ID_DE_DESPLIEGUE/exec";
+
+  // ── LÓGICA ────────────────────────────────────────────────
+  async function consultarCita() {
+    const emailInput = document.getElementById("email-input");
+    const submitBtn  = document.getElementById("submit-btn");
+    const statusWrap = document.getElementById("status-wrap");
+    const email      = emailInput.value.trim().toLowerCase();
+
+    // Validación
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailInput.focus();
+      emailInput.closest(".field-inner").style.borderColor = "var(--md-error)";
+      setTimeout(() => {
+        emailInput.closest(".field-inner").style.borderColor = "";
+      }, 1500);
+      return;
+    }
+
+    // Estado: cargando
+    submitBtn.disabled = true;
+    submitBtn.classList.add("loading");
+    statusWrap.style.display = "none";
+
+    try {
+      const res = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await res.json();
+
+      if (data.status === "sent") {
+        mostrarStatus("success", "¡Listo! Revisa tu correo", `Enviamos ${data.count} cita${data.count !== 1 ? "s" : ""} a <strong>${escapeHtml(email)}</strong>. Puede tardar unos minutos en llegar.`);
+        emailInput.value = "";
+      } else if (data.status === "not_found") {
+        mostrarStatus("not-found", "Sin citas registradas", `No encontramos citas próximas con el correo <strong>${escapeHtml(email)}</strong>. Verifica que sea el mismo con el que agendaste.`);
+      } else {
+        throw new Error(data.message || "Error desconocido");
+      }
+
+    } catch (err) {
+      console.error(err);
+      mostrarStatus("error", "Algo salió mal", "No pudimos procesar tu solicitud. Por favor intenta de nuevo o contacta a la clínica directamente.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("loading");
+    }
+  }
+
+  function mostrarStatus(tipo, titulo, mensaje) {
+    const iconMap = {
+      "success":   { icon: "mark_email_read", label: "Éxito" },
+      "error":     { icon: "error",            label: "Error" },
+      "not-found": { icon: "search_off",       label: "No encontrado" }
+    };
+    const { icon } = iconMap[tipo] || iconMap["error"];
+    const statusWrap = document.getElementById("status-wrap");
+
+    statusWrap.innerHTML = `
+      <div class="status-card ${tipo}">
+        <div class="status-icon">
+          <span class="material-symbols-outlined">${icon}</span>
+        </div>
+        <h3>${titulo}</h3>
+        <p>${mensaje}</p>
+        <button class="btn-retry" onclick="reintentar()">
+          <span class="material-symbols-outlined">refresh</span>
+          Intentar con otro correo
+        </button>
+      </div>
+    `;
+    statusWrap.style.display = "block";
+    statusWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function reintentar() {
+    document.getElementById("status-wrap").style.display = "none";
+    document.getElementById("email-input").focus();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  // Enter para enviar
+  document.getElementById("email-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") consultarCita();
+  });
+
+  // ── TABS DE DOCTOR ────────────────────────────────────────
+  function switchDoc(doc, btn) {
+    document.querySelectorAll(".doc-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".doctor-panel").forEach(p => {
+      p.classList.remove("active");
+      p.style.display = "none";
+    });
+    btn.classList.add("active");
+    const panel = document.getElementById("panel-" + doc);
+    panel.classList.add("active");
+    panel.style.display = "contents";
+  }
+
+  // ── ACCORDION ─────────────────────────────────────────────
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle("open");
+  }
+</script>
+
+</body>
+</html>
