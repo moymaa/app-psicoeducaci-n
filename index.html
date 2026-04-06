@@ -636,6 +636,49 @@
     .frases-list.show{display:flex!important}
     .frase-item{font-size:.8rem;color:var(--md-on-surface);padding:.55rem .75rem;background:var(--md-surface-low);border-radius:var(--r-md);line-height:1.5;font-weight:300;border:1px solid var(--md-outline-variant)}
 
+
+    /* ══ SIDEBAR MENU ══ */
+    .menu-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r-md);display:flex;align-items:center;gap:6px;color:var(--md-on-surface);font-family:inherit;font-size:13px;font-weight:500;transition:background .2s}
+    .menu-btn:hover{background:var(--md-surface-high)}
+    .menu-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .sidebar-overlay.open{opacity:1;pointer-events:auto}
+    .sidebar{position:fixed;top:0;left:-320px;width:300px;max-width:85vw;height:100%;background:var(--md-surface);z-index:910;transition:left .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:4px 0 24px rgba(0,0,0,.18);display:flex;flex-direction:column}
+    .sidebar.open{left:0}
+    .sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--md-outline-variant);display:flex;align-items:center;gap:12px}
+    .sb-header img{height:36px;width:auto}
+    .sb-header-text{font-size:1.1rem;font-weight:600;color:var(--md-on-surface);letter-spacing:-.01em}
+    .sb-close{background:none;border:none;cursor:pointer;margin-left:auto;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--md-on-surface-variant);transition:background .2s}
+    .sb-close:hover{background:var(--md-surface-high)}
+    .sb-nav{padding:8px 12px;flex:1}
+    .sb-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:var(--r-lg);cursor:pointer;transition:background .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit;color:var(--md-on-surface)}
+    .sb-item:hover{background:var(--md-surface-high)}
+    .sb-item.active{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .sb-item.active .sb-icon{background:var(--md-primary);color:var(--md-on-primary)}
+    .sb-icon{width:38px;height:38px;border-radius:50%;background:var(--md-surface-high);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .2s}
+    .sb-label{font-size:.88rem;font-weight:500;line-height:1.2}
+    .sb-sublabel{font-size:.7rem;color:var(--md-on-surface-variant);font-weight:400;margin-top:1px}
+    .sb-divider{height:1px;background:var(--md-outline-variant);margin:8px 20px}
+    .sb-footer{padding:14px 20px;border-top:1px solid var(--md-outline-variant);font-size:.72rem;color:var(--md-on-surface-variant);text-align:center}
+    [data-theme="dark"] .sidebar{background:var(--md-surface)}
+    [data-theme="dark"] .sidebar-overlay.open{background:rgba(0,0,0,.65)}
+
+
+    /* ══ SECTION NAV FOOTER ══ */
+    .sec-next{margin-top:2rem;background:var(--md-surface);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .25s;text-decoration:none;color:inherit}
+    .sec-next:hover{background:var(--md-primary-container);border-color:var(--md-primary);transform:translateY(-2px);box-shadow:var(--elev2)}
+    .sec-next-icon{width:48px;height:48px;border-radius:50%;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;transition:all .25s}
+    .sec-next:hover .sec-next-icon{background:var(--md-primary);transform:scale(1.08)}
+    .sec-next:hover .sec-next-icon span{filter:brightness(10)}
+    .sec-next-body{flex:1;min-width:0}
+    .sec-next-label{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--md-primary);margin-bottom:2px}
+    .sec-next-title{font-size:1rem;font-weight:600;color:var(--md-on-surface);line-height:1.3}
+    .sec-next-desc{font-size:.78rem;color:var(--md-on-surface-variant);margin-top:2px;font-weight:300}
+    .sec-next-arrow{font-size:1.5rem;color:var(--md-primary);flex-shrink:0;transition:transform .25s}
+    .sec-next:hover .sec-next-arrow{transform:translateX(4px)}
+    [data-theme="dark"] .sec-next{background:var(--md-surface);border-color:var(--md-outline)}
+    [data-theme="dark"] .sec-next:hover{background:var(--md-primary-container)}
+
   </style>
 </head>
 <body>
@@ -724,12 +767,38 @@
 <header>
   <div class="hi">
     <div class="hb">
-      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:40px;width:auto;display:block">
+      <button class="menu-btn" onclick="openSidebar()" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:34px;width:auto;display:block">
     </div>
     <a href="tel:8009112000" class="hcrisis" aria-label="Línea de crisis: 800-911-2000">🚨 Crisis: 800-911-2000</a>
     <button class="dark-toggle" onclick="toggleDark()" aria-label="Cambiar modo oscuro">🌙</button>
   </div>
 </header>
+
+<!-- SIDEBAR MENU -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+  <div class="sb-header">
+    <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:32px">
+    <div class="sb-header-text">Eutimya</div>
+    <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
+  </div>
+  <div class="sb-nav">
+    <button class="sb-item active" onclick="navTo('neuro',this)" data-sec="neuro"><div class="sb-icon">🧠</div><div><div class="sb-label">Tu cerebro</div><div class="sb-sublabel">Neurobiología clínica</div></div></button>
+    <button class="sb-item" onclick="navTo('dist',this)" data-sec="dist"><div class="sb-icon">💭</div><div><div class="sb-label">Pensamientos</div><div class="sb-sublabel">Distorsiones y creencias</div></div></button>
+    <button class="sb-item" onclick="navTo('sueno',this)" data-sec="sueno"><div class="sb-icon">🌙</div><div><div class="sb-label">Sueño</div><div class="sb-sublabel">Higiene y TCC-I</div></div></button>
+    <button class="sb-item" onclick="navTo('ia',this)" data-sec="ia"><div class="sb-icon">🤖</div><div><div class="sb-label">IA terapéutica</div><div class="sb-sublabel">Prompts clínicos</div></div></button>
+    <button class="sb-item" onclick="navTo('meds',this)" data-sec="meds"><div class="sb-icon">💊</div><div><div class="sb-label">Medicamentos</div><div class="sb-sublabel">Tu receta explicada</div></div></button>
+    <div class="sb-divider"></div>
+    <button class="sb-item" onclick="navTo('guia',this)" data-sec="guia"><div class="sb-icon">📋</div><div><div class="sb-label">Guía del mes</div><div class="sb-sublabel">Recordatorios y frases</div></div></button>
+    <button class="sb-item" onclick="navTo('red',this)" data-sec="red"><div class="sb-icon">🤝</div><div><div class="sb-label">Red terapéutica</div><div class="sb-sublabel">Tu equipo de psicoterapia</div></div></button>
+    <div class="sb-divider"></div>
+    <button class="sb-item" onclick="navTo('seguridad',this)" data-sec="seguridad"><div class="sb-icon">🚨</div><div><div class="sb-label">Plan de seguridad</div><div class="sb-sublabel">Protocolo de crisis</div></div></button>
+  </div>
+  <div class="sb-footer">Eutimya · Psicoeducación clínica · Dr. Moya</div>
+</div>
 
 <div class="nav-wrap">
   <nav id="mainNav" role="navigation" aria-label="Secciones de la app">
@@ -1117,6 +1186,16 @@
       <div class="mrow"><div class="mic" aria-hidden="true">⏱️</div><div><div class="mn">4–6 semanas de espera</div><div class="md">El efecto terapéutico real tarda porque se trata de crear carreteras neuronales nuevas, no una reacción química inmediata</div></div></div>
     </div>
   </div>
+
+  <div class="sec-next" onclick="navTo('dist',document.querySelector('.sb-item[data-sec=\'dist\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>💭</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Pensamientos</div>
+      <div class="sec-next-desc">Descubre las distorsiones cognitivas que distorsionan tu realidad y aprende a detectarlas.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ═══════════════ DISTORSIONES ═══════════════ -->
@@ -1168,6 +1247,16 @@
     </div>
   </div>
 
+
+  <div class="sec-next" onclick="navTo('sueno',document.querySelector('.sb-item[data-sec=\'sueno\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🌙</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Sueño</div>
+      <div class="sec-next-desc">El sueño es tratamiento. Aprende higiene del sueño y técnicas que realmente funcionan.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- CREENCIAS (parte de la misma sección) -->
@@ -1384,6 +1473,16 @@
       <div class="cot" style="margin-top:.75rem"><div class="cot-t">❤️ La regla más importante</div><p>Tu constancia y tu cariño son la primera línea de tratamiento. Ningún medicamento reemplaza la presencia segura de alguien conocido.</p></div>
     </div>
   </div>
+
+  <div class="sec-next" onclick="navTo('ia',document.querySelector('.sb-item[data-sec=\'ia\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🤖</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">IA terapéutica</div>
+      <div class="sec-next-desc">Prompts clínicos para usar la IA como prótesis cognitiva entre sesiones.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ═══════════════ TCC-I INSOMNIO ═══════════════ -->
@@ -1550,6 +1649,16 @@
     <h3>Lo que la IA no reemplaza</h3>
     <p style="color:var(--md-on-secondary-container)">La IA es una herramienta de <strong>contención y estructura entre sesiones</strong>. No diagnostica, no prescribe, no reemplaza la relación terapéutica. Su valor está en estar disponible a las 3 AM cuando el catastrofismo escala.</p>
     <p style="color:var(--md-on-secondary-container)">Si después de usar un prompt tu activación <strong>aumenta</strong> en lugar de bajar, cierra la IA y usa una técnica de grounding o contacta a tu terapeuta.</p>
+  </div>
+
+  <div class="sec-next" onclick="navTo('meds',document.querySelector('.sb-item[data-sec=\'meds\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>💊</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Medicamentos</div>
+      <div class="sec-next-desc">Tu receta explicada sin tecnicismos. Entiende qué hace cada medicamento y por qué.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
   </div>
 </section>
 
@@ -1997,6 +2106,16 @@
     <p><strong>Regla de oro: NUNCA suspendas ni modifiques sin avisar.</strong> El síndrome de discontinuación puede incluir mareos intensos, "descargas eléctricas" en la cabeza, llanto, náuseas. No porque el medicamento sea adictivo — sino porque el cerebro necesita ajustarse gradualmente. <strong>Escríbele a tu médico antes de cualquier cambio.</strong></p>
   </div>
 
+
+  <div class="sec-next" onclick="navTo('guia',document.querySelector('.sb-item[data-sec=\'guia\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>📋</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Guía del mes</div>
+      <div class="sec-next-desc">Tu mapa de ruta personal: recordatorios, frases y objetivos para este mes.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ═══════════════ GUÍA ═══════════════ -->
@@ -2154,6 +2273,16 @@
     <div class="cot" style="margin-top:1rem"><div class="cot-t">📲 Cómo usarlas</div><p>En tu teléfono, crea una alarma diaria (ej. 8:00 AM) con una frase como nombre. Cámbiala cada lunes. Leer la frase en voz alta al despertar reestructura activamente las creencias centrales. Es activación conductual + reestructuración cognitiva en 10 segundos.</p></div>
   </div>
 
+
+  <div class="sec-next" onclick="navTo('red',document.querySelector('.sb-item[data-sec=\'red\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🤝</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Red terapéutica</div>
+      <div class="sec-next-desc">Conoce a tu equipo de psicoterapia y cómo contactarlos.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ═══════════════ RED ═══════════════ -->
@@ -2232,6 +2361,16 @@
     <div class="thc"><div class="thav" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">R</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Rubí</div><div class="md" style="margin-bottom:.55rem">TCC · Acompañamiento terapéutico</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Acompañamiento</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Enfoque cálido y cercano.</p><a href="tel:+525541948903" class="thb">📱 +52 55 4194 8903</a></div>
   </div>
   <div class="cot" style="margin-top:1.25rem"><div class="cot-t">📌 Coordinación del tratamiento</div><p>Todos los terapeutas del equipo cuentan con posgrado y formación específica. El psiquiatra tratante coordina el manejo farmacológico con el proceso psicoterapéutico para garantizar coherencia. Si tienes dudas sobre a qué terapeuta acudir, pregúntale directamente al Dr. Moya o la Dra. Sharon en tu próxima consulta.</p></div>
+
+  <div class="sec-next" onclick="navTo('seguridad',document.querySelector('.sb-item[data-sec=\'seguridad\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🚨</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Plan de seguridad</div>
+      <div class="sec-next-desc">Protocolo de crisis. Números de emergencia y medidas inmediatas.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ═══════════════ SEGURIDAD ═══════════════ -->
@@ -2259,6 +2398,16 @@
   </div>
   <div class="card" style="background:var(--md-on-background);border:none;margin-top:1rem;text-align:center">
     <p style="color:rgba(255,255,255,.6);font-size:.9rem;font-weight:400;margin:0">Si existe duda sobre la seguridad, se actúa como si el riesgo fuera alto.<br><strong style="color:#fff;font-weight:600">La prioridad es proteger la vida.</strong></p>
+  </div>
+
+  <div class="sec-next" onclick="navTo('neuro',document.querySelector('.sb-item[data-sec=\'neuro\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🧠</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Tu cerebro</div>
+      <div class="sec-next-desc">Vuelve al inicio. Repasa la neurobiología de lo que te pasa.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
   </div>
 </section>
 
@@ -2297,6 +2446,40 @@ function toggleDark(){
   if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');
   document.addEventListener('DOMContentLoaded',()=>{const b=document.querySelector('.dark-toggle');if(b)b.textContent='☀️';});}
 })();
+
+
+/* ══ SIDEBAR MENU ══ */
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function navTo(id,btn){
+  // Update sidebar active state
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  // Also update tab bar
+  const tabs=document.querySelectorAll('.tab');
+  tabs.forEach(t=>t.classList.remove('on'));
+  // Map section to tab
+  const tabMap={neuro:0,dist:1,sueno:2,ia:3,cbti:4,meds:5,guia:6,red:7,seguridad:8};
+  if(tabMap[id]!==undefined && tabs[tabMap[id]]) tabs[tabMap[id]].classList.add('on');
+  // Show section
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  const sec=document.getElementById(id);
+  if(sec)sec.classList.add('on');
+  if(id==='dist'){
+    const cr=document.getElementById('creencias');const ab=document.getElementById('abc');
+    if(cr)cr.classList.add('on');if(ab)ab.classList.add('on');
+  }
+  closeSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
 /* ══ NAVEGACIÓN ══ */
 /* ══ MEDICAMENTOS ══ */
@@ -2421,6 +2604,10 @@ function scheduleNotifications() {
 function show(id, btn) {
   document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  // Sync sidebar
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const sbBtn=document.querySelector('.sb-item[data-sec="'+id+'"]');
+  if(sbBtn)sbBtn.classList.add('active');
   const sec = document.getElementById(id);
   if (sec) sec.classList.add('on');
   if (id === 'dist') {
