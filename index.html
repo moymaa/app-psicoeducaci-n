@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Psicoeducación · Eutimya</title>
 
+  <!-- SEO & Descripción -->
+  <meta name="description" content="Recursos de psicoeducación clínica: neurobiología, TCC, medicamentos y plan de seguridad. Para pacientes y familias de Eutimya.">
+  <meta name="author" content="Eutimya · Psiquiatría CDMX">
+
+  <!-- Open Graph (WhatsApp, iMessage, redes) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Psicoeducación · Eutimya">
+  <meta property="og:description" content="Entiende tu diagnóstico, tus medicamentos y las herramientas TCC que tu psiquiatra te indicó. Recurso clínico interactivo.">
+  <meta property="og:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <meta property="og:url" content="https://psicoeducacion.eutimya.org">
+  <meta property="og:locale" content="es_MX">
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Psicoeducación · Eutimya">
+  <meta name="twitter:description" content="Entiende tu diagnóstico, tus medicamentos y las herramientas TCC que tu psiquiatra te indicó.">
+  <meta name="twitter:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+
+  <!-- PWA -->
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#006A60">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -58,24 +77,41 @@
     html{scroll-behavior:smooth;overflow-x:hidden}
     body{overflow-x:hidden;font-family:'Roboto',sans-serif;background:var(--md-background);color:var(--md-on-background);font-size:14px;line-height:1.6;min-height:100vh}
 
-    /* ══ INSTALL BANNER ══ */
-    #install-banner{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--md-surface-lowest);border-top:1px solid var(--md-outline-variant);box-shadow:0 -4px 20px rgba(0,0,0,.12);padding:1rem 1.25rem;display:none;gap:.75rem;align-items:center;animation:slideUp .35s ease}
-    #install-banner.show{display:flex}
-    .ib-icon{font-size:2rem;flex-shrink:0}
-    .ib-text{flex:1}
-    .ib-title{font-weight:600;font-size:.88rem;color:var(--md-on-background);margin-bottom:.15rem}
-    .ib-sub{font-size:.75rem;color:var(--md-on-surface-variant)}
-    .ib-actions{display:flex;gap:.5rem;flex-shrink:0}
-    .ib-btn{font-family:'Roboto',sans-serif;font-size:.78rem;font-weight:600;padding:8px 16px;border-radius:var(--r-full);cursor:pointer;border:none;transition:all .18s;letter-spacing:.02em}
-    .ib-btn-install{background:var(--md-primary);color:#fff}
-    .ib-btn-install:hover{filter:brightness(1.1)}
-    .ib-btn-dismiss{background:none;color:var(--md-on-surface-variant);border:1px solid var(--md-outline-variant)}
-    @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+    /* ══ INSTALL SHEET ══ */
+    #install-sheet{position:fixed;bottom:0;left:0;right:0;z-index:1100;display:none;flex-direction:column;background:var(--md-surface-lowest);border-radius:24px 24px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.18);animation:slideUp .38s cubic-bezier(.32,1,.6,1);padding-bottom:env(safe-area-inset-bottom)}
+    #install-sheet.show{display:flex}
+    .is-handle{width:36px;height:4px;background:var(--md-outline-variant);border-radius:99px;margin:12px auto 0}
+    .is-body{padding:1.25rem 1.5rem 1.5rem;display:flex;gap:1rem;align-items:flex-start}
+    .is-icon{width:56px;height:56px;border-radius:14px;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0}
+    .is-text{flex:1}
+    .is-title{font-weight:700;font-size:1rem;color:var(--md-on-background);margin-bottom:.18rem;letter-spacing:-.01em}
+    .is-sub{font-size:.78rem;color:var(--md-on-surface-variant);line-height:1.45}
+    .is-chips{display:flex;gap:.4rem;margin-top:.6rem;flex-wrap:wrap}
+    .is-chip{font-size:.62rem;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--md-primary-container);color:var(--md-on-primary-container);letter-spacing:.03em}
+    .is-actions{display:flex;gap:.6rem;padding:0 1.5rem 1rem}
+    .is-btn-install{flex:1;font-family:'Roboto',sans-serif;font-size:.88rem;font-weight:700;padding:13px 0;border-radius:var(--r-full);cursor:pointer;border:none;background:var(--md-primary);color:#fff;letter-spacing:.02em;transition:filter .15s}
+    .is-btn-install:hover{filter:brightness(1.08)}
+    .is-btn-later{font-family:'Roboto',sans-serif;font-size:.82rem;font-weight:500;padding:13px 18px;border-radius:var(--r-full);cursor:pointer;border:1px solid var(--md-outline-variant);background:none;color:var(--md-on-surface-variant);white-space:nowrap;transition:all .15s}
+    .is-btn-later:hover{background:var(--md-surface-container)}
 
-    /* iOS install hint */
-    #ios-hint{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--md-on-background);color:#fff;padding:1rem 1.25rem;display:none;gap:.75rem;align-items:flex-start;animation:slideUp .35s ease;border-top:1px solid rgba(255,255,255,.1)}
-    #ios-hint.show{display:flex}
-    .ios-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:1.2rem;cursor:pointer;flex-shrink:0;padding:0 .25rem}
+    /* iOS install sheet (distinto flujo) */
+    #ios-sheet{position:fixed;bottom:0;left:0;right:0;z-index:1100;display:none;flex-direction:column;background:#1C1C1E;border-radius:24px 24px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.35);animation:slideUp .38s cubic-bezier(.32,1,.6,1);padding-bottom:env(safe-area-inset-bottom)}
+    #ios-sheet.show{display:flex}
+    .ios-handle{width:36px;height:4px;background:rgba(255,255,255,.18);border-radius:99px;margin:12px auto 0}
+    .ios-body{padding:1.25rem 1.5rem}
+    .ios-header{display:flex;align-items:center;gap:.875rem;margin-bottom:1.1rem}
+    .ios-app-icon{width:52px;height:52px;border-radius:12px;background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+    .ios-app-name{font-weight:700;font-size:.95rem;color:#fff;letter-spacing:-.01em}
+    .ios-app-url{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:.1rem}
+    .ios-steps{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.25rem}
+    .ios-step{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.06);border-radius:14px;padding:.75rem 1rem}
+    .ios-step-num{width:26px;height:26px;border-radius:50%;background:var(--md-primary);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0}
+    .ios-step-text{font-size:.82rem;color:rgba(255,255,255,.82);line-height:1.4}
+    .ios-step-text strong{color:#fff}
+    .ios-step-icon{font-size:1.1rem;margin-left:auto;flex-shrink:0}
+    .ios-close-btn{width:100%;font-family:'Roboto',sans-serif;font-size:.85rem;font-weight:500;padding:13px 0;border-radius:var(--r-full);cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);margin-bottom:.5rem;transition:all .15s}
+    .ios-close-btn:hover{background:rgba(255,255,255,.12)}
+    @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
 
     /* ══ HEADER ══ */
     header{position:sticky;top:0;z-index:200;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant);box-shadow:var(--elev1)}
@@ -389,8 +425,8 @@
       .stats{grid-template-columns:repeat(2,1fr)}
       .slide{flex:0 0 280px}
       h2{font-size:1.35rem}
-      #install-banner{flex-wrap:wrap}
-      .ib-actions{width:100%;justify-content:flex-end}
+      .is-actions{flex-direction:column-reverse}
+      .is-btn-later{text-align:center}
     }
 
     /* ══ ACCESIBILIDAD ══ */
@@ -398,6 +434,8 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     }
     :focus-visible{outline:2px solid var(--md-primary);outline-offset:2px;border-radius:4px}
+    [data-theme="dark"] body{transition:background .25s,color .25s}
+    @media(prefers-reduced-motion:reduce){[data-theme="dark"] body{transition:none}}
 
     /* ══ MODAL IA ══ */
     #ai-modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;padding:0 0 1.5rem;animation:fadein .18s ease}
@@ -629,25 +667,57 @@
     <button class="ai-modal-dismiss" onclick="dismissAIModal()">Cerrar</button>
   </div>
 </div>
-<div id="install-banner" role="dialog" aria-label="Instalar aplicación Eutimya">
-  <div class="ib-icon">🧠</div>
-  <div class="ib-text">
-    <div class="ib-title">Instalar Eutimya</div>
-    <div class="ib-sub">Accede sin internet · Sin tiendas de apps</div>
+<!-- ══ INSTALL SHEET — Android / Desktop ══ -->
+<div id="install-sheet" role="dialog" aria-modal="true" aria-label="Instalar aplicación Eutimya">
+  <div class="is-handle" aria-hidden="true"></div>
+  <div class="is-body">
+    <div class="is-icon" aria-hidden="true">🧠</div>
+    <div class="is-text">
+      <div class="is-title">Instalar Eutimya</div>
+      <div class="is-sub">Accede a tu psicoeducación sin internet, directo desde tu pantalla de inicio.</div>
+      <div class="is-chips">
+        <span class="is-chip">Sin tienda de apps</span>
+        <span class="is-chip">Sin publicidad</span>
+        <span class="is-chip">Funciona offline</span>
+      </div>
+    </div>
   </div>
-  <div class="ib-actions">
-    <button class="ib-btn ib-btn-dismiss" id="ib-dismiss" aria-label="Cerrar">No ahora</button>
-    <button class="ib-btn ib-btn-install" id="ib-install">Instalar</button>
+  <div class="is-actions">
+    <button class="is-btn-later" id="ib-dismiss">Ahora no</button>
+    <button class="is-btn-install" id="ib-install">Agregar a inicio →</button>
   </div>
 </div>
 
-<!-- ══ iOS HINT ══ -->
-<div id="ios-hint" role="dialog" aria-label="Instrucciones de instalación para iPhone">
-  <div style="flex:1">
-    <div style="font-weight:600;font-size:.88rem;margin-bottom:.35rem">Agregar a pantalla de inicio</div>
-    <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.5">Toca el botón <strong style="color:#fff">Compartir</strong> (⬆️) en Safari y luego <strong style="color:#fff">"Agregar a inicio"</strong> para instalar Eutimya como app.</div>
+<!-- ══ iOS INSTALL SHEET ══ -->
+<div id="ios-sheet" role="dialog" aria-modal="true" aria-label="Instrucciones para instalar en iPhone">
+  <div class="ios-handle" aria-hidden="true"></div>
+  <div class="ios-body">
+    <div class="ios-header">
+      <div class="ios-app-icon" aria-hidden="true">🧠</div>
+      <div>
+        <div class="ios-app-name">Eutimya · Psicoeducación</div>
+        <div class="ios-app-url">psicoeducacion.eutimya.org</div>
+      </div>
+    </div>
+    <div class="ios-steps">
+      <div class="ios-step">
+        <div class="ios-step-num">1</div>
+        <div class="ios-step-text">Toca el botón <strong>Compartir</strong> en la barra de Safari</div>
+        <div class="ios-step-icon">⬆️</div>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">2</div>
+        <div class="ios-step-text">Desplázate y selecciona <strong>"Agregar a pantalla de inicio"</strong></div>
+        <div class="ios-step-icon">＋</div>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">3</div>
+        <div class="ios-step-text">Toca <strong>Agregar</strong> — aparecerá como app en tu iPhone</div>
+        <div class="ios-step-icon">✓</div>
+      </div>
+    </div>
+    <button class="ios-close-btn" id="ios-close">Entendido</button>
   </div>
-  <button class="ios-close" id="ios-close" aria-label="Cerrar">✕</button>
 </div>
 
 <header>
@@ -2119,7 +2189,7 @@
     </div>
   </div>
   <div class="thg">
-    <div class="thc"><div class="thav" style="background:#EDE9FE;color:#5B21B6" aria-hidden="true">J</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Johana</div><div class="md" style="margin-bottom:.55rem">TCC · Trauma · Adicciones</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">Trauma</span><span class="badge bgr">Adicciones</span></div><div class="md" style="margin-bottom:.82rem">💻 Online · Desde España</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Especialista en trauma complejo y adicciones. Atiende en línea.</p><a href="tel:+5255498357100" class="thb">📱 +52 55 4983 5710</a></div>
+    <div class="thc"><div class="thav" style="background:#EDE9FE;color:#5B21B6" aria-hidden="true">J</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Johana</div><div class="md" style="margin-bottom:.55rem">TCC · Trauma · Adicciones</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">Trauma</span><span class="badge bgr">Adicciones</span></div><div class="md" style="margin-bottom:.82rem">💻 Online · Desde España</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Especialista en trauma complejo y adicciones. Atiende en línea.</p><a href="tel:+525549835710" class="thb">📱 +52 55 4983 5710</a></div>
     <div class="thc"><div class="thav" style="background:var(--md-primary-container);color:var(--forest)" aria-hidden="true">A</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Arturo</div><div class="md" style="margin-bottom:.55rem">Maestría en TCC · Especialidad en TDAH</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">TDAH</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Perfil científico y muy estructurado. Ideal para TDAH.</p><a href="tel:+525519517821" class="thb">📱 +52 55 1951 7821</a></div>
     <div class="thc"><div class="thav" style="background:var(--md-tertiary-container);color:var(--md-tertiary)" aria-hidden="true">I</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Iván</div><div class="md" style="margin-bottom:.55rem">TCC · Enfoque estructurado</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Depresión</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Proceso muy ordenado y progresivo.</p><a href="tel:+525522645240" class="thb">📱 +52 55 2264 5240</a></div>
     <div class="thc"><div class="thav" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">R</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Rubí</div><div class="md" style="margin-bottom:.55rem">TCC · Acompañamiento terapéutico</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Acompañamiento</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Enfoque cálido y cercano.</p><a href="tel:+525541948903" class="thb">📱 +52 55 4194 8903</a></div>
@@ -2132,7 +2202,7 @@
   <div class="sh"><h4>Protocolo clínico</h4><h2>Plan de seguridad · Riesgo suicida</h2><p class="lead">Este plan es para usar en casa junto a alguien de confianza. No reemplaza la atención médica urgente. Si hay riesgo inminente, actúa ahora.</p></div>
   <div class="sp-contact" role="region" aria-label="Números de emergencia">
     <div class="sc-row"><div class="sc-label">Línea de la Vida (México)</div><a href="tel:8009112000" class="sc-val" style="text-decoration:none">800 911 2000</a></div>
-    <div class="sc-row"><div class="sc-label">Hospital Psiq. Ramón de la Fuente</div><a href="tel:5541605460" class="sc-val" style="text-decoration:none">55 4160 5460</a></div>
+    <div class="sc-row"><div class="sc-label">Hospital Psiq. Ramón de la Fuente</div><a href="tel:+525541605460" class="sc-val" style="text-decoration:none">55 4160 5460</a></div>
     <div class="sc-row"><div class="sc-label">Punto de partida</div><a href="tel:+525568101894" class="sc-val teal" style="text-decoration:none">+52 55 6810 1894</a></div>
   </div>
   <div class="g2">
@@ -2679,26 +2749,40 @@ document.addEventListener('DOMContentLoaded', () => {
       try { localStorage.setItem(`eutimya_task_${index}`, e.target.checked); } catch (e) {}
     });
   });
+
+  // Sleep diary persistence
+  const sleepFields = ['sd-bedtime','sd-latency','sd-wakeups','sd-waso','sd-waketime'];
+  sleepFields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    try {
+      const saved = localStorage.getItem('eutimya_sleep_' + id);
+      if (saved !== null) el.value = saved;
+    } catch(e) {}
+    el.addEventListener('change', () => {
+      try { localStorage.setItem('eutimya_sleep_' + id, el.value); } catch(e) {}
+    });
+  });
 });
 
-/* ══ PWA INSTALL BANNER ══ */
+/* ══ PWA INSTALL SHEET ══ */
 let deferredPrompt = null;
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  // Solo mostrar si el usuario no lo ha descartado antes
   try {
     if (!localStorage.getItem('eutimya_install_dismissed')) {
-      document.getElementById('install-banner').classList.add('show');
+      // Pequeño delay para no interrumpir la carga
+      setTimeout(() => document.getElementById('install-sheet').classList.add('show'), 2500);
     }
   } catch (err) {
-    document.getElementById('install-banner').classList.add('show');
+    setTimeout(() => document.getElementById('install-sheet').classList.add('show'), 2500);
   }
 });
 
 document.getElementById('ib-install').addEventListener('click', async () => {
-  document.getElementById('install-banner').classList.remove('show');
+  document.getElementById('install-sheet').classList.remove('show');
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
@@ -2706,27 +2790,28 @@ document.getElementById('ib-install').addEventListener('click', async () => {
 });
 
 document.getElementById('ib-dismiss').addEventListener('click', () => {
-  document.getElementById('install-banner').classList.remove('show');
+  document.getElementById('install-sheet').classList.remove('show');
   try { localStorage.setItem('eutimya_install_dismissed', '1'); } catch (e) {}
 });
 
-// iOS install hint
+// iOS: detectar Safari sin standalone
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone;
-if (isIOS) {
+const isInStandaloneMode = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+if (isIOS && !isInStandaloneMode) {
   try {
     if (!localStorage.getItem('eutimya_ios_hint_dismissed')) {
-      setTimeout(() => document.getElementById('ios-hint').classList.add('show'), 3000);
+      setTimeout(() => document.getElementById('ios-sheet').classList.add('show'), 4000);
     }
   } catch (e) {}
 }
 
 document.getElementById('ios-close').addEventListener('click', () => {
-  document.getElementById('ios-hint').classList.remove('show');
+  document.getElementById('ios-sheet').classList.remove('show');
   try { localStorage.setItem('eutimya_ios_hint_dismissed', '1'); } catch (e) {}
 });
 
 window.addEventListener('appinstalled', () => {
-  document.getElementById('install-banner').classList.remove('show');
+  document.getElementById('install-sheet').classList.remove('show');
   deferredPrompt = null;
 });
 </script>
