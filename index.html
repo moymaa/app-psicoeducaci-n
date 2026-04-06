@@ -398,11 +398,61 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
     }
     :focus-visible{outline:2px solid var(--md-primary);outline-offset:2px;border-radius:4px}
+
+    /* ══ MODAL IA ══ */
+    #ai-modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center;padding:0 0 1.5rem;animation:fadein .18s ease}
+    #ai-modal-overlay.show{display:flex}
+    @keyframes fadein{from{opacity:0}to{opacity:1}}
+    #ai-modal{background:var(--md-surface-lowest);border-radius:var(--r-xl) var(--r-xl) var(--r-xl) var(--r-xl);padding:1.5rem 1.5rem 1.25rem;width:100%;max-width:440px;box-shadow:var(--elev3);animation:slideUpModal .22s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideUpModal{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+    .ai-modal-title{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--md-on-surface-variant);margin-bottom:.25rem}
+    .ai-modal-sub{font-size:.82rem;color:var(--md-on-background);font-weight:500;margin-bottom:1.1rem;line-height:1.4}
+    .ai-modal-sub strong{color:var(--md-primary)}
+    .ai-btns{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1rem}
+    .ai-btn{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border-radius:var(--r-lg);border:1px solid var(--md-outline-variant);background:var(--md-surface-container);cursor:pointer;text-decoration:none;transition:all .15s;font-family:'Roboto',sans-serif}
+    .ai-btn:hover{background:var(--md-primary-container);border-color:var(--md-primary)}
+    .ai-btn-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant)}
+    .ai-btn-text{flex:1;text-align:left}
+    .ai-btn-name{font-size:.85rem;font-weight:600;color:var(--md-on-background)}
+    .ai-btn-desc{font-size:.72rem;color:var(--md-on-surface-variant)}
+    .ai-modal-dismiss{width:100%;background:none;border:none;color:var(--md-on-surface-variant);font-size:.8rem;padding:.5rem;cursor:pointer;font-family:'Roboto',sans-serif;border-radius:var(--r-full)}
+    .ai-modal-dismiss:hover{background:var(--md-surface-container)}
+    .ai-modal-timer{display:flex;align-items:center;gap:.4rem;justify-content:center;margin-bottom:.5rem}
+    .ai-modal-timer-bar{height:2px;background:var(--md-outline-variant);border-radius:2px;flex:1;overflow:hidden}
+    .ai-modal-timer-fill{height:100%;background:var(--md-primary);border-radius:2px;width:100%;transition:width linear}
+    .ai-modal-timer-txt{font-size:.65rem;color:var(--md-on-surface-variant);white-space:nowrap}
   </style>
 </head>
 <body>
 
 <!-- ══ INSTALL BANNER (Android/Desktop) ══ -->
+
+<!-- ══ MODAL PEGAR EN IA ══ -->
+<div id="ai-modal-overlay" role="dialog" aria-modal="true" aria-label="Elige tu chat de IA" onclick="closeAIModal(event)">
+  <div id="ai-modal">
+    <div class="ai-modal-title">✓ Prompt copiado</div>
+    <div class="ai-modal-sub">Ábrelo en tu <strong>chat de IA favorito</strong> y pégalo ahí:</div>
+    <div class="ai-btns">
+      <a class="ai-btn" href="https://chatgpt.com/" target="_blank" rel="noopener" onclick="dismissAIModal()">
+        <div class="ai-btn-icon">🤖</div>
+        <div class="ai-btn-text"><div class="ai-btn-name">ChatGPT</div><div class="ai-btn-desc">chat.openai.com</div></div>
+      </a>
+      <a class="ai-btn" href="https://gemini.google.com/" target="_blank" rel="noopener" onclick="dismissAIModal()">
+        <div class="ai-btn-icon">✨</div>
+        <div class="ai-btn-text"><div class="ai-btn-name">Gemini</div><div class="ai-btn-desc">gemini.google.com</div></div>
+      </a>
+      <a class="ai-btn" href="https://claude.ai/" target="_blank" rel="noopener" onclick="dismissAIModal()">
+        <div class="ai-btn-icon">🟠</div>
+        <div class="ai-btn-text"><div class="ai-btn-name">Claude</div><div class="ai-btn-desc">claude.ai</div></div>
+      </a>
+    </div>
+    <div class="ai-modal-timer">
+      <div class="ai-modal-timer-bar"><div class="ai-modal-timer-fill" id="ai-timer-fill"></div></div>
+      <div class="ai-modal-timer-txt" id="ai-timer-txt">10s</div>
+    </div>
+    <button class="ai-modal-dismiss" onclick="dismissAIModal()">Cerrar</button>
+  </div>
+</div>
 <div id="install-banner" role="dialog" aria-label="Instalar aplicación Eutimya">
   <div class="ib-icon">🧠</div>
   <div class="ib-text">
@@ -427,11 +477,7 @@
 <header>
   <div class="hi">
     <div class="hb">
-      <div class="app-icon" aria-hidden="true">🧠</div>
-      <div>
-        <div class="hlogo">eutimya<span>.</span></div>
-        <div class="hsub">Psicoeducación clínica</div>
-      </div>
+      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:40px;width:auto;display:block">
     </div>
     <a href="tel:8009112000" class="hcrisis" aria-label="Línea de crisis: 800-911-2000">🚨 Crisis: 800-911-2000</a>
   </div>
@@ -441,7 +487,7 @@
   <nav id="mainNav" role="navigation" aria-label="Secciones de la app">
     <div class="ni">
       <button class="tab on" onclick="show('neuro',this)">Tu cerebro</button>
-      <button class="tab" onclick="show('dist',this)">Distorsiones · Creencias · TCC</button>
+      <button class="tab" onclick="show('dist',this)">Pensamientos</button>
       <button class="tab" onclick="show('sueno',this)">Sueño</button>
       <button class="tab" onclick="show('ia',this)">IA terapéutica</button>
       <button class="tab" id="tab-cbti" onclick="show('cbti',this)" style="display:none">TCC-I</button>
@@ -754,8 +800,10 @@
     </div>
   </div>
 
+</section>
+
 <!-- CREENCIAS (parte de la misma sección) -->
-<section class="sec" id="creencias" aria-label="Creencias centrales" style="display:block!important;padding-top:0">
+<section class="sec" id="creencias" aria-label="Creencias centrales" style="padding-top:0">
   <div class="sh"><h4>El nivel más profundo</h4><h2>Creencias centrales y cuestionamiento socrático</h2><p class="lead">Debajo de las distorsiones cognitivas hay creencias centrales: convicciones profundas sobre ti, los demás y el mundo que se construyeron desde la infancia.</p></div>
   <div class="g2 mb">
     <div class="card">
@@ -807,8 +855,7 @@
 </section>
 
 <!-- ABC (parte de la misma sección) -->
-<section class="sec" id="abc" aria-label="Modelo ABC y TCC" style="display:block!important;padding-top:0">
-<section class="sec" id="abc" aria-label="Modelo ABC y TCC">
+<section class="sec" id="abc" aria-label="Modelo ABC y TCC" style="padding-top:0">
   <div class="sh">
     <h4>Fundamento de la TCC</h4>
     <h2>El modelo ABC de la Terapia Cognitiva</h2>
@@ -1120,14 +1167,14 @@
   </div>
 
   <div class="pt-grid">
-    <div class="pt"><div class="pt-tag pt-teal">🔍 Cuestionamiento socrático</div><h3>Cuestiona tu pensamiento paso a paso</h3><p class="pt-desc">Para aplicar el diálogo socrático guiado:</p><div class="prompt-box" id="ps1"><button class="copy-btn" onclick="copyP('ps1',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC experto en diálogo socrático.</span> Voy a contarte un pensamiento que me está afectando. <span class="hl">Guíame paso a paso:</span> 1) Pídeme la frase exacta. 2) Pregúntame evidencia a favor y en contra. 3) Evalúa conmigo si me ayuda o me bloquea. 4) Ayúdame a crear un pensamiento alternativo útil. <span class="hl">Hazme las preguntas una a una. Tono directo y calmado.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">🔥 Antes de estallar: DBT</div><h3>En vez de explotar, cuestiona con DBT</h3><p class="pt-desc">Cuando sientes que vas a reaccionar impulsivamente:</p><div class="prompt-box" id="ps2"><button class="copy-btn" onclick="copyP('ps2',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Estoy a punto de estallar. <span class="hl">Actúa como un terapeuta DBT.</span> Primero, <span class="hl">valida mi emoción sin invalidarla.</span> Luego guíame: 1) ¿Cuál es la emoción exacta? 2) ¿La intensidad del 1 al 10 coincide con la situación real? 3) ¿Qué necesidad legítima hay detrás? 4) ¿Cuál sería una acción <span class="hlA">efectiva</span> que resuelva sin destruir la relación? <span class="hl">No me digas que respire. Ayúdame a pensar antes de actuar.</span></div><div class="rule-box"><p><strong>Por qué funciona:</strong> Nombrar la emoción reduce su intensidad. Todas las emociones son válidas; no todas las acciones que surgen de ellas son efectivas.</p></div></div>
-    <div class="pt"><div class="pt-tag pt-teal">🧠 Crisis de ansiedad</div><h3>Cuestionamiento socrático nocturno</h3><p class="pt-desc">Cuando la mente catastrofiza y no hay terapeuta disponible:</p><div class="prompt-box" id="p1"><button class="copy-btn" onclick="copyP('p1',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC.</span> Mi diagnóstico es <span class="hlA">[TAG / TDAH / Depresión]</span>. Basándote en guías de práctica clínica, <span class="hl">aplica el diálogo socrático:</span> primero pregúntame qué evidencia concreta tengo a favor de este pensamiento, luego la evidencia en contra, y finalmente ayúdame a separar la posibilidad de la probabilidad real. <span class="hl">No valides el miedo. Hazme las preguntas una por una.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">⚡ Parálisis por TDAH</div><h3>Desbloquear tareas que abruman</h3><p class="pt-desc">Cuando el proyecto completo paraliza y no puedes empezar:</p><div class="prompt-box" id="p2"><button class="copy-btn" onclick="copyP('p2',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Tengo TDAH. <span class="hl">No me des el plan completo.</span> Tengo esta tarea: <span class="hlA">[describe la tarea]</span>. Divídela en <span class="hl">micrometas de máximo 15 minutos</span>. Empieza por la más pequeña. Para cada paso dime exactamente qué acción física debo hacer primero.</div><div class="rule-box"><p><strong>Por qué funciona:</strong> Externaliza la función ejecutiva de planeación al modelo, liberando RAM mental.</p></div></div>
-    <div class="pt"><div class="pt-tag pt-slate">💬 Mensaje en caliente</div><h3>Antes de enviar una respuesta impulsiva</h3><p class="pt-desc">Para reescribir antes de provocar un conflicto:</p><div class="prompt-box" id="p3"><button class="copy-btn" onclick="copyP('p3',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Estoy molesto/a y quiero mandar este mensaje: <span class="hlA">"[pega tu mensaje]"</span>. <span class="hl">No me digas que no lo mande.</span> Reescríbelo usando comunicación asertiva: que exprese mi emoción y mi límite, sin atacar, sin victimizarme, sin invalidar al otro. Dame <span class="hlA">dos versiones:</span> una directa y una más suave.</div></div>
-    <div class="pt"><div class="pt-tag pt-teal">🔁 Bucle mental</div><h3>Cuando el mismo pensamiento no para</h3><p class="pt-desc">Para salir del loop y evaluar si hay algo accionable:</p><div class="prompt-box" id="p4"><button class="copy-btn" onclick="copyP('p4',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Llevo <span class="hlA">[tiempo]</span> pensando en <span class="hlA">[describe el pensamiento]</span>. <span class="hl">Hazme solo estas tres preguntas, una a la vez:</span> 1) ¿Hay algo que pueda hacer al respecto ahora mismo? 2) Si no hay nada que hacer, ¿qué me dice eso sobre el valor de seguir pensando en ello? 3) Si hay algo que hacer, ¿cuál es el primer paso más pequeño? <span class="hl">Solo las preguntas, sin consejos generales.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">📚 Estudio con TDAH</div><h3>Material pesado → digerible</h3><p class="pt-desc">Para hackear la dopamina y hacer el aprendizaje estimulante:</p><div class="prompt-box" id="p5"><button class="copy-btn" onclick="copyP('p5',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Tengo que estudiar esto: <span class="hlA">[pega el texto o tema]</span>. Tengo TDAH. <span class="hl">Transfórmalo en 5 preguntas tipo quiz</span> con respuesta, de más simple a más complejo. Cada pregunta debe ser un reto. Después de que responda, <span class="hlA">corrígeme en máximo 2 oraciones.</span> Empieza con la primera pregunta.</div></div>
-    <div class="pt"><div class="pt-tag pt-slate">🌙 Crisis nocturna</div><h3>Contención a las 3 AM</h3><p class="pt-desc">Cuando el miedo escala en la madrugada:</p><div class="prompt-box" id="p6"><button class="copy-btn" onclick="copyP('p6',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Son las <span class="hlA">[hora]</span> y estoy en crisis. <span class="hl">No me des soluciones todavía.</span> Primero pregúntame: 1) ¿Estoy en peligro físico real ahora mismo? 2) ¿Cuál es el pensamiento exacto que más me activa? 3) ¿Qué tan probable es que sea un hecho real y no una interpretación? Después aplica el cuestionamiento socrático. <span class="hl">Tono calmado y directo.</span></div><div class="warn-box"><p><strong>Si hay riesgo suicida real:</strong> no uses la IA. Llama a Línea de la Vida: <strong>800-911-2000</strong>.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🔍 Cuestionamiento socrático</div><h3>Cuestiona tu pensamiento paso a paso</h3><p class="pt-desc">Para aplicar el diálogo socrático guiado:</p><div class="prompt-box" id="ps1"><button class="copy-btn" onclick="copyP('ps1',this)" aria-label="Copiar prompt">Copiar</button><span class="hl">Actúa como un terapeuta TCC experto en diálogo socrático.</span> Voy a contarte un pensamiento que me está afectando. <span class="hl">Guíame paso a paso:</span> 1) Pídeme la frase exacta. 2) Pregúntame evidencia a favor y en contra. 3) Evalúa conmigo si me ayuda o me bloquea. 4) Ayúdame a crear un pensamiento alternativo útil. <span class="hl">Hazme las preguntas una a una. Tono directo y calmado.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">🔥 Antes de estallar: DBT</div><h3>En vez de explotar, cuestiona con DBT</h3><p class="pt-desc">Cuando sientes que vas a reaccionar impulsivamente:</p><div class="prompt-box" id="ps2"><button class="copy-btn" onclick="copyP('ps2',this)" aria-label="Copiar prompt">Copiar</button>Estoy a punto de estallar. <span class="hl">Actúa como un terapeuta DBT.</span> Primero, <span class="hl">valida mi emoción sin invalidarla.</span> Luego guíame: 1) ¿Cuál es la emoción exacta? 2) ¿La intensidad del 1 al 10 coincide con la situación real? 3) ¿Qué necesidad legítima hay detrás? 4) ¿Cuál sería una acción <span class="hlA">efectiva</span> que resuelva sin destruir la relación? <span class="hl">No me digas que respire. Ayúdame a pensar antes de actuar.</span></div><div class="rule-box"><p><strong>Por qué funciona:</strong> Nombrar la emoción reduce su intensidad. Todas las emociones son válidas; no todas las acciones que surgen de ellas son efectivas.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🧠 Crisis de ansiedad</div><h3>Cuestionamiento socrático nocturno</h3><p class="pt-desc">Cuando la mente catastrofiza y no hay terapeuta disponible:</p><div class="prompt-box" id="p1"><button class="copy-btn" onclick="copyP('p1',this)" aria-label="Copiar prompt">Copiar</button><span class="hl">Actúa como un terapeuta TCC.</span> Mi diagnóstico es <span class="hlA">[TAG / TDAH / Depresión]</span>. Basándote en guías de práctica clínica, <span class="hl">aplica el diálogo socrático:</span> primero pregúntame qué evidencia concreta tengo a favor de este pensamiento, luego la evidencia en contra, y finalmente ayúdame a separar la posibilidad de la probabilidad real. <span class="hl">No valides el miedo. Hazme las preguntas una por una.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">⚡ Parálisis por TDAH</div><h3>Desbloquear tareas que abruman</h3><p class="pt-desc">Cuando el proyecto completo paraliza y no puedes empezar:</p><div class="prompt-box" id="p2"><button class="copy-btn" onclick="copyP('p2',this)" aria-label="Copiar prompt">Copiar</button>Tengo TDAH. <span class="hl">No me des el plan completo.</span> Tengo esta tarea: <span class="hlA">[describe la tarea]</span>. Divídela en <span class="hl">micrometas de máximo 15 minutos</span>. Empieza por la más pequeña. Para cada paso dime exactamente qué acción física debo hacer primero.</div><div class="rule-box"><p><strong>Por qué funciona:</strong> Externaliza la función ejecutiva de planeación al modelo, liberando RAM mental.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-slate">💬 Mensaje en caliente</div><h3>Antes de enviar una respuesta impulsiva</h3><p class="pt-desc">Para reescribir antes de provocar un conflicto:</p><div class="prompt-box" id="p3"><button class="copy-btn" onclick="copyP('p3',this)" aria-label="Copiar prompt">Copiar</button>Estoy molesto/a y quiero mandar este mensaje: <span class="hlA">"[pega tu mensaje]"</span>. <span class="hl">No me digas que no lo mande.</span> Reescríbelo usando comunicación asertiva: que exprese mi emoción y mi límite, sin atacar, sin victimizarme, sin invalidar al otro. Dame <span class="hlA">dos versiones:</span> una directa y una más suave.</div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🔁 Bucle mental</div><h3>Cuando el mismo pensamiento no para</h3><p class="pt-desc">Para salir del loop y evaluar si hay algo accionable:</p><div class="prompt-box" id="p4"><button class="copy-btn" onclick="copyP('p4',this)" aria-label="Copiar prompt">Copiar</button>Llevo <span class="hlA">[tiempo]</span> pensando en <span class="hlA">[describe el pensamiento]</span>. <span class="hl">Hazme solo estas tres preguntas, una a la vez:</span> 1) ¿Hay algo que pueda hacer al respecto ahora mismo? 2) Si no hay nada que hacer, ¿qué me dice eso sobre el valor de seguir pensando en ello? 3) Si hay algo que hacer, ¿cuál es el primer paso más pequeño? <span class="hl">Solo las preguntas, sin consejos generales.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">📚 Estudio con TDAH</div><h3>Material pesado → digerible</h3><p class="pt-desc">Para hackear la dopamina y hacer el aprendizaje estimulante:</p><div class="prompt-box" id="p5"><button class="copy-btn" onclick="copyP('p5',this)" aria-label="Copiar prompt">Copiar</button>Tengo que estudiar esto: <span class="hlA">[pega el texto o tema]</span>. Tengo TDAH. <span class="hl">Transfórmalo en 5 preguntas tipo quiz</span> con respuesta, de más simple a más complejo. Cada pregunta debe ser un reto. Después de que responda, <span class="hlA">corrígeme en máximo 2 oraciones.</span> Empieza con la primera pregunta.</div></div>
+    <div class="pt"><div class="pt-tag pt-slate">🌙 Crisis nocturna</div><h3>Contención a las 3 AM</h3><p class="pt-desc">Cuando el miedo escala en la madrugada:</p><div class="prompt-box" id="p6"><button class="copy-btn" onclick="copyP('p6',this)" aria-label="Copiar prompt">Copiar</button>Son las <span class="hlA">[hora]</span> y estoy en crisis. <span class="hl">No me des soluciones todavía.</span> Primero pregúntame: 1) ¿Estoy en peligro físico real ahora mismo? 2) ¿Cuál es el pensamiento exacto que más me activa? 3) ¿Qué tan probable es que sea un hecho real y no una interpretación? Después aplica el cuestionamiento socrático. <span class="hl">Tono calmado y directo.</span></div><div class="warn-box"><p><strong>Si hay riesgo suicida real:</strong> no uses la IA. Llama a Línea de la Vida: <strong>800-911-2000</strong>.</p></div></div>
   </div>
 
   <div class="card" style="background:var(--md-secondary-container)">
@@ -1365,36 +1412,68 @@ function buildQuiz() {
 }
 
 /* ══ COPY PROMPT ══ */
+let _aiModalTimer = null;
+
+function openAIModal() {
+  const overlay = document.getElementById('ai-modal-overlay');
+  const fill = document.getElementById('ai-timer-fill');
+  const txt = document.getElementById('ai-timer-txt');
+  overlay.classList.add('show');
+
+  // Resetear barra
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  fill.offsetHeight; // reflow
+  fill.style.transition = 'width 10s linear';
+  fill.style.width = '0%';
+
+  let secs = 10;
+  txt.textContent = secs + 's';
+  clearInterval(_aiModalTimer);
+  _aiModalTimer = setInterval(() => {
+    secs--;
+    txt.textContent = secs + 's';
+    if (secs <= 0) { clearInterval(_aiModalTimer); dismissAIModal(); }
+  }, 1000);
+}
+
+function dismissAIModal() {
+  clearInterval(_aiModalTimer);
+  const overlay = document.getElementById('ai-modal-overlay');
+  overlay.classList.remove('show');
+}
+
+function closeAIModal(e) {
+  if (e.target === document.getElementById('ai-modal-overlay')) dismissAIModal();
+}
+
 function copyP(id, btn) {
   const box = document.getElementById(id);
-  const text = box.innerText.replace('Copiar y abrir IA', '').replace('✓ ¡Listo!', '').trim();
+  const text = box.innerText.replace('Copiar', '').replace('✓ Copiado', '').trim();
 
-  const openAI = () => {
-    window.open(`https://chatgpt.com/?q=${encodeURIComponent(text)}`, '_blank', 'noopener');
-    btn.textContent = 'Copiar y abrir IA';
-    btn.classList.remove('done');
-  };
-
-  const copied = () => {
-    btn.textContent = '✓ ¡Listo!';
+  const onCopied = () => {
+    btn.textContent = '✓ Copiado';
     btn.classList.add('done');
-    setTimeout(openAI, 1000);
+    setTimeout(() => {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('done');
+    }, 2000);
+    openAIModal();
   };
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(copied).catch(() => {
-      // Fallback
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => {
       const ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); copied(); } catch (e) { openAI(); }
+      try { document.execCommand('copy'); onCopied(); } catch (e) {}
       document.body.removeChild(ta);
     });
   } else {
     const ta = document.createElement('textarea');
     ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); copied(); } catch (e) { openAI(); }
+    try { document.execCommand('copy'); onCopied(); } catch (e) {}
     document.body.removeChild(ta);
   }
 }
