@@ -311,6 +311,8 @@
     .bzone{transition:opacity .18s,filter .18s;cursor:pointer}
     .bzone:hover{opacity:.85;filter:brightness(1.08)}
     .bzone:focus{outline:2px solid var(--md-primary);outline-offset:2px}
+    .img-zone{position:absolute;cursor:pointer;border-radius:var(--r-sm);transition:background .2s;background:transparent}
+    .img-zone:hover,.img-zone:focus{background:rgba(0,106,96,0.15);outline:2px solid var(--md-primary);outline-offset:2px}
     .brain-info{min-height:160px;display:flex;align-items:center;justify-content:center}
     .brain-welcome{text-align:center;padding:.5rem}
     .brain-detail{animation:fadeUp .25s ease}
@@ -448,8 +450,16 @@
     <p>Toca cada parte del cerebro para entender qué hace y cómo se relaciona con lo que sientes.</p>
 
     <div class="brain-wrap">
-      <div class="brain-svg-area">
-        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" class="brain-svg" role="img" aria-label="Diagrama interactivo del cerebro">
+      <div class="brain-svg-area" style="position:relative;width:100%;max-width:500px;margin:0 auto">
+        <img src="https://app.eutimya.org/cerebro.png" style="width:100%;height:auto;border-radius:var(--r-md);box-shadow:var(--elev1)" alt="Neurobiología de la ansiedad y el miedo">
+        <div class="img-zone" onclick="showBrain('corteza')" tabindex="0" role="button" aria-label="Corteza visual" onkeydown="if(event.key==='Enter')showBrain('corteza')" style="top:25%;left:2%;width:22%;height:11%;"></div>
+        <div class="img-zone" onclick="showBrain('talamo')" tabindex="0" role="button" aria-label="Tálamo" onkeydown="if(event.key==='Enter')showBrain('talamo')" style="top:21%;left:28%;width:16%;height:8%;"></div>
+        <div class="img-zone" onclick="showBrain('pf')" tabindex="0" role="button" aria-label="Corteza prefrontal" onkeydown="if(event.key==='Enter')showBrain('pf')" style="top:21%;left:61%;width:37%;height:12%;"></div>
+        <div class="img-zone" onclick="showBrain('amig')" tabindex="0" role="button" aria-label="Amígdala" onkeydown="if(event.key==='Enter')showBrain('amig')" style="top:38%;left:41%;width:16%;height:8%;"></div>
+        <div class="img-zone" onclick="showBrain('tronco')" tabindex="0" role="button" aria-label="Tronco encefálico" onkeydown="if(event.key==='Enter')showBrain('tronco')" style="top:48%;left:4%;width:25%;height:12%;"></div>
+        <div class="img-zone" onclick="showBrain('hipo')" tabindex="0" role="button" aria-label="Hipocampo" onkeydown="if(event.key==='Enter')showBrain('hipo')" style="top:64%;left:25%;width:24%;height:11%;"></div>
+        <div class="img-zone" onclick="showBrain('cuerpo')" tabindex="0" role="button" aria-label="Respuesta corporal" onkeydown="if(event.key==='Enter')showBrain('cuerpo')" style="top:76%;left:2%;width:48%;height:15%;"></div>
+        <!-- hidden SVG placeholder --><svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" style="display:none" role="img" aria-label="Diagrama interactivo del cerebro">
           <ellipse cx="160" cy="118" rx="118" ry="100" fill="rgba(158,242,228,0.15)" stroke="rgba(0,106,96,0.25)" stroke-width="1.5"/>
           <line x1="160" y1="30" x2="160" y2="210" stroke="rgba(0,106,96,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
           <ellipse class="bzone" id="bz-pf" cx="160" cy="58" rx="62" ry="28" fill="rgba(0,106,96,0.12)" stroke="rgba(0,106,96,0.45)" stroke-width="1.5" onclick="showBrain('pf')" tabindex="0" role="button" aria-label="Corteza prefrontal" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('pf')"/>
@@ -463,10 +473,6 @@
           <text x="202" y="138" text-anchor="middle" font-size="7" fill="rgba(13,71,161,0.65)" font-family="Roboto,sans-serif" pointer-events="none">memoria</text>
           <ellipse class="bzone" id="bz-tronco" cx="160" cy="195" rx="38" ry="22" fill="rgba(109,40,217,0.1)" stroke="rgba(109,40,217,0.35)" stroke-width="1.5" onclick="showBrain('tronco')" tabindex="0" role="button" aria-label="Tronco encefálico" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('tronco')"/>
           <text x="160" y="192" text-anchor="middle" font-size="8.5" fill="rgba(70,20,130,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">Tronco</text>
-          <text x="160" y="203" text-anchor="middle" font-size="7" fill="rgba(70,20,130,0.65)" font-family="Roboto,sans-serif" pointer-events="none">supervivencia</text>
-          <ellipse class="bzone" id="bz-corteza" cx="160" cy="95" rx="80" ry="30" fill="rgba(0,106,96,0.05)" stroke="rgba(0,106,96,0.18)" stroke-width="1" onclick="showBrain('corteza')" tabindex="0" role="button" aria-label="Corteza cerebral" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('corteza')"/>
-          <text x="85" y="93" text-anchor="middle" font-size="7.5" fill="rgba(0,65,59,0.5)" font-family="Roboto,sans-serif" pointer-events="none">Corteza</text>
-          <text x="160" y="242" text-anchor="middle" font-size="7.5" fill="rgba(0,106,96,0.5)" font-family="Roboto,sans-serif" aria-hidden="true">toca cada zona →</text>
         </svg>
       </div>
       <div class="brain-info" id="brainInfo" aria-live="polite">
@@ -514,6 +520,57 @@
           <p class="bd-simple">Procesa lo que ves, oyes y sientes. Crea pensamientos, lenguaje e ideas. Es lo que nos hace humanos. También interpreta lo que pasa — y ahí es donde pueden entrar las distorsiones cognitivas.</p>
           <p class="bd-science">La corteza puede aprender patrones nuevos a cualquier edad. Eso es la base de toda psicoterapia: enseñarle nuevas rutas al cerebro.</p>
           <div class="bd-tag" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">📌 Cambia con aprendizaje a toda edad</div>
+        </div>
+        <div class="brain-detail" id="bd-talamo" style="display:none">
+          <div class="bd-emoji" aria-hidden="true">📡</div>
+          <div class="bd-name" style="color:var(--md-primary)">Tálamo</div>
+          <div class="bd-aka">El centro de relevo</div>
+          <p class="bd-simple">Recibe la información de tus sentidos (como ver una serpiente). Su trabajo es decidir a dónde enviar esa señal. Manda una alerta rápida a la amígdala para que reacciones, y una más lenta a la corteza para que pienses.</p>
+          <p class="bd-science">Es el origen del "atajo del miedo": la señal llega a la amígdala en milisegundos — antes de que la corteza haya procesado lo que realmente está pasando.</p>
+          <div class="bd-tag" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">📌 Reparte la información al cerebro</div>
+        </div>
+        <div class="brain-detail" id="bd-cuerpo" style="display:none">
+          <div class="bd-emoji" aria-hidden="true">🫀</div>
+          <div class="bd-name" style="color:var(--md-error)">Sistema Nervioso Autónomo</div>
+          <div class="bd-aka">La respuesta de "Lucha o Huida"</div>
+          <p class="bd-simple">Cuando la amígdala detecta una amenaza, activa la rama <strong>Simpática</strong> de tu sistema nervioso. Tus síntomas no son imaginarios; son cambios físicos reales diseñados para hacerte sobrevivir. Así se sienten:</p>
+          <div style="max-height:210px;overflow-y:auto;padding-right:8px;margin-top:12px;border-top:1px solid var(--md-outline-variant);padding-top:10px;scrollbar-width:thin">
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">💓</div>
+              <div>
+                <div class="mn">Taquicardia y dolor de pecho</div>
+                <div class="md">El corazón late rápido y fuerte para enviar sangre a tus músculos para correr o pelear.</div>
+              </div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">🫁</div>
+              <div>
+                <div class="mn">Falta de aire o mareo</div>
+                <div class="md">Tus vías aéreas se dilatan para meter más oxígeno. Esto causa hiperventilación, lo que altera el CO₂ y provoca vértigo y mareos.</div>
+              </div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">🦋</div>
+              <div>
+                <div class="mn">Náuseas y problemas digestivos</div>
+                <div class="md">La digestión se detiene por completo (no es prioridad al sobrevivir). La sangre abandona el estómago y los intestinos.</div>
+              </div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">🥶</div>
+              <div>
+                <div class="mn">Temblores, sudor y escalofríos</div>
+                <div class="md">Los músculos se tensan (causando temblor y debilidad). Las glándulas sudoríparas se activan para evitar que tu cuerpo se sobrecaliente.</div>
+              </div>
+            </div>
+            <div class="mrow">
+              <div class="mic" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">👁️</div>
+              <div>
+                <div class="mn">Visión borrosa y boca seca</div>
+                <div class="md">Tus pupilas se dilatan para detectar peligros a lo lejos. La producción de saliva se inhibe (boca seca).</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
