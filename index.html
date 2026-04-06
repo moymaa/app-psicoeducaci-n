@@ -1,496 +1,418 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Psicoeducación · Eutimya</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Psicoeducación · Eutimya</title>
 
-/* ══ MATERIAL YOU · COLOR TOKENS ══ */
-:root{
-  /* Primary (Teal) */
-  --md-primary:#006A60;
-  --md-on-primary:#fff;
-  --md-primary-container:#9EF2E4;
-  --md-on-primary-container:#00201C;
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#006A60">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Eutimya">
+  <link rel="apple-touch-icon" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
 
-  /* Secondary */
-  --md-secondary:#4A6360;
-  --md-on-secondary:#fff;
-  --md-secondary-container:#CCE8E4;
-  --md-on-secondary-container:#051F1D;
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  /* Tertiary (Amber) */
-  --md-tertiary:#7A5230;
-  --md-on-tertiary:#fff;
-  --md-tertiary-container:#FFDBBE;
-  --md-on-tertiary-container:#2E1400;
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  /* Error */
-  --md-error:#BA1A1A;
-  --md-on-error:#fff;
-  --md-error-container:#FFDAD6;
-  --md-on-error-container:#410002;
+    :root{
+      --md-primary:#006A60;
+      --md-on-primary:#fff;
+      --md-primary-container:#9EF2E4;
+      --md-on-primary-container:#00201C;
+      --md-secondary:#4A6360;
+      --md-on-secondary:#fff;
+      --md-secondary-container:#CCE8E4;
+      --md-on-secondary-container:#051F1D;
+      --md-tertiary:#7A5230;
+      --md-on-tertiary:#fff;
+      --md-tertiary-container:#FFDBBE;
+      --md-on-tertiary-container:#2E1400;
+      --md-error:#BA1A1A;
+      --md-on-error:#fff;
+      --md-error-container:#FFDAD6;
+      --md-on-error-container:#410002;
+      --md-background:#F4FAF8;
+      --md-on-background:#161D1C;
+      --md-surface:#F4FAF8;
+      --md-on-surface:#161D1C;
+      --md-surface-variant:#DAE5E2;
+      --md-on-surface-variant:#3F4947;
+      --md-surface-lowest:#fff;
+      --md-surface-low:#EFF5F3;
+      --md-surface-container:#E9F0EE;
+      --md-surface-high:#E3EAE8;
+      --md-surface-highest:#DEE5E3;
+      --md-outline:#6F7978;
+      --md-outline-variant:#BEC9C7;
+      --elev1:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
+      --elev2:0 2px 6px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);
+      --elev3:0 4px 12px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.08);
+      --r-none:0;--r-xs:4px;--r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:28px;--r-full:50px;
+      --forest:#00413B;
+    }
 
-  /* Surface scale */
-  --md-background:#F4FAF8;
-  --md-on-background:#161D1C;
-  --md-surface:#F4FAF8;
-  --md-on-surface:#161D1C;
-  --md-surface-variant:#DAE5E2;
-  --md-on-surface-variant:#3F4947;
-  --md-surface-lowest:#fff;
-  --md-surface-low:#EFF5F3;
-  --md-surface-container:#E9F0EE;
-  --md-surface-high:#E3EAE8;
-  --md-surface-highest:#DEE5E3;
+    html{scroll-behavior:smooth}
+    body{font-family:'Roboto',sans-serif;background:var(--md-background);color:var(--md-on-background);font-size:14px;line-height:1.6;min-height:100vh}
 
-  /* Outline */
-  --md-outline:#6F7978;
-  --md-outline-variant:#BEC9C7;
+    /* ══ INSTALL BANNER ══ */
+    #install-banner{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--md-surface-lowest);border-top:1px solid var(--md-outline-variant);box-shadow:0 -4px 20px rgba(0,0,0,.12);padding:1rem 1.25rem;display:none;gap:.75rem;align-items:center;animation:slideUp .35s ease}
+    #install-banner.show{display:flex}
+    .ib-icon{font-size:2rem;flex-shrink:0}
+    .ib-text{flex:1}
+    .ib-title{font-weight:600;font-size:.88rem;color:var(--md-on-background);margin-bottom:.15rem}
+    .ib-sub{font-size:.75rem;color:var(--md-on-surface-variant)}
+    .ib-actions{display:flex;gap:.5rem;flex-shrink:0}
+    .ib-btn{font-family:'Roboto',sans-serif;font-size:.78rem;font-weight:600;padding:8px 16px;border-radius:var(--r-full);cursor:pointer;border:none;transition:all .18s;letter-spacing:.02em}
+    .ib-btn-install{background:var(--md-primary);color:#fff}
+    .ib-btn-install:hover{filter:brightness(1.1)}
+    .ib-btn-dismiss{background:none;color:var(--md-on-surface-variant);border:1px solid var(--md-outline-variant)}
+    @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
 
-  /* Elevations (tonal overlay + shadow) */
-  --elev1:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
-  --elev2:0 2px 6px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);
-  --elev3:0 4px 12px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.08);
+    /* iOS install hint */
+    #ios-hint{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:var(--md-on-background);color:#fff;padding:1rem 1.25rem;display:none;gap:.75rem;align-items:flex-start;animation:slideUp .35s ease;border-top:1px solid rgba(255,255,255,.1)}
+    #ios-hint.show{display:flex}
+    .ios-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:1.2rem;cursor:pointer;flex-shrink:0;padding:0 .25rem}
 
-  /* Shape */
-  --r-none:0;
-  --r-xs:4px;
-  --r-sm:8px;
-  --r-md:12px;
-  --r-lg:16px;
-  --r-xl:28px;
-  --r-full:50px;
+    /* ══ HEADER ══ */
+    header{position:sticky;top:0;z-index:200;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant);box-shadow:var(--elev1)}
+    .hi{max-width:1120px;margin:0 auto;padding:0 1rem;height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .hb{display:flex;align-items:center;gap:10px}
+    .app-icon{width:40px;height:40px;border-radius:var(--r-md);background:var(--md-primary-container);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+    .hlogo{font-family:'Roboto Flex',sans-serif;font-size:1.35rem;font-weight:600;color:var(--md-on-background);letter-spacing:-.01em}
+    .hlogo span{color:var(--md-primary)}
+    .hsub{color:var(--md-on-surface-variant);font-size:.7rem;font-weight:400;letter-spacing:.06em;margin-top:1px}
+    .hcrisis{background:var(--md-error-container);color:var(--md-on-error-container);font-size:11.5px;font-weight:500;padding:6px 14px;border-radius:var(--r-full);white-space:nowrap;border:1px solid rgba(186,26,26,.18);text-decoration:none}
 
-  /* Legacy aliases for content reuse */
-  --teal:var(--md-primary);
-  --forest:#00413B;
-  --amber:var(--md-tertiary);
-  --ink:var(--md-on-background);
-  --slate:var(--md-on-surface-variant);
-  --mist:#6F7978;
-  --mint:var(--md-primary-container);
-  --cream:var(--md-tertiary-container);
-  --pale:var(--md-background);
-  --wh:#fff;
-  --br:var(--md-outline-variant);
-  --br2:rgba(0,106,96,.25);
-}
+    /* ══ NAV ══ */
+    .nav-wrap{position:relative;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant)}
+    nav{overflow-x:auto;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    .ni{max-width:1120px;margin:0 auto;padding:0 .5rem;display:flex;gap:2px}
+    .tab{background:none;border:none;font-family:'Roboto',sans-serif;font-size:12px;font-weight:500;color:var(--md-on-surface-variant);padding:12px 16px;cursor:pointer;transition:color .2s,background .2s;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;border-radius:var(--r-full);position:relative}
+    .tab:hover{background:rgba(0,106,96,.06);color:var(--md-primary)}
+    .tab.on{color:var(--md-primary);font-weight:700}
+    .tab.on::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:3px;background:var(--md-primary);border-radius:3px 3px 0 0}
+    .nav-fade-r{position:absolute;right:0;top:0;bottom:0;width:48px;background:linear-gradient(to left,var(--md-surface-lowest) 40%,transparent);pointer-events:none;z-index:10;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+    .nav-arrow{display:flex;align-items:center;gap:2px;animation:nudge 1.6s ease-in-out infinite}
+    .nav-arrow span{width:4px;height:4px;border-radius:50%;background:var(--md-primary);opacity:.5}
+    .nav-arrow span:nth-child(1){animation:dot 1.6s ease-in-out infinite 0s}
+    .nav-arrow span:nth-child(2){animation:dot 1.6s ease-in-out infinite .18s}
+    .nav-arrow span:nth-child(3){animation:dot 1.6s ease-in-out infinite .36s}
+    @keyframes dot{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.7;transform:scale(1.2)}}
+    @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+    .nav-fade-r.hidden{display:none}
 
-/* ══ BASE ══ */
-html{scroll-behavior:smooth}
-body{
-  font-family:'Roboto',sans-serif;
-  background:var(--md-background);
-  color:var(--md-on-background);
-  font-size:14px;
-  line-height:1.6;
-  min-height:100vh;
-}
+    /* ══ MAIN ══ */
+    main{max-width:1120px;margin:0 auto;padding:1.5rem 1rem 5rem}
+    .sec{display:none;animation:fadeUp .28s ease}.sec.on{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ══ TOP APP BAR (M3) ══ */
-header{
-  position:sticky;top:0;z-index:200;
-  background:var(--md-surface-lowest);
-  border-bottom:1px solid var(--md-outline-variant);
-  box-shadow:var(--elev1);
-}
-.hi{
-  max-width:1120px;margin:0 auto;
-  padding:0 1rem;height:64px;
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-}
-.hb{display:flex;align-items:center;gap:10px}
-.app-icon{
-  width:40px;height:40px;border-radius:var(--r-md);
-  background:var(--md-primary-container);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;flex-shrink:0;
-}
-.hlogo{
-  font-family:'Roboto Flex',sans-serif;
-  font-size:1.35rem;font-weight:600;
-  color:var(--md-on-background);letter-spacing:-.01em;
-}
-.hlogo span{color:var(--md-primary)}
-.hsub{color:var(--md-on-surface-variant);font-size:.7rem;font-weight:400;letter-spacing:.06em;margin-top:1px}
-.hcrisis{
-  background:var(--md-error-container);
-  color:var(--md-on-error-container);
-  font-size:11.5px;font-weight:500;
-  padding:6px 14px;border-radius:var(--r-full);
-  white-space:nowrap;
-  border:1px solid rgba(186,26,26,.18);
-}
+    /* ══ TYPOGRAPHY ══ */
+    h1{font-family:'Roboto Flex',sans-serif;font-size:2.6rem;font-weight:600;line-height:1.1;letter-spacing:-.02em;color:var(--md-on-background)}
+    h2{font-family:'Roboto Flex',sans-serif;font-size:1.65rem;font-weight:500;color:var(--md-on-background);line-height:1.25;margin-bottom:.5rem;letter-spacing:-.01em}
+    h3{font-size:.95rem;font-weight:600;color:var(--md-on-background);margin-bottom:.35rem}
+    h4{font-size:.65rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:.13em;margin-bottom:.5rem}
+    p{color:var(--md-on-surface-variant);margin-bottom:.85rem;font-weight:400}
+    p:last-child{margin-bottom:0}
+    .lead{font-size:1rem;color:var(--md-on-background);font-weight:400;line-height:1.75}
+    strong{color:var(--md-on-background);font-weight:600}
+    .mb{margin-bottom:1.25rem}.sh{margin-bottom:1.5rem}
 
-/* ══ NAVIGATION BAR (M3 scrollable tabs) ══ */
-.nav-wrap{position:relative;background:var(--md-surface-lowest);border-bottom:1px solid var(--md-outline-variant)}
-nav{overflow-x:auto;scrollbar-width:none}
-nav::-webkit-scrollbar{display:none}
-.ni{
-  max-width:1120px;margin:0 auto;
-  padding:0 .5rem;display:flex;gap:2px;
-}
-.tab{
-  background:none;border:none;
-  font-family:'Roboto',sans-serif;
-  font-size:12px;font-weight:500;
-  color:var(--md-on-surface-variant);
-  padding:12px 16px;cursor:pointer;
-  transition:color .2s,background .2s;
-  white-space:nowrap;letter-spacing:.04em;
-  text-transform:uppercase;border-radius:var(--r-full);
-  position:relative;
-}
-.tab:hover{background:rgba(0,106,96,.06);color:var(--md-primary)}
-.tab.on{color:var(--md-primary);font-weight:700}
-.tab.on::after{
-  content:'';position:absolute;bottom:-1px;left:50%;
-  transform:translateX(-50%);
-  width:60%;height:3px;
-  background:var(--md-primary);border-radius:3px 3px 0 0;
-}
+    /* ══ CARDS ══ */
+    .card{background:var(--md-surface-lowest);border-radius:var(--r-xl);border:1px solid var(--md-outline-variant);padding:1.75rem;box-shadow:var(--elev1)}
+    .card-tonal{background:var(--md-surface-container);border-radius:var(--r-xl);padding:1.75rem;border:none}
+    .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1rem}
 
-/* ══ NAV FADE HINT ══ */
-.nav-fade-r{position:absolute;right:0;top:0;bottom:0;width:48px;background:linear-gradient(to left,var(--md-surface-lowest) 40%,transparent);pointer-events:none;z-index:10;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
-.nav-arrow{display:flex;align-items:center;gap:2px;animation:nudge 1.6s ease-in-out infinite}
-.nav-arrow span{width:4px;height:4px;border-radius:50%;background:var(--md-primary);opacity:.5}
-.nav-arrow span:nth-child(1){animation:dot 1.6s ease-in-out infinite 0s}
-.nav-arrow span:nth-child(2){animation:dot 1.6s ease-in-out infinite .18s}
-.nav-arrow span:nth-child(3){animation:dot 1.6s ease-in-out infinite .36s}
-@keyframes dot{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.7;transform:scale(1.2)}}
-@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
-.nav-fade-r.hidden{display:none}
+    /* ══ HERO ══ */
+    .hero{background:var(--md-on-background);border-radius:var(--r-xl);padding:3rem 2.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-100px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.15) 0%,transparent 65%);pointer-events:none}
+    .hbadge{display:inline-flex;align-items:center;gap:6px;background:rgba(158,242,228,.18);border:1px solid rgba(158,242,228,.35);color:var(--md-primary-container);font-size:.65rem;font-weight:600;padding:5px 14px;border-radius:var(--r-full);margin-bottom:1.25rem;letter-spacing:.1em;text-transform:uppercase}
+    .hero h1{color:#fff;font-size:2.5rem;margin-bottom:.85rem;max-width:560px}
+    .hero h1 em{font-style:normal;color:var(--md-primary-container)}
+    .hero p{color:rgba(255,255,255,.55);font-size:.93rem;max-width:500px;margin-bottom:0}
+    .hbtns{display:flex;gap:.75rem;margin-top:1.75rem;flex-wrap:wrap}
 
-/* ══ MAIN & SECTIONS ══ */
-main{max-width:1120px;margin:0 auto;padding:1.5rem 1rem 5rem}
-.sec{display:none;animation:fadeUp .28s ease}.sec.on{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    /* ══ BUTTONS ══ */
+    .btn{font-family:'Roboto',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:var(--r-full);cursor:pointer;transition:all .18s;border:none;letter-spacing:.02em}
+    .bg{background:var(--md-primary);color:var(--md-on-primary)}
+    .bg:hover{filter:brightness(1.1);box-shadow:var(--elev2)}
+    .bo{background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.2)}
+    .bo:hover{background:rgba(255,255,255,.14)}
+    .btn-tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container);border:none}
+    .btn-tonal:hover{filter:brightness(.97);box-shadow:var(--elev1)}
 
-/* ══ TYPOGRAPHY (M3 Scale) ══ */
-h1{font-family:'Roboto Flex',sans-serif;font-size:2.6rem;font-weight:600;line-height:1.1;letter-spacing:-.02em;color:var(--md-on-background)}
-h2{font-family:'Roboto Flex',sans-serif;font-size:1.65rem;font-weight:500;color:var(--md-on-background);line-height:1.25;margin-bottom:.5rem;letter-spacing:-.01em}
-h3{font-size:.95rem;font-weight:600;color:var(--md-on-background);margin-bottom:.35rem}
-h4{font-size:.65rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:.13em;margin-bottom:.5rem}
-p{color:var(--md-on-surface-variant);margin-bottom:.85rem;font-weight:400}
-p:last-child{margin-bottom:0}
-.lead{font-size:1rem;color:var(--md-on-background);font-weight:400;line-height:1.75}
-strong{color:var(--md-on-background);font-weight:600}
-.mb{margin-bottom:1.25rem}.sh{margin-bottom:1.5rem}
+    /* ══ STATS ══ */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.875rem;margin-bottom:1.25rem}
+    .stat{background:var(--md-surface-lowest);border-radius:var(--r-lg);border:1px solid var(--md-outline-variant);padding:1rem;text-align:center;box-shadow:var(--elev1)}
+    .stn{font-family:'Roboto Flex',sans-serif;font-size:2rem;color:var(--md-tertiary);font-weight:600}
+    .stl{font-size:.67rem;color:var(--md-on-surface-variant);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
 
-/* ══ M3 CARDS ══ */
-.card{
-  background:var(--md-surface-lowest);
-  border-radius:var(--r-xl);
-  border:1px solid var(--md-outline-variant);
-  padding:1.75rem;
-  box-shadow:var(--elev1);
-}
-.card-tonal{
-  background:var(--md-surface-container);
-  border-radius:var(--r-xl);
-  padding:1.75rem;
-  border:none;
-}
-.card-filled{
-  background:var(--md-primary-container);
-  border-radius:var(--r-xl);
-  padding:1.75rem;
-  border:none;
-}
-.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1rem}
+    /* ══ CALLOUT ══ */
+    .cot{background:var(--md-secondary-container);border-radius:var(--r-md);padding:1rem 1.35rem;margin:1rem 0}
+    .cot.am{background:var(--md-tertiary-container)}
+    .cot-t{font-weight:600;color:var(--md-on-secondary-container);font-size:.87rem;margin-bottom:.28rem}
+    .cot.am .cot-t{color:var(--md-on-tertiary-container)}
+    .cot p{font-size:.83rem;margin:0;color:var(--md-on-secondary-container);font-weight:400}
+    .cot.am p{color:var(--md-on-tertiary-container)}
 
-/* ══ HERO (M3 Large Card) ══ */
-.hero{
-  background:var(--md-on-background);
-  border-radius:var(--r-xl);
-  padding:3rem 2.5rem;
-  margin-bottom:1.25rem;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;top:-100px;right:-80px;
-  width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(158,242,228,.15) 0%,transparent 65%);
-  pointer-events:none;
-}
-.hbadge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(158,242,228,.18);
-  border:1px solid rgba(158,242,228,.35);
-  color:var(--md-primary-container);
-  font-size:.65rem;font-weight:600;
-  padding:5px 14px;border-radius:var(--r-full);
-  margin-bottom:1.25rem;letter-spacing:.1em;text-transform:uppercase;
-}
-.hero h1{color:#fff;font-size:2.5rem;margin-bottom:.85rem;max-width:560px}
-.hero h1 em{font-style:normal;color:var(--md-primary-container)}
-.hero p{color:rgba(255,255,255,.55);font-size:.93rem;max-width:500px;margin-bottom:0}
-.hbtns{display:flex;gap:.75rem;margin-top:1.75rem;flex-wrap:wrap}
+    /* ══ BGRID ══ */
+    .bgrid{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--md-outline-variant)}
+    .bp{padding:1.5rem}.bp.h{background:rgba(158,242,228,.15)}.bp.d{background:rgba(255,219,190,.2)}
+    .btag{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.85rem;display:flex;align-items:center;gap:5px}
+    .btag.h{color:var(--md-primary)}.btag.d{color:var(--md-tertiary)}
+    .bdots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
+    .dot{border-radius:50%}.don{background:var(--md-primary)}.doff{background:rgba(0,106,96,.12)}.dal{background:var(--md-tertiary)}
+    .bdes{font-size:.78rem;color:var(--md-on-surface-variant);font-weight:400}
 
-/* ══ M3 BUTTONS ══ */
-.btn{font-family:'Roboto',sans-serif;font-size:13px;font-weight:500;padding:10px 24px;border-radius:var(--r-full);cursor:pointer;transition:all .18s;border:none;letter-spacing:.02em}
-.bg{background:var(--md-primary);color:var(--md-on-primary)}
-.bg:hover{filter:brightness(1.1);box-shadow:var(--elev2)}
-.bo{background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.2)}
-.bo:hover{background:rgba(255,255,255,.14)}
-.btn-tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container);border:none}
-.btn-tonal:hover{filter:brightness(.97);box-shadow:var(--elev1)}
-.btn-outlined{background:transparent;color:var(--md-primary);border:1.5px solid var(--md-outline)}
-.btn-outlined:hover{background:rgba(0,106,96,.06)}
+    /* ══ LIST ROWS ══ */
+    .mrow{display:flex;align-items:flex-start;gap:.875rem;padding:.85rem 0;border-bottom:1px solid var(--md-outline-variant)}.mrow:last-child{border-bottom:none}
+    .mic{width:36px;height:36px;background:var(--md-primary-container);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .mn{font-weight:500;font-size:.87rem;color:var(--md-on-background)}.md{font-size:.77rem;color:var(--md-on-surface-variant);margin-top:1px;font-weight:400}
+    .irow{display:grid;grid-template-columns:auto 1fr;gap:.4rem .85rem;align-items:start;padding:.58rem 0;border-bottom:1px solid var(--md-outline-variant)}.irow:last-child{border-bottom:none}
+    .ik{font-size:.67rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:.07em;padding-top:2px;white-space:nowrap}
+    .iv{font-size:.83rem;color:var(--md-on-surface-variant);font-weight:400}
 
-/* ══ STATS ══ */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.875rem;margin-bottom:1.25rem}
-.stat{background:var(--md-surface-lowest);border-radius:var(--r-lg);border:1px solid var(--md-outline-variant);padding:1rem;text-align:center;box-shadow:var(--elev1)}
-.stn{font-family:'Roboto Flex',sans-serif;font-size:2rem;color:var(--md-tertiary);font-weight:600}
-.stl{font-size:.67rem;color:var(--md-on-surface-variant);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+    /* ══ TUBE ══ */
+    .tube-wrap{position:relative;margin:1.25rem 0}
+    .tube-track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.875rem;scrollbar-width:thin;scrollbar-color:var(--md-outline-variant) transparent;-webkit-overflow-scrolling:touch}
+    .tube-track::-webkit-scrollbar{height:3px}.tube-track::-webkit-scrollbar-thumb{background:var(--md-outline-variant);border-radius:4px}
+    .slide{flex:0 0 320px;scroll-snap-align:start;background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;box-shadow:var(--elev1);transition:transform .2s,box-shadow .2s}
+    .slide:hover{transform:translateY(-2px);box-shadow:var(--elev3)}
+    .slide-num{font-family:'Roboto Flex',sans-serif;font-size:2.2rem;color:var(--md-outline-variant);font-weight:700;line-height:1;margin-bottom:.45rem}
+    .slide-title{font-weight:600;font-size:.9rem;color:var(--md-on-background);margin-bottom:.55rem}
+    .slide-body{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.65}
+    .slide.dark{background:var(--md-on-background);border-color:rgba(158,242,228,.15)}
+    .slide.dark .slide-num{color:rgba(158,242,228,.2)}.slide.dark .slide-title{color:#fff}.slide.dark .slide-body{color:rgba(255,255,255,.52)}
+    .slide.amber{background:var(--md-tertiary-container);border-color:rgba(122,82,48,.15)}
+    .slide.amber .slide-num{color:rgba(122,82,48,.18)}.slide.amber .slide-title{color:var(--md-on-tertiary-container)}.slide.amber .slide-body{color:rgba(46,20,0,.65)}
+    .tube-hint{text-align:center;font-size:.67rem;color:var(--md-on-surface-variant);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
 
-/* ══ CALLOUT (M3 Tonal) ══ */
-.cot{
-  background:var(--md-secondary-container);
-  border-radius:var(--r-md);
-  padding:1rem 1.35rem;margin:1rem 0;
-}
-.cot.am{background:var(--md-tertiary-container)}
-.cot-t{font-weight:600;color:var(--md-on-secondary-container);font-size:.87rem;margin-bottom:.28rem}
-.cot.am .cot-t{color:var(--md-on-tertiary-container)}
-.cot p{font-size:.83rem;margin:0;color:var(--md-on-secondary-container);font-weight:400}
-.cot.am p{color:var(--md-on-tertiary-container)}
+    /* ══ DISTORSIONES ══ */
+    .dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1rem}
+    .dc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;box-shadow:var(--elev1)}
+    .dc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-xl) var(--r-xl) 0 0}
+    .dc.tc::before{background:var(--md-primary)}.dc.am::before{background:var(--md-tertiary)}.dc.ro::before{background:var(--md-error)}.dc.bl::before{background:#1565C0}
+    .dc:hover{box-shadow:var(--elev3);transform:translateY(-2px)}.dc.act{border-color:var(--md-primary);box-shadow:var(--elev2)}
+    .di{font-size:1.6rem;margin-bottom:.52rem}.dn{font-weight:600;font-size:.9rem;color:var(--md-on-background);margin-bottom:.28rem}.dtg{font-size:.68rem;color:var(--md-on-surface-variant);margin-bottom:.62rem;font-weight:400}
+    .dd{display:none;border-top:1px solid var(--md-outline-variant);margin-top:.85rem;padding-top:.85rem}.dc.act .dd{display:block}
+    .dd p{font-size:.8rem;margin-bottom:.52rem;font-weight:400}
+    .dex{background:var(--md-primary-container);border-radius:var(--r-md);padding:.78rem .95rem;font-size:.77rem;color:var(--md-on-primary-container);font-style:italic;margin-bottom:.55rem;line-height:1.6}
+    .dct{background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.78rem .95rem;font-size:.77rem;color:var(--md-on-tertiary-container)}
+    .dct strong{display:block;font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.28rem;color:var(--md-tertiary)}
 
-/* ══ BGRID ══ */
-.bgrid{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--md-outline-variant)}
-.bp{padding:1.5rem}.bp.h{background:rgba(158,242,228,.15)}.bp.d{background:rgba(255,219,190,.2)}
-.btag{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.85rem;display:flex;align-items:center;gap:5px}
-.btag.h{color:var(--md-primary)}.btag.d{color:var(--md-tertiary)}
-.bdots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
-.dot{border-radius:50%}.don{background:var(--md-primary)}.doff{background:rgba(0,106,96,.12)}.dal{background:var(--md-tertiary)}
-.bdes{font-size:.78rem;color:var(--md-on-surface-variant);font-weight:400}
+    /* ══ SOC ══ */
+    .soc{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem 1.75rem;margin-top:1.5rem}
+    .sq{display:flex;align-items:flex-start;gap:.62rem;padding:.58rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.sq:last-child{border-bottom:none}
+    .sqn{width:22px;height:22px;background:rgba(158,242,228,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:700;color:var(--md-primary-container);flex-shrink:0;margin-top:1px}
+    .sq p{font-size:.8rem;color:rgba(255,255,255,.55);margin:0;font-weight:400}
 
-/* ══ LIST ROWS ══ */
-.mrow{display:flex;align-items:flex-start;gap:.875rem;padding:.85rem 0;border-bottom:1px solid var(--md-outline-variant)}.mrow:last-child{border-bottom:none}
-.mic{width:36px;height:36px;background:var(--md-primary-container);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.mn{font-weight:500;font-size:.87rem;color:var(--md-on-background)}.md{font-size:.77rem;color:var(--md-on-surface-variant);margin-top:1px;font-weight:400}
-.irow{display:grid;grid-template-columns:auto 1fr;gap:.4rem .85rem;align-items:start;padding:.58rem 0;border-bottom:1px solid var(--md-outline-variant)}.irow:last-child{border-bottom:none}
-.ik{font-size:.67rem;font-weight:600;color:var(--md-primary);text-transform:uppercase;letter-spacing:.07em;padding-top:2px;white-space:nowrap}
-.iv{font-size:.83rem;color:var(--md-on-surface-variant);font-weight:400}
+    /* ══ SLEEP ══ */
+    .sleep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.875rem;margin-bottom:1.25rem}
+    .sleep-card{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--elev1)}
+    .sleep-num{width:28px;height:28px;background:var(--md-primary-container);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--md-on-primary-container);flex-shrink:0;margin-bottom:.55rem}
 
-/* ══ HORIZONTAL SCROLL (TUBE) ══ */
-.tube-wrap{position:relative;margin:1.25rem 0}
-.tube-track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.875rem;scrollbar-width:thin;scrollbar-color:var(--md-outline-variant) transparent;-webkit-overflow-scrolling:touch}
-.tube-track::-webkit-scrollbar{height:3px}.tube-track::-webkit-scrollbar-thumb{background:var(--md-outline-variant);border-radius:4px}
-.slide{flex:0 0 320px;scroll-snap-align:start;background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;box-shadow:var(--elev1);transition:transform .2s,box-shadow .2s}
-.slide:hover{transform:translateY(-2px);box-shadow:var(--elev3)}
-.slide-num{font-family:'Roboto Flex',sans-serif;font-size:2.2rem;color:var(--md-outline-variant);font-weight:700;line-height:1;margin-bottom:.45rem}
-.slide-title{font-weight:600;font-size:.9rem;color:var(--md-on-background);margin-bottom:.55rem}
-.slide-body{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.65}
-.slide.dark{background:var(--md-on-background);border-color:rgba(158,242,228,.15)}
-.slide.dark .slide-num{color:rgba(158,242,228,.2)}.slide.dark .slide-title{color:#fff}.slide.dark .slide-body{color:rgba(255,255,255,.52)}
-.slide.amber{background:var(--md-tertiary-container);border-color:rgba(122,82,48,.15)}
-.slide.amber .slide-num{color:rgba(122,82,48,.18)}.slide.amber .slide-title{color:var(--md-on-tertiary-container)}.slide.amber .slide-body{color:rgba(46,20,0,.65)}
-.tube-hint{text-align:center;font-size:.67rem;color:var(--md-on-surface-variant);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem}
+    /* ══ AI PROMPTS ══ */
+    .pt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-bottom:1.25rem}
+    .pt{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;box-shadow:var(--elev1)}
+    .pt-tag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:var(--r-full);margin-bottom:.82rem}
+    .pt-teal{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .pt-amber{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
+    .pt-slate{background:var(--md-surface-high);color:var(--md-on-surface-variant)}
+    .pt h3{font-size:.88rem;margin-bottom:.42rem}.pt-desc{font-size:.78rem;color:var(--md-on-surface-variant);margin-bottom:.85rem;font-weight:400}
+    .prompt-box{background:var(--md-on-background);border-radius:var(--r-md);padding:.95rem 1.1rem;font-size:.72rem;font-family:'Roboto Mono',monospace;color:rgba(255,255,255,.65);line-height:1.78;position:relative;word-break:break-word}
+    .prompt-box .hl{color:var(--md-primary-container);font-weight:600}.prompt-box .hlA{color:var(--md-tertiary-container)}
+    .copy-btn{position:absolute;top:.5rem;right:.5rem;background:rgba(158,242,228,.12);border:1px solid rgba(158,242,228,.2);color:rgba(255,255,255,.52);font-size:.58rem;padding:4px 9px;border-radius:var(--r-full);cursor:pointer;font-family:'Roboto',sans-serif;transition:all .15s;white-space:nowrap;font-weight:500}
+    .copy-btn:hover{background:rgba(158,242,228,.2);color:rgba(255,255,255,.82)}.copy-btn.done{color:var(--md-primary-container)}
+    .rule-box{background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.82rem 1.05rem;margin-top:.65rem}
+    .rule-box p{font-size:.76rem;color:var(--md-on-tertiary-container);margin:0;font-weight:400}
+    .warn-box{background:var(--md-error-container);border-radius:var(--r-md);padding:.82rem 1.05rem;margin-top:.65rem}
+    .warn-box p{font-size:.76rem;color:var(--md-on-error-container);margin:0;font-weight:400}
 
-/* ══ DISTORSIONES ══ */
-.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1rem}
-.dc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;box-shadow:var(--elev1)}
-.dc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-xl) var(--r-xl) 0 0}
-.dc.tc::before{background:var(--md-primary)}.dc.am::before{background:var(--md-tertiary)}.dc.ro::before{background:var(--md-error)}.dc.bl::before{background:#1565C0}
-.dc:hover{box-shadow:var(--elev3);transform:translateY(-2px)}.dc.act{border-color:var(--md-primary);box-shadow:var(--elev2)}
-.di{font-size:1.6rem;margin-bottom:.52rem}.dn{font-weight:600;font-size:.9rem;color:var(--md-on-background);margin-bottom:.28rem}.dtg{font-size:.68rem;color:var(--md-on-surface-variant);margin-bottom:.62rem;font-weight:400}
-.dd{display:none;border-top:1px solid var(--md-outline-variant);margin-top:.85rem;padding-top:.85rem}.dc.act .dd{display:block}
-.dd p{font-size:.8rem;margin-bottom:.52rem;font-weight:400}
-.dex{background:var(--md-primary-container);border-radius:var(--r-md);padding:.78rem .95rem;font-size:.77rem;color:var(--md-on-primary-container);font-style:italic;margin-bottom:.55rem;line-height:1.6}
-.dct{background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.78rem .95rem;font-size:.77rem;color:var(--md-on-tertiary-container)}
-.dct strong{display:block;font-size:.63rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:.28rem;color:var(--md-tertiary)}
-.soc{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem 1.75rem;margin-top:1.5rem}
-.sq{display:flex;align-items:flex-start;gap:.62rem;padding:.58rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.sq:last-child{border-bottom:none}
-.sqn{width:22px;height:22px;background:rgba(158,242,228,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.67rem;font-weight:700;color:var(--md-primary-container);flex-shrink:0;margin-top:1px}
-.sq p{font-size:.8rem;color:rgba(255,255,255,.55);margin:0;font-weight:400}
+    /* ══ GUIDE ══ */
+    .guide-intro{background:var(--md-on-background);border-radius:var(--r-xl);padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+    .guide-intro::before{content:'';position:absolute;top:-80px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.1) 0%,transparent 65%);pointer-events:none}
+    .guide-intro h2{color:#fff;margin-bottom:.6rem;position:relative}
+    .guide-intro p{color:rgba(255,255,255,.45);font-size:.9rem;max-width:540px;position:relative;font-weight:400}
+    .guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1rem}
+    .gc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;transition:box-shadow .2s,transform .2s;box-shadow:var(--elev1)}
+    .gc:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
+    .gc-num{font-family:'Roboto Flex',sans-serif;font-size:2.6rem;color:var(--md-outline-variant);font-weight:700;line-height:1;margin-bottom:.32rem}
+    .gc-title{font-weight:600;font-size:.88rem;color:var(--md-on-background);margin-bottom:.55rem}
+    .gc-body{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.7}
+    .gc.dark{background:var(--md-on-background);border-color:rgba(158,242,228,.12)}
+    .gc.dark .gc-num{color:rgba(158,242,228,.18)}.gc.dark .gc-title{color:#fff}.gc.dark .gc-body{color:rgba(255,255,255,.52)}.gc.dark strong{color:var(--md-primary-container)}
+    .gc.amber{background:var(--md-tertiary-container);border-color:rgba(122,82,48,.12)}
+    .gc.amber .gc-num{color:rgba(122,82,48,.15)}.gc.amber .gc-title{color:var(--md-on-tertiary-container)}.gc.amber .gc-body{color:rgba(46,20,0,.65)}
 
-/* ══ SLEEP ══ */
-.sleep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.875rem;margin-bottom:1.25rem}
-.sleep-card{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-lg);padding:1.2rem;box-shadow:var(--elev1)}
-.sleep-num{width:28px;height:28px;background:var(--md-primary-container);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--md-on-primary-container);flex-shrink:0;margin-bottom:.55rem}
+    /* ══ THERAPISTS ══ */
+    .thg{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1rem}
+    .thc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;transition:box-shadow .2s,transform .2s;box-shadow:var(--elev1)}.thc:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
+    .thav{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Roboto Flex',sans-serif;font-size:1.15rem;margin-bottom:.78rem;font-weight:700}
+    .badge{display:inline-block;padding:4px 10px;border-radius:var(--r-full);font-size:.62rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+    .bt{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .ba{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
+    .bgr{background:var(--md-surface-high);color:var(--md-on-surface-variant)}
+    .thb{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--md-primary);font-weight:500;padding:8px 16px;border:1.5px solid var(--md-primary);border-radius:var(--r-full);background:none;cursor:pointer;font-family:'Roboto',sans-serif;transition:all .18s;letter-spacing:.02em;text-decoration:none}
+    .thb:hover{background:var(--md-primary-container)}
 
-/* ══ AI PROMPTS ══ */
-.pt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-bottom:1.25rem}
-.pt{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;box-shadow:var(--elev1)}
-.pt-tag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:var(--r-full);margin-bottom:.82rem}
-.pt-teal{background:var(--md-primary-container);color:var(--md-on-primary-container)}
-.pt-amber{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
-.pt-slate{background:var(--md-surface-high);color:var(--md-on-surface-variant)}
-.pt h3{font-size:.88rem;margin-bottom:.42rem}.pt-desc{font-size:.78rem;color:var(--md-on-surface-variant);margin-bottom:.85rem;font-weight:400}
-.prompt-box{background:var(--md-on-background);border-radius:var(--r-md);padding:.95rem 1.1rem;font-size:.72rem;font-family:'Roboto Mono',monospace;color:rgba(255,255,255,.65);line-height:1.78;position:relative;word-break:break-word}
-.prompt-box .hl{color:var(--md-primary-container);font-weight:600}.prompt-box .hlA{color:var(--md-tertiary-container)}
-.copy-btn{position:absolute;top:.5rem;right:.5rem;background:rgba(158,242,228,.12);border:1px solid rgba(158,242,228,.2);color:rgba(255,255,255,.52);font-size:.58rem;padding:4px 9px;border-radius:var(--r-full);cursor:pointer;font-family:'Roboto',sans-serif;transition:all .15s;white-space:nowrap;font-weight:500}
-.copy-btn:hover{background:rgba(158,242,228,.2);color:rgba(255,255,255,.82)}.copy-btn.done{color:var(--md-primary-container)}
-.rule-box{background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.82rem 1.05rem;margin-top:.65rem}
-.rule-box p{font-size:.76rem;color:var(--md-on-tertiary-container);margin:0;font-weight:400}
-.warn-box{background:var(--md-error-container);border-radius:var(--r-md);padding:.82rem 1.05rem;margin-top:.65rem}
-.warn-box p{font-size:.76rem;color:var(--md-on-error-container);margin:0;font-weight:400}
+    /* ══ SECURITY ══ */
+    .sp-section{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--elev1)}
+    .sp-list{list-style:none;display:flex;flex-direction:column;gap:.38rem}
+    .sp-list li{display:flex;align-items:flex-start;gap:.52rem;font-size:.82rem;color:var(--md-on-surface-variant);font-weight:400}
+    .sp-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--md-primary);flex-shrink:0;margin-top:.45rem}
+    .sp-red{color:var(--md-error)!important}.sp-red::before{background:var(--md-error)!important}
+    .sp-contact{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1rem}
+    .sc-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.68rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.sc-row:last-child{border-bottom:none}
+    .sc-label{font-size:.7rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.09em}
+    .sc-val{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.04em}.sc-val.teal{color:var(--md-primary-container)}
 
-/* ══ GUIDE ══ */
-.guide-intro{background:var(--md-on-background);border-radius:var(--r-xl);padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
-.guide-intro::before{content:'';position:absolute;top:-80px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.1) 0%,transparent 65%);pointer-events:none}
-.guide-intro h2{color:#fff;margin-bottom:.6rem;position:relative}
-.guide-intro p{color:rgba(255,255,255,.45);font-size:.9rem;max-width:540px;position:relative;font-weight:400}
-.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1rem}
-.gc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;transition:box-shadow .2s,transform .2s;box-shadow:var(--elev1)}
-.gc:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
-.gc-num{font-family:'Roboto Flex',sans-serif;font-size:2.6rem;color:var(--md-outline-variant);font-weight:700;line-height:1;margin-bottom:.32rem}
-.gc-title{font-weight:600;font-size:.88rem;color:var(--md-on-background);margin-bottom:.55rem}
-.gc-body{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.7}
-.gc.dark{background:var(--md-on-background);border-color:rgba(158,242,228,.12)}
-.gc.dark .gc-num{color:rgba(158,242,228,.18)}.gc.dark .gc-title{color:#fff}.gc.dark .gc-body{color:rgba(255,255,255,.52)}.gc.dark strong{color:var(--md-primary-container)}
-.gc.amber{background:var(--md-tertiary-container);border-color:rgba(122,82,48,.12)}
-.gc.amber .gc-num{color:rgba(122,82,48,.15)}.gc.amber .gc-title{color:var(--md-on-tertiary-container)}.gc.amber .gc-body{color:rgba(46,20,0,.65)}
+    .div{height:1px;background:var(--md-outline-variant);margin:1.75rem 0}
 
-/* ══ THERAPISTS ══ */
-.thg{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1rem}
-.thc{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;transition:box-shadow .2s,transform .2s;box-shadow:var(--elev1)}.thc:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
-.thav{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Roboto Flex',sans-serif;font-size:1.15rem;margin-bottom:.78rem;font-weight:700}
-.badge{display:inline-block;padding:4px 10px;border-radius:var(--r-full);font-size:.62rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.bt{background:var(--md-primary-container);color:var(--md-on-primary-container)}
-.ba{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
-.bgr{background:var(--md-surface-high);color:var(--md-on-surface-variant)}
-.thb{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--md-primary);font-weight:500;padding:8px 16px;border:1.5px solid var(--md-primary);border-radius:var(--r-full);background:none;cursor:pointer;font-family:'Roboto',sans-serif;transition:all .18s;letter-spacing:.02em;text-decoration:none}
-.thb:hover{background:var(--md-primary-container)}
+    /* ══ QUIZ ══ */
+    .quiz-wrap{margin-top:.5rem}
+    .quiz-card{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:.75rem;cursor:pointer;transition:all .25s;box-shadow:var(--elev1)}
+    .quiz-card:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
+    .quiz-thought{font-size:.9rem;color:var(--md-on-background);font-style:italic;line-height:1.6}
+    .quiz-thought::before{content:'\201C';font-family:'Roboto Flex',sans-serif;font-size:2.2rem;color:var(--md-outline-variant);line-height:1;display:block;margin-bottom:.2rem}
+    .quiz-reveal{display:none;border-top:1px solid var(--md-outline-variant);margin-top:.85rem;padding-top:.85rem;animation:fadeUp .3s ease}
+    .quiz-card.open .quiz-reveal{display:block}
+    .quiz-label{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:5px 14px;border-radius:var(--r-full);margin-bottom:.55rem}
+    .ql-teal{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .ql-amber{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
+    .ql-red{background:var(--md-error-container);color:var(--md-on-error-container)}
+    .ql-blue{background:#DBEAFE;color:#1E3A5F}
+    .quiz-explain{font-size:.78rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6;margin-bottom:.55rem}
+    .quiz-alt{background:var(--md-secondary-container);border-radius:var(--r-md);padding:.68rem .85rem;font-size:.77rem;color:var(--md-on-secondary-container);line-height:1.6}
+    .quiz-alt strong{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--md-primary);margin-bottom:.25rem}
 
-/* ══ SECURITY ══ */
-.sp-section{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--elev1)}
-.sp-list{list-style:none;display:flex;flex-direction:column;gap:.38rem}
-.sp-list li{display:flex;align-items:flex-start;gap:.52rem;font-size:.82rem;color:var(--md-on-surface-variant);font-weight:400}
-.sp-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--md-primary);flex-shrink:0;margin-top:.45rem}
-.sp-red{color:var(--md-error)!important}.sp-red::before{background:var(--md-error)!important}
-.sp-contact{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1rem}
-.sc-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.68rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.sc-row:last-child{border-bottom:none}
-.sc-label{font-size:.7rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.09em}
-.sc-val{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.04em}.sc-val.teal{color:var(--md-primary-container)}
+    /* ══ WOEBOT ══ */
+    .woebot-card{background:var(--md-secondary-container);border-radius:var(--r-xl);padding:1.5rem;margin-top:1.25rem}
+    .woebot-links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+    .woebot-links a{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--md-primary);font-weight:500;padding:8px 16px;border:1.5px solid var(--md-primary);border-radius:var(--r-full);text-decoration:none;transition:all .18s}
+    .woebot-links a:hover{background:var(--md-primary-container)}
 
-.div{height:1px;background:var(--md-outline-variant);margin:1.75rem 0}
+    /* ══ SAFETY ALERT ══ */
+    .safety-alert{background:var(--md-tertiary-container);border-radius:var(--r-xl);padding:1.5rem;margin:1.25rem 0}
+    .safety-alert h4{color:var(--md-tertiary);margin-bottom:.55rem}
+    .sa-list{list-style:none;display:flex;flex-direction:column;gap:.42rem}
+    .sa-list li{display:flex;align-items:flex-start;gap:.52rem;font-size:.82rem;color:var(--md-on-tertiary-container);font-weight:400}
+    .sa-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--md-tertiary);flex-shrink:0;margin-top:.45rem}
+    .sa-list li strong{color:var(--md-on-tertiary-container)}
 
-/* ══ QUIZ CARDS ══ */
-.quiz-wrap{margin-top:.5rem}
-.quiz-card{background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:.75rem;cursor:pointer;transition:all .25s;box-shadow:var(--elev1)}
-.quiz-card:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
-.quiz-thought{font-size:.9rem;color:var(--md-on-background);font-style:italic;line-height:1.6}
-.quiz-thought::before{content:'\201C';font-family:'Roboto Flex',sans-serif;font-size:2.2rem;color:var(--md-outline-variant);line-height:1;display:block;margin-bottom:.2rem}
-.quiz-reveal{display:none;border-top:1px solid var(--md-outline-variant);margin-top:.85rem;padding-top:.85rem;animation:fadeUp .3s ease}
-.quiz-card.open .quiz-reveal{display:block}
-.quiz-label{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:5px 14px;border-radius:var(--r-full);margin-bottom:.55rem}
-.ql-teal{background:var(--md-primary-container);color:var(--md-on-primary-container)}
-.ql-amber{background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)}
-.ql-red{background:var(--md-error-container);color:var(--md-on-error-container)}
-.ql-blue{background:#DBEAFE;color:#1E3A5F}
-.quiz-explain{font-size:.78rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6;margin-bottom:.55rem}
-.quiz-alt{background:var(--md-secondary-container);border-radius:var(--r-md);padding:.68rem .85rem;font-size:.77rem;color:var(--md-on-secondary-container);line-height:1.6}
-.quiz-alt strong{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--md-primary);margin-bottom:.25rem}
+    /* ══ BRAIN ══ */
+    .brain-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start}
+    @media(max-width:560px){.brain-wrap{grid-template-columns:1fr}}
+    .brain-svg-area{display:flex;justify-content:center}
+    .brain-svg{width:100%;max-width:280px}
+    .bzone{transition:opacity .18s,filter .18s;cursor:pointer}
+    .bzone:hover{opacity:.85;filter:brightness(1.08)}
+    .bzone:focus{outline:2px solid var(--md-primary);outline-offset:2px}
+    .brain-info{min-height:160px;display:flex;align-items:center;justify-content:center}
+    .brain-welcome{text-align:center;padding:.5rem}
+    .brain-detail{animation:fadeUp .25s ease}
+    .bd-emoji{font-size:2rem;margin-bottom:.35rem}
+    .bd-name{font-size:1rem;font-weight:600;margin-bottom:.1rem}
+    .bd-aka{font-size:.72rem;color:var(--md-on-surface-variant);font-weight:400;margin-bottom:.65rem;font-style:italic}
+    .bd-simple{font-size:.82rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.65;margin-bottom:.55rem}
+    .bd-science{font-size:.76rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6;margin-bottom:.55rem;padding:.55rem .7rem;background:var(--md-secondary-container);border-radius:var(--r-md);border-left:3px solid var(--md-primary)}
+    .bd-tag{display:inline-block;font-size:.65rem;font-weight:600;padding:5px 12px;border-radius:var(--r-full)}
 
-/* ══ WOEBOT ══ */
-.woebot-card{background:var(--md-secondary-container);border-radius:var(--r-xl);padding:1.5rem;margin-top:1.25rem}
-.woebot-links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
-.woebot-links a{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--md-primary);font-weight:500;padding:8px 16px;border:1.5px solid var(--md-primary);border-radius:var(--r-full);text-decoration:none;transition:all .18s}
-.woebot-links a:hover{background:var(--md-primary-container)}
+    /* ══ NEUROTRANSMITTERS ══ */
+    .nt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.65rem}
+    .nt-card{border-radius:var(--r-lg);background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);cursor:pointer;transition:all .22s;overflow:hidden;box-shadow:var(--elev1)}
+    .nt-card:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
+    .nt-front{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:1rem .75rem;text-align:center}
+    .nt-emoji{font-size:1.8rem}
+    .nt-name{font-size:.78rem;font-weight:600;color:var(--md-on-background)}
+    .nt-tap{font-size:.58rem;color:var(--md-on-surface-variant);text-transform:uppercase;letter-spacing:.1em}
+    .nt-back{display:none;padding:.85rem;font-size:.76rem;color:var(--md-on-secondary-container);font-weight:400;line-height:1.65;background:var(--md-secondary-container)}
+    .nt-card.open .nt-back{display:block}
+    .nt-card.open .nt-tap{display:none}
 
-/* ══ SAFETY ALERT ══ */
-.safety-alert{background:var(--md-tertiary-container);border-radius:var(--r-xl);padding:1.5rem;margin:1.25rem 0}
-.safety-alert h4{color:var(--md-tertiary);margin-bottom:.55rem}
-.sa-list{list-style:none;display:flex;flex-direction:column;gap:.42rem}
-.sa-list li{display:flex;align-items:flex-start;gap:.52rem;font-size:.82rem;color:var(--md-on-tertiary-container);font-weight:400}
-.sa-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--md-tertiary);flex-shrink:0;margin-top:.45rem}
-.sa-list li strong{color:var(--md-on-tertiary-container)}
+    /* ══ STRESS STEPS ══ */
+    .stress-steps{display:flex;flex-direction:column;gap:.2rem;margin-top:.75rem}
+    .ss-step{display:flex;gap:.75rem;align-items:flex-start;background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-lg);padding:.85rem 1rem;box-shadow:var(--elev1)}
+    .ss-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+    .ss-text{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6}
+    .ss-text strong{color:var(--md-on-background);font-weight:600}
+    .ss-arrow{text-align:center;color:var(--md-on-surface-variant);font-size:1rem;line-height:1;margin:.1rem 0}
 
-/* ══ BRAIN DIAGRAM ══ */
-.brain-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;align-items:start}
-@media(max-width:560px){.brain-wrap{grid-template-columns:1fr}}
-.brain-svg-area{display:flex;justify-content:center}
-.brain-svg{width:100%;max-width:280px}
-.bzone{transition:opacity .18s,filter .18s}
-.bzone:hover{opacity:.85;filter:brightness(1.08)}
-.brain-info{min-height:160px;display:flex;align-items:center;justify-content:center}
-.brain-welcome{text-align:center;padding:.5rem}
-.brain-detail{animation:fadeUp .25s ease}
-.bd-emoji{font-size:2rem;margin-bottom:.35rem}
-.bd-name{font-size:1rem;font-weight:600;margin-bottom:.1rem}
-.bd-aka{font-size:.72rem;color:var(--md-on-surface-variant);font-weight:400;margin-bottom:.65rem;font-style:italic}
-.bd-simple{font-size:.82rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.65;margin-bottom:.55rem}
-.bd-science{font-size:.76rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6;margin-bottom:.55rem;padding:.55rem .7rem;background:var(--md-secondary-container);border-radius:var(--r-md);border-left:3px solid var(--md-primary)}
-.bd-tag{display:inline-block;font-size:.65rem;font-weight:600;padding:5px 12px;border-radius:var(--r-full)}
+    /* ══ TOGGLES ══ */
+    .glass-toggle-group{display:flex;flex-direction:column;gap:13px;margin:1rem 0}
+    .glass-toggle{--tw:52px;--th:30px;--ts:22px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+    .toggle-input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+    .toggle-track{position:relative;width:var(--tw);height:var(--th);border-radius:var(--r-full);overflow:hidden;flex-shrink:0;transition:background .28s;background:var(--md-surface-variant);border:2px solid var(--md-outline)}
+    .toggle-thumb{position:absolute;z-index:4;top:50%;transform:translateY(-50%) translateX(2px);width:var(--ts);height:var(--ts);border-radius:50%;background:var(--md-outline);box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .28s cubic-bezier(.4,0,.2,1),background .28s}
+    .toggle-input:checked~.toggle-track{background:var(--md-primary);border-color:var(--md-primary)}
+    .toggle-input:checked~.toggle-track .toggle-thumb{transform:translateY(-50%) translateX(calc(var(--tw) - var(--ts) - 6px));background:#fff}
+    .toggle-label{font-size:.84rem;font-weight:400;color:var(--md-on-surface-variant)}
+    .toggle-input:checked~.toggle-track~.toggle-label{color:var(--md-on-background);font-weight:500}
 
-/* ══ NEUROTRANSMITTER CARDS ══ */
-.nt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.65rem}
-.nt-card{border-radius:var(--r-lg);background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);cursor:pointer;transition:all .22s;overflow:hidden;box-shadow:var(--elev1)}
-.nt-card:hover{box-shadow:var(--elev3);transform:translateY(-1px)}
-.nt-front{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:1rem .75rem;text-align:center}
-.nt-emoji{font-size:1.8rem}
-.nt-name{font-size:.78rem;font-weight:600;color:var(--md-on-background)}
-.nt-tap{font-size:.58rem;color:var(--md-on-surface-variant);text-transform:uppercase;letter-spacing:.1em}
-.nt-back{display:none;padding:.85rem;font-size:.76rem;color:var(--md-on-secondary-container);font-weight:400;line-height:1.65;background:var(--md-secondary-container)}
-.nt-card.open .nt-back{display:block}
-.nt-card.open .nt-tap{display:none}
+    /* ══ FAB SOS ══ */
+    .fab-sos{position:fixed;bottom:24px;right:24px;background:var(--md-error);color:#fff;width:56px;height:56px;border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 12px rgba(186,26,26,.4),0 8px 20px rgba(186,26,26,.2);cursor:pointer;z-index:999;text-decoration:none;transition:all .2s ease;border:none}
+    .fab-sos:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(186,26,26,.5),0 12px 24px rgba(186,26,26,.25)}
 
-/* ══ STRESS STEPS ══ */
-.stress-steps{display:flex;flex-direction:column;gap:.2rem;margin-top:.75rem}
-.ss-step{display:flex;gap:.75rem;align-items:flex-start;background:var(--md-surface-lowest);border:1px solid var(--md-outline-variant);border-radius:var(--r-lg);padding:.85rem 1rem;box-shadow:var(--elev1)}
-.ss-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
-.ss-text{font-size:.8rem;color:var(--md-on-surface-variant);font-weight:400;line-height:1.6}
-.ss-text strong{color:var(--md-on-background);font-weight:600}
-.ss-arrow{text-align:center;color:var(--md-on-surface-variant);font-size:1rem;line-height:1;margin:.1rem 0}
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:620px){
+      .hero{padding:2rem 1.5rem}.hero h1{font-size:2rem}
+      .bgrid{grid-template-columns:1fr}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .slide{flex:0 0 280px}
+      h2{font-size:1.35rem}
+      #install-banner{flex-wrap:wrap}
+      .ib-actions{width:100%;justify-content:flex-end}
+    }
 
-/* ══ M3 TOGGLE ══ */
-.glass-toggle-group{display:flex;flex-direction:column;gap:13px;margin:1rem 0}
-.glass-toggle{--tw:52px;--th:30px;--ts:22px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
-.toggle-input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
-.toggle-track{position:relative;width:var(--tw);height:var(--th);border-radius:var(--r-full);overflow:hidden;flex-shrink:0;transition:background .28s;background:var(--md-surface-variant);border:2px solid var(--md-outline)}
-.toggle-thumb{position:absolute;z-index:4;top:50%;transform:translateY(-50%) translateX(2px);width:var(--ts);height:var(--ts);border-radius:50%;background:var(--md-outline);box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .28s cubic-bezier(.4,0,.2,1),background .28s,width .15s}
-.toggle-input:checked~.toggle-track{background:var(--md-primary);border-color:var(--md-primary)}
-.toggle-input:checked~.toggle-track .toggle-thumb{transform:translateY(-50%) translateX(calc(var(--tw) - var(--ts) - 6px));background:#fff}
-.toggle-label{font-size:.84rem;font-weight:400;color:var(--md-on-surface-variant)}
-.toggle-input:checked~.toggle-track~.toggle-label{color:var(--md-on-background);font-weight:500}
-
-/* ══ FAB SOS ══ */
-.fab-sos{
-  position:fixed;bottom:24px;right:24px;
-  background:var(--md-error);
-  color:#fff;width:56px;height:56px;
-  border-radius:var(--r-lg);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;
-  box-shadow:0 4px 12px rgba(186,26,26,.4),0 8px 20px rgba(186,26,26,.2);
-  cursor:pointer;z-index:999;text-decoration:none;
-  transition:all .2s ease;
-}
-.fab-sos:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(186,26,26,.5),0 12px 24px rgba(186,26,26,.25)}
-
-/* ══ MISC ══ */
-@media(max-width:620px){
-  .hero{padding:2rem 1.5rem}.hero h1{font-size:2rem}
-  .bgrid{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .slide{flex:0 0 280px}
-  h2{font-size:1.35rem}
-}
-</style>
+    /* ══ ACCESIBILIDAD ══ */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+    }
+    :focus-visible{outline:2px solid var(--md-primary);outline-offset:2px;border-radius:4px}
+  </style>
 </head>
 <body>
+
+<!-- ══ INSTALL BANNER (Android/Desktop) ══ -->
+<div id="install-banner" role="dialog" aria-label="Instalar aplicación Eutimya">
+  <div class="ib-icon">🧠</div>
+  <div class="ib-text">
+    <div class="ib-title">Instalar Eutimya</div>
+    <div class="ib-sub">Accede sin internet · Sin tiendas de apps</div>
+  </div>
+  <div class="ib-actions">
+    <button class="ib-btn ib-btn-dismiss" id="ib-dismiss" aria-label="Cerrar">No ahora</button>
+    <button class="ib-btn ib-btn-install" id="ib-install">Instalar</button>
+  </div>
+</div>
+
+<!-- ══ iOS HINT ══ -->
+<div id="ios-hint" role="dialog" aria-label="Instrucciones de instalación para iPhone">
+  <div style="flex:1">
+    <div style="font-weight:600;font-size:.88rem;margin-bottom:.35rem">Agregar a pantalla de inicio</div>
+    <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.5">Toca el botón <strong style="color:#fff">Compartir</strong> (⬆️) en Safari y luego <strong style="color:#fff">"Agregar a inicio"</strong> para instalar Eutimya como app.</div>
+  </div>
+  <button class="ios-close" id="ios-close" aria-label="Cerrar">✕</button>
+</div>
 
 <header>
   <div class="hi">
     <div class="hb">
-      <div class="app-icon">🧠</div>
+      <div class="app-icon" aria-hidden="true">🧠</div>
       <div>
         <div class="hlogo">eutimya<span>.</span></div>
         <div class="hsub">Psicoeducación clínica</div>
       </div>
     </div>
-    <div class="hcrisis">🚨 Crisis: 800-911-2000</div>
+    <a href="tel:8009112000" class="hcrisis" aria-label="Línea de crisis: 800-911-2000">🚨 Crisis: 800-911-2000</a>
   </div>
 </header>
 
 <div class="nav-wrap">
-  <nav id="mainNav">
+  <nav id="mainNav" role="navigation" aria-label="Secciones de la app">
     <div class="ni">
       <button class="tab on" onclick="show('neuro',this)">Tu cerebro</button>
       <button class="tab" onclick="show('dist',this)">Distorsiones</button>
@@ -503,15 +425,15 @@ strong{color:var(--md-on-background);font-weight:600}
       <button class="tab" onclick="show('seguridad',this)">Plan de seguridad</button>
     </div>
   </nav>
-  <div class="nav-fade-r" id="navFade"><div class="nav-arrow"><span></span><span></span><span></span></div></div>
+  <div class="nav-fade-r" id="navFade" aria-hidden="true"><div class="nav-arrow"><span></span><span></span><span></span></div></div>
 </div>
 
 <main>
 
 <!-- ═══════════════ NEURO ═══════════════ -->
-<section class="sec on" id="neuro">
+<section class="sec on" id="neuro" aria-label="Tu cerebro">
   <div class="hero">
-    <div class="hbadge">🧠 Neurobiología clínica</div>
+    <div class="hbadge" aria-hidden="true">🧠 Neurobiología clínica</div>
     <h1>Tu cerebro no se cura solo con <em>"echarle ganas"</em>.</h1>
     <p>La depresión, la ansiedad y el TDAH son alteraciones biológicas con correlatos neurofisiológicos claros. No es debilidad, no es falta de voluntad. Aquí entenderás qué está pasando realmente.</p>
     <div class="hbtns">
@@ -527,34 +449,34 @@ strong{color:var(--md-on-background);font-weight:600}
 
     <div class="brain-wrap">
       <div class="brain-svg-area">
-        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" class="brain-svg">
+        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" class="brain-svg" role="img" aria-label="Diagrama interactivo del cerebro">
           <ellipse cx="160" cy="118" rx="118" ry="100" fill="rgba(158,242,228,0.15)" stroke="rgba(0,106,96,0.25)" stroke-width="1.5"/>
           <line x1="160" y1="30" x2="160" y2="210" stroke="rgba(0,106,96,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
-          <ellipse class="bzone" id="bz-pf" cx="160" cy="58" rx="62" ry="28" fill="rgba(0,106,96,0.12)" stroke="rgba(0,106,96,0.45)" stroke-width="1.5" onclick="showBrain('pf')" style="cursor:pointer"/>
+          <ellipse class="bzone" id="bz-pf" cx="160" cy="58" rx="62" ry="28" fill="rgba(0,106,96,0.12)" stroke="rgba(0,106,96,0.45)" stroke-width="1.5" onclick="showBrain('pf')" tabindex="0" role="button" aria-label="Corteza prefrontal" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('pf')"/>
           <text x="160" y="55" text-anchor="middle" font-size="8.5" fill="rgba(0,65,59,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">Corteza</text>
           <text x="160" y="66" text-anchor="middle" font-size="8.5" fill="rgba(0,65,59,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">prefrontal</text>
-          <ellipse class="bzone" id="bz-amig" cx="118" cy="130" rx="34" ry="24" fill="rgba(122,82,48,0.12)" stroke="rgba(122,82,48,0.45)" stroke-width="1.5" onclick="showBrain('amig')" style="cursor:pointer"/>
+          <ellipse class="bzone" id="bz-amig" cx="118" cy="130" rx="34" ry="24" fill="rgba(122,82,48,0.12)" stroke="rgba(122,82,48,0.45)" stroke-width="1.5" onclick="showBrain('amig')" tabindex="0" role="button" aria-label="Amígdala" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('amig')"/>
           <text x="118" y="127" text-anchor="middle" font-size="8.5" fill="rgba(46,20,0,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">Amígdala</text>
           <text x="118" y="138" text-anchor="middle" font-size="7" fill="rgba(46,20,0,0.65)" font-family="Roboto,sans-serif" pointer-events="none">alarma</text>
-          <ellipse class="bzone" id="bz-hipo" cx="202" cy="130" rx="34" ry="24" fill="rgba(21,101,192,0.12)" stroke="rgba(21,101,192,0.45)" stroke-width="1.5" onclick="showBrain('hipo')" style="cursor:pointer"/>
+          <ellipse class="bzone" id="bz-hipo" cx="202" cy="130" rx="34" ry="24" fill="rgba(21,101,192,0.12)" stroke="rgba(21,101,192,0.45)" stroke-width="1.5" onclick="showBrain('hipo')" tabindex="0" role="button" aria-label="Hipocampo" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('hipo')"/>
           <text x="202" y="127" text-anchor="middle" font-size="8.5" fill="rgba(13,71,161,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">Hipocampo</text>
           <text x="202" y="138" text-anchor="middle" font-size="7" fill="rgba(13,71,161,0.65)" font-family="Roboto,sans-serif" pointer-events="none">memoria</text>
-          <ellipse class="bzone" id="bz-tronco" cx="160" cy="195" rx="38" ry="22" fill="rgba(109,40,217,0.1)" stroke="rgba(109,40,217,0.35)" stroke-width="1.5" onclick="showBrain('tronco')" style="cursor:pointer"/>
+          <ellipse class="bzone" id="bz-tronco" cx="160" cy="195" rx="38" ry="22" fill="rgba(109,40,217,0.1)" stroke="rgba(109,40,217,0.35)" stroke-width="1.5" onclick="showBrain('tronco')" tabindex="0" role="button" aria-label="Tronco encefálico" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('tronco')"/>
           <text x="160" y="192" text-anchor="middle" font-size="8.5" fill="rgba(70,20,130,0.9)" font-family="Roboto,sans-serif" pointer-events="none" font-weight="500">Tronco</text>
           <text x="160" y="203" text-anchor="middle" font-size="7" fill="rgba(70,20,130,0.65)" font-family="Roboto,sans-serif" pointer-events="none">supervivencia</text>
-          <ellipse class="bzone" id="bz-corteza" cx="160" cy="95" rx="80" ry="30" fill="rgba(0,106,96,0.05)" stroke="rgba(0,106,96,0.18)" stroke-width="1" onclick="showBrain('corteza')" style="cursor:pointer"/>
+          <ellipse class="bzone" id="bz-corteza" cx="160" cy="95" rx="80" ry="30" fill="rgba(0,106,96,0.05)" stroke="rgba(0,106,96,0.18)" stroke-width="1" onclick="showBrain('corteza')" tabindex="0" role="button" aria-label="Corteza cerebral" onkeydown="if(event.key==='Enter'||event.key===' ')showBrain('corteza')"/>
           <text x="85" y="93" text-anchor="middle" font-size="7.5" fill="rgba(0,65,59,0.5)" font-family="Roboto,sans-serif" pointer-events="none">Corteza</text>
-          <text x="160" y="242" text-anchor="middle" font-size="7.5" fill="rgba(0,106,96,0.5)" font-family="Roboto,sans-serif">toca cada zona →</text>
+          <text x="160" y="242" text-anchor="middle" font-size="7.5" fill="rgba(0,106,96,0.5)" font-family="Roboto,sans-serif" aria-hidden="true">toca cada zona →</text>
         </svg>
       </div>
-      <div class="brain-info" id="brainInfo">
+      <div class="brain-info" id="brainInfo" aria-live="polite">
         <div class="brain-welcome">
-          <div style="font-size:2.5rem;margin-bottom:.5rem">🧠</div>
+          <div style="font-size:2.5rem;margin-bottom:.5rem" aria-hidden="true">🧠</div>
           <p style="font-weight:500;color:var(--md-on-background);margin-bottom:.3rem">Toca una zona del cerebro</p>
           <p style="font-size:.8rem;color:var(--md-on-surface-variant)">Cada parte tiene un trabajo. Conocerlos ayuda a entender lo que sientes.</p>
         </div>
         <div class="brain-detail" id="bd-pf" style="display:none">
-          <div class="bd-emoji">🧠</div>
+          <div class="bd-emoji" aria-hidden="true">🧠</div>
           <div class="bd-name" style="color:var(--md-primary)">Corteza prefrontal</div>
           <div class="bd-aka">El "jefe racional"</div>
           <p class="bd-simple">Es la parte que piensa antes de actuar, toma decisiones y te calma cuando te asustas. Como un semáforo que le dice al resto del cerebro: "espera, pensemos".</p>
@@ -562,7 +484,7 @@ strong{color:var(--md-on-background);font-weight:600}
           <div class="bd-tag" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">📌 Madura hasta los 25 años</div>
         </div>
         <div class="brain-detail" id="bd-amig" style="display:none">
-          <div class="bd-emoji">🚨</div>
+          <div class="bd-emoji" aria-hidden="true">🚨</div>
           <div class="bd-name" style="color:var(--md-tertiary)">Amígdala</div>
           <div class="bd-aka">La alarma de incendios</div>
           <p class="bd-simple">Detecta peligros y activa la alarma del cuerpo: corazón rápido, sudoración, tensión. Fue diseñada para salvarnos de depredadores. El problema es que no distingue bien entre un tigre real y un pensamiento.</p>
@@ -570,7 +492,7 @@ strong{color:var(--md-on-background);font-weight:600}
           <div class="bd-tag" style="background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)">📌 Se activa en 0.07 segundos</div>
         </div>
         <div class="brain-detail" id="bd-hipo" style="display:none">
-          <div class="bd-emoji">📚</div>
+          <div class="bd-emoji" aria-hidden="true">📚</div>
           <div class="bd-name" style="color:#1565C0">Hipocampo</div>
           <div class="bd-aka">La biblioteca de recuerdos</div>
           <p class="bd-simple">Guarda los recuerdos y le da contexto a las situaciones: "esto ya pasó antes y salí bien". Sin él, cada situación difícil se siente nueva y aterradora.</p>
@@ -578,7 +500,7 @@ strong{color:var(--md-on-background);font-weight:600}
           <div class="bd-tag" style="background:#DBEAFE;color:#1E3A5F">📌 El estrés crónico lo encoge</div>
         </div>
         <div class="brain-detail" id="bd-tronco" style="display:none">
-          <div class="bd-emoji">⚡</div>
+          <div class="bd-emoji" aria-hidden="true">⚡</div>
           <div class="bd-name" style="color:#6d28d9">Tronco encefálico</div>
           <div class="bd-aka">El piloto automático</div>
           <p class="bd-simple">Controla lo que pasa sin que lo pienses: respiración, latidos, temperatura. También activa el "modo pánico" cuando siente amenaza. Funciona desde antes de nacer.</p>
@@ -586,7 +508,7 @@ strong{color:var(--md-on-background);font-weight:600}
           <div class="bd-tag" style="background:#EDE9FE;color:#4C1D95">📌 Reacciona antes que puedas pensar</div>
         </div>
         <div class="brain-detail" id="bd-corteza" style="display:none">
-          <div class="bd-emoji">🎨</div>
+          <div class="bd-emoji" aria-hidden="true">🎨</div>
           <div class="bd-name" style="color:var(--forest)">Corteza cerebral</div>
           <div class="bd-aka">El centro de mando</div>
           <p class="bd-simple">Procesa lo que ves, oyes y sientes. Crea pensamientos, lenguaje e ideas. Es lo que nos hace humanos. También interpreta lo que pasa — y ahí es donde pueden entrar las distorsiones cognitivas.</p>
@@ -598,23 +520,23 @@ strong{color:var(--md-on-background);font-weight:600}
 
     <div style="margin-top:1.5rem">
       <h4>Los mensajeros del cerebro</h4>
-      <p style="margin-bottom:.85rem">Los neurotransmisores son como mensajes de WhatsApp entre neuronas. Cuando hay pocos o los receptores no los captan bien, aparecen los síntomas.</p>
+      <p style="margin-bottom:.85rem">Los neurotransmisores son como mensajes entre neuronas. Cuando hay pocos o los receptores no los captan bien, aparecen los síntomas.</p>
       <div class="nt-grid">
-        <div class="nt-card" onclick="this.classList.toggle('open')">
-          <div class="nt-front"><span class="nt-emoji">😊</span><span class="nt-name">Serotonina</span><span class="nt-tap">toca</span></div>
+        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+          <div class="nt-front"><span class="nt-emoji" aria-hidden="true">😊</span><span class="nt-name">Serotonina</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>La del bienestar general.</strong> Regula el humor, el sueño y el apetito. Cuando baja: tristeza persistente, insomnio, ansiedad. Los antidepresivos ISRS ayudan a que esté disponible más tiempo entre neuronas.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')">
-          <div class="nt-front"><span class="nt-emoji">🎯</span><span class="nt-name">Dopamina</span><span class="nt-tap">toca</span></div>
+        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+          <div class="nt-front"><span class="nt-emoji" aria-hidden="true">🎯</span><span class="nt-name">Dopamina</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>La de la motivación y recompensa.</strong> Cuando baja: no da ganas de nada, nada se siente placentero. En TDAH, hay menos disponible en ciertas vías. En adicciones, el cerebro la busca de forma compulsiva.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')">
-          <div class="nt-front"><span class="nt-emoji">🛑</span><span class="nt-name">GABA</span><span class="nt-tap">toca</span></div>
+        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+          <div class="nt-front"><span class="nt-emoji" aria-hidden="true">🛑</span><span class="nt-name">GABA</span><span class="nt-tap">toca</span></div>
           <div class="nt-back"><strong>El freno del cerebro.</strong> Calma la actividad neuronal. Cuando hay poco: el cerebro no puede "apagarse", hay ruido mental constante y ansiedad. Las benzodiacepinas actúan sobre los receptores GABA — por eso calman rápido, pero generan dependencia.</div>
         </div>
-        <div class="nt-card" onclick="this.classList.toggle('open')">
-          <div class="nt-front"><span class="nt-emoji">⚡</span><span class="nt-name">Noradrenalina</span><span class="nt-tap">toca</span></div>
-          <div class="nt-back"><strong>La del alerta y la energía.</strong> Activa el cuerpo ante estrés: corazón rápido, músculos tensos, pupilas dilatadas. En ansiedad está cronicamente elevada. Es parte de la respuesta "pelea o huye".</div>
+        <div class="nt-card" onclick="this.classList.toggle('open')" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter')this.classList.toggle('open')">
+          <div class="nt-front"><span class="nt-emoji" aria-hidden="true">⚡</span><span class="nt-name">Noradrenalina</span><span class="nt-tap">toca</span></div>
+          <div class="nt-back"><strong>La del alerta y la energía.</strong> Activa el cuerpo ante estrés: corazón rápido, músculos tensos, pupilas dilatadas. En ansiedad está crónicamente elevada. Es parte de la respuesta "pelea o huye".</div>
         </div>
       </div>
     </div>
@@ -623,25 +545,13 @@ strong{color:var(--md-on-background);font-weight:600}
       <h4>¿Qué le hace el estrés crónico al cerebro?</h4>
       <p>El estrés de un rato no es malo — es útil. El problema es cuando no se apaga.</p>
       <div class="stress-steps">
-        <div class="ss-step">
-          <div class="ss-num" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">1</div>
-          <div class="ss-text"><strong>Cortisol sube</strong> — el cuerpo se pone en alerta. Normal y útil por momentos.</div>
-        </div>
-        <div class="ss-arrow">↓</div>
-        <div class="ss-step">
-          <div class="ss-num" style="background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)">2</div>
-          <div class="ss-text"><strong>Si dura semanas</strong> — el hipocampo empieza a sufrir. La memoria falla. Dormir se vuelve difícil.</div>
-        </div>
-        <div class="ss-arrow">↓</div>
-        <div class="ss-step">
-          <div class="ss-num" style="background:var(--md-error-container);color:var(--md-on-error-container)">3</div>
-          <div class="ss-text"><strong>Si dura meses</strong> — la amígdala se dispara ante casi todo. La corteza prefrontal se "apaga". Aparecen ansiedad, depresión, burnout.</div>
-        </div>
-        <div class="ss-arrow">↓</div>
-        <div class="ss-step" style="border-color:rgba(0,106,96,.25);background:var(--md-surface-low)">
-          <div class="ss-num" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">✓</div>
-          <div class="ss-text"><strong>El tratamiento revierte esto.</strong> El cerebro se recupera con psicoterapia, medicamento adecuado, sueño y ejercicio. No es para siempre.</div>
-        </div>
+        <div class="ss-step"><div class="ss-num" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">1</div><div class="ss-text"><strong>Cortisol sube</strong> — el cuerpo se pone en alerta. Normal y útil por momentos.</div></div>
+        <div class="ss-arrow" aria-hidden="true">↓</div>
+        <div class="ss-step"><div class="ss-num" style="background:var(--md-tertiary-container);color:var(--md-on-tertiary-container)">2</div><div class="ss-text"><strong>Si dura semanas</strong> — el hipocampo empieza a sufrir. La memoria falla. Dormir se vuelve difícil.</div></div>
+        <div class="ss-arrow" aria-hidden="true">↓</div>
+        <div class="ss-step"><div class="ss-num" style="background:var(--md-error-container);color:var(--md-on-error-container)">3</div><div class="ss-text"><strong>Si dura meses</strong> — la amígdala se dispara ante casi todo. La corteza prefrontal se "apaga". Aparecen ansiedad, depresión, burnout.</div></div>
+        <div class="ss-arrow" aria-hidden="true">↓</div>
+        <div class="ss-step" style="border-color:rgba(0,106,96,.25);background:var(--md-surface-low)"><div class="ss-num" style="background:var(--md-primary-container);color:var(--md-on-primary-container)">✓</div><div class="ss-text"><strong>El tratamiento revierte esto.</strong> El cerebro se recupera con psicoterapia, medicamento adecuado, sueño y ejercicio. No es para siempre.</div></div>
       </div>
     </div>
   </div>
@@ -681,9 +591,9 @@ strong{color:var(--md-on-background);font-weight:600}
       <div class="slide amber"><div class="slide-num">03</div><div class="slide-title">El sistema nervioso autónomo</div><div class="slide-body">La amígdala hiperactiva estimula el SNA simpático, que libera adrenalina y cortisol. Resultado: taquicardia, broncoespasmo, colitis, sudoración, mareos. Son síntomas físicos reales causados por un circuito mental sobreactivado.</div></div>
       <div class="slide"><div class="slide-num">04</div><div class="slide-title">Serotonina y dopamina</div><div class="slide-body">Los neurotransmisores son el "lenguaje" entre neuronas. No es que "falte" un líquido: hay un problema en la sensibilidad de los receptores y la conectividad de las redes neuronales. Su desequilibrio produce síntomas concretos.</div></div>
       <div class="slide dark"><div class="slide-num">05</div><div class="slide-title">BDNF y neuroplasticidad</div><div class="slide-body">Los antidepresivos no "inyectan felicidad". Aumentan la disponibilidad de neurotransmisores para estimular el BDNF: la proteína que crea nuevas rutas neuronales. Por eso tardan 4–6 semanas en hacer efecto estructural.</div></div>
-      <div class="slide amber"><div class="slide-num">06</div><div class="slide-title">El TDAH oculto</div><div class="slide-body">El TDAH adulto rara vez debuta como inatención. El paciente usa el estrés y el perfeccionismo como "motor" para compensar sus fallas ejecutivas. Cuando ese motor se agota (déficit dopaminérgico en la vía mesocorticolímbica), explotan las crisis de pánico y el TAG severo.</div></div>
+      <div class="slide amber"><div class="slide-num">06</div><div class="slide-title">El TDAH oculto</div><div class="slide-body">El TDAH adulto rara vez debuta como inatención. El paciente usa el estrés y el perfeccionismo como "motor" para compensar sus fallas ejecutivas. Cuando ese motor se agota, explotan las crisis de pánico y el TAG severo.</div></div>
     </div>
-    <div class="tube-hint">← desliza para ver más →</div>
+    <div class="tube-hint" aria-hidden="true">← desliza para ver más →</div>
   </div>
 
   <div class="card mb" style="margin-top:1.25rem">
@@ -691,8 +601,8 @@ strong{color:var(--md-on-background);font-weight:600}
     <h2>El cerebro deprimido vs. el cerebro sano</h2>
     <p>Evidencia de que los trastornos psiquiátricos tienen correlatos neurofisiológicos claros. Nota: el PET es herramienta de investigación; el diagnóstico clínico sigue siendo clínico, no por imagen.</p>
     <div class="bgrid">
-      <div class="bp h"><div class="btag h">✅ Cerebro sano</div><div class="bdots" id="dh"></div><div class="bdes">Metabolismo activo en todo el córtex prefrontal. Planeación, razonamiento y regulación emocional funcionando. La amígdala en reposo.</div></div>
-      <div class="bp d"><div class="btag d">⚠️ Cerebro deprimido / ansioso</div><div class="bdots" id="dd"></div><div class="bdes">Córtex prefrontal "apagado". Solo la amígdala sigue activa, detectando peligros inexistentes como si fueran amenazas reales.</div></div>
+      <div class="bp h"><div class="btag h">✅ Cerebro sano</div><div class="bdots" id="dh" role="img" aria-label="28 puntos activos representando metabolismo cerebral normal"></div><div class="bdes">Metabolismo activo en todo el córtex prefrontal. Planeación, razonamiento y regulación emocional funcionando. La amígdala en reposo.</div></div>
+      <div class="bp d"><div class="btag d">⚠️ Cerebro deprimido / ansioso</div><div class="bdots" id="dd" role="img" aria-label="22 puntos inactivos y 6 puntos representando solo la amígdala activa"></div><div class="bdes">Córtex prefrontal "apagado". Solo la amígdala sigue activa, detectando peligros inexistentes como si fueran amenazas reales.</div></div>
     </div>
     <div class="cot am" style="margin-top:1rem"><div class="cot-t">⚡ El secuestro amigdalino</div><p>Cuando la amígdala toma el control, el razonamiento lógico se desconecta. No es debilidad: es el circuito de supervivencia primitivo sobreactivado.</p></div>
   </div>
@@ -707,28 +617,28 @@ strong{color:var(--md-on-background);font-weight:600}
     <div class="card">
       <h4>Cómo actúa el medicamento</h4>
       <h2>BDNF y neuroplasticidad</h2>
-      <div class="mrow"><div class="mic">💬</div><div><div class="mn">Mejora el lenguaje neuronal</div><div class="md">Aumenta serotonina y dopamina disponibles, mejorando la comunicación entre neuronas</div></div></div>
-      <div class="mrow"><div class="mic">🌱</div><div><div class="mn">Activa el BDNF</div><div class="md">El Factor Neurotrófico Derivado del Cerebro permite crear nuevas conexiones: base física del cambio</div></div></div>
-      <div class="mrow"><div class="mic">🏗️</div><div><div class="mn">Genera neuroplasticidad</div><div class="md">Con el cerebro estable, la terapia construye rutas de pensamiento nuevas sobre los patrones disfuncionales</div></div></div>
-      <div class="mrow"><div class="mic">⏱️</div><div><div class="mn">4–6 semanas de espera</div><div class="md">El efecto terapéutico real tarda porque se trata de crear carreteras neuronales nuevas, no una reacción química inmediata</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">💬</div><div><div class="mn">Mejora el lenguaje neuronal</div><div class="md">Aumenta serotonina y dopamina disponibles, mejorando la comunicación entre neuronas</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">🌱</div><div><div class="mn">Activa el BDNF</div><div class="md">El Factor Neurotrófico Derivado del Cerebro permite crear nuevas conexiones: base física del cambio</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">🏗️</div><div><div class="mn">Genera neuroplasticidad</div><div class="md">Con el cerebro estable, la terapia construye rutas de pensamiento nuevas sobre los patrones disfuncionales</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">⏱️</div><div><div class="mn">4–6 semanas de espera</div><div class="md">El efecto terapéutico real tarda porque se trata de crear carreteras neuronales nuevas, no una reacción química inmediata</div></div></div>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════ DISTORSIONES ═══════════════ -->
-<section class="sec" id="dist">
+<section class="sec" id="dist" aria-label="Distorsiones cognitivas">
   <div class="sh"><h4>Los virus del software mental</h4><h2>Distorsiones cognitivas</h2><p class="lead">Un patrón de pensamiento que tu cerebro trata como verdad absoluta pero que distorsiona la realidad. No es un defecto de carácter: es un programa aprendido. Y los programas se pueden cambiar.</p></div>
 
   <div style="margin-bottom:2rem">
     <h4>Ejercicio práctico</h4>
     <h2>Detecta la distorsión</h2>
-    <p>Lee cada pensamiento y toca la tarjeta para descubrir qué distorsión cognitiva contiene y cómo reestructurarlo. Practica identificarla antes de ver la respuesta.</p>
-    <div class="quiz-wrap" id="quiz-wrap"></div>
-    <div style="text-align:center;font-size:.7rem;color:var(--md-on-surface-variant);margin-top:.4rem;font-weight:400">Toca cada pensamiento para revelar la distorsión →</div>
+    <p>Lee cada pensamiento y toca la tarjeta para descubrir qué distorsión cognitiva contiene y cómo reestructurarlo.</p>
+    <div class="quiz-wrap" id="quiz-wrap" role="list"></div>
+    <div style="text-align:center;font-size:.7rem;color:var(--md-on-surface-variant);margin-top:.4rem" aria-hidden="true">Toca cada pensamiento para revelar la distorsión →</div>
   </div>
 
   <p style="margin-bottom:.7rem">Toca cualquier tarjeta para ver la descripción, un ejemplo y el cuestionamiento socrático para desarmarla.</p>
-  <div class="dg" id="dg"></div>
+  <div class="dg" id="dg" role="list"></div>
 
   <div style="margin-top:1.5rem;margin-bottom:.7rem"><h4>Galería completa de distorsiones</h4></div>
   <div class="tube-wrap">
@@ -740,33 +650,33 @@ strong{color:var(--md-on-background);font-weight:600}
       <div class="slide"><div class="slide-num">—</div><div class="slide-title">Personalización</div><div class="slide-body">Asumir responsabilidad total por eventos externos: "el equipo perdió por mi culpa", "mi pareja está de mal humor por algo que hice yo".</div></div>
       <div class="slide amber"><div class="slide-num">—</div><div class="slide-title">Etiquetado</div><div class="slide-body">Definirse por un error puntual: un tropiezo → "soy un inútil". Una mala decisión → "soy un fracaso". La etiqueta borra todo el contexto y la complejidad.</div></div>
     </div>
-    <div class="tube-hint">← desliza →</div>
+    <div class="tube-hint" aria-hidden="true">← desliza →</div>
   </div>
 
   <div class="soc">
     <h3 style="color:#fff;font-size:.92rem;margin-bottom:.82rem">🔍 El cuestionamiento socrático</h3>
     <p style="color:rgba(255,255,255,.38);font-size:.76rem;margin-bottom:.95rem;font-weight:400">Ante cualquier pensamiento catastrófico, aplica estas preguntas en orden:</p>
-    <div class="sq"><div class="sqn">1</div><p>¿Qué <em style="color:rgba(255,255,255,.68)">evidencia concreta</em> tengo de lo que estoy pensando? ¿Son hechos observados o suposiciones?</p></div>
-    <div class="sq"><div class="sqn">2</div><p>¿Tiene <em style="color:rgba(255,255,255,.68)">lógica</em> lo que estoy pensando? ¿Qué tan válido es realmente?</p></div>
-    <div class="sq"><div class="sqn">3</div><p>¿De qué me <em style="color:rgba(255,255,255,.68)">sirve</em> lo que estoy pensando? ¿Me ayuda o me bloquea?</p></div>
-    <div class="sq"><div class="sqn">4</div><p>¿Qué me diría <em style="color:rgba(255,255,255,.68)">alguien importante</em> para mí de lo que estoy pensando?</p></div>
-    <div class="sq"><div class="sqn">5</div><p>¿Qué le diría yo a <em style="color:rgba(255,255,255,.68)">alguien importante</em> para mí si pensara lo que estoy pensando?</p></div>
-    <div class="sq"><div class="sqn">6</div><p>Si el peor escenario ocurriera, ¿<em style="color:rgba(255,255,255,.68)">podría manejarlo</em>? ¿Han sobrevivido otras personas a algo similar?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">1</div><p>¿Qué <em style="color:rgba(255,255,255,.68)">evidencia concreta</em> tengo de lo que estoy pensando? ¿Son hechos observados o suposiciones?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">2</div><p>¿Tiene <em style="color:rgba(255,255,255,.68)">lógica</em> lo que estoy pensando? ¿Qué tan válido es realmente?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">3</div><p>¿De qué me <em style="color:rgba(255,255,255,.68)">sirve</em> lo que estoy pensando? ¿Me ayuda o me bloquea?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">4</div><p>¿Qué me diría <em style="color:rgba(255,255,255,.68)">alguien importante</em> para mí de lo que estoy pensando?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">5</div><p>¿Qué le diría yo a <em style="color:rgba(255,255,255,.68)">alguien importante</em> para mí si pensara lo que estoy pensando?</p></div>
+    <div class="sq"><div class="sqn" aria-hidden="true">6</div><p>Si el peor escenario ocurriera, ¿<em style="color:rgba(255,255,255,.68)">podría manejarlo</em>? ¿Han sobrevivido otras personas a algo similar?</p></div>
   </div>
 
   <div class="woebot-card">
     <h4>Herramienta complementaria</h4>
     <h3>Woebot: terapeuta de bolsillo basado en TCC</h3>
-    <p style="font-size:.82rem">Woebot es una app de IA basada en TCC que funciona como un chat interactivo. Te hace check-ins diarios, identifica distorsiones cognitivas en tus pensamientos en tiempo real y te guía en la reestructuración cognitiva. Incluye ejercicios de respiración, mindfulness y diario de gratitud. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
+    <p style="font-size:.82rem">Woebot es una app de IA basada en TCC que funciona como un chat interactivo. Te hace check-ins diarios, identifica distorsiones cognitivas en tus pensamientos en tiempo real y te guía en la reestructuración cognitiva. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
     <div class="woebot-links">
-      <a href="https://apps.apple.com/us/app/woebot-the-mental-health-ally/id1305375832" target="_blank" rel="noopener">📱 App Store</a>
-      <a href="https://play.google.com/store/apps/details?id=com.woebot&hl=es_MX" target="_blank" rel="noopener">🤖 Google Play</a>
+      <a href="https://apps.apple.com/us/app/woebot-the-mental-health-ally/id1305375832" target="_blank" rel="noopener noreferrer">📱 App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.woebot&hl=es_MX" target="_blank" rel="noopener noreferrer">🤖 Google Play</a>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════ CREENCIAS ═══════════════ -->
-<section class="sec" id="creencias">
+<section class="sec" id="creencias" aria-label="Creencias centrales">
   <div class="sh"><h4>El nivel más profundo</h4><h2>Creencias centrales y cuestionamiento socrático</h2><p class="lead">Debajo de las distorsiones cognitivas hay creencias centrales: convicciones profundas sobre ti, los demás y el mundo que se construyeron desde la infancia.</p></div>
   <div class="g2 mb">
     <div class="card">
@@ -793,7 +703,7 @@ strong{color:var(--md-on-background);font-weight:600}
         <div class="slide dark"><div class="slide-num">04</div><div class="slide-title">Crea un pensamiento útil</div><div class="slide-body">Si fueras tu mejor amigo, ¿qué te dirías? Ejemplo: "Estoy atascado, pero puedo cambiar el plan."</div></div>
         <div class="slide"><div class="slide-num">05</div><div class="slide-title">Prueba con un micro-experimento</div><div class="slide-body">¿Qué pequeño paso harás esta semana? Ejemplo: "Activaré 10 minutos diarios con alarma."</div></div>
       </div>
-      <div class="tube-hint">← desliza →</div>
+      <div class="tube-hint" aria-hidden="true">← desliza →</div>
     </div>
   </div>
 
@@ -818,7 +728,7 @@ strong{color:var(--md-on-background);font-weight:600}
 </section>
 
 <!-- ═══════════════ ABC / TCC ═══════════════ -->
-<section class="sec" id="abc">
+<section class="sec" id="abc" aria-label="Modelo ABC y TCC">
   <div class="sh">
     <h4>Fundamento de la TCC</h4>
     <h2>El modelo ABC de la Terapia Cognitiva</h2>
@@ -831,17 +741,17 @@ strong{color:var(--md-on-background);font-weight:600}
     <p>Los tres vértices se influyen mutuamente en un <strong>circuito retroalimentado</strong>. La TCC interviene desde cualquiera de los tres para romper el ciclo.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.25rem 0">
       <div style="background:var(--md-primary-container);border-radius:var(--r-lg);padding:1.2rem;text-align:center">
-        <div style="font-size:2rem;margin-bottom:.4rem">🧠</div>
+        <div style="font-size:2rem;margin-bottom:.4rem" aria-hidden="true">🧠</div>
         <h3 style="color:var(--md-on-primary-container);margin-bottom:.25rem">Pensamiento</h3>
         <p style="font-size:.78rem;margin:0;font-style:italic;color:var(--md-on-primary-container);opacity:.8">"No sirvo para nada"</p>
       </div>
       <div style="background:var(--md-tertiary-container);border-radius:var(--r-lg);padding:1.2rem;text-align:center">
-        <div style="font-size:2rem;margin-bottom:.4rem">💔</div>
+        <div style="font-size:2rem;margin-bottom:.4rem" aria-hidden="true">💔</div>
         <h3 style="color:var(--md-on-tertiary-container);margin-bottom:.25rem">Emoción</h3>
         <p style="font-size:.78rem;margin:0;font-style:italic;color:var(--md-on-tertiary-container);opacity:.8">Angustia · Tristeza · Vergüenza</p>
       </div>
       <div style="background:var(--md-secondary-container);border-radius:var(--r-lg);padding:1.2rem;text-align:center">
-        <div style="font-size:2rem;margin-bottom:.4rem">🚶</div>
+        <div style="font-size:2rem;margin-bottom:.4rem" aria-hidden="true">🚶</div>
         <h3 style="color:var(--md-on-secondary-container);margin-bottom:.25rem">Conducta</h3>
         <p style="font-size:.78rem;margin:0;font-style:italic;color:var(--md-on-secondary-container);opacity:.8">Aislarse · Evitar · Abandonar</p>
       </div>
@@ -873,41 +783,10 @@ strong{color:var(--md-on-background);font-weight:600}
     </div>
   </div>
 
-  <div class="card mb">
-    <h4>Estructuras cognitivas</h4>
-    <h2>Esquemas → Creencias → Pensamientos automáticos</h2>
-    <p>Los <strong>esquemas</strong> son patrones cognitivos estables formados en la infancia que filtran la realidad. Dan lugar a <strong>creencias</strong> que producen los pensamientos automáticos del día a día.</p>
-    <div class="g2" style="margin-top:1rem">
-      <div>
-        <h3>Creencias nucleares</h3>
-        <p>Constituyen el núcleo de la identidad. Son difíciles de cambiar y cuando se cuestionan generan angustia profunda — es como mover los cimientos de un edificio. Ej: <em>"Soy incapaz"</em>, <em>"No merezco"</em>, <em>"Soy diferente a todos"</em>.</p>
-      </div>
-      <div>
-        <h3>Creencias periféricas</h3>
-        <p>Más satelitales, menor peso en la identidad. Se modifican con más facilidad. Ej: <em>"Si no lo hago perfecto, fallé"</em>, <em>"No puedo mostrar debilidad"</em>, <em>"Debo controlar todo"</em>.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card mb">
-    <h4>Distorsiones cognitivas — resumen de Beck</h4>
-    <h2>Errores sistemáticos de procesamiento</h2>
-    <p>No son señal de debilidad: son <strong>atajos automáticos</strong> que distorsionan la lectura de la realidad. Se reentrenan con práctica y con acompañamiento terapéutico.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-top:1rem">
-      <div style="background:var(--md-surface-low);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-primary)"><strong style="font-size:.78rem;color:var(--md-on-background)">Pensamiento todo o nada</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-surface-variant)">Las cosas son blancas o negras. No existen grises ni matices.</p></div>
-      <div style="background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-tertiary);opacity:.85"><strong style="font-size:.78rem;color:var(--md-on-tertiary-container)">Catastrofismo</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-tertiary-container);opacity:.8">El resultado que imagino siempre es el peor posible.</p></div>
-      <div style="background:var(--md-surface-low);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-primary)"><strong style="font-size:.78rem;color:var(--md-on-background)">Personalización</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-surface-variant)">Atribuirse la causa de eventos externos sin evidencia real.</p></div>
-      <div style="background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-tertiary);opacity:.85"><strong style="font-size:.78rem;color:var(--md-on-tertiary-container)">Abstracción selectiva</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-tertiary-container);opacity:.8">Centrarse solo en los detalles negativos, ignorando el resto.</p></div>
-      <div style="background:var(--md-surface-low);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-primary)"><strong style="font-size:.78rem;color:var(--md-on-background)">Generalización excesiva</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-surface-variant)">Un fracaso puntual = fracaso permanente y definitivo.</p></div>
-      <div style="background:var(--md-tertiary-container);border-radius:var(--r-md);padding:.9rem;border-left:3px solid var(--md-tertiary);opacity:.85"><strong style="font-size:.78rem;color:var(--md-on-tertiary-container)">Razonamiento emocional</strong><p style="font-size:.75rem;margin:.3rem 0 0;color:var(--md-on-tertiary-container);opacity:.8">"Lo siento, por lo tanto es verdad." La emoción como prueba.</p></div>
-    </div>
-  </div>
-
   <div class="soc">
     <h4 style="color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.13em;font-size:.65rem;margin-bottom:.5rem">El vínculo terapéutico en TCC</h4>
     <h2 style="color:#fff;font-size:1.5rem;margin-bottom:.65rem">Empirismo colaborativo: los dos científicos</h2>
     <p style="color:rgba(255,255,255,.65)">Terapeuta y paciente trabajan como dos investigadores. Las creencias disfuncionales se convierten en <strong style="color:#fff">hipótesis a contrastar</strong>, no en errores que corregir ni en verdades que aceptar. Juntos diseñan experimentos para probar si esas creencias resisten la evidencia real.</p>
-    <p style="color:rgba(255,255,255,.65);margin-top:.65rem">El terapeuta aporta su saber clínico. El paciente aporta el conocimiento de su propio padecer. Ninguno de los dos tiene la verdad — la construyen juntos.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1.1rem">
       <div style="background:rgba(158,242,228,.08);border-radius:var(--r-md);padding:.9rem;border:1px solid rgba(158,242,228,.12)"><h3 style="color:var(--md-primary-container);font-size:.78rem;margin-bottom:.3rem">Aceptación</h3><p style="color:rgba(255,255,255,.55);font-size:.75rem;margin:0">Aceptar plenamente al paciente aunque no se comparta su filosofía de vida.</p></div>
       <div style="background:rgba(158,242,228,.08);border-radius:var(--r-md);padding:.9rem;border:1px solid rgba(158,242,228,.12)"><h3 style="color:var(--md-primary-container);font-size:.78rem;margin-bottom:.3rem">Autenticidad</h3><p style="color:rgba(255,255,255,.55);font-size:.75rem;margin:0">Ser genuino y honesto. La franqueza es un valor terapéutico, no un riesgo.</p></div>
@@ -917,7 +796,7 @@ strong{color:var(--md-on-background);font-weight:600}
 </section>
 
 <!-- ═══════════════ SUEÑO ═══════════════ -->
-<section class="sec" id="sueno">
+<section class="sec" id="sueno" aria-label="Higiene del sueño">
   <div class="sh"><h4>Higiene del sueño</h4><h2>El sueño como tratamiento</h2><p class="lead">El sueño no es un lujo. Es el proceso durante el cual tu cerebro consolida la memoria, elimina toxinas y restaura los neurotransmisores. Sin sueño adecuado, ningún tratamiento funciona al 100%.</p></div>
 
   <div class="g2 mb">
@@ -939,17 +818,17 @@ strong{color:var(--md-on-background);font-weight:600}
 
   <h3 style="font-size:.82rem;color:var(--md-on-background);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:.875rem">Las 11 medidas de higiene del sueño</h3>
   <div class="sleep-grid">
-    <div class="sleep-card"><div class="sleep-num">1</div><div class="mn">Horario fijo</div><div class="md">Acostarse y levantarse siempre a la misma hora, incluso fines de semana.</div></div>
-    <div class="sleep-card"><div class="sleep-num">2</div><div class="mn">Sin pantallas</div><div class="md">Evitar luz azul al menos 1 hora antes. Activa filtros si es necesario durante la tarde-noche.</div></div>
-    <div class="sleep-card"><div class="sleep-num">3</div><div class="mn">Dormitorio = descanso</div><div class="md">La cama es solo para dormir. Nada de trabajo, pantallas ni conversaciones difíciles ahí.</div></div>
-    <div class="sleep-card"><div class="sleep-num">4</div><div class="mn">Oscuridad total</div><div class="md">Cortinas opacas o antifaz. La luz inhibe la melatonina incluso a través de los párpados.</div></div>
-    <div class="sleep-card"><div class="sleep-num">5</div><div class="mn">Sin estimulantes</div><div class="md">Evitar cafeína después del mediodía. Alcohol y tabaco cerca de la hora de dormir destruyen la calidad.</div></div>
-    <div class="sleep-card"><div class="sleep-num">6</div><div class="mn">Siesta controlada</div><div class="md">Máximo 20–30 min antes de las 3 PM. Las siestas largas o tardías "roban" el sueño nocturno.</div></div>
-    <div class="sleep-card"><div class="sleep-num">7</div><div class="mn">Temperatura cresca</div><div class="md">18–20°C favorece el sueño. El calor excesivo fragmenta los ciclos nocturnos.</div></div>
-    <div class="sleep-card"><div class="sleep-num">8</div><div class="mn">Reduce el ruido</div><div class="md">Tapones o ruido blanco si el entorno es ruidoso. Los sonidos intermitentes interrumpen las fases profundas.</div></div>
-    <div class="sleep-card"><div class="sleep-num">9</div><div class="mn">Rutina relajante</div><div class="md">Un ritual consistente (ducha tibia, lectura, respiración) señala al cerebro que es hora de desactivarse.</div></div>
-    <div class="sleep-card"><div class="sleep-num">10</div><div class="mn">Cena ligera</div><div class="md">Esperar 1–2 h tras la cena para acostarse. Comer pesado activa la digestión y sube la temperatura corporal.</div></div>
-    <div class="sleep-card"><div class="sleep-num">11</div><div class="mn">Si no puedes dormir</div><div class="md">Levántate y haz algo relajante en otro cuarto. Vuelve solo cuando tengas sueño real.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">1</div><div class="mn">Horario fijo</div><div class="md">Acostarse y levantarse siempre a la misma hora, incluso fines de semana.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">2</div><div class="mn">Sin pantallas</div><div class="md">Evitar luz azul al menos 1 hora antes. Activa filtros si es necesario durante la tarde-noche.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">3</div><div class="mn">Dormitorio = descanso</div><div class="md">La cama es solo para dormir. Nada de trabajo, pantallas ni conversaciones difíciles ahí.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">4</div><div class="mn">Oscuridad total</div><div class="md">Cortinas opacas o antifaz. La luz inhibe la melatonina incluso a través de los párpados.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">5</div><div class="mn">Sin estimulantes</div><div class="md">Evitar cafeína después del mediodía. Alcohol y tabaco cerca de la hora de dormir destruyen la calidad.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">6</div><div class="mn">Siesta controlada</div><div class="md">Máximo 20–30 min antes de las 3 PM. Las siestas largas o tardías "roban" el sueño nocturno.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">7</div><div class="mn">Temperatura fresca</div><div class="md">18–20°C favorece el sueño. El calor excesivo fragmenta los ciclos nocturnos.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">8</div><div class="mn">Reduce el ruido</div><div class="md">Tapones o ruido blanco si el entorno es ruidoso. Los sonidos intermitentes interrumpen las fases profundas.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">9</div><div class="mn">Rutina relajante</div><div class="md">Un ritual consistente (ducha tibia, lectura, respiración) señala al cerebro que es hora de desactivarse.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">10</div><div class="mn">Cena ligera</div><div class="md">Esperar 1–2 h tras la cena para acostarse. Comer pesado activa la digestión y sube la temperatura corporal.</div></div>
+    <div class="sleep-card"><div class="sleep-num" aria-hidden="true">11</div><div class="mn">Si no puedes dormir</div><div class="md">Levántate y haz algo relajante en otro cuarto. Vuelve solo cuando tengas sueño real.</div></div>
   </div>
 
   <div class="div"></div>
@@ -957,10 +836,10 @@ strong{color:var(--md-on-background);font-weight:600}
     <div class="card" style="background:var(--md-secondary-container)">
       <h4>Técnica de regulación</h4>
       <h2>Respiración 5×5</h2>
-      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)">1</div><div><div class="mn">Inhala por la nariz</div><div class="md">Cuenta hasta 5. Llenando primero el abdomen, luego el pecho.</div></div></div>
-      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)">2</div><div><div class="mn">Retén el aire</div><div class="md">Cuenta hasta 5. Sin tensión, solo pausa natural.</div></div></div>
-      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)">3</div><div><div class="mn">Exhala por la boca</div><div class="md">Cuenta hasta 5. Vacía todo el aire lentamente.</div></div></div>
-      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)">4</div><div><div class="mn">Pausa sin aire</div><div class="md">Cuenta hasta 5. Repite el ciclo al menos 5 veces.</div></div></div>
+      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)" aria-hidden="true">1</div><div><div class="mn">Inhala por la nariz</div><div class="md">Cuenta hasta 5. Llenando primero el abdomen, luego el pecho.</div></div></div>
+      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)" aria-hidden="true">2</div><div><div class="mn">Retén el aire</div><div class="md">Cuenta hasta 5. Sin tensión, solo pausa natural.</div></div></div>
+      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)" aria-hidden="true">3</div><div><div class="mn">Exhala por la boca</div><div class="md">Cuenta hasta 5. Vacía todo el aire lentamente.</div></div></div>
+      <div class="mrow"><div class="mic" style="background:var(--md-surface-lowest)" aria-hidden="true">4</div><div><div class="mn">Pausa sin aire</div><div class="md">Cuenta hasta 5. Repite el ciclo al menos 5 veces.</div></div></div>
     </div>
     <div class="card">
       <h4>Grounding · Regla 5-4-3-2-1</h4>
@@ -979,24 +858,24 @@ strong{color:var(--md-on-background);font-weight:600}
   <div class="g2">
     <div class="card">
       <h4>Reambientación</h4>
-      <div class="mrow"><div class="mic">🏠</div><div><div class="mn">Orden y calma</div><div class="md">Habitación despejada, sin cambios innecesarios. Objetos familiares cerca: fotos, cobija, reloj.</div></div></div>
-      <div class="mrow"><div class="mic">👓</div><div><div class="mn">Ayudas sensoriales</div><div class="md">Asegurarse de que use lentes y audífonos. La desorientación aumenta al perder información sensorial.</div></div></div>
-      <div class="mrow"><div class="mic">🚪</div><div><div class="mn">Señalización clara</div><div class="md">Carteles grandes en puertas (baño, recámara). Luz suficiente de noche para orientarse.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">🏠</div><div><div class="mn">Orden y calma</div><div class="md">Habitación despejada, sin cambios innecesarios. Objetos familiares cerca: fotos, cobija, reloj.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">👓</div><div><div class="mn">Ayudas sensoriales</div><div class="md">Asegurarse de que use lentes y audífonos. La desorientación aumenta al perder información sensorial.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">🚪</div><div><div class="mn">Señalización clara</div><div class="md">Carteles grandes en puertas (baño, recámara). Luz suficiente de noche para orientarse.</div></div></div>
     </div>
     <div class="card">
       <h4>Reorientación cognitiva</h4>
-      <div class="mrow"><div class="mic">💬</div><div><div class="mn">Recordatorios suaves</div><div class="md">"Hola mamá, soy Ana. Estamos en casa, hoy es martes." Sin discutir ni corregir bruscamente.</div></div></div>
-      <div class="mrow"><div class="mic">📅</div><div><div class="mn">Ayudas visuales</div><div class="md">Calendario y reloj grandes siempre a la vista. Anclan al paciente en la realidad presente.</div></div></div>
-      <div class="mrow"><div class="mic">🤝</div><div><div class="mn">Contacto y calma</div><div class="md">Mirar a los ojos, tono suave, frases cortas. Explicar lo que vas a hacer antes de hacerlo.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">💬</div><div><div class="mn">Recordatorios suaves</div><div class="md">"Hola mamá, soy Ana. Estamos en casa, hoy es martes." Sin discutir ni corregir bruscamente.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">📅</div><div><div class="mn">Ayudas visuales</div><div class="md">Calendario y reloj grandes siempre a la vista. Anclan al paciente en la realidad presente.</div></div></div>
+      <div class="mrow"><div class="mic" aria-hidden="true">🤝</div><div><div class="mn">Contacto y calma</div><div class="md">Mirar a los ojos, tono suave, frases cortas. Explicar lo que vas a hacer antes de hacerlo.</div></div></div>
       <div class="cot" style="margin-top:.75rem"><div class="cot-t">❤️ La regla más importante</div><p>Tu constancia y tu cariño son la primera línea de tratamiento. Ningún medicamento reemplaza la presencia segura de alguien conocido.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════ IA ═══════════════ -->
-<section class="sec" id="ia">
+<section class="sec" id="ia" aria-label="IA terapéutica">
   <div class="hero" style="margin-bottom:1.5rem">
-    <div class="hbadge">🤖 Herramienta clínica</div>
+    <div class="hbadge" aria-hidden="true">🤖 Herramienta clínica</div>
     <h1 style="font-size:2.2rem">La IA como <em>prótesis cognitiva</em></h1>
     <p>Una herramienta de contención y cuestionamiento socrático entre sesiones. No como amigo complaciente, sino como coterapeuta configurado con rigor clínico.</p>
   </div>
@@ -1009,7 +888,7 @@ strong{color:var(--md-on-background);font-weight:600}
 
   <div class="safety-alert">
     <h4>🚨 Regla de oro: antes de cambiar tu tratamiento</h4>
-    <p style="font-size:.82rem;color:var(--md-on-tertiary-container);margin-bottom:.65rem">Si la IA o un video de TikTok te generó miedo sobre tu medicamento:</p>
+    <p style="font-size:.82rem;color:var(--md-on-tertiary-container);margin-bottom:.65rem">Si la IA o un video te generó miedo sobre tu medicamento:</p>
     <ul class="sa-list">
       <li><strong>No suspendas nada:</strong> el síndrome de discontinuación puede ser peor que el síntoma que te asusta.</li>
       <li><strong>Pregunta primero:</strong> contacta a tu equipo terapéutico. Ellos tienen tu cuadro completo y la IA no.</li>
@@ -1018,9 +897,9 @@ strong{color:var(--md-on-background);font-weight:600}
   </div>
 
   <div class="card mb" style="background:var(--md-error-container)">
-    <h4 style="color:var(--md-error)">Contraindicaciones absolutas de uso de IA</h4>
+    <h4 style="color:var(--md-error)">Contraindicaciones absolutas</h4>
     <h3 style="color:var(--md-on-error-container)">No uses IA terapéutica si:</h3>
-    <ul class="sa-list" style="--list-color:var(--md-error)">
+    <ul class="sa-list">
       <li style="color:var(--md-on-error-container)"><strong>Ideación suicida activa:</strong> la IA puede dar respuestas inadecuadas en crisis.</li>
       <li style="color:var(--md-on-error-container)"><strong>Síntomas de psicosis:</strong> la IA puede validar creencias delirantes.</li>
       <li style="color:var(--md-on-error-container)"><strong>TOC con búsqueda de reafirmación:</strong> usar la IA como ritual de verificación empeora el ciclo.</li>
@@ -1029,15 +908,14 @@ strong{color:var(--md-on-background);font-weight:600}
   </div>
 
   <div class="pt-grid">
-    <div class="pt"><div class="pt-tag pt-teal">🔍 Cuestionamiento socrático con IA</div><h3>Cuestiona tu pensamiento paso a paso</h3><p class="pt-desc">Para aplicar el diálogo socrático guiado:</p><div class="prompt-box" id="ps1"><button class="copy-btn" onclick="copyP('ps1',this)">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC experto en diálogo socrático.</span> Voy a contarte un pensamiento que me está afectando. <span class="hl">Guíame paso a paso:</span> 1) Pídeme la frase exacta. 2) Pregúntame evidencia a favor y en contra. 3) Evalúa conmigo si me ayuda o me bloquea. 4) Ayúdame a crear un pensamiento alternativo útil. <span class="hl">Hazme las preguntas una a una. Tono directo y calmado.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">🔥 Antes de estallar: DBT</div><h3>En vez de explotar, cuestiona con DBT</h3><p class="pt-desc">Cuando sientes que vas a reaccionar impulsivamente:</p><div class="prompt-box" id="ps2"><button class="copy-btn" onclick="copyP('ps2',this)">Copiar y abrir IA</button>Estoy a punto de estallar. <span class="hl">Actúa como un terapeuta DBT.</span> Primero, <span class="hl">valida mi emoción sin invalidarla.</span> Luego guíame: 1) ¿Cuál es la emoción exacta? 2) ¿La intensidad del 1 al 10 coincide con la situación real? 3) ¿Qué necesidad legítima hay detrás? 4) ¿Cuál sería una acción <span class="hlA">efectiva</span> que resuelva sin destruir la relación? <span class="hl">No me digas que respire. Ayúdame a pensar antes de actuar.</span></div><div class="rule-box"><p><strong>Por qué funciona:</strong> Nombrar la emoción reduce su intensidad (affect labeling). Todas las emociones son válidas; no todas las acciones que surgen de ellas son efectivas.</p></div></div>
-    <div class="pt"><div class="pt-tag pt-slate">🗣️ Comunicación asertiva con IA</div><h3>Reescribir antes de dañar la relación</h3><p class="pt-desc">Convierte un mensaje reactivo en comunicación que resuelva:</p><div class="prompt-box" id="ps3"><button class="copy-btn" onclick="copyP('ps3',this)">Copiar y abrir IA</button>Estoy molesto/a y quiero mandar este mensaje: <span class="hlA">"[pega tu mensaje]"</span>. <span class="hl">No me digas que no lo mande.</span> Reescríbelo con comunicación asertiva usando esta estructura: "Cuando [hecho], yo siento [emoción], porque necesito [necesidad]. Te pido que [petición concreta]." Dame <span class="hlA">dos versiones:</span> una directa y una más suave.</div></div>
-    <div class="pt"><div class="pt-tag pt-teal">🧠 Crisis de ansiedad</div><h3>Cuestionamiento socrático nocturno</h3><p class="pt-desc">Cuando la mente catastrofiza y no hay terapeuta disponible:</p><div class="prompt-box" id="p1"><button class="copy-btn" onclick="copyP('p1',this)">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC.</span> Mi diagnóstico es <span class="hlA">[TAG / TDAH / Depresión]</span>. Basándote en guías de práctica clínica y medicina basada en evidencia, <span class="hl">aplica el diálogo socrático:</span> primero pregúntame qué evidencia concreta tengo a favor de este pensamiento, luego la evidencia en contra, y finalmente ayúdame a separar la posibilidad de la probabilidad real. <span class="hl">No valides el miedo. Hazme las preguntas una por una.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">⚡ Parálisis por TDAH</div><h3>Desbloquear tareas que abruman</h3><p class="pt-desc">Cuando el proyecto completo paraliza y no puedes empezar:</p><div class="prompt-box" id="p2"><button class="copy-btn" onclick="copyP('p2',this)">Copiar y abrir IA</button>Tengo TDAH. <span class="hl">No me des el plan completo.</span> Tengo esta tarea: <span class="hlA">[describe la tarea]</span>. Divídela en <span class="hl">micrometas de máximo 15 minutos</span>. Empieza por la más pequeña. Para cada paso dime exactamente qué acción física debo hacer primero. Añade <span class="hlA">cuándo es el mejor momento del día</span> según nivel de energía.</div><div class="rule-box"><p><strong>Por qué funciona:</strong> Externaliza la función ejecutiva de planeación al modelo, liberando RAM mental.</p></div></div>
-    <div class="pt"><div class="pt-tag pt-slate">💬 Mensaje en caliente</div><h3>Antes de enviar una respuesta impulsiva</h3><p class="pt-desc">Para reescribir antes de provocar un conflicto:</p><div class="prompt-box" id="p3"><button class="copy-btn" onclick="copyP('p3',this)">Copiar y abrir IA</button>Estoy molesto/a y quiero mandar este mensaje: <span class="hlA">"[pega tu mensaje]"</span>. <span class="hl">No me digas que no lo mande.</span> Reescríbelo usando comunicación asertiva: que exprese mi emoción y mi límite, sin atacar, sin victimizarme, sin invalidar al otro. Dame <span class="hlA">dos versiones:</span> una directa y una más suave.</div></div>
-    <div class="pt"><div class="pt-tag pt-teal">🔁 Bucle mental</div><h3>Cuando el mismo pensamiento no para</h3><p class="pt-desc">Para salir del loop y evaluar si hay algo accionable:</p><div class="prompt-box" id="p4"><button class="copy-btn" onclick="copyP('p4',this)">Copiar y abrir IA</button>Llevo <span class="hlA">[tiempo]</span> pensando en <span class="hlA">[describe el pensamiento]</span>. <span class="hl">Hazme solo estas tres preguntas, una a la vez:</span> 1) ¿Hay algo que pueda hacer al respecto ahora mismo? 2) Si no hay nada que hacer, ¿qué me dice eso sobre el valor de seguir pensando en ello? 3) Si hay algo que hacer, ¿cuál es el primer paso más pequeño? <span class="hl">Solo las preguntas, sin consejos generales.</span></div></div>
-    <div class="pt"><div class="pt-tag pt-amber">📚 Estudio con TDAH</div><h3>Material pesado → digerible</h3><p class="pt-desc">Para hackear la dopamina y hacer el aprendizaje estimulante:</p><div class="prompt-box" id="p5"><button class="copy-btn" onclick="copyP('p5',this)">Copiar y abrir IA</button>Tengo que estudiar esto: <span class="hlA">[pega el texto o tema]</span>. Tengo TDAH. <span class="hl">Transfórmalo en 5 preguntas tipo quiz</span> con respuesta, de más simple a más complejo. Cada pregunta debe ser un reto. Después de que responda, <span class="hlA">corrígeme en máximo 2 oraciones.</span> Empieza con la primera pregunta.</div></div>
-    <div class="pt"><div class="pt-tag pt-slate">🌙 Crisis nocturna</div><h3>Contención a las 3 AM</h3><p class="pt-desc">Cuando el miedo escala en la madrugada:</p><div class="prompt-box" id="p6"><button class="copy-btn" onclick="copyP('p6',this)">Copiar y abrir IA</button>Son las <span class="hlA">[hora]</span> y estoy en crisis. <span class="hl">No me des soluciones todavía.</span> Primero pregúntame: 1) ¿Estoy en peligro físico real ahora mismo? 2) ¿Cuál es el pensamiento exacto que más me activa? 3) ¿Qué tan probable es que sea un hecho real y no una interpretación? Después aplica el cuestionamiento socrático. <span class="hl">Tono calmado y directo.</span></div><div class="warn-box"><p><strong>Si hay riesgo suicida real:</strong> no uses la IA. Llama a Línea de la Vida: <strong>800-911-2000</strong>.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🔍 Cuestionamiento socrático</div><h3>Cuestiona tu pensamiento paso a paso</h3><p class="pt-desc">Para aplicar el diálogo socrático guiado:</p><div class="prompt-box" id="ps1"><button class="copy-btn" onclick="copyP('ps1',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC experto en diálogo socrático.</span> Voy a contarte un pensamiento que me está afectando. <span class="hl">Guíame paso a paso:</span> 1) Pídeme la frase exacta. 2) Pregúntame evidencia a favor y en contra. 3) Evalúa conmigo si me ayuda o me bloquea. 4) Ayúdame a crear un pensamiento alternativo útil. <span class="hl">Hazme las preguntas una a una. Tono directo y calmado.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">🔥 Antes de estallar: DBT</div><h3>En vez de explotar, cuestiona con DBT</h3><p class="pt-desc">Cuando sientes que vas a reaccionar impulsivamente:</p><div class="prompt-box" id="ps2"><button class="copy-btn" onclick="copyP('ps2',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Estoy a punto de estallar. <span class="hl">Actúa como un terapeuta DBT.</span> Primero, <span class="hl">valida mi emoción sin invalidarla.</span> Luego guíame: 1) ¿Cuál es la emoción exacta? 2) ¿La intensidad del 1 al 10 coincide con la situación real? 3) ¿Qué necesidad legítima hay detrás? 4) ¿Cuál sería una acción <span class="hlA">efectiva</span> que resuelva sin destruir la relación? <span class="hl">No me digas que respire. Ayúdame a pensar antes de actuar.</span></div><div class="rule-box"><p><strong>Por qué funciona:</strong> Nombrar la emoción reduce su intensidad. Todas las emociones son válidas; no todas las acciones que surgen de ellas son efectivas.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🧠 Crisis de ansiedad</div><h3>Cuestionamiento socrático nocturno</h3><p class="pt-desc">Cuando la mente catastrofiza y no hay terapeuta disponible:</p><div class="prompt-box" id="p1"><button class="copy-btn" onclick="copyP('p1',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button><span class="hl">Actúa como un terapeuta TCC.</span> Mi diagnóstico es <span class="hlA">[TAG / TDAH / Depresión]</span>. Basándote en guías de práctica clínica, <span class="hl">aplica el diálogo socrático:</span> primero pregúntame qué evidencia concreta tengo a favor de este pensamiento, luego la evidencia en contra, y finalmente ayúdame a separar la posibilidad de la probabilidad real. <span class="hl">No valides el miedo. Hazme las preguntas una por una.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">⚡ Parálisis por TDAH</div><h3>Desbloquear tareas que abruman</h3><p class="pt-desc">Cuando el proyecto completo paraliza y no puedes empezar:</p><div class="prompt-box" id="p2"><button class="copy-btn" onclick="copyP('p2',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Tengo TDAH. <span class="hl">No me des el plan completo.</span> Tengo esta tarea: <span class="hlA">[describe la tarea]</span>. Divídela en <span class="hl">micrometas de máximo 15 minutos</span>. Empieza por la más pequeña. Para cada paso dime exactamente qué acción física debo hacer primero.</div><div class="rule-box"><p><strong>Por qué funciona:</strong> Externaliza la función ejecutiva de planeación al modelo, liberando RAM mental.</p></div></div>
+    <div class="pt"><div class="pt-tag pt-slate">💬 Mensaje en caliente</div><h3>Antes de enviar una respuesta impulsiva</h3><p class="pt-desc">Para reescribir antes de provocar un conflicto:</p><div class="prompt-box" id="p3"><button class="copy-btn" onclick="copyP('p3',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Estoy molesto/a y quiero mandar este mensaje: <span class="hlA">"[pega tu mensaje]"</span>. <span class="hl">No me digas que no lo mande.</span> Reescríbelo usando comunicación asertiva: que exprese mi emoción y mi límite, sin atacar, sin victimizarme, sin invalidar al otro. Dame <span class="hlA">dos versiones:</span> una directa y una más suave.</div></div>
+    <div class="pt"><div class="pt-tag pt-teal">🔁 Bucle mental</div><h3>Cuando el mismo pensamiento no para</h3><p class="pt-desc">Para salir del loop y evaluar si hay algo accionable:</p><div class="prompt-box" id="p4"><button class="copy-btn" onclick="copyP('p4',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Llevo <span class="hlA">[tiempo]</span> pensando en <span class="hlA">[describe el pensamiento]</span>. <span class="hl">Hazme solo estas tres preguntas, una a la vez:</span> 1) ¿Hay algo que pueda hacer al respecto ahora mismo? 2) Si no hay nada que hacer, ¿qué me dice eso sobre el valor de seguir pensando en ello? 3) Si hay algo que hacer, ¿cuál es el primer paso más pequeño? <span class="hl">Solo las preguntas, sin consejos generales.</span></div></div>
+    <div class="pt"><div class="pt-tag pt-amber">📚 Estudio con TDAH</div><h3>Material pesado → digerible</h3><p class="pt-desc">Para hackear la dopamina y hacer el aprendizaje estimulante:</p><div class="prompt-box" id="p5"><button class="copy-btn" onclick="copyP('p5',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Tengo que estudiar esto: <span class="hlA">[pega el texto o tema]</span>. Tengo TDAH. <span class="hl">Transfórmalo en 5 preguntas tipo quiz</span> con respuesta, de más simple a más complejo. Cada pregunta debe ser un reto. Después de que responda, <span class="hlA">corrígeme en máximo 2 oraciones.</span> Empieza con la primera pregunta.</div></div>
+    <div class="pt"><div class="pt-tag pt-slate">🌙 Crisis nocturna</div><h3>Contención a las 3 AM</h3><p class="pt-desc">Cuando el miedo escala en la madrugada:</p><div class="prompt-box" id="p6"><button class="copy-btn" onclick="copyP('p6',this)" aria-label="Copiar prompt y abrir IA">Copiar y abrir IA</button>Son las <span class="hlA">[hora]</span> y estoy en crisis. <span class="hl">No me des soluciones todavía.</span> Primero pregúntame: 1) ¿Estoy en peligro físico real ahora mismo? 2) ¿Cuál es el pensamiento exacto que más me activa? 3) ¿Qué tan probable es que sea un hecho real y no una interpretación? Después aplica el cuestionamiento socrático. <span class="hl">Tono calmado y directo.</span></div><div class="warn-box"><p><strong>Si hay riesgo suicida real:</strong> no uses la IA. Llama a Línea de la Vida: <strong>800-911-2000</strong>.</p></div></div>
   </div>
 
   <div class="card" style="background:var(--md-secondary-container)">
@@ -1048,32 +926,32 @@ strong{color:var(--md-on-background);font-weight:600}
   </div>
 </section>
 
-<!-- ═══════════════ GUIA ═══════════════ -->
-<section class="sec" id="guia">
+<!-- ═══════════════ GUÍA ═══════════════ -->
+<section class="sec" id="guia" aria-label="Guía personal del mes">
   <div class="guide-intro">
-    <div class="hbadge" style="position:relative">📋 Recurso clínico personalizable</div>
+    <div class="hbadge" style="position:relative" aria-hidden="true">📋 Recurso clínico personalizable</div>
     <h2>Guía personal del mes</h2>
     <p>Un recordatorio de lo que está pasando, por qué pasa y hacia dónde va el tratamiento. Para releer cuando el malestar hace dudar de que algo va a mejorar.</p>
   </div>
   <div class="guide-grid">
-    <div class="gc"><div class="gc-num">01</div><div class="gc-title">Lo que me está pasando no es exageración</div><div class="gc-body">Mis síntomas tienen explicación clínica. No es debilidad ni drama: es un cuadro médico que afecta cómo pienso, siento y reacciono.</div></div>
-    <div class="gc amber"><div class="gc-num">02</div><div class="gc-title">Mi cerebro está en "modo supervivencia"</div><div class="gc-body">Cuando vivo en alerta constante, la mente solo intenta protegerme. Esto explica por qué me canso, me irrito, me preocupo de más, me es difícil disfrutar, y por qué cualquier interacción puede sentirse como amenaza.</div></div>
-    <div class="gc"><div class="gc-num">03</div><div class="gc-title">La depresión altera la motivación</div><div class="gc-body">El área ventral del cerebro no libera dopamina de forma normal. Por eso hago cosas "por obligación" y no porque las disfrute. <strong>Esto es biológico, no personal.</strong></div></div>
-    <div class="gc"><div class="gc-num">04</div><div class="gc-title">Mi historia importa</div><div class="gc-body">Las experiencias adversas tempranas dejaron huellas reales en la forma en que hoy me relaciono, reacciono, me exijo y me trato. La culpa no es mía. Esto no define mi valor.</div></div>
-    <div class="gc dark"><div class="gc-num">05</div><div class="gc-title">No estoy roto/a</div><div class="gc-body">Todo lo que siento tiene un patrón conocido y tratable. <strong>Miles de personas con historias similares mejoran con el enfoque correcto.</strong> Estos síntomas no son para siempre.</div></div>
-    <div class="gc"><div class="gc-num">06</div><div class="gc-title">El tratamiento tiene un objetivo claro</div><div class="gc-body">Que mi ansiedad deje de estar en "modo alerta". Que recupere energía, concentración y placer. Que vuelva a sentir estabilidad emocional. <strong>Que pueda vivir, no sobrevivir.</strong></div></div>
-    <div class="gc amber"><div class="gc-num">07</div><div class="gc-title">Sobre el medicamento</div><div class="gc-body">No es sedante ni adictivo. Es un regulador de los neurotransmisores que el cerebro necesita para estabilizarse. <strong>Tarda 5–6 semanas en hacer efecto real.</strong></div></div>
-    <div class="gc"><div class="gc-num">08</div><div class="gc-title">Sobre mi sueño</div><div class="gc-body">Dormir sin descansar no significa flojera: es parte del trastorno. Mejorar el ciclo de sueño mejora la emoción, el pensamiento y la energía disponible para sanar.</div></div>
-    <div class="gc"><div class="gc-num">09</div><div class="gc-title">El trabajo en terapia será clave</div><div class="gc-body">La meta: validar lo vivido, identificar las creencias heredadas del trauma, empezar a poner límites sin sentir culpa, bajar la autoexigencia que desgasta, dejar de normalizar lo que sí me dañó.</div></div>
-    <div class="gc dark"><div class="gc-num">10</div><div class="gc-title">Mi valor no depende de mi rendimiento</div><div class="gc-body">La autoexigencia es una herida vieja disfrazada de perfeccionismo. No me hace mejor; me agota. <strong>Aprender a soltarla es parte de curar.</strong></div></div>
-    <div class="gc amber"><div class="gc-num">11</div><div class="gc-title">Puedo sentir esperanza</div><div class="gc-body">Quiero vivir, solo no quiero vivir así. Esa es la señal más clara de que sí quiero sanar y sí tengo fuerza para hacerlo.</div></div>
-    <div class="gc"><div class="gc-num">12</div><div class="gc-title">El objetivo de este mes: estabilización</div><div class="gc-body">Que los síntomas bajen, que el sueño mejore, que empiece a recuperar claridad, calma y energía. <strong>No se trata de avanzar rápido, sino de avanzar estable.</strong></div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">01</div><div class="gc-title">Lo que me está pasando no es exageración</div><div class="gc-body">Mis síntomas tienen explicación clínica. No es debilidad ni drama: es un cuadro médico que afecta cómo pienso, siento y reacciono.</div></div>
+    <div class="gc amber"><div class="gc-num" aria-hidden="true">02</div><div class="gc-title">Mi cerebro está en "modo supervivencia"</div><div class="gc-body">Cuando vivo en alerta constante, la mente solo intenta protegerme. Esto explica por qué me canso, me irrito, me preocupo de más, me es difícil disfrutar, y por qué cualquier interacción puede sentirse como amenaza.</div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">03</div><div class="gc-title">La depresión altera la motivación</div><div class="gc-body">El área ventral del cerebro no libera dopamina de forma normal. Por eso hago cosas "por obligación" y no porque las disfrute. <strong>Esto es biológico, no personal.</strong></div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">04</div><div class="gc-title">Mi historia importa</div><div class="gc-body">Las experiencias adversas tempranas dejaron huellas reales en la forma en que hoy me relaciono, reacciono, me exijo y me trato. La culpa no es mía. Esto no define mi valor.</div></div>
+    <div class="gc dark"><div class="gc-num" aria-hidden="true">05</div><div class="gc-title">No estoy roto/a</div><div class="gc-body">Todo lo que siento tiene un patrón conocido y tratable. <strong>Miles de personas con historias similares mejoran con el enfoque correcto.</strong> Estos síntomas no son para siempre.</div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">06</div><div class="gc-title">El tratamiento tiene un objetivo claro</div><div class="gc-body">Que mi ansiedad deje de estar en "modo alerta". Que recupere energía, concentración y placer. Que vuelva a sentir estabilidad emocional. <strong>Que pueda vivir, no sobrevivir.</strong></div></div>
+    <div class="gc amber"><div class="gc-num" aria-hidden="true">07</div><div class="gc-title">Sobre el medicamento</div><div class="gc-body">No es sedante ni adictivo. Es un regulador de los neurotransmisores que el cerebro necesita para estabilizarse. <strong>Tarda 5–6 semanas en hacer efecto real.</strong></div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">08</div><div class="gc-title">Sobre mi sueño</div><div class="gc-body">Dormir sin descansar no significa flojera: es parte del trastorno. Mejorar el ciclo de sueño mejora la emoción, el pensamiento y la energía disponible para sanar.</div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">09</div><div class="gc-title">El trabajo en terapia será clave</div><div class="gc-body">La meta: validar lo vivido, identificar las creencias heredadas, empezar a poner límites sin sentir culpa, bajar la autoexigencia que desgasta, dejar de normalizar lo que sí me dañó.</div></div>
+    <div class="gc dark"><div class="gc-num" aria-hidden="true">10</div><div class="gc-title">Mi valor no depende de mi rendimiento</div><div class="gc-body">La autoexigencia es una herida vieja disfrazada de perfeccionismo. No me hace mejor; me agota. <strong>Aprender a soltarla es parte de curar.</strong></div></div>
+    <div class="gc amber"><div class="gc-num" aria-hidden="true">11</div><div class="gc-title">Puedo sentir esperanza</div><div class="gc-body">Quiero vivir, solo no quiero vivir así. Esa es la señal más clara de que sí quiero sanar y sí tengo fuerza para hacerlo.</div></div>
+    <div class="gc"><div class="gc-num" aria-hidden="true">12</div><div class="gc-title">El objetivo de este mes: estabilización</div><div class="gc-body">Que los síntomas bajen, que el sueño mejore, que empiece a recuperar claridad, calma y energía. <strong>No se trata de avanzar rápido, sino de avanzar estable.</strong></div></div>
   </div>
   <div class="cot" style="margin-top:1rem"><div class="cot-t">📞 Si tienes dudas, síntomas nuevos o algo te preocupa</div><p>No tienes que aguantarte ni esperar. Punto de partida: <strong>+52 55 6810 1894</strong> · Línea de la Vida: <strong>800-911-2000</strong></p></div>
 </section>
 
 <!-- ═══════════════ RED ═══════════════ -->
-<section class="sec" id="red">
+<section class="sec" id="red" aria-label="Red terapéutica">
   <div class="sh"><h4>Red de psicoterapia</h4><h2>El equipo terapéutico</h2><p class="lead">El 100% de los pacientes requiere psicoterapia a la par del tratamiento psiquiátrico. El psiquiatra estabiliza la biología; el terapeuta reestructura el pensamiento. Sin los dos, el tratamiento está incompleto.</p></div>
   <div class="card mb" style="background:var(--md-secondary-container)">
     <div style="display:flex;gap:1.25rem;flex-wrap:wrap;align-items:flex-start">
@@ -1082,21 +960,21 @@ strong{color:var(--md-on-background);font-weight:600}
     </div>
   </div>
   <div class="thg">
-    <div class="thc"><div class="thav" style="background:#EDE9FE;color:#5B21B6">J</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Johana</div><div class="md" style="margin-bottom:.55rem">TCC · Trauma · Adicciones</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">Trauma</span><span class="badge bgr">Adicciones</span></div><div class="md" style="margin-bottom:.82rem">💻 Online · Desde España</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Especialista en trauma complejo y adicciones. Atiende en línea.</p><a href="tel:+5255498357100" class="thb">📱 +52 55 4983 5710</a></div>
-    <div class="thc"><div class="thav" style="background:var(--md-primary-container);color:var(--forest)">A</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Arturo</div><div class="md" style="margin-bottom:.55rem">Maestría en TCC · Especialidad en TDAH</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">TDAH</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Perfil científico y muy estructurado. Ideal para TDAH.</p><a href="tel:+525519517821" class="thb">📱 +52 55 1951 7821</a></div>
-    <div class="thc"><div class="thav" style="background:var(--md-tertiary-container);color:var(--md-tertiary)">I</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Iván</div><div class="md" style="margin-bottom:.55rem">TCC · Enfoque estructurado</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Depresión</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Proceso muy ordenado y progresivo.</p><a href="tel:+525522645240" class="thb">📱 +52 55 2264 5240</a></div>
-    <div class="thc"><div class="thav" style="background:var(--md-error-container);color:var(--md-error)">R</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Rubí</div><div class="md" style="margin-bottom:.55rem">TCC · Acompañamiento terapéutico</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Acompañamiento</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Enfoque cálido y cercano.</p><a href="tel:+525541948903" class="thb">📱 +52 55 4194 8903</a></div>
+    <div class="thc"><div class="thav" style="background:#EDE9FE;color:#5B21B6" aria-hidden="true">J</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Johana</div><div class="md" style="margin-bottom:.55rem">TCC · Trauma · Adicciones</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">Trauma</span><span class="badge bgr">Adicciones</span></div><div class="md" style="margin-bottom:.82rem">💻 Online · Desde España</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Especialista en trauma complejo y adicciones. Atiende en línea.</p><a href="tel:+5255498357100" class="thb">📱 +52 55 4983 5710</a></div>
+    <div class="thc"><div class="thav" style="background:var(--md-primary-container);color:var(--forest)" aria-hidden="true">A</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Arturo</div><div class="md" style="margin-bottom:.55rem">Maestría en TCC · Especialidad en TDAH</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge ba">TDAH</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Perfil científico y muy estructurado. Ideal para TDAH.</p><a href="tel:+525519517821" class="thb">📱 +52 55 1951 7821</a></div>
+    <div class="thc"><div class="thav" style="background:var(--md-tertiary-container);color:var(--md-tertiary)" aria-hidden="true">I</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Iván</div><div class="md" style="margin-bottom:.55rem">TCC · Enfoque estructurado</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Depresión</span><span class="badge bgr">Ansiedad</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Proceso muy ordenado y progresivo.</p><a href="tel:+525522645240" class="thb">📱 +52 55 2264 5240</a></div>
+    <div class="thc"><div class="thav" style="background:var(--md-error-container);color:var(--md-error)" aria-hidden="true">R</div><div class="mn" style="font-size:.93rem;margin-bottom:.18rem">Rubí</div><div class="md" style="margin-bottom:.55rem">TCC · Acompañamiento terapéutico</div><div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.82rem"><span class="badge bt">TCC</span><span class="badge bgr">Acompañamiento</span></div><div class="md" style="margin-bottom:.82rem">📍 Presencial y online</div><p style="font-size:.77rem;color:var(--md-on-surface-variant);margin-bottom:.88rem;font-weight:400">Enfoque cálido y cercano.</p><a href="tel:+525541948903" class="thb">📱 +52 55 4194 8903</a></div>
   </div>
   <div class="cot" style="margin-top:1.25rem"><div class="cot-t">📌 Coordinación del tratamiento</div><p>Todos los terapeutas del equipo cuentan con posgrado y formación específica. El psiquiatra tratante coordina el manejo farmacológico con el proceso psicoterapéutico para garantizar coherencia.</p></div>
 </section>
 
 <!-- ═══════════════ SEGURIDAD ═══════════════ -->
-<section class="sec" id="seguridad">
+<section class="sec" id="seguridad" aria-label="Plan de seguridad">
   <div class="sh"><h4>Protocolo clínico</h4><h2>Plan de seguridad · Riesgo suicida</h2><p class="lead">Este plan es para usar en casa junto a alguien de confianza. No reemplaza la atención médica urgente. Si hay riesgo inminente, actúa ahora.</p></div>
-  <div class="sp-contact">
-    <div class="sc-row"><div class="sc-label">Línea de la Vida (México)</div><div class="sc-val">800 911 2000</div></div>
-    <div class="sc-row"><div class="sc-label">Hospital Psiq. Ramón de la Fuente</div><div class="sc-val">55 4160 5460</div></div>
-    <div class="sc-row"><div class="sc-label">Punto de partida</div><div class="sc-val teal">+52 55 6810 1894</div></div>
+  <div class="sp-contact" role="region" aria-label="Números de emergencia">
+    <div class="sc-row"><div class="sc-label">Línea de la Vida (México)</div><a href="tel:8009112000" class="sc-val" style="text-decoration:none">800 911 2000</a></div>
+    <div class="sc-row"><div class="sc-label">Hospital Psiq. Ramón de la Fuente</div><a href="tel:5541605460" class="sc-val" style="text-decoration:none">55 4160 5460</a></div>
+    <div class="sc-row"><div class="sc-label">Punto de partida</div><a href="tel:+525568101894" class="sc-val teal" style="text-decoration:none">+52 55 6810 1894</a></div>
   </div>
   <div class="g2">
     <div>
@@ -1118,129 +996,251 @@ strong{color:var(--md-on-background);font-weight:600}
   </div>
 </section>
 
-<!-- FAB SOS -->
-<a href="#seguridad" class="fab-sos" onclick="show('seguridad', document.querySelectorAll('.tab')[8])" title="Plan de Seguridad / Emergencia">🚨</a>
-
 </main>
 
+<!-- FAB SOS — solo una vez, fuera del main -->
+<a href="#seguridad" class="fab-sos" onclick="show('seguridad', document.querySelectorAll('.tab')[8]);return false;" title="Plan de Seguridad / Emergencia" aria-label="Ir al plan de seguridad y emergencia">🚨</a>
+
 <script>
-function show(id,btn){
-  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  btn.classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
+/* ══ NAVEGACIÓN ══ */
+function show(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('on');
+  if (btn) btn.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function makeDots(id,arr){
-  const c=document.getElementById(id);
-  arr.forEach(t=>{
-    const d=document.createElement('div');d.className='dot '+t;
-    const s=t==='don'?13:t==='dal'?15:9;
-    d.style.cssText=`width:${s}px;height:${s}px`;
+/* ══ DOTS ══ */
+function makeDots(id, arr) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  arr.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'dot ' + t;
+    const s = t === 'don' ? 13 : t === 'dal' ? 15 : 9;
+    d.style.cssText = `width:${s}px;height:${s}px`;
     c.appendChild(d);
   });
 }
-makeDots('dh',Array(28).fill('don'));
-makeDots('dd',[...Array(22).fill('doff'),'dal','dal','dal','dal','dal','dal']);
 
-const dists=[
-  {n:'Catastrofismo',ic:'⚡',tg:'Ansiedad · Anticipación',cl:'tc',desc:'El cerebro anticipa el peor escenario como mecanismo de defensa fallido. El paciente sufre dos veces: antes del evento y después rumiando lo que pasó.',ex:'"Me duele la cabeza desde ayer. Seguramente tengo un tumor. Voy a quedar incapacitado y mi familia va a sufrir."',ct:'Reestructuración socrática',cm:'¿Cuántas veces antes tuviste dolor de cabeza y el resultado fue un tumor? Separa la posibilidad de la probabilidad estadística real.'},
-  {n:'Falacia de justicia',ic:'⚖️',tg:'Ira · Resentimiento · Relaciones',cl:'am',desc:'La creencia rígida de que el mundo debe operar bajo las propias normas de equidad y moralidad. Genera ira crónica y resentimiento profundo.',ex:'"Yo siempre llego a tiempo, trabajo más que nadie y no me reconocen. Aquí nadie valora el esfuerzo como yo."',ct:'Perspectiva clínica',cm:'El mundo no firmó un acuerdo con tu sistema de valores. ¿Cuánta energía vital consumes siendo el auditor de la justicia ajena?'},
-  {n:'Razonamiento emocional',ic:'🌊',tg:'Ansiedad · TLP · Depresión',cl:'ro',desc:'"Si lo siento, debe ser cierto." La convicción de que si una emoción se siente intensa, la realidad que describe debe ser verdadera. Anula la lógica y la evidencia.',ex:'"Siento que mi pareja me va a dejar aunque no ha dicho ni hecho nada. Lo presiento con mucha fuerza."',ct:'La distinción clave',cm:'Las emociones son datos de tu estado interno, no evidencia de hechos externos. ¿Qué evidencia concreta tienes, no sentida sino observada?'},
-  {n:'Rumiación y autoflagelación',ic:'🔁',tg:'Depresión · Culpa · Vergüenza',cl:'bl',desc:'El ciclo compulsivo de darle vueltas a errores pasados o catástrofes futuras. Drena la memoria de trabajo del córtex prefrontal y bloquea la capacidad de resolver problemas.',ex:'"No debí haber dicho eso. Soy un idiota. Nunca aprendo. Jamás voy a poder cambiar."',ct:'Autocompasión',cm:'¿Le dirías esas palabras exactas a alguien que quieres? La autocrítica severa produce parálisis, no cambio.'},
-  {n:'Lectura de la mente',ic:'🔮',tg:'Ansiedad social · Relaciones',cl:'tc',desc:'La suposición de que se sabe con certeza lo que otros piensan, especialmente pensamientos negativos hacia uno, sin ninguna evidencia concreta.',ex:'"Mi jefe no me saludó en la mañana. Claramente está enojado conmigo. Probablemente me va a despedir esta semana."',ct:'La regla de la evidencia',cm:'¿Tu jefe te dijo que está molesto? ¿O construiste una narrativa completa a partir de un comportamiento neutral?'},
-  {n:'Los "debería"',ic:'📏',tg:'Perfeccionismo · Autoexigencia',cl:'am',desc:'Una red rígida de reglas internas sobre cómo uno mismo y los demás deberían comportarse. Genera culpa (hacia uno) o ira (hacia otros) cuando no se cumplen.',ex:'"Debería poder manejar esto solo. No debería necesitar ayuda. Una persona fuerte no se rompe por esto."',ct:'La flexibilidad como fortaleza',cm:'¿De dónde viene esa regla? Reemplazar "debería" por "preferiría" reduce la presión sin eliminar el objetivo.'}
+/* ══ DISTORSIONES ══ */
+const dists = [
+  { n: 'Catastrofismo', ic: '⚡', tg: 'Ansiedad · Anticipación', cl: 'tc', desc: 'El cerebro anticipa el peor escenario como mecanismo de defensa fallido. El paciente sufre dos veces: antes del evento y después rumiando lo que pasó.', ex: '"Me duele la cabeza desde ayer. Seguramente tengo un tumor. Voy a quedar incapacitado y mi familia va a sufrir."', ct: 'Reestructuración socrática', cm: '¿Cuántas veces antes tuviste dolor de cabeza y el resultado fue un tumor? Separa la posibilidad de la probabilidad estadística real.' },
+  { n: 'Falacia de justicia', ic: '⚖️', tg: 'Ira · Resentimiento · Relaciones', cl: 'am', desc: 'La creencia rígida de que el mundo debe operar bajo las propias normas de equidad y moralidad. Genera ira crónica y resentimiento profundo.', ex: '"Yo siempre llego a tiempo, trabajo más que nadie y no me reconocen. Aquí nadie valora el esfuerzo como yo."', ct: 'Perspectiva clínica', cm: 'El mundo no firmó un acuerdo con tu sistema de valores. ¿Cuánta energía vital consumes siendo el auditor de la justicia ajena?' },
+  { n: 'Razonamiento emocional', ic: '🌊', tg: 'Ansiedad · TLP · Depresión', cl: 'ro', desc: '"Si lo siento, debe ser cierto." La convicción de que si una emoción se siente intensa, la realidad que describe debe ser verdadera. Anula la lógica y la evidencia.', ex: '"Siento que mi pareja me va a dejar aunque no ha dicho ni hecho nada. Lo presiento con mucha fuerza."', ct: 'La distinción clave', cm: 'Las emociones son datos de tu estado interno, no evidencia de hechos externos. ¿Qué evidencia concreta tienes, no sentida sino observada?' },
+  { n: 'Rumiación y autoflagelación', ic: '🔁', tg: 'Depresión · Culpa · Vergüenza', cl: 'bl', desc: 'El ciclo compulsivo de darle vueltas a errores pasados o catástrofes futuras. Drena la memoria de trabajo del córtex prefrontal y bloquea la capacidad de resolver problemas.', ex: '"No debí haber dicho eso. Soy un idiota. Nunca aprendo. Jamás voy a poder cambiar."', ct: 'Autocompasión', cm: '¿Le dirías esas palabras exactas a alguien que quieres? La autocrítica severa produce parálisis, no cambio.' },
+  { n: 'Lectura de la mente', ic: '🔮', tg: 'Ansiedad social · Relaciones', cl: 'tc', desc: 'La suposición de que se sabe con certeza lo que otros piensan, especialmente pensamientos negativos hacia uno, sin ninguna evidencia concreta.', ex: '"Mi jefe no me saludó en la mañana. Claramente está enojado conmigo. Probablemente me va a despedir esta semana."', ct: 'La regla de la evidencia', cm: '¿Tu jefe te dijo que está molesto? ¿O construiste una narrativa completa a partir de un comportamiento neutral?' },
+  { n: 'Los "debería"', ic: '📏', tg: 'Perfeccionismo · Autoexigencia', cl: 'am', desc: 'Una red rígida de reglas internas sobre cómo uno mismo y los demás deberían comportarse. Genera culpa (hacia uno) o ira (hacia otros) cuando no se cumplen.', ex: '"Debería poder manejar esto solo. No debería necesitar ayuda. Una persona fuerte no se rompe por esto."', ct: 'La flexibilidad como fortaleza', cm: '¿De dónde viene esa regla? Reemplazar "debería" por "preferiría" reduce la presión sin eliminar el objetivo.' }
 ];
 
-function buildDist(){
-  const g=document.getElementById('dg');
-  dists.forEach(d=>{
-    const el=document.createElement('div');el.className=`dc ${d.cl}`;
-    el.innerHTML=`<div class="di">${d.ic}</div><div class="dn">${d.n}</div><div class="dtg">${d.tg}</div><div class="dd"><p>${d.desc}</p><div class="dex">${d.ex}</div><div class="dct"><strong>${d.ct}&nbsp;</strong>${d.cm}</div></div>`;
-    el.onclick=()=>{const was=el.classList.contains('act');document.querySelectorAll('.dc').forEach(c=>c.classList.remove('act'));if(!was)el.classList.add('act');};
+function buildDist() {
+  const g = document.getElementById('dg');
+  if (!g) return;
+  dists.forEach(d => {
+    const el = document.createElement('div');
+    el.className = `dc ${d.cl}`;
+    el.setAttribute('role', 'listitem');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-expanded', 'false');
+    el.innerHTML = `<div class="di" aria-hidden="true">${d.ic}</div><div class="dn">${d.n}</div><div class="dtg">${d.tg}</div><div class="dd"><p>${d.desc}</p><div class="dex">${d.ex}</div><div class="dct"><strong>${d.ct}&nbsp;</strong>${d.cm}</div></div>`;
+    const toggle = () => {
+      const was = el.classList.contains('act');
+      document.querySelectorAll('.dc').forEach(c => { c.classList.remove('act'); c.setAttribute('aria-expanded', 'false'); });
+      if (!was) { el.classList.add('act'); el.setAttribute('aria-expanded', 'true'); }
+    };
+    el.onclick = toggle;
+    el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
     g.appendChild(el);
   });
 }
-buildDist();
 
-const quizData=[
-  {thought:'Mi jefe no me contestó el correo. Seguro ya no le importa mi trabajo y me van a correr.',dist:'Lectura de la mente + Catastrofismo',label:'ql-teal',explain:'Asumes saber qué piensa tu jefe y saltas al peor escenario posible.',alt:'Mi jefe puede estar ocupado. Si me preocupa, puedo preguntarle directamente.'},
-  {thought:'Reprobé el examen. Soy un completo fracaso. Nunca voy a lograr nada en la vida.',dist:'Etiquetado + Sobregeneralización',label:'ql-amber',explain:'Un evento específico se transforma en etiqueta global y se extiende al futuro entero.',alt:'Reprobé este examen específico. Puedo analizar qué salió mal.'},
-  {thought:'Me siento muy ansioso, entonces seguramente algo terrible va a pasar hoy.',dist:'Razonamiento emocional',label:'ql-red',explain:'La ansiedad genera sensación de peligro, pero sentir peligro no significa estar en peligro.',alt:'Estoy sintiendo ansiedad. Eso habla de mi estado interno, no de lo que va a pasar.'},
-  {thought:'Me invitaron a la fiesta pero solo porque les di lástima.',dist:'Descalificar lo positivo + Lectura de la mente',label:'ql-teal',explain:'Rechazas la evidencia positiva y asumes motivaciones negativas sin prueba.',alt:'Me invitaron. Esa es la evidencia concreta.'},
-  {thought:'Debería ser capaz de manejar todo esto sin ayuda. Pedir ayuda significa que soy débil.',dist:'Los "debería" + Todo o nada',label:'ql-amber',explain:'Regla rígida + clasificación absoluta. Pedir ayuda es habilidad, no debilidad.',alt:'Preferiría manejar esto solo, pero reconocer que necesito apoyo es fortaleza.'},
-  {thought:'Mi hijo se enfermó. Seguramente es mi culpa por no cuidarlo bien.',dist:'Personalización',label:'ql-red',explain:'Te asignas toda la responsabilidad de un evento con múltiples causas.',alt:'Los niños se enferman por muchas razones. Estoy haciendo lo que puedo.'},
-  {thought:'Todas mis amigas tienen mejores trabajos que yo. Soy la peor de todas.',dist:'Comparación falsa + Filtro mental',label:'ql-blue',explain:'Comparas tu situación completa con un solo aspecto visible de los demás.',alt:'Cada persona tiene un camino diferente. ¿Qué logros propios estoy ignorando?'},
-  {thought:'Ya probé un antidepresivo y no funcionó. Ningún tratamiento me va a servir.',dist:'Sobregeneralización + Adivinar el futuro',label:'ql-amber',explain:'Un intento se convierte en regla universal. Existen múltiples clases de antidepresivos.',alt:'Este medicamento no funcionó para mí. Hay múltiples opciones.'},
-  {thought:'Si me siento triste es porque mi vida realmente es un desastre.',dist:'Razonamiento emocional',label:'ql-red',explain:'La tristeza se toma como prueba objetiva. La depresión distorsiona la percepción.',alt:'Me siento triste y eso es real. Pero mi percepción puede estar sesgada por la depresión.'},
-  {thought:'No me salió perfecto el proyecto. Todo mi esfuerzo fue en vano.',dist:'Todo o nada + Descalificar lo positivo',label:'ql-teal',explain:'Si no es perfecto = fracaso total. Se descarta todo el esfuerzo.',alt:'El proyecto tuvo áreas de mejora y áreas que sí funcionaron.'}
+/* ══ QUIZ ══ */
+const quizData = [
+  { thought: 'Mi jefe no me contestó el correo. Seguro ya no le importa mi trabajo y me van a correr.', dist: 'Lectura de la mente + Catastrofismo', label: 'ql-teal', explain: 'Asumes saber qué piensa tu jefe y saltas al peor escenario posible.', alt: 'Mi jefe puede estar ocupado. Si me preocupa, puedo preguntarle directamente.' },
+  { thought: 'Reprobé el examen. Soy un completo fracaso. Nunca voy a lograr nada en la vida.', dist: 'Etiquetado + Sobregeneralización', label: 'ql-amber', explain: 'Un evento específico se transforma en etiqueta global y se extiende al futuro entero.', alt: 'Reprobé este examen específico. Puedo analizar qué salió mal.' },
+  { thought: 'Me siento muy ansioso, entonces seguramente algo terrible va a pasar hoy.', dist: 'Razonamiento emocional', label: 'ql-red', explain: 'La ansiedad genera sensación de peligro, pero sentir peligro no significa estar en peligro.', alt: 'Estoy sintiendo ansiedad. Eso habla de mi estado interno, no de lo que va a pasar.' },
+  { thought: 'Me invitaron a la fiesta pero solo porque les di lástima.', dist: 'Descalificar lo positivo + Lectura de la mente', label: 'ql-teal', explain: 'Rechazas la evidencia positiva y asumes motivaciones negativas sin prueba.', alt: 'Me invitaron. Esa es la evidencia concreta.' },
+  { thought: 'Debería ser capaz de manejar todo esto sin ayuda. Pedir ayuda significa que soy débil.', dist: 'Los "debería" + Todo o nada', label: 'ql-amber', explain: 'Regla rígida + clasificación absoluta. Pedir ayuda es habilidad, no debilidad.', alt: 'Preferiría manejar esto solo, pero reconocer que necesito apoyo es fortaleza.' },
+  { thought: 'Mi hijo se enfermó. Seguramente es mi culpa por no cuidarlo bien.', dist: 'Personalización', label: 'ql-red', explain: 'Te asignas toda la responsabilidad de un evento con múltiples causas.', alt: 'Los niños se enferman por muchas razones. Estoy haciendo lo que puedo.' }
 ];
 
-function buildQuiz(){
-  const w=document.getElementById('quiz-wrap');if(!w)return;
-  quizData.forEach(q=>{
-    const el=document.createElement('div');el.className='quiz-card';
-    el.innerHTML=`<div class="quiz-thought">${q.thought}</div><div class="quiz-reveal"><div class="quiz-label ${q.label}">${q.dist}</div><div class="quiz-explain">${q.explain}</div><div class="quiz-alt"><strong>Pensamiento alternativo</strong>${q.alt}</div></div>`;
-    el.onclick=()=>{el.classList.toggle('open');};
+function buildQuiz() {
+  const w = document.getElementById('quiz-wrap');
+  if (!w) return;
+  quizData.forEach(q => {
+    const el = document.createElement('div');
+    el.className = 'quiz-card';
+    el.setAttribute('role', 'listitem');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-expanded', 'false');
+    el.innerHTML = `<div class="quiz-thought">${q.thought}</div><div class="quiz-reveal"><div class="quiz-label ${q.label}">${q.dist}</div><div class="quiz-explain">${q.explain}</div><div class="quiz-alt"><strong>Pensamiento alternativo&nbsp;</strong>${q.alt}</div></div>`;
+    const toggle = () => {
+      el.classList.toggle('open');
+      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+    };
+    el.onclick = toggle;
+    el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
     w.appendChild(el);
   });
 }
-buildQuiz();
 
-function copyP(id,btn){
-  const box=document.getElementById(id);
-  const text=box.innerText.replace('Copiar y abrir IA','').replace('✓ ¡Listo!','').trim();
-  navigator.clipboard.writeText(text).then(()=>{
-    btn.textContent='✓ ¡Listo!';btn.classList.add('done');
-    setTimeout(()=>{
-      window.open(`https://chatgpt.com/?q=${encodeURIComponent(text)}`,'_blank');
-      btn.textContent='Copiar y abrir IA';btn.classList.remove('done');
-    },1000);
-  }).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    btn.textContent='✓ ¡Listo!';btn.classList.add('done');
-    setTimeout(()=>{window.open(`https://chatgpt.com/?q=${encodeURIComponent(text)}`,'_blank');btn.textContent='Copiar y abrir IA';btn.classList.remove('done');},1000);
-  });
-}
+/* ══ COPY PROMPT ══ */
+function copyP(id, btn) {
+  const box = document.getElementById(id);
+  const text = box.innerText.replace('Copiar y abrir IA', '').replace('✓ ¡Listo!', '').trim();
 
-function showBrain(id){
-  document.querySelectorAll('.brain-detail').forEach(d=>d.style.display='none');
-  document.querySelector('.brain-welcome').style.display='none';
-  const el=document.getElementById('bd-'+id);
-  if(el){el.style.display='block';}
-  document.querySelectorAll('.bzone').forEach(z=>z.style.opacity='0.4');
-  const zone=document.getElementById('bz-'+id);
-  if(zone){zone.style.opacity='1';}
-}
+  const openAI = () => {
+    window.open(`https://chatgpt.com/?q=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    btn.textContent = 'Copiar y abrir IA';
+    btn.classList.remove('done');
+  };
 
-(function(){
-  const nav=document.getElementById('mainNav');
-  const fade=document.getElementById('navFade');
-  if(!nav||!fade)return;
-  function check(){
-    const maxScroll=nav.scrollWidth-nav.clientWidth;
-    if(maxScroll<=4){fade.classList.add('hidden');return;}
-    fade.classList.toggle('hidden',nav.scrollLeft>=maxScroll-4);
+  const copied = () => {
+    btn.textContent = '✓ ¡Listo!';
+    btn.classList.add('done');
+    setTimeout(openAI, 1000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(copied).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); copied(); } catch (e) { openAI(); }
+      document.body.removeChild(ta);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); copied(); } catch (e) { openAI(); }
+    document.body.removeChild(ta);
   }
-  nav.addEventListener('scroll',check,{passive:true});
-  window.addEventListener('resize',check);
+}
+
+/* ══ BRAIN ══ */
+function showBrain(id) {
+  document.querySelectorAll('.brain-detail').forEach(d => d.style.display = 'none');
+  const welcome = document.querySelector('.brain-welcome');
+  if (welcome) welcome.style.display = 'none';
+  const el = document.getElementById('bd-' + id);
+  if (el) el.style.display = 'block';
+  document.querySelectorAll('.bzone').forEach(z => z.style.opacity = '0.4');
+  const zone = document.getElementById('bz-' + id);
+  if (zone) zone.style.opacity = '1';
+}
+
+/* ══ NAV FADE ══ */
+(function () {
+  const nav = document.getElementById('mainNav');
+  const fade = document.getElementById('navFade');
+  if (!nav || !fade) return;
+  function check() {
+    const maxScroll = nav.scrollWidth - nav.clientWidth;
+    if (maxScroll <= 4) { fade.classList.add('hidden'); return; }
+    fade.classList.toggle('hidden', nav.scrollLeft >= maxScroll - 4);
+  }
+  nav.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
   check();
 })();
 
-// GUARDADO LOCAL PARA AUTOMONITOREO
-document.addEventListener('DOMContentLoaded',()=>{
-  const toggles=document.querySelectorAll('.toggle-input');
-  toggles.forEach((toggle,index)=>{
-    try{
-      const savedState=localStorage.getItem(`eutimya_task_${index}`);
-      if(savedState==='true'){toggle.checked=true;}
-    }catch(e){}
-    toggle.addEventListener('change',(e)=>{
-      try{localStorage.setItem(`eutimya_task_${index}`,e.target.checked);}catch(e){}
+/* ══ DOM READY ══ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Dots
+  makeDots('dh', Array(28).fill('don'));
+  makeDots('dd', [...Array(22).fill('doff'), 'dal', 'dal', 'dal', 'dal', 'dal', 'dal']);
+
+  // Builds
+  buildDist();
+  buildQuiz();
+
+  // Toggle persistence
+  const toggles = document.querySelectorAll('.toggle-input');
+  toggles.forEach((toggle, index) => {
+    try {
+      const saved = localStorage.getItem(`eutimya_task_${index}`);
+      if (saved === 'true') toggle.checked = true;
+    } catch (e) {}
+    toggle.addEventListener('change', e => {
+      try { localStorage.setItem(`eutimya_task_${index}`, e.target.checked); } catch (e) {}
     });
   });
 });
+
+/* ══ PWA INSTALL BANNER ══ */
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Solo mostrar si el usuario no lo ha descartado antes
+  try {
+    if (!localStorage.getItem('eutimya_install_dismissed')) {
+      document.getElementById('install-banner').classList.add('show');
+    }
+  } catch (err) {
+    document.getElementById('install-banner').classList.add('show');
+  }
+});
+
+document.getElementById('ib-install').addEventListener('click', async () => {
+  document.getElementById('install-banner').classList.remove('show');
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
+
+document.getElementById('ib-dismiss').addEventListener('click', () => {
+  document.getElementById('install-banner').classList.remove('show');
+  try { localStorage.setItem('eutimya_install_dismissed', '1'); } catch (e) {}
+});
+
+// iOS install hint
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone;
+if (isIOS) {
+  try {
+    if (!localStorage.getItem('eutimya_ios_hint_dismissed')) {
+      setTimeout(() => document.getElementById('ios-hint').classList.add('show'), 3000);
+    }
+  } catch (e) {}
+}
+
+document.getElementById('ios-close').addEventListener('click', () => {
+  document.getElementById('ios-hint').classList.remove('show');
+  try { localStorage.setItem('eutimya_ios_hint_dismissed', '1'); } catch (e) {}
+});
+
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-banner').classList.remove('show');
+  deferredPrompt = null;
+});
+</script>
+
+<script>
+/* ══ SERVICE WORKER ══ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => {
+        console.log('✓ Eutimya PWA lista.');
+        // Verificar actualizaciones
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('Nueva versión disponible. Recarga para actualizar.');
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('Error de registro SW:', err));
+  });
+}
 </script>
 </body>
 </html>
