@@ -797,6 +797,9 @@
     <div class="sb-divider"></div>
     <button class="sb-item" onclick="navTo('seguridad',this)" data-sec="seguridad"><div class="sb-icon">🚨</div><div><div class="sb-label">Plan de seguridad</div><div class="sb-sublabel">Protocolo de crisis</div></div></button>
   </div>
+  <div class="sb-divider"></div>
+    <a class="sb-item" href="/citas" style="text-decoration:none"><div class="sb-icon">📅</div><div><div class="sb-label">Mis Citas</div><div class="sb-sublabel">Consultar y gestionar citas</div></div></a>
+  </div>
   <div class="sb-footer">Eutimya · Psicoeducación clínica · Dr. Moya</div>
 </div>
 
@@ -1309,6 +1312,16 @@
     <div class="card" style="border-top:3px solid var(--md-primary)"><h4>Ansiedad</h4><h3>"No voy a poder." →</h3><p><strong>"Es difícil, pero he manejado situaciones antes."</strong> Recuerda tu control parcial.</p></div>
     <div class="card" style="border-top:3px solid var(--md-tertiary)"><h4 style="color:var(--md-tertiary)">Impulsos</h4><h3>"Lo merezco." →</h3><p><strong>"Estoy agotada, hay otras formas de calmarme."</strong> Busca la emoción real detrás.</p></div>
   </div>
+
+  <div class="sec-next" onclick="navTo('sueno',document.querySelector('.sb-item[data-sec=\'sueno\']'))" role="link" tabindex="0">
+    <div class="sec-next-icon"><span>🌙</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">Siguiente sección</div>
+      <div class="sec-next-title">Sueño</div>
+      <div class="sec-next-desc">El sueño es tratamiento. Aprende higiene del sueño y técnicas que realmente funcionan.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
+  </div>
 </section>
 
 <!-- ABC (parte de la misma sección) -->
@@ -1596,6 +1609,16 @@
         <button class="btn bg" onclick="cbtiNextMot()">Siguiente →</button>
       </div>
     </div>
+  </div>
+
+  <div class="sec-next" onclick="navTo('sueno',document.querySelector('.sb-item[data-sec=\'sueno\']'))" role="link" tabindex="0" style="margin-top:2rem">
+    <div class="sec-next-icon"><span>🌙</span></div>
+    <div class="sec-next-body">
+      <div class="sec-next-label">← Regresar</div>
+      <div class="sec-next-title">Sueño</div>
+      <div class="sec-next-desc">Volver a higiene del sueño y las herramientas de la sección principal.</div>
+    </div>
+    <div class="sec-next-arrow">→</div>
   </div>
 
 </section>
