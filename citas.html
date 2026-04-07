@@ -69,41 +69,80 @@
       flex-direction: column;
     }
 
-    /* ── TOP APP BAR ── */
+    /* ── TOP APP BAR — igual que index.html ── */
     .top-bar {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 200;
       background: var(--md-surface-lowest);
       border-bottom: 1px solid var(--md-outline-variant);
+      box-shadow: var(--elev1);
+    }
+    .hi {
+      max-width: 1120px;
+      margin: 0 auto;
       padding: 0 1rem;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      box-shadow: var(--elev1);
     }
     .hb {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .top-bar-back {
+    .hcrisis {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      white-space: nowrap;
+      border: 1px solid rgba(0,106,96,.25);
+      text-decoration: none;
+    }
+    .hcrisis:hover { filter: brightness(.96); }
+    .dark-toggle {
+      background: none;
+      border: 1px solid var(--md-outline-variant);
+      border-radius: 20px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--md-on-surface-variant);
+      transition: all .2s;
       display: flex;
       align-items: center;
-      gap: .4rem;
-      font-size: .82rem;
-      color: var(--md-primary);
-      text-decoration: none;
-      font-weight: 500;
-      padding: 6px 10px;
-      border-radius: var(--r-full);
-      transition: background .15s;
-      margin-left: auto;
+      gap: 4px;
+      font-family: 'Roboto', sans-serif;
     }
-    .top-bar-back:hover { background: var(--md-primary-container); }
-    .top-bar-back .material-symbols-outlined { font-size: 18px; }
+    .dark-toggle:hover { border-color: var(--md-primary); color: var(--md-primary); }
+    .menu-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r-md);display:flex;align-items:center;gap:6px;color:var(--md-on-surface);font-family:inherit;font-size:13px;font-weight:500;transition:background .2s}
+    .menu-btn:hover{background:var(--md-surface-high)}
+    .menu-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .sidebar-overlay.open{opacity:1;pointer-events:auto}
+    .sidebar{position:fixed;top:0;left:-320px;width:300px;max-width:85vw;height:100%;background:var(--md-surface-lowest);z-index:910;transition:left .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:4px 0 24px rgba(0,0,0,.18);display:flex;flex-direction:column}
+    .sidebar.open{left:0}
+    .sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--md-outline-variant);display:flex;align-items:center;gap:12px}
+    .sb-header img{height:36px;width:auto}
+    .sb-header-text{font-size:1.1rem;font-weight:600;color:var(--md-on-surface);letter-spacing:-.01em}
+    .sb-close{background:none;border:none;cursor:pointer;margin-left:auto;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--md-on-surface-variant);transition:background .2s}
+    .sb-close:hover{background:var(--md-surface-high)}
+    .sb-nav{padding:8px 12px;flex:1}
+    .sb-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:var(--r-lg);cursor:pointer;transition:background .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit;color:var(--md-on-surface);text-decoration:none}
+    .sb-item:hover{background:var(--md-surface-high)}
+    .sb-item.active{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .sb-icon{width:38px;height:38px;border-radius:50%;background:var(--md-surface-high);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .2s}
+    .sb-label{font-size:.88rem;font-weight:500;line-height:1.2}
+    .sb-sublabel{font-size:.7rem;color:var(--md-on-surface-variant);font-weight:400;margin-top:1px}
+    .sb-divider{height:1px;background:var(--md-outline-variant);margin:8px 20px}
+    .sb-footer{padding:14px 20px;border-top:1px solid var(--md-outline-variant);font-size:.72rem;color:var(--md-on-surface-variant);text-align:center}
+    [data-theme="dark"] .sidebar{background:var(--md-surface)}
+    [data-theme="dark"] .sidebar-overlay.open{background:rgba(0,0,0,.65)}
 
     /* ── MAIN CONTENT ── */
     main {
@@ -607,16 +646,54 @@
 </head>
 <body>
 
-  <!-- TOP APP BAR — mismo header que index.html -->
+  <!-- TOP APP BAR — idéntico al index.html -->
   <header class="top-bar">
-    <div class="hb">
-      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:34px;width:auto;display:block">
+    <div class="hi">
+      <div class="hb">
+        <button class="menu-btn" onclick="openSidebar()" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:34px;width:auto;display:block">
+      </div>
+      <a href="/" class="hcrisis" aria-label="Ir a Psicoeducación">📚 Psicoeducación</a>
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Cambiar modo oscuro">🌙</button>
     </div>
-    <a class="top-bar-back" href="/">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Inicio
-    </a>
   </header>
+
+  <!-- SIDEBAR MENU -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sb-header">
+      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:32px">
+      <div class="sb-header-text">Eutimya</div>
+      <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
+    </div>
+    <div class="sb-nav">
+      <a class="sb-item active" href="/">
+        <div class="sb-icon">📚</div>
+        <div><div class="sb-label">Psicoeducación</div><div class="sb-sublabel">Neurobiología, TCC, medicamentos</div></div>
+      </a>
+      <a class="sb-item" href="/citas">
+        <div class="sb-icon">📅</div>
+        <div><div class="sb-label">Mis Citas</div><div class="sb-sublabel">Consultar y gestionar citas</div></div>
+      </a>
+      <div class="sb-divider"></div>
+      <a class="sb-item" href="https://psiquiatra-cdmx.eutimya.org/agendar" target="_blank" rel="noopener">
+        <div class="sb-icon">🗓️</div>
+        <div><div class="sb-label">Agendar cita</div><div class="sb-sublabel">Dr. Moya</div></div>
+      </a>
+      <a class="sb-item" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+        <div class="sb-icon">👶</div>
+        <div><div class="sb-label">Agendar cita</div><div class="sb-sublabel">Dra. Sharon · Paidopsiquiatría</div></div>
+      </a>
+      <div class="sb-divider"></div>
+      <a class="sb-item" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+        <div class="sb-icon">🧾</div>
+        <div><div class="sb-label">Factura</div><div class="sb-sublabel">Solicitar CFDI</div></div>
+      </a>
+    </div>
+    <div class="sb-footer">Eutimya · Psiquiatría CDMX · Dr. Moya</div>
+  </div>
 
   <!-- MAIN -->
   <main>
@@ -812,6 +889,37 @@
   </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── SIDEBAR ────────────────────────────────────────────────
+  function openSidebar(){
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeSidebar(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  // ── DARK MODE (igual que index.html) ──────────────────────
+  function toggleDark(){
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('eutimya-theme', isDark ? 'light' : 'dark');
+    document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+  }
+  (function(){
+    const saved = localStorage.getItem('eutimya-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme','dark');
+      document.addEventListener('DOMContentLoaded', () => {
+        const b = document.querySelector('.dark-toggle');
+        if (b) b.textContent = '☀️';
+      });
+    }
+  })();
+
   // ── CONFIGURACIÓN ──────────────────────────────────────────
   // Reemplaza esta URL con la de tu Apps Script Web App desplegada
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwMQK5Zk6mNWqcT5GUvoJhnrQt4xMaHEQK1HYY7-NpAu9aQQiUHnp0CjOj3zbZO9tkLqQ/exec";
