@@ -80,27 +80,14 @@
       height: 64px;
       display: flex;
       align-items: center;
-      gap: .75rem;
+      justify-content: space-between;
+      gap: 1rem;
       box-shadow: var(--elev1);
     }
-    .top-bar-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .top-bar-title {
-      font-family: 'Roboto Flex', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--md-on-background);
-      letter-spacing: -.02em;
-    }
-    .top-bar-subtitle {
-      font-size: .72rem;
-      color: var(--md-on-surface-variant);
-      margin-top: -.1rem;
+    .hb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .top-bar-back {
       display: flex;
@@ -620,12 +607,10 @@
 </head>
 <body>
 
-  <!-- TOP APP BAR -->
+  <!-- TOP APP BAR — mismo header que index.html -->
   <header class="top-bar">
-    <img class="top-bar-logo" src="https://psiquiatra-cdmx.eutimya.org/favicon.png" alt="Eutimya">
-    <div>
-      <div class="top-bar-title">Eutimya</div>
-      <div class="top-bar-subtitle">Psiquiatría · CDMX</div>
+    <div class="hb">
+      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:34px;width:auto;display:block">
     </div>
     <a class="top-bar-back" href="/">
       <span class="material-symbols-outlined">arrow_back</span>
@@ -773,6 +758,11 @@
           <div class="lb-icon"><span class="material-symbols-outlined">payments</span></div>
           <div class="lb-title">Formas de pago</div>
           <div class="lb-sub">Dra. Sharon</div>
+        </a>
+        <a class="link-btn lb-purple" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">receipt_long</span></div>
+          <div class="lb-title">Factura</div>
+          <div class="lb-sub">Solicitar CFDI</div>
         </a>
         <a class="link-btn lb-green" href="https://psiquiatra-cdmx.eutimya.org/exp" target="_blank" rel="noopener" style="grid-column: span 2">
           <div class="lb-icon"><span class="material-symbols-outlined">folder_open</span></div>
