@@ -415,9 +415,43 @@
     .toggle-label{font-size:.84rem;font-weight:400;color:var(--md-on-surface-variant)}
     .toggle-input:checked~.toggle-track~.toggle-label{color:var(--md-on-background);font-weight:500}
 
-    /* ══ FAB SOS ══ */
-    .fab-sos{position:fixed;bottom:24px;right:24px;background:var(--md-error);color:#fff;width:56px;height:56px;border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 12px rgba(186,26,26,.4),0 8px 20px rgba(186,26,26,.2);cursor:pointer;z-index:999;text-decoration:none;transition:all .2s ease;border:none}
-    .fab-sos:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(186,26,26,.5),0 12px 24px rgba(186,26,26,.25)}
+    /* ══ FAB IA ══ */
+    .fab-ai{position:fixed;bottom:24px;right:24px;background:var(--md-primary);color:#fff;width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,106,96,.35),0 8px 24px rgba(0,106,96,.18);cursor:pointer;z-index:999;border:none;transition:all .22s ease}
+    .fab-ai:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 6px 20px rgba(0,106,96,.45),0 12px 32px rgba(0,106,96,.22)}
+    .fab-ai:active{transform:scale(.96)}
+
+    /* ══ AI TOOLS CARD (dual — en dist y bottom de ia) ══ */
+    .ai-tools-card{background:var(--md-on-background);border-radius:var(--r-xl);padding:1.5rem;margin-top:1.25rem;position:relative;overflow:hidden}
+    .ai-tools-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.1) 0%,transparent 65%);pointer-events:none}
+    .ai-tools-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(158,242,228,.14);border:1px solid rgba(158,242,228,.28);color:var(--md-primary-container);font-size:.62rem;font-weight:700;padding:4px 12px;border-radius:var(--r-full);margin-bottom:.75rem;letter-spacing:.09em;text-transform:uppercase}
+    .ai-tools-title{font-size:1rem;font-weight:600;color:#fff;margin-bottom:.3rem}
+    .ai-tools-desc{font-size:.8rem;color:rgba(255,255,255,.55);margin-bottom:1rem;font-weight:400}
+    .ai-tools-btns{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem}
+    @media(max-width:420px){.ai-tools-btns{grid-template-columns:1fr}}
+    .ai-tool-btn{display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;padding:.85rem 1rem;border-radius:var(--r-lg);text-decoration:none;font-family:'Roboto',sans-serif;font-size:.82rem;font-weight:600;transition:all .18s;border:1.5px solid}
+    .ai-tool-btn span{line-height:1.2}
+    .ai-tool-sub{font-size:.65rem!important;font-weight:400!important;opacity:.65}
+    .ai-tool-gpt{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15);color:#fff}
+    .ai-tool-gpt:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
+    .ai-tool-gem{background:rgba(66,133,244,.12);border-color:rgba(66,133,244,.3);color:#fff}
+    .ai-tool-gem:hover{background:rgba(66,133,244,.2);border-color:rgba(66,133,244,.5)}
+    .ai-tools-note{font-size:.67rem;color:rgba(255,255,255,.28);margin:0;text-align:center}
+
+    /* ══ AI HERO CARD (top de ia — destacado) ══ */
+    .ai-hero-card{background:linear-gradient(135deg,#004D44 0%,#001A17 100%);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;border:1px solid rgba(158,242,228,.15)}
+    .ai-hero-glow{position:absolute;top:-40px;right:-40px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(158,242,228,.15) 0%,transparent 65%);pointer-events:none}
+    .ai-hero-content{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.1rem;position:relative}
+    .ai-hero-icon{flex-shrink:0;margin-top:.1rem}
+    .ai-hero-badge{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--md-primary-container);opacity:.7;margin-bottom:.2rem}
+    .ai-hero-title{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem;line-height:1.2}
+    .ai-hero-desc{font-size:.8rem;color:rgba(255,255,255,.5);margin:0;font-weight:400}
+    .ai-hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;position:relative}
+    @media(max-width:420px){.ai-hero-btns{grid-template-columns:1fr}}
+    .ai-hero-btn{display:flex;align-items:center;gap:.55rem;padding:.85rem 1rem;border-radius:var(--r-lg);text-decoration:none;font-family:'Roboto',sans-serif;font-size:.8rem;font-weight:600;transition:all .18s;border:1.5px solid;color:#fff}
+    .ai-hero-gpt{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+    .ai-hero-gpt:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);transform:translateY(-1px)}
+    .ai-hero-gemini{background:rgba(66,133,244,.15);border-color:rgba(66,133,244,.35)}
+    .ai-hero-gemini:hover{background:rgba(66,133,244,.25);border-color:rgba(66,133,244,.55);transform:translateY(-1px)}
 
     /* ══ RESPONSIVE ══ */
     @media(max-width:620px){
@@ -1318,13 +1352,23 @@
     <div class="sq"><div class="sqn" aria-hidden="true">6</div><p>Si el peor escenario ocurriera, ¿<em style="color:rgba(255,255,255,.68)">podría manejarlo</em>? ¿Han sobrevivido otras personas a algo similar?</p></div>
   </div>
 
-  <div class="woebot-card">
-    <h4>Herramienta complementaria</h4>
-    <h3>GPT de TCC: practica reestructuración cognitiva en tiempo real</h3>
-    <p style="font-size:.82rem">Una IA especializada en Terapia Cognitivo-Conductual. Puedes explorar distorsiones cognitivas, practicar el diálogo socrático y trabajar pensamientos automáticos entre sesiones. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
-    <div class="woebot-links">
-      <a href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">🤖 Abrir en ChatGPT</a>
+  <div class="ai-tools-card">
+    <div class="ai-tools-badge">🧠 Practica TCC ahora mismo</div>
+    <h3 class="ai-tools-title">Abre tu compañero de TCC</h3>
+    <p class="ai-tools-desc">IAs configuradas clínicamente para practicar entre sesiones. Elige la que ya usas.</p>
+    <div class="ai-tools-btns">
+      <a class="ai-tool-btn ai-tool-gpt" href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M22.28 9.5a5.76 5.76 0 0 0-.49-4.73 5.83 5.83 0 0 0-6.27-2.8A5.77 5.77 0 0 0 11.17 0a5.84 5.84 0 0 0-5.57 4.05 5.77 5.77 0 0 0-3.85 2.8 5.83 5.83 0 0 0 .72 6.83 5.76 5.76 0 0 0 .49 4.73 5.83 5.83 0 0 0 6.27 2.8A5.77 5.77 0 0 0 12.84 24a5.84 5.84 0 0 0 5.57-4.05 5.77 5.77 0 0 0 3.85-2.8 5.83 5.83 0 0 0-.72-6.83z"/></svg>
+        <span>GPT de TCC</span>
+        <span class="ai-tool-sub">ChatGPT</span>
+      </a>
+      <a class="ai-tool-btn ai-tool-gem" href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#gem-grad)"/><defs><linearGradient id="gem-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+        <span>Compañero TCC</span>
+        <span class="ai-tool-sub">Gemini · Eutimya</span>
+      </a>
     </div>
+    <p class="ai-tools-note">No reemplazan a tu terapeuta ni a tu médico.</p>
   </div>
 
 </section>
@@ -1697,6 +1741,39 @@
     <p>Una herramienta de contención y cuestionamiento socrático entre sesiones. No como amigo complaciente, sino como coterapeuta configurado con rigor clínico.</p>
   </div>
 
+  <!-- ACCESO DIRECTO DESTACADO -->
+  <div class="ai-hero-card">
+    <div class="ai-hero-glow" aria-hidden="true"></div>
+    <div class="ai-hero-content">
+      <div class="ai-hero-icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="42" height="42">
+          <circle cx="24" cy="24" r="22" fill="rgba(158,242,228,0.12)" stroke="rgba(158,242,228,0.35)" stroke-width="1.5"/>
+          <circle cx="24" cy="18" r="6" fill="rgba(158,242,228,0.9)"/>
+          <path d="M12 36c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="rgba(158,242,228,0.9)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="16" cy="22" r="3" fill="rgba(158,242,228,0.45)"/>
+          <circle cx="32" cy="22" r="3" fill="rgba(158,242,228,0.45)"/>
+          <path d="M8 28c0-4.418 3.582-8 8-8" stroke="rgba(158,242,228,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M40 28c0-4.418-3.582-8-8-8" stroke="rgba(158,242,228,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="ai-hero-text">
+        <div class="ai-hero-badge">Acceso directo</div>
+        <h2 class="ai-hero-title">Tu compañero de TCC</h2>
+        <p class="ai-hero-desc">Entrenado para practicar TCC contigo entre sesiones. Elige tu plataforma:</p>
+      </div>
+    </div>
+    <div class="ai-hero-btns">
+      <a class="ai-hero-btn ai-hero-gpt" href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M22.28 9.5a5.76 5.76 0 0 0-.49-4.73 5.83 5.83 0 0 0-6.27-2.8A5.77 5.77 0 0 0 11.17 0a5.84 5.84 0 0 0-5.57 4.05 5.77 5.77 0 0 0-3.85 2.8 5.83 5.83 0 0 0 .72 6.83 5.76 5.76 0 0 0 .49 4.73 5.83 5.83 0 0 0 6.27 2.8A5.77 5.77 0 0 0 12.84 24a5.84 5.84 0 0 0 5.57-4.05 5.77 5.77 0 0 0 3.85-2.8 5.83 5.83 0 0 0-.72-6.83z"/></svg>
+        GPT de TCC · ChatGPT
+      </a>
+      <a class="ai-hero-btn ai-hero-gemini" href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#gem-hero-grad)"/><defs><linearGradient id="gem-hero-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+        Compañero TCC · Gemini
+      </a>
+    </div>
+  </div>
+
   <div class="card mb" style="background:var(--md-tertiary-container)">
     <h4 style="color:var(--md-tertiary)">Regla fundamental</h4>
     <h3 style="color:var(--md-on-tertiary-container)">La IA por defecto no es terapéutica</h3>
@@ -1742,13 +1819,23 @@
     <p style="color:var(--md-on-secondary-container)">Si después de usar un prompt tu activación <strong>aumenta</strong> en lugar de bajar, cierra la IA y usa una técnica de grounding o contacta a tu terapeuta.</p>
   </div>
 
-  <div class="woebot-card">
-    <h4>IA especializada en TCC</h4>
-    <h3>GPT de TCC: terapeuta cognitivo entrenado</h3>
-    <p style="font-size:.82rem">Este GPT está configurado específicamente para Terapia Cognitivo-Conductual. Practica reestructuración cognitiva, diálogo socrático y manejo de distorsiones. Más enfocado que un chat general. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
-    <div class="woebot-links">
-      <a href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">🤖 Abrir GPT de TCC</a>
+  <div class="ai-tools-card">
+    <div class="ai-tools-badge">🧠 Practica TCC ahora mismo</div>
+    <h3 class="ai-tools-title">Abre tu compañero de TCC</h3>
+    <p class="ai-tools-desc">IAs configuradas clínicamente para practicar entre sesiones. Elige la que ya usas.</p>
+    <div class="ai-tools-btns">
+      <a class="ai-tool-btn ai-tool-gpt" href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M22.28 9.5a5.76 5.76 0 0 0-.49-4.73 5.83 5.83 0 0 0-6.27-2.8A5.77 5.77 0 0 0 11.17 0a5.84 5.84 0 0 0-5.57 4.05 5.77 5.77 0 0 0-3.85 2.8 5.83 5.83 0 0 0 .72 6.83 5.76 5.76 0 0 0 .49 4.73 5.83 5.83 0 0 0 6.27 2.8A5.77 5.77 0 0 0 12.84 24a5.84 5.84 0 0 0 5.57-4.05 5.77 5.77 0 0 0 3.85-2.8 5.83 5.83 0 0 0-.72-6.83z"/></svg>
+        <span>GPT de TCC</span>
+        <span class="ai-tool-sub">ChatGPT</span>
+      </a>
+      <a class="ai-tool-btn ai-tool-gem" href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="url(#gem-grad2)"/><defs><linearGradient id="gem-grad2" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+        <span>Compañero TCC</span>
+        <span class="ai-tool-sub">Gemini · Eutimya</span>
+      </a>
     </div>
+    <p class="ai-tools-note">No reemplazan a tu terapeuta ni a tu médico.</p>
   </div>
 
   <div class="sec-next" onclick="navTo('meds',document.querySelector('.sb-item[data-sec=\'meds\']'))" role="link" tabindex="0">
@@ -2528,8 +2615,59 @@
   </div>
 </footer>
 
-<!-- FAB SOS — solo una vez, fuera del main -->
-<a href="#seguridad" class="fab-sos" onclick="show('seguridad', document.querySelectorAll('.tab')[8]);return false;" title="Plan de Seguridad / Emergencia" aria-label="Ir al plan de seguridad y emergencia">🚨</a>
+<!-- FAB IA — botón flotante de acceso a IAs de TCC -->
+<button class="fab-ai" onclick="openAiFab()" aria-label="Abrir asistente de TCC" title="Tu compañero de TCC">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="26" height="26" aria-hidden="true">
+    <!-- Cabeza IA -->
+    <circle cx="16" cy="13" r="7" stroke="white" stroke-width="1.8" fill="none"/>
+    <!-- Ojos -->
+    <circle cx="13" cy="12" r="1.3" fill="white"/>
+    <circle cx="19" cy="12" r="1.3" fill="white"/>
+    <!-- Boca/sonrisa -->
+    <path d="M13 15.5 Q16 17.5 19 15.5" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- Antena -->
+    <line x1="16" y1="6" x2="16" y2="3.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="16" cy="2.8" r="1" fill="white"/>
+    <!-- Cuerpo -->
+    <path d="M9 24c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <!-- Brazos -->
+    <path d="M9 22 L6 20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M23 22 L26 20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- Sheet del FAB IA -->
+<div id="ai-fab-overlay" style="display:none;position:fixed;inset:0;z-index:1050;background:rgba(0,0,0,.45)" onclick="closeAiFab()"></div>
+<div id="ai-fab-sheet" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:1060;background:var(--md-surface-lowest);border-radius:24px 24px 0 0;box-shadow:0 -8px 40px rgba(0,0,0,.2);padding-bottom:env(safe-area-inset-bottom);animation:slideUp .32s cubic-bezier(.32,1,.6,1)">
+  <div style="width:36px;height:4px;background:var(--md-outline-variant);border-radius:99px;margin:12px auto 0"></div>
+  <div style="padding:1.25rem 1.5rem 1.75rem">
+    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--md-primary);margin-bottom:.4rem">Tu compañero de TCC</div>
+    <div style="font-size:1rem;font-weight:600;color:var(--md-on-background);margin-bottom:.25rem">¿En qué plataforma practicas?</div>
+    <div style="font-size:.8rem;color:var(--md-on-surface-variant);margin-bottom:1.25rem">Ambas IAs están configuradas para TCC clínica. Elige la que ya tienes abierta.</div>
+    <div style="display:flex;flex-direction:column;gap:.65rem">
+      <a href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer" onclick="closeAiFab()" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border-radius:16px;border:1.5px solid var(--md-outline-variant);background:var(--md-surface-container);text-decoration:none;transition:all .18s" onmouseover="this.style.borderColor='var(--md-primary)';this.style.background='var(--md-primary-container)'" onmouseout="this.style.borderColor='var(--md-outline-variant)';this.style.background='var(--md-surface-container)'">
+        <div style="width:44px;height:44px;border-radius:12px;background:#000;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" fill="white" width="22" height="22"><path d="M22.28 9.5a5.76 5.76 0 0 0-.49-4.73 5.83 5.83 0 0 0-6.27-2.8A5.77 5.77 0 0 0 11.17 0a5.84 5.84 0 0 0-5.57 4.05 5.77 5.77 0 0 0-3.85 2.8 5.83 5.83 0 0 0 .72 6.83 5.76 5.76 0 0 0 .49 4.73 5.83 5.83 0 0 0 6.27 2.8A5.77 5.77 0 0 0 12.84 24a5.84 5.84 0 0 0 5.57-4.05 5.77 5.77 0 0 0 3.85-2.8 5.83 5.83 0 0 0-.72-6.83z"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:.92rem;color:var(--md-on-background)">GPT de TCC</div>
+          <div style="font-size:.74rem;color:var(--md-on-surface-variant);margin-top:1px">ChatGPT · Cognitive Behavioral Therapy</div>
+        </div>
+        <span style="color:var(--md-primary);font-size:1.1rem">→</span>
+      </a>
+      <a href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="closeAiFab()" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border-radius:16px;border:1.5px solid var(--md-outline-variant);background:var(--md-surface-container);text-decoration:none;transition:all .18s" onmouseover="this.style.borderColor='#4285F4';this.style.background='rgba(66,133,244,.08)'" onmouseout="this.style.borderColor='var(--md-outline-variant)';this.style.background='var(--md-surface-container)'">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#4285F4,#9B72CB,#EA4335);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" fill="white" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+        </div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:.92rem;color:var(--md-on-background)">Compañero TCC</div>
+          <div style="font-size:.74rem;color:var(--md-on-surface-variant);margin-top:1px">Gemini · Eutimya · TCC entre sesiones</div>
+        </div>
+        <span style="color:#4285F4;font-size:1.1rem">→</span>
+      </a>
+    </div>
+  </div>
+</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
@@ -2546,6 +2684,18 @@ function toggleDark(){
   if(saved==='dark'){document.documentElement.setAttribute('data-theme','dark');
   document.addEventListener('DOMContentLoaded',()=>{const b=document.querySelector('.dark-toggle');if(b)b.textContent='☀️';});}
 })();
+
+/* ══ FAB IA SHEET ══ */
+function openAiFab(){
+  document.getElementById('ai-fab-overlay').style.display='block';
+  document.getElementById('ai-fab-sheet').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeAiFab(){
+  document.getElementById('ai-fab-overlay').style.display='none';
+  document.getElementById('ai-fab-sheet').style.display='none';
+  document.body.style.overflow='';
+}
 
 
 /* ══ SIDEBAR MENU ══ */
