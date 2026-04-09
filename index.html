@@ -360,6 +360,117 @@
     [data-theme="dark"] .app-card.teal { background: #004D44 }
     [data-theme="dark"] .app-card.amber { background: #2E1800 }
     [data-theme="dark"] .badge-new { background: var(--teal-l); color: #001a17 }
+
+    /* ── EDUC SHEET ── */
+    #educ-overlay {
+      position: fixed; inset: 0; z-index: 1050;
+      background: rgba(0,0,0,.45);
+      display: none; opacity: 0;
+      transition: opacity .28s ease;
+    }
+    #educ-overlay.open { display: block }
+    #educ-overlay.visible { opacity: 1 }
+
+    #educ-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1060;
+      background: var(--surface);
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -8px 40px rgba(0,0,0,.18);
+      padding-bottom: env(safe-area-inset-bottom);
+      display: none;
+      transform: translateY(100%);
+      transition: transform .38s cubic-bezier(.32,1,.6,1);
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+    #educ-sheet.open { display: block }
+    #educ-sheet.visible { transform: translateY(0) }
+
+    .sheet-handle {
+      width: 36px; height: 4px;
+      background: var(--border);
+      border-radius: 99px;
+      margin: 12px auto 0;
+    }
+    .sheet-header {
+      padding: 1rem 1.25rem .75rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sheet-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+    }
+    .sheet-close {
+      background: none; border: none; cursor: pointer;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--ink-3);
+      transition: background .15s;
+    }
+    .sheet-close:hover { background: var(--teal-bg) }
+
+    /* Module list inside sheet */
+    .module-list {
+      padding: .25rem 1rem 1.25rem;
+      display: flex; flex-direction: column; gap: .55rem;
+    }
+    .module-row {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1rem;
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.06);
+      text-decoration: none; color: inherit;
+      cursor: pointer;
+      transition: transform .18s cubic-bezier(.22,1,.36,1), box-shadow .18s;
+      box-shadow: var(--shadow-sm);
+    }
+    .module-row:hover { transform: translateY(-2px); box-shadow: var(--shadow) }
+    .module-row:active { transform: scale(.97) }
+
+    .module-emoji {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--teal-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .module-body { flex: 1; min-width: 0 }
+    .module-name {
+      font-size: .92rem; font-weight: 600; color: var(--ink);
+      margin-bottom: 1px; line-height: 1.2;
+    }
+    .module-sub {
+      font-size: .72rem; color: var(--ink-3); font-weight: 400;
+    }
+    .module-arrow {
+      font-size: .9rem; color: var(--ink-3); flex-shrink: 0;
+      transition: transform .18s;
+    }
+    .module-row:hover .module-arrow { transform: translate(2px, -2px) }
+
+    /* color accent per module */
+    .module-row.neuro  .module-emoji { background: #E8F5F3 }
+    .module-row.dist   .module-emoji { background: #EDE9FE }
+    .module-row.sueno  .module-emoji { background: #E8EAF6 }
+    .module-row.ia     .module-emoji { background: #E8F5F3 }
+    .module-row.meds   .module-emoji { background: #FFF3E0 }
+
+    /* Sheet entry stagger */
+    .module-row { opacity: 0; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease, box-shadow .18s }
+    #educ-sheet.visible .module-row:nth-child(1) { opacity:1; transform:none; transition-delay:.08s }
+    #educ-sheet.visible .module-row:nth-child(2) { opacity:1; transform:none; transition-delay:.13s }
+    #educ-sheet.visible .module-row:nth-child(3) { opacity:1; transform:none; transition-delay:.18s }
+    #educ-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
+    #educ-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
+
+    [data-theme="dark"] #educ-sheet { background: #1A1A1A }
+    [data-theme="dark"] .module-row { background: #242424; border-color: rgba(255,255,255,.06) }
+    [data-theme="dark"] .module-row.neuro .module-emoji { background: rgba(158,242,228,.1) }
+    [data-theme="dark"] .module-row.dist  .module-emoji { background: rgba(167,139,250,.1) }
+    [data-theme="dark"] .module-row.sueno .module-emoji { background: rgba(99,102,241,.1) }
+    [data-theme="dark"] .module-row.ia    .module-emoji { background: rgba(158,242,228,.1) }
+    [data-theme="dark"] .module-row.meds  .module-emoji { background: rgba(251,191,36,.08) }
   </style>
 </head>
 <body>
@@ -392,7 +503,7 @@
   <div class="app-grid">
 
     <!-- 1. PSICOEDUCACIÓN -->
-    <a href="/educ" class="app-card teal" style="--card-tint:rgba(255,255,255,.06)">
+    <a href="/educ" onclick="openEduc(event)" class="app-card teal" style="--card-tint:rgba(255,255,255,.06)">
       <div class="card-icon on-teal">🧠</div>
       <div class="card-tag">Aprende</div>
       <div class="card-name">Psicoeduca­ción</div>
@@ -468,6 +579,64 @@
 
 </div><!-- /page -->
 
+<!-- ── EDUC SHEET ── -->
+<div id="educ-overlay" onclick="closeEduc()"></div>
+<div id="educ-sheet" role="dialog" aria-modal="true" aria-label="Módulos de Psicoeducación">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Psicoeducación</div>
+    <button class="sheet-close" onclick="closeEduc()" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="module-list">
+
+    <a class="module-row neuro" href="/educ" onclick="goToSec('neuro',event)">
+      <div class="module-emoji">🧠</div>
+      <div class="module-body">
+        <div class="module-name">Tu cerebro</div>
+        <div class="module-sub">Neurobiología clínica</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row dist" href="/educ" onclick="goToSec('dist',event)">
+      <div class="module-emoji">💭</div>
+      <div class="module-body">
+        <div class="module-name">Pensamientos</div>
+        <div class="module-sub">Distorsiones y creencias</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row sueno" href="/educ" onclick="goToSec('sueno',event)">
+      <div class="module-emoji">🌙</div>
+      <div class="module-body">
+        <div class="module-name">Sueño</div>
+        <div class="module-sub">Higiene y TCC-I</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row ia" href="/educ" onclick="goToSec('ia',event)">
+      <div class="module-emoji">🤖</div>
+      <div class="module-body">
+        <div class="module-name">IA terapéutica</div>
+        <div class="module-sub">Prompts clínicos</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row meds" href="/educ" onclick="goToSec('meds',event)">
+      <div class="module-emoji">💊</div>
+      <div class="module-body">
+        <div class="module-name">Medicamentos</div>
+        <div class="module-sub">Tu receta explicada</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+  </div>
+</div>
+
 <script>
 /* ── SALUDO POR HORA ── */
 (function(){
@@ -495,6 +664,39 @@ function toggleDark(){
     });
   }
 })();
+
+/* ── EDUC SHEET ── */
+function openEduc(e) {
+  if (e) e.preventDefault();
+  var overlay = document.getElementById('educ-overlay');
+  var sheet   = document.getElementById('educ-sheet');
+  overlay.classList.add('open');
+  sheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // rAF double-tick para activar transición
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      overlay.classList.add('visible');
+      sheet.classList.add('visible');
+    });
+  });
+}
+function closeEduc() {
+  var overlay = document.getElementById('educ-overlay');
+  var sheet   = document.getElementById('educ-sheet');
+  overlay.classList.remove('visible');
+  sheet.classList.remove('visible');
+  document.body.style.overflow = '';
+  setTimeout(function(){
+    overlay.classList.remove('open');
+    sheet.classList.remove('open');
+  }, 380);
+}
+function goToSec(sec, e) {
+  if (e) e.preventDefault();
+  localStorage.setItem('eutimya_last_sec', sec);
+  window.location.href = '/educ';
+}
 
 /* ── DEEP LINKS hacia /educ ── */
 /* Si el usuario llega a esta página desde un link interno con hash,
