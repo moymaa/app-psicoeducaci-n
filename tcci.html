@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCC-I · Eutimya</title>
+
+  <meta name="description" content="Terapia Cognitivo-Conductual para el Insomnio. Diario de sueño, control de estímulos, reestructuración cognitiva y más. Herramienta clínica de Eutimya.">
+  <meta name="author" content="Eutimya · Psiquiatría CDMX">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TCC-I · Eutimya">
+  <meta property="og:description" content="Tu programa de sueño basado en evidencia. Más efectivo que los somníferos a largo plazo.">
+  <meta property="og:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <meta property="og:url" content="https://app.eutimya.org/tcci">
+  <meta property="og:locale" content="es_MX">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TCC-I · Eutimya">
+  <meta name="twitter:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1A237E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TCC-I">
+  <link rel="apple-touch-icon" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+    :root {
+      /* Paleta noche — índigo/slate oscuro con acento teal Eutimya */
+      --night:    #0F1729;
+      --night-2:  #1A2540;
+      --night-3:  #243050;
+      --night-card: #1E2C45;
+      --night-border: rgba(255,255,255,.07);
+      --teal:     #5DD6C8;
+      --teal-d:   #006A60;
+      --teal-bg:  rgba(93,214,200,.1);
+      --amber:    #FFB74D;
+      --amber-bg: rgba(255,183,77,.1);
+      --indigo:   #7986CB;
+      --indigo-bg:rgba(121,134,203,.12);
+      --white:    #FFFFFF;
+      --ink:      #E8EDF4;
+      --ink-2:    #A8B5C8;
+      --ink-3:    #6B7A90;
+      --surface:  #0F1729;
+      --r:        18px;
+      --r-sm:     10px;
+      --r-lg:     24px;
+      --shadow:   0 4px 20px rgba(0,0,0,.35);
+      --shadow-sm:0 1px 6px rgba(0,0,0,.25);
+    }
+
+    html { overflow-x: hidden }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--night);
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── STAR BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(93,214,200,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(121,134,203,.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1.1rem calc(env(safe-area-inset-bottom) + 2rem);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0 0;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-2);
+      text-decoration: none;
+      font-size: .8rem;
+      font-weight: 500;
+      padding: 6px 0;
+      transition: color .15s;
+    }
+    .back-link:hover { color: var(--teal) }
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .dark-btn {
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: 50px;
+      padding: 5px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--ink-2);
+      font-family: inherit;
+      transition: all .2s;
+    }
+    .dark-btn:hover { border-color: var(--teal); color: var(--teal) }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 2rem 0 1.5rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-bg);
+      border: 1px solid rgba(93,214,200,.25);
+      color: var(--teal);
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: .6rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--teal);
+    }
+    .hero-sub {
+      font-size: .9rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    /* ── EVIDENCE STRIP ── */
+    .evidence-strip {
+      display: flex;
+      gap: .65rem;
+      margin: 1.25rem 0 1.75rem;
+      flex-wrap: wrap;
+    }
+    .ev-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: 50px;
+      padding: 5px 12px;
+      font-size: .72rem;
+      color: var(--ink-2);
+      font-weight: 500;
+    }
+    .ev-pill strong { color: var(--teal); }
+
+    /* ── MODULE NAV ── */
+    .mod-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    @media(max-width:380px) { .mod-nav { grid-template-columns: repeat(2,1fr) } }
+
+    .mod-btn {
+      background: var(--night-card);
+      border: 1.5px solid var(--night-border);
+      border-radius: var(--r);
+      padding: .85rem .6rem .75rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      transition: all .2s cubic-bezier(.22,1,.36,1);
+      text-align: center;
+    }
+    .mod-btn:hover { border-color: var(--teal); background: rgba(93,214,200,.06); transform: translateY(-2px) }
+    .mod-btn.on {
+      border-color: var(--teal);
+      background: var(--teal-bg);
+      box-shadow: 0 0 0 1px var(--teal);
+    }
+    .mod-btn-icon { font-size: 1.4rem; line-height: 1 }
+    .mod-btn-label {
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--ink-2);
+      line-height: 1.2;
+    }
+    .mod-btn.on .mod-btn-label { color: var(--teal) }
+
+    /* ── PANEL ── */
+    .panel { display: none; animation: fadeUp .3s ease }
+    .panel.active { display: block }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:none } }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--night-card);
+      border-radius: var(--r);
+      border: 1px solid var(--night-border);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .card-title {
+      font-size: .6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--teal);
+      margin-bottom: .3rem;
+    }
+    .card-h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: .6rem;
+      line-height: 1.2;
+    }
+    .card-body {
+      font-size: .85rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+    }
+
+    /* ── FORM ELEMENTS ── */
+    .field { margin-bottom: 1rem }
+    .field-label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: .4rem;
+    }
+    .field-input {
+      width: 100%;
+      background: var(--night-2);
+      border: 1.5px solid var(--night-border);
+      border-radius: var(--r-sm);
+      padding: .65rem .9rem;
+      font-size: .9rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .18s;
+    }
+    .field-input:focus { border-color: var(--teal) }
+    .field-input::placeholder { color: var(--ink-3) }
+
+    /* Rating buttons */
+    .rating-group {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-top: .4rem;
+    }
+    .rate-btn {
+      background: var(--night-2);
+      border: 1.5px solid var(--night-border);
+      border-radius: 50px;
+      padding: 6px 12px;
+      font-size: .8rem;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--ink-2);
+      transition: all .18s;
+    }
+    .rate-btn:hover { border-color: var(--teal); color: var(--teal) }
+    .rate-btn.on { background: var(--teal-bg); border-color: var(--teal); color: var(--teal); font-weight: 600 }
+
+    /* ── PRIMARY BUTTON ── */
+    .btn-primary {
+      width: 100%;
+      background: var(--teal);
+      color: var(--night);
+      border: none;
+      border-radius: 50px;
+      padding: 14px;
+      font-size: .88rem;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: filter .18s, transform .18s;
+      letter-spacing: .01em;
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px) }
+    .btn-primary:active { transform: scale(.97) }
+
+    /* Result box */
+    .result-box {
+      display: none;
+      background: linear-gradient(135deg, rgba(93,214,200,.15), rgba(93,214,200,.06));
+      border: 1px solid rgba(93,214,200,.25);
+      border-radius: var(--r);
+      padding: 1.25rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .result-box.show { display: block; animation: fadeUp .3s ease }
+    .result-eff {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: .2rem;
+    }
+    .result-label {
+      font-size: .72rem;
+      color: var(--ink-2);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .65rem;
+    }
+    .result-feedback {
+      font-size: .85rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .result-meta {
+      font-size: .68rem;
+      color: var(--ink-3);
+      margin-top: .75rem;
+    }
+
+    /* ── PERSPECTIVE ITEMS ── */
+    .persp-group-label {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin: 1.2rem 0 .6rem;
+    }
+    .persp-group-label.teal { color: var(--teal) }
+    .persp-group-label.amber { color: var(--amber) }
+
+    .persp-item {
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: var(--r-sm);
+      padding: .8rem 1rem;
+      font-size: .85rem;
+      color: var(--ink-2);
+      line-height: 1.55;
+      margin-bottom: .4rem;
+      border-left: 3px solid var(--teal);
+      transition: border-left-color .15s;
+    }
+    .persp-item.trauma { border-left-color: var(--amber) }
+
+    /* ── CHECKLIST ITEMS ── */
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: var(--r-sm);
+      padding: .85rem 1rem;
+      cursor: pointer;
+      font-size: .85rem;
+      color: var(--ink-2);
+      transition: all .18s;
+      margin-bottom: .4rem;
+    }
+    .check-item:hover { border-color: var(--teal); color: var(--ink) }
+    .check-item.done {
+      border-color: rgba(93,214,200,.3);
+      background: rgba(93,214,200,.06);
+      color: var(--teal);
+      text-decoration: line-through;
+      opacity: .65;
+    }
+    .check-circle {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--ink-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem;
+      flex-shrink: 0;
+      transition: all .18s;
+      color: transparent;
+    }
+    .check-item.done .check-circle {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--night);
+    }
+
+    /* ── ENV ACCORDION ── */
+    .env-item {
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      margin-bottom: .5rem;
+    }
+    .env-header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem 1rem;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .env-header:hover { background: rgba(255,255,255,.03) }
+    .env-header.done { background: rgba(93,214,200,.06) }
+    .env-text {
+      flex: 1;
+      font-size: .85rem;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .env-toggle {
+      font-size: .75rem;
+      color: var(--ink-3);
+      white-space: nowrap;
+      transition: color .15s;
+    }
+    .env-header:hover .env-toggle { color: var(--teal) }
+    .env-body {
+      display: none;
+      padding: .75rem 1rem .9rem;
+      font-size: .82rem;
+      color: var(--ink-2);
+      line-height: 1.6;
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid var(--night-border);
+    }
+
+    /* ── MOTIVATION CARD ── */
+    .mot-card {
+      background: linear-gradient(135deg, var(--night-2), var(--night-3));
+      border: 1px solid var(--night-border);
+      border-radius: var(--r-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mot-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px; left: 16px;
+      font-size: 6rem;
+      color: var(--teal);
+      opacity: .1;
+      font-family: 'DM Serif Display', serif;
+      line-height: 1;
+    }
+    .mot-text {
+      font-size: .95rem;
+      line-height: 1.7;
+      color: var(--ink);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    .mot-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+    }
+    .mot-btn {
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: .8rem;
+      font-family: inherit;
+      color: var(--ink-2);
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .mot-btn:hover { border-color: var(--teal); color: var(--teal) }
+    .mot-btn.primary { background: var(--teal); color: var(--night); border-color: var(--teal); font-weight: 600 }
+    .mot-btn.primary:hover { filter: brightness(1.1) }
+    .mot-counter { font-size: .75rem; color: var(--ink-3) }
+
+    /* ── G2 GRID ── */
+    .g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .75rem; margin-top: .75rem }
+
+    /* ── SECTION LABEL ── */
+    .s-label {
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--ink-3);
+      margin: 1.25rem 0 .6rem;
+    }
+
+    /* ── DARK MODE (light override) ── */
+    [data-theme="light"] {
+      --night:     #F6FAF9;
+      --night-2:   #EDF3F1;
+      --night-3:   #E2ECEB;
+      --night-card:#FFFFFF;
+      --night-border: rgba(0,0,0,.07);
+      --teal:      #006A60;
+      --teal-bg:   rgba(0,106,96,.08);
+      --amber:     #7A5230;
+      --amber-bg:  rgba(122,82,48,.08);
+      --indigo:    #3949AB;
+      --indigo-bg: rgba(57,73,171,.08);
+      --ink:       #161D1C;
+      --ink-2:     #3F4947;
+      --ink-3:     #6F7978;
+      color-scheme: light;
+    }
+    [data-theme="light"] body::before { background: none }
+    [data-theme="light"] body { background: var(--night) }
+    [data-theme="light"] .hero-title { color: var(--ink) }
+    [data-theme="light"] .card-h2 { color: var(--ink) }
+    [data-theme="light"] .mot-text { color: var(--ink) }
+    [data-theme="light"] .result-eff { color: var(--teal) }
+
+    /* Entry animations */
+    .hero     { animation: fadeUp .5s ease both }
+    .evidence-strip { animation: fadeUp .45s .08s ease both }
+    .mod-nav  { animation: fadeUp .45s .14s ease both }
+    @media(prefers-reduced-motion:reduce){
+      *, *::before, *::after { animation:none!important; transition:none!important }
+    }
+
+    /* ── FOOTER LINKS ── */
+    .footer-links {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--night-border);
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      padding-bottom: 2rem;
+    }
+
+    .footer-link-row {
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+      background: var(--night-card);
+      border: 1px solid var(--night-border);
+      border-radius: var(--r);
+      padding: 1.1rem 1.15rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s, border-color .2s;
+      box-shadow: var(--shadow-sm);
+    }
+    a.footer-link-row:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    a.footer-link-row.teal { border-left: 3px solid var(--teal) }
+    a.footer-link-row.teal:hover { border-color: var(--teal) }
+
+    .flr-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: .05rem;
+    }
+    .flr-body { flex: 1; min-width: 0 }
+    .flr-label {
+      font-size: .6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--teal);
+      margin-bottom: .15rem;
+    }
+    .ia-row .flr-label { color: var(--indigo) }
+    .cbti-row .flr-label { color: var(--amber) }
+
+    .flr-title {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: .25rem;
+      line-height: 1.2;
+    }
+    .flr-desc {
+      font-size: .78rem;
+      color: var(--ink-3);
+      line-height: 1.55;
+    }
+    .flr-arrow {
+      font-size: .9rem;
+      color: var(--teal);
+      flex-shrink: 0;
+      margin-top: .1rem;
+      transition: transform .18s;
+    }
+    a.footer-link-row:hover .flr-arrow { transform: translate(2px,-2px) }
+
+    /* IA buttons row */
+    .ia-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: .7rem;
+    }
+    .ia-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 13px;
+      border-radius: 50px;
+      font-size: .72rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      transition: all .18s;
+      border: 1.5px solid;
+    }
+    .ia-gpt {
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.15);
+      color: var(--ink);
+    }
+    .ia-gpt:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3) }
+    .ia-gem {
+      background: rgba(66,133,244,.1);
+      border-color: rgba(66,133,244,.3);
+      color: var(--ink);
+    }
+    .ia-gem:hover { background: rgba(66,133,244,.2); border-color: rgba(66,133,244,.5) }
+    .ia-gem2 {
+      background: rgba(155,114,203,.1);
+      border-color: rgba(155,114,203,.3);
+      color: var(--ink);
+    }
+    .ia-gem2:hover { background: rgba(155,114,203,.2); border-color: rgba(155,114,203,.5) }
+    .ia-store {
+      background: var(--night-2);
+      border-color: var(--night-border);
+      color: var(--ink-2);
+    }
+    .ia-store:hover { border-color: var(--amber); color: var(--amber) }
+
+    /* Light mode overrides for footer */
+    [data-theme="light"] .footer-link-row { background: #fff; border-color: rgba(0,0,0,.07) }
+    [data-theme="light"] .ia-gpt  { background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.12); color: var(--ink) }
+    [data-theme="light"] .ia-gem  { background: rgba(66,133,244,.06); border-color: rgba(66,133,244,.2) }
+    [data-theme="light"] .ia-gem2 { background: rgba(155,114,203,.06); border-color: rgba(155,114,203,.2) }
+    [data-theme="light"] .ia-store { background: #f5f5f5; border-color: #ddd; color: #555 }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="/" class="back-link">← Inicio</a>
+    <div class="top-right">
+      <a href="/educ" style="font-size:.75rem;color:var(--ink-3);text-decoration:none;font-weight:500;transition:color .15s" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='var(--ink-3)'">Psicoeducación</a>
+      <button class="dark-btn" onclick="toggleMode()" aria-label="Cambiar tema" id="mode-btn">☀️</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🌙 Tratamiento de primera línea</div>
+    <h1 class="hero-title">TCC-I · Tu programa<br>de <em>sueño</em></h1>
+    <p class="hero-sub">La Terapia Cognitivo-Conductual para el Insomnio es más efectiva que los somníferos a largo plazo. Sus beneficios permanecen después de terminar el tratamiento.</p>
+  </div>
+
+  <!-- EVIDENCE PILLS -->
+  <div class="evidence-strip">
+    <div class="ev-pill"><strong>1.ª línea</strong> · AASM &amp; ESS</div>
+    <div class="ev-pill"><strong>+85%</strong> efectividad</div>
+    <div class="ev-pill">Sin rebote al dejar</div>
+  </div>
+
+  <!-- MODULE NAV -->
+  <div class="mod-nav" role="tablist">
+    <button class="mod-btn on" onclick="showPanel('diario',this)" role="tab" aria-selected="true">
+      <span class="mod-btn-icon">📓</span>
+      <span class="mod-btn-label">Diario<br>de sueño</span>
+    </button>
+    <button class="mod-btn" onclick="showPanel('perspectiva',this)" role="tab">
+      <span class="mod-btn-icon">💭</span>
+      <span class="mod-btn-label">Cambia tu<br>perspectiva</span>
+    </button>
+    <button class="mod-btn" onclick="showPanel('estimulos',this)" role="tab">
+      <span class="mod-btn-icon">🛏️</span>
+      <span class="mod-btn-label">Control de<br>estímulos</span>
+    </button>
+    <button class="mod-btn" onclick="showPanel('desactivacion',this)" role="tab">
+      <span class="mod-btn-icon">🌙</span>
+      <span class="mod-btn-label">Desacti­vación</span>
+    </button>
+    <button class="mod-btn" onclick="showPanel('ambiente',this)" role="tab">
+      <span class="mod-btn-icon">🏠</span>
+      <span class="mod-btn-label">Ambiente<br>de sueño</span>
+    </button>
+    <button class="mod-btn" onclick="showPanel('motivacion',this)" role="tab">
+      <span class="mod-btn-icon">⭐</span>
+      <span class="mod-btn-label">Mensajes<br>motivadores</span>
+    </button>
+  </div>
+
+  <!-- ═══ PANEL: DIARIO ═══ -->
+  <div class="panel active" id="panel-diario" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Diario de sueño</div>
+      <h2 class="card-h2">Registro de esta noche</h2>
+      <p class="card-body" style="margin-bottom:1.25rem">Complétalo cada mañana. La consistencia es clave — el cerebro necesita datos reales, no estimaciones.</p>
+
+      <div class="field">
+        <label class="field-label" for="sd-bedtime">¿A qué hora te acostaste?</label>
+        <input type="time" class="field-input" id="sd-bedtime" value="22:30">
+      </div>
+      <div class="field">
+        <label class="field-label" for="sd-latency">¿Cuánto tardaste en dormirte? (min)</label>
+        <input type="number" class="field-input" id="sd-latency" min="0" max="240" placeholder="ej. 30">
+      </div>
+      <div class="field">
+        <label class="field-label" for="sd-wakeups">¿Cuántas veces te despertaste?</label>
+        <input type="number" class="field-input" id="sd-wakeups" min="0" max="20" placeholder="ej. 2">
+      </div>
+      <div class="field">
+        <label class="field-label" for="sd-waso">Tiempo total despierto en esos despertares (min)</label>
+        <input type="number" class="field-input" id="sd-waso" min="0" max="480" placeholder="ej. 45">
+      </div>
+      <div class="field">
+        <label class="field-label" for="sd-waketime">¿A qué hora te levantaste?</label>
+        <input type="time" class="field-input" id="sd-waketime" value="07:00">
+      </div>
+      <div class="field">
+        <label class="field-label">Calidad del sueño</label>
+        <div class="rating-group">
+          <button class="rate-btn" onclick="setRate(this,1)">😫 Muy mala</button>
+          <button class="rate-btn" onclick="setRate(this,2)">😕 Mala</button>
+          <button class="rate-btn" onclick="setRate(this,3)">😐 Regular</button>
+          <button class="rate-btn" onclick="setRate(this,4)">🙂 Buena</button>
+          <button class="rate-btn" onclick="setRate(this,5)">😊 Muy buena</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="calcSleep()">Calcular eficiencia de sueño →</button>
+
+      <div class="result-box" id="sd-result">
+        <div class="result-eff" id="sd-eff">—</div>
+        <div class="result-label">Eficiencia de sueño</div>
+        <div class="result-feedback" id="sd-feedback"></div>
+        <div class="result-meta">Meta TCC-I: ≥ 85% de eficiencia</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL: PERSPECTIVA ═══ -->
+  <div class="panel" id="panel-perspectiva" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Reestructuración cognitiva</div>
+      <h2 class="card-h2">Cambia tu perspectiva sobre el sueño</h2>
+      <p class="card-body">Cambiar la forma en que piensas sobre el sueño cambia cómo te sientes y cuánto duermes. Cuando aparezca un pensamiento ansioso, sustitúyelo por uno de estos.</p>
+    </div>
+
+    <p class="persp-group-label teal">💤 Ante el insomnio</p>
+    <div id="persp-sleep"></div>
+
+    <p class="persp-group-label amber" style="margin-top:1.5rem">🧠 Ante pesadillas o trauma</p>
+    <div id="persp-trauma"></div>
+  </div>
+
+  <!-- ═══ PANEL: ESTÍMULOS ═══ -->
+  <div class="panel" id="panel-estimulos" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Control de estímulos</div>
+      <h2 class="card-h2">Reconecta la cama con el sueño</h2>
+      <p class="card-body">El objetivo es que tu cerebro asocie la cama únicamente con dormir. Toca cada actividad para marcarla.</p>
+    </div>
+
+    <div class="g2">
+      <div>
+        <p class="s-label">Si no puedes dormir — media noche</p>
+        <p style="font-size:.78rem;color:var(--ink-3);margin-bottom:.6rem;line-height:1.5">Levántate de la cama. Haz algo relajante en otro cuarto. Vuelve solo cuando tengas sueño real.</p>
+        <div id="list-midnight"></div>
+      </div>
+      <div>
+        <p class="s-label">Para mantenerte despierto</p>
+        <p style="font-size:.78rem;color:var(--ink-3);margin-bottom:.6rem;line-height:1.5">Si sientes sueño antes de tu hora programada, estas actividades te ayudan a resistir sin acostarte.</p>
+        <div id="list-awake"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PANEL: DESACTIVACIÓN ═══ -->
+  <div class="panel" id="panel-desactivacion" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Rutina de desactivación</div>
+      <h2 class="card-h2">Tu zona de transición hacia el sueño</h2>
+      <p class="card-body">Un tiempo de desactivación antes de dormir ayuda a relajar la mente y el cuerpo. Elige las que te funcionen y conviértelas en tu ritual. Toca para marcarlas.</p>
+    </div>
+    <div id="list-winddown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.4rem;margin-top:.5rem"></div>
+  </div>
+
+  <!-- ═══ PANEL: AMBIENTE ═══ -->
+  <div class="panel" id="panel-ambiente" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Checklist del ambiente</div>
+      <h2 class="card-h2">Prepara tu cuarto para dormir</h2>
+      <p class="card-body">Marca cada condición que ya tienes. Si no puedes cumplirla, toca "Sin esto" para ver la alternativa.</p>
+    </div>
+    <div id="list-env" style="margin-top:.5rem"></div>
+  </div>
+
+  <!-- ═══ PANEL: MOTIVACIÓN ═══ -->
+  <div class="panel" id="panel-motivacion" role="tabpanel">
+    <div class="card">
+      <div class="card-title">Motivación diaria</div>
+      <h2 class="card-h2">Lo que debes recordar hoy</h2>
+    </div>
+    <div class="mot-card">
+      <p class="mot-text" id="mot-text"></p>
+    </div>
+    <div class="mot-controls">
+      <button class="mot-btn" onclick="prevMot()">← Anterior</button>
+      <span class="mot-counter" id="mot-counter"></span>
+      <button class="mot-btn primary" onclick="nextMot()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER LINKS ═══ -->
+  <div class="footer-links">
+
+    <!-- SUEÑO -->
+    <a href="/educ" onclick="goEduc('sueno',event)" class="footer-link-row teal">
+      <div class="flr-icon">🌙</div>
+      <div class="flr-body">
+        <div class="flr-label">Psicoeducación</div>
+        <div class="flr-title">Sueño — Higiene y TCC-I</div>
+        <div class="flr-desc">Ciencia del sueño, ritmo circadiano y más recursos clínicos.</div>
+      </div>
+      <div class="flr-arrow">↗</div>
+    </a>
+
+    <!-- IA TERAPÉUTICA -->
+    <div class="footer-link-row ia-row">
+      <div class="flr-icon">🤖</div>
+      <div class="flr-body">
+        <div class="flr-label">IA terapéutica</div>
+        <div class="flr-title">Practica TCC-I con IA</div>
+        <div class="flr-desc">Prompt personalizado para trabajar tu sueño entre sesiones. Elige tu plataforma:</div>
+        <div class="ia-btns">
+          <a class="ia-btn ia-gpt" href="https://chatgpt.com/?q=Act%C3%BAa+como+terapeuta+experto+en+TCC-I+(Terapia+Cognitivo-Conductual+para+el+Insomnio).+Quiero+trabajar+mi+insomnio+entre+sesiones.+Primero+pregúntame:+1)+¿Cuál+es+mi+mayor+problema+con+el+sueño+(dificultad+para+dormirme,+despertares+nocturnos+o+despertar+muy+temprano)?+2)+¿Cuántas+horas+estoy+en+cama+vs.+cuántas+realmente+duermo?+3)+¿Qué+pensamientos+tengo+cuando+no+puedo+dormir?+Después+aplica+la+técnica+más+adecuada+según+mi+respuesta:+restricción+del+sueño,+control+de+estímulos+o+reestructuración+cognitiva.+Hazme+las+preguntas+una+a+una.+Tono+directo+y+clínico." target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M22.28 9.5a5.76 5.76 0 0 0-.49-4.73 5.83 5.83 0 0 0-6.27-2.8A5.77 5.77 0 0 0 11.17 0a5.84 5.84 0 0 0-5.57 4.05 5.77 5.77 0 0 0-3.85 2.8 5.83 5.83 0 0 0 .72 6.83 5.76 5.76 0 0 0 .49 4.73 5.83 5.83 0 0 0 6.27 2.8A5.77 5.77 0 0 0 12.84 24a5.84 5.84 0 0 0 5.57-4.05 5.77 5.77 0 0 0 3.85-2.8 5.83 5.83 0 0 0-.72-6.83z"/></svg>
+            ChatGPT
+          </a>
+          <a class="ia-btn ia-gem" href="https://gemini.google.com/app?hl=es&q=Act%C3%BAa+como+terapeuta+experto+en+TCC-I+(Terapia+Cognitivo-Conductual+para+el+Insomnio).+Quiero+trabajar+mi+insomnio+entre+sesiones.+Primero+pregúntame:+1)+¿Cuál+es+mi+mayor+problema+con+el+sueño+(dificultad+para+dormirme,+despertares+nocturnos+o+despertar+muy+temprano)?+2)+¿Cuántas+horas+estoy+en+cama+vs.+cuántas+realmente+duermo?+3)+¿Qué+pensamientos+tengo+cuando+no+puedo+dormir?+Después+aplica+la+técnica+más+adecuada+según+mi+respuesta:+restricción+del+sueño,+control+de+estímulos+o+reestructuración+cognitiva.+Hazme+las+preguntas+una+a+una.+Tono+directo+y+clínico." target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="url(#gg)"/><defs><linearGradient id="gg" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+            Gemini
+          </a>
+          <a class="ia-btn ia-gem2" href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="url(#gg2)"/><defs><linearGradient id="gg2" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+            Gem TCC · Eutimya
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CBT-I COACH -->
+    <div class="footer-link-row cbti-row">
+      <div class="flr-icon">🇺🇸</div>
+      <div class="flr-body">
+        <div class="flr-label">App oficial · VA / NCPTSD</div>
+        <div class="flr-title">CBT-i Coach</div>
+        <div class="flr-desc">La app clínica del Departamento de Veteranos de EE.UU. Diseñada para usarse con un terapeuta TCC-I o de forma independiente.</div>
+        <div class="ia-btns" style="margin-top:.75rem">
+          <a class="ia-btn ia-store" href="https://apps.apple.com/us/app/cbt-i-coach/id655918660" target="_blank" rel="noopener noreferrer">📱 App Store</a>
+          <a class="ia-btn ia-store" href="https://play.google.com/store/apps/details?id=gov.va.mobilehealth.ncptsd.cbti" target="_blank" rel="noopener noreferrer">🤖 Google Play</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /footer-links -->
+
+</div><!-- /page -->
+
+<script>
+/* ── THEME ── */
+(function(){
+  var saved = localStorage.getItem('eutimya-theme');
+  /* TCC-I es dark por defecto, light toggle */
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme','light');
+    document.addEventListener('DOMContentLoaded',function(){
+      var b = document.getElementById('mode-btn');
+      if(b) b.textContent = '🌙';
+    });
+  }
+})();
+function toggleMode(){
+  var html = document.documentElement;
+  var light = html.getAttribute('data-theme') === 'light';
+  html.setAttribute('data-theme', light ? '' : 'light');
+  localStorage.setItem('eutimya-theme', light ? 'dark' : 'light');
+  document.getElementById('mode-btn').textContent = light ? '☀️' : '🌙';
+}
+
+/* ── PANEL SWITCH ── */
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active') });
+  document.querySelectorAll('.mod-btn').forEach(function(b){ b.classList.remove('on'); b.setAttribute('aria-selected','false') });
+  var el = document.getElementById('panel-' + id);
+  if (el) el.classList.add('active');
+  if (btn) { btn.classList.add('on'); btn.setAttribute('aria-selected','true') }
+}
+
+/* ── DEEP LINK → /educ ── */
+function goEduc(sec, e) {
+  if (e) e.preventDefault();
+  try { localStorage.setItem('eutimya_last_sec', sec); } catch(err){}
+  window.location.href = '/educ';
+}
+
+/* ── SLEEP DIARY ── */
+var sdRating = 0;
+function setRate(btn, val) {
+  document.querySelectorAll('.rate-btn').forEach(function(b){ b.classList.remove('on') });
+  btn.classList.add('on');
+  sdRating = val;
+}
+function calcSleep() {
+  var bed  = document.getElementById('sd-bedtime').value;
+  var wake = document.getElementById('sd-waketime').value;
+  var lat  = parseInt(document.getElementById('sd-latency').value) || 0;
+  var waso = parseInt(document.getElementById('sd-waso').value)    || 0;
+  if (!bed || !wake) return;
+  var bh = parseInt(bed.split(':')[0]),  bm = parseInt(bed.split(':')[1]);
+  var wh = parseInt(wake.split(':')[0]), wm = parseInt(wake.split(':')[1]);
+  var tib = (wh*60+wm) - (bh*60+bm);
+  if (tib <= 0) tib += 24*60;
+  var tst = tib - lat - waso;
+  var eff = tib > 0 ? Math.round((tst/tib)*100) : 0;
+  eff = Math.max(0, Math.min(100, eff));
+  document.getElementById('sd-eff').textContent = eff + '%';
+  var fb = eff >= 85
+    ? '✅ Excelente eficiencia. Tu sueño está bien consolidado.'
+    : eff >= 75
+    ? '🟡 Eficiencia moderada. Aplica las técnicas de control de estímulos.'
+    : '🔴 Eficiencia baja. Trabaja la restricción del sueño con tu terapeuta.';
+  document.getElementById('sd-feedback').textContent = fb;
+  document.getElementById('sd-result').classList.add('show');
+  // Persist
+  try { localStorage.setItem('tcci_sleep_eff', eff) } catch(e){}
+}
+
+/* ── PERSIST DIARY FIELDS ── */
+document.addEventListener('DOMContentLoaded', function(){
+  ['sd-bedtime','sd-latency','sd-wakeups','sd-waso','sd-waketime'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (!el) return;
+    try { var s = localStorage.getItem('tcci_'+id); if(s) el.value=s; } catch(e){}
+    el.addEventListener('change',function(){ try{localStorage.setItem('tcci_'+id,el.value)}catch(e){} });
+  });
+});
+
+/* ── DATA ── */
+var motivMsgs = [
+  "Las estrategias de higiene del sueño son como peldaños de una escalera: se apoyan entre sí y son más útiles cuanto más las sigues.",
+  "Lo mejor es rellenar el diario de sueño justo al despertar, cuando la información aún está fresca en tu mente.",
+  "Mucha gente cree que necesita 8 horas de sueño. ¡Es un mito! Algunas personas funcionan bien con menos; otras necesitan más.",
+  "La presión del sueño aumenta durante el día como un ahorro. Las siestas o acostarse temprano son como gastar ese ahorro antes de tiempo.",
+  "Intentar dormir por la fuerza es contraproducente. Es como esperar una ola en el mar: tienes que esperar, no puedes forzarla.",
+  "Si no puedes dormir tras 15 minutos en cama, levántate y haz algo relajante en otro cuarto. Vuelve solo cuando tengas sueño real.",
+  "El objetivo es entrenar al cerebro a romper el vínculo entre estar en cama y estar despierto.",
+  "Cuidado con el 'sueño acordeón': varias noches malas seguidas de una muy larga. Apunta siempre a la consistencia.",
+  "Estás reentrenando tu cuerpo para dormir mejor. Al principio es difícil. El objetivo es mejorar el sueño a largo plazo.",
+  "Si llevas mucho tiempo durmiendo mal, tu cuerpo necesitará tiempo para reaprender. Sé paciente contigo mismo.",
+  "Poner una alarma por la mañana es importante: delega la responsabilidad al despertador para que puedas relajarte.",
+  "Reducir el tiempo en cama puede mejorar la calidad del sueño: lo consolida y lo hace menos fragmentado.",
+  "Al inicio del cambio probablemente te sientas más cansado. Recuerda: el cansancio es señal de que estás acumulando presión de sueño.",
+  "Sentirte cansado al despertar no siempre significa que dormiste mal. La mayoría siente somnolencia durante al menos 20 minutos.",
+  "Tener un ritual antes de dormir ayuda a tu cuerpo a entender que es hora de desactivarse.",
+  "El tiempo promedio para dormirse debería ser entre 15 y 20 minutos. Menos de 5 puede indicar privación de sueño.",
+  "No dejes que el cansancio te impida hacer cosas durante el día. Mantenerte activo aumenta tu presión de sueño para la noche.",
+  "Los estudios muestran que la TCC-I es más efectiva que los somníferos a largo plazo, y sus beneficios permanecen después de terminar.",
+  "La exposición al ruido durante la noche puede afectar el sueño incluso si no te despiertas. Mantén tu cuarto en silencio.",
+  "Para dormirte necesitas enfriarte. Por eso las noches calurosas generan sueño inquieto. Mantén temperatura fresca.",
+  "Compensar el sueño perdido con siestas o acostarse más temprano puede dañar tu ritmo natural de sueño a largo plazo.",
+  "Cuando programes tu tiempo de preocupación, deja los problemas nocturnos para ese momento en vez de rumiarlos en la cama."
+];
+
+var winddown = ["Preparar la ropa del día siguiente","Preparar el almuerzo para mañana","Darse un baño o ducha larga","Escribir notas de agradecimiento o emails cortos","Escuchar música lenta, relajante o instrumental","Escribir en tu diario","Hacer estiramientos suaves para relajar los músculos","Leer algo ligero (nada de trabajo ni noticias)","Cuidar a tus mascotas o darles cariño","Ordenar cajones o colecciones en calma","Planchar o doblar ropa","Darte una crema corporal o facial","Practicar respiración lenta","Repasar una lista de gratitud del día","Organizar fotos o cartas antiguas"];
+var midnight = ["Hojear catálogos o revistas","Ordenar facturas y correspondencia vieja","Jugar solitario (sin competitividad)","Leer algo tranquilo","Hacer una lista de compras o menú semanal","Despejar la mesa o los mostradores de la cocina","Trabajar en álbumes de fotos o scrapbooks","Doblar o guardar ropa","Buscar regalos online","Leer libros infantiles — suelen ser reconfortantes","Apuntar pensamientos en un cuaderno durante un tiempo limitado","Hacer manualidades que puedas soltar cuando tengas sueño","Ver un programa repetitivo o neutro en TV"];
+var awake = ["Trabajar en un proyecto o hobby interesante","Leer un libro difícil de soltar","Ver un misterio o comedia","Escribir una carta larga","Llamar a un amigo","Hacer estiramientos","Caminar por la casa","Hacer tareas del hogar","Escuchar música animada (cantar o tararear)","Bailar con música","Ordenar archivos del ordenador","Salir a caminar si es seguro","Organizar cajones o estantes"];
+
+var envItems = [
+  {text:"Nivel de ruido bajo", alt:"El ruido exterior puede ser difícil de controlar. Considera un ventilador o máquina de ruido blanco."},
+  {text:"Cuarto oscuro", alt:"La luz del amanecer, la luna o la calle pueden interferir. Considera cortinas opacas o un antifaz."},
+  {text:"Temperatura agradable (18–20°C)", alt:"El calor o frío excesivos interrumpen el sueño. Prueba ropa en capas o un ventilador pequeño."},
+  {text:"Sueño sin interrupciones de otras personas", alt:"Considera acuerdos distintos con tu pareja o mascotas si interrumpen tu sueño."},
+  {text:"La cama es solo para dormir (y sexo)", alt:"Si vives en un espacio pequeño, cubre la cama con una manta diferente de día. Al quitarla, señalizas al cerebro que es hora de dormir."}
+];
+
+var perspSleep = [
+  "Puedo tolerar esto.",
+  "Sobreviviré aunque no duerma nada esta noche.",
+  "Ya lo he hecho antes, así que sé que puedo volver a hacerlo.",
+  "No tengo que sentirme cómodo todo el tiempo. Soy humano.",
+  "Este es otro desafío que voy a resolver.",
+  "Una noche de mal sueño no es el fin del mundo.",
+  "Este dar vueltas en la cama va a pasar.",
+  "Aunque sienta que nunca voy a dormir bien, puede que no sea así.",
+  "Anticipar que no voy a dormir probablemente empeora mi sueño.",
+  "He funcionado bien antes después de dormir mal.",
+  "El cuerpo regula el sueño de forma natural; aunque pierda algo de sueño, podré funcionar.",
+  "Si no me preocupo por el sueño, una mala noche probablemente mejorará la siguiente.",
+  "Aunque anticipo una mala noche, podría estar bien… ya he dormido bien antes."
+];
+
+var perspTrauma = [
+  "He pasado por muchas cosas difíciles en mi vida y he sobrevivido.",
+  "Las pesadillas son perturbadoras, pero no son reales. Estoy a salvo.",
+  "Sé que estoy en un lugar seguro, aunque mi mente me diga otra cosa.",
+  "Puedo sentir mi corazón latir y mis pies en el suelo. Estoy vivo y bien.",
+  "He pasado por cosas peores y he salido adelante.",
+  "Mi cuerpo está reaccionando a un recuerdo. Ahora mismo estoy a salvo.",
+  "Esta situación es diferente a lo que me pasó y voy a estar bien.",
+  "Estoy aquí, ahora mismo.",
+  "Soy fuerte. Ahora estoy a salvo.",
+  "Soy capaz de protegerme.",
+  "Puedo pedir ayuda a otros.",
+  "Estoy en un lugar seguro.",
+  "Esta sensación va a pasar."
+];
+
+/* ── BUILD LISTS ── */
+function makeCheckList(containerId, items) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  items.forEach(function(item){
+    var div = document.createElement('div');
+    div.className = 'check-item';
+    div.innerHTML = '<div class="check-circle">✓</div><span>'+item+'</span>';
+    div.addEventListener('click',function(){ div.classList.toggle('done') });
+    c.appendChild(div);
+  });
+}
+
+function buildPersp() {
+  var sl = document.getElementById('persp-sleep');
+  var tr = document.getElementById('persp-trauma');
+  perspSleep.forEach(function(t){
+    var d = document.createElement('div'); d.className='persp-item'; d.textContent=t; sl.appendChild(d);
+  });
+  perspTrauma.forEach(function(t){
+    var d = document.createElement('div'); d.className='persp-item trauma'; d.textContent=t; tr.appendChild(d);
+  });
+}
+
+function buildEnv() {
+  var c = document.getElementById('list-env');
+  if (!c) return;
+  envItems.forEach(function(item){
+    var wrap = document.createElement('div'); wrap.className='env-item';
+    var hdr  = document.createElement('div'); hdr.className='env-header';
+    hdr.innerHTML = '<div class="check-circle" style="border-color:var(--teal)">✓</div><span class="env-text">'+item.text+'</span><span class="env-toggle">Sin esto →</span>';
+    var body = document.createElement('div'); body.className='env-body'; body.textContent=item.alt;
+    hdr.addEventListener('click', function(e){
+      if (e.target.classList.contains('env-toggle')) {
+        body.style.display = body.style.display==='block' ? 'none' : 'block';
+        return;
+      }
+      hdr.classList.toggle('done');
+      var chk = hdr.querySelector('.check-circle');
+      if (hdr.classList.contains('done')) { chk.style.background='var(--teal)'; chk.style.color='var(--night)'; body.style.display='none'; }
+      else { chk.style.background=''; chk.style.color=''; }
+    });
+    wrap.appendChild(hdr); wrap.appendChild(body); c.appendChild(wrap);
+  });
+}
+
+/* ── MOTIVATION ── */
+var motIndex = Math.floor(Math.random() * motivMsgs.length);
+function updateMot() {
+  var el = document.getElementById('mot-text');
+  var ct = document.getElementById('mot-counter');
+  if (el) el.textContent = motivMsgs[motIndex];
+  if (ct) ct.textContent = (motIndex+1) + ' / ' + motivMsgs.length;
+}
+function nextMot() { motIndex=(motIndex+1)%motivMsgs.length; updateMot(); }
+function prevMot() { motIndex=(motIndex-1+motivMsgs.length)%motivMsgs.length; updateMot(); }
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  makeCheckList('list-midnight', midnight);
+  makeCheckList('list-awake', awake);
+  makeCheckList('list-winddown', winddown);
+  buildPersp();
+  buildEnv();
+  updateMot();
+});
+</script>
+
+<!-- Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js').catch(function(){});
+  });
+}
+</script>
+
+</body>
+</html>
