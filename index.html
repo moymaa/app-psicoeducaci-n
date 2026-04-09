@@ -679,6 +679,84 @@
     [data-theme="dark"] .sec-next{background:var(--md-surface);border-color:var(--md-outline)}
     [data-theme="dark"] .sec-next:hover{background:var(--md-primary-container)}
 
+    /* ══ FEED ANIMATION ══ */
+    .feed-card{
+      opacity:0;
+      transform:translateY(28px);
+      transition:opacity .42s cubic-bezier(.22,1,.36,1), transform .42s cubic-bezier(.22,1,.36,1);
+      will-change:opacity,transform;
+    }
+    .feed-card.visible{
+      opacity:1;
+      transform:none;
+    }
+    /* Hero y primer elemento siempre visible, sin delay */
+    .sec.on > .feed-card:first-child{
+      opacity:1;transform:none;transition:none;
+    }
+    /* Respeta prefers-reduced-motion */
+    @media(prefers-reduced-motion:reduce){
+      .feed-card{opacity:1;transform:none;transition:none}
+    }
+
+    /* ══ DIGESTIBILIDAD ══ */
+    /* Más espacio entre bloques para que respiren */
+    main .sec > * + * { margin-top: .1rem }
+    main .sec > .card,
+    main .sec > .g2,
+    main .sec > .tube-wrap,
+    main .sec > .soc,
+    main .sec > .woebot-card,
+    main .sec > .cot,
+    main .sec > .safety-alert,
+    main .sec > .sec-next,
+    main .sec > .stats,
+    main .sec > .sh,
+    main .sec > [style*="margin-bottom:2rem"],
+    main .sec > .pt-grid,
+    main .sec > .guide-grid,
+    main .sec > .sleep-grid,
+    main .sec > .med-hero,
+    main .sec > .med-cats,
+    main .sec > .med-list,
+    main .sec > .cochrane-banner,
+    main .sec > .notif-section,
+    main .sec > .thg,
+    main .sec > .sp-section,
+    main .sec > .sp-contact,
+    main .sec > .div
+    { margin-top: 1.1rem }
+
+    /* Párrafos dentro de cards: colapsables si son largos */
+    .read-more-wrap { position:relative }
+    .read-more-wrap.collapsed .read-more-body {
+      max-height: 4.8em;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    }
+    .read-more-btn {
+      display:inline-flex;align-items:center;gap:4px;
+      margin-top:.45rem;font-size:.72rem;font-weight:600;
+      color:var(--md-primary);background:none;border:none;
+      cursor:pointer;padding:0;font-family:inherit;
+      letter-spacing:.02em;transition:opacity .15s
+    }
+    .read-more-btn:hover{opacity:.75}
+    .read-more-btn .rmb-arrow{transition:transform .22s}
+    .read-more-wrap.collapsed .rmb-arrow{transform:rotate(0deg)}
+    .read-more-wrap:not(.collapsed) .rmb-arrow{transform:rotate(180deg)}
+
+    /* Tarjeta de progreso de sección */
+    .sec-progress-bar {
+      height:3px;background:var(--md-outline-variant);border-radius:99px;
+      margin-bottom:1.25rem;overflow:hidden
+    }
+    .sec-progress-fill {
+      height:100%;background:var(--md-primary);border-radius:99px;
+      transition:width .4s ease
+    }
+
   </style>
 </head>
 <body>
@@ -1242,24 +1320,13 @@
 
   <div class="woebot-card">
     <h4>Herramienta complementaria</h4>
-    <h3>Woebot: terapeuta de bolsillo basado en TCC</h3>
-    <p style="font-size:.82rem">Woebot es una app de IA basada en TCC que funciona como un chat interactivo. Te hace check-ins diarios, identifica distorsiones cognitivas en tus pensamientos en tiempo real y te guía en la reestructuración cognitiva. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
+    <h3>GPT de TCC: practica reestructuración cognitiva en tiempo real</h3>
+    <p style="font-size:.82rem">Una IA especializada en Terapia Cognitivo-Conductual. Puedes explorar distorsiones cognitivas, practicar el diálogo socrático y trabajar pensamientos automáticos entre sesiones. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
     <div class="woebot-links">
-      <a href="https://apps.apple.com/us/app/woebot-the-mental-health-ally/id1305375832" target="_blank" rel="noopener noreferrer">📱 App Store</a>
-      <a href="https://play.google.com/store/apps/details?id=com.woebot&hl=es_MX" target="_blank" rel="noopener noreferrer">🤖 Google Play</a>
+      <a href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">🤖 Abrir en ChatGPT</a>
     </div>
   </div>
 
-
-  <div class="sec-next" onclick="navTo('sueno',document.querySelector('.sb-item[data-sec=\'sueno\']'))" role="link" tabindex="0">
-    <div class="sec-next-icon"><span>🌙</span></div>
-    <div class="sec-next-body">
-      <div class="sec-next-label">Siguiente sección</div>
-      <div class="sec-next-title">Sueño</div>
-      <div class="sec-next-desc">El sueño es tratamiento. Aprende higiene del sueño y técnicas que realmente funcionan.</div>
-    </div>
-    <div class="sec-next-arrow">→</div>
-  </div>
 </section>
 
 <!-- CREENCIAS (parte de la misma sección) -->
@@ -1390,6 +1457,7 @@
     </div>
     <div class="sec-next-arrow">→</div>
   </div>
+
 </section>
 
 <!-- ═══════════════ SUEÑO ═══════════════ -->
@@ -1672,6 +1740,15 @@
     <h3>Lo que la IA no reemplaza</h3>
     <p style="color:var(--md-on-secondary-container)">La IA es una herramienta de <strong>contención y estructura entre sesiones</strong>. No diagnostica, no prescribe, no reemplaza la relación terapéutica. Su valor está en estar disponible a las 3 AM cuando el catastrofismo escala.</p>
     <p style="color:var(--md-on-secondary-container)">Si después de usar un prompt tu activación <strong>aumenta</strong> en lugar de bajar, cierra la IA y usa una técnica de grounding o contacta a tu terapeuta.</p>
+  </div>
+
+  <div class="woebot-card">
+    <h4>IA especializada en TCC</h4>
+    <h3>GPT de TCC: terapeuta cognitivo entrenado</h3>
+    <p style="font-size:.82rem">Este GPT está configurado específicamente para Terapia Cognitivo-Conductual. Practica reestructuración cognitiva, diálogo socrático y manejo de distorsiones. Más enfocado que un chat general. <strong>No reemplaza a tu terapeuta ni a tu médico.</strong></p>
+    <div class="woebot-links">
+      <a href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener noreferrer">🤖 Abrir GPT de TCC</a>
+    </div>
   </div>
 
   <div class="sec-next" onclick="navTo('meds',document.querySelector('.sb-item[data-sec=\'meds\']'))" role="link" tabindex="0">
@@ -3099,6 +3176,226 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-sheet').classList.remove('show');
   deferredPrompt = null;
 });
+</script>
+
+<script>
+/* ══ MEMORIA DE SESIÓN — recuerda sección y scroll ══ */
+(function () {
+  var STORE_SEC   = 'eutimya_last_sec';
+  var STORE_SCROLL = 'eutimya_last_scroll';
+
+  // Guardar sección activa y scroll cada vez que cambian
+  function saveSec(id) {
+    try { localStorage.setItem(STORE_SEC, id); } catch(e){}
+  }
+  function saveScroll() {
+    try { localStorage.setItem(STORE_SCROLL, window.scrollY); } catch(e){}
+  }
+
+  // Restaurar al cargar
+  window.addEventListener('DOMContentLoaded', function() {
+    var lastSec;
+    var lastScroll = 0;
+    try {
+      lastSec    = localStorage.getItem(STORE_SEC);
+      lastScroll = parseInt(localStorage.getItem(STORE_SCROLL)) || 0;
+    } catch(e){}
+
+    if (lastSec && lastSec !== 'neuro' && document.getElementById(lastSec)) {
+      // Navegar a la última sección silenciosamente
+      var sbItem = document.querySelector('.sb-item[data-sec="' + lastSec + '"]');
+      if (sbItem) {
+        var _navTo = window.navTo;
+        if (_navTo) { _navTo(lastSec, sbItem); }
+        else {
+          // fallback directo
+          document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+          var target = document.getElementById(lastSec);
+          if (target) target.classList.add('on');
+        }
+        // Restaurar scroll después de que el DOM se acomode
+        setTimeout(function() {
+          window.scrollTo({ top: lastScroll, behavior: 'instant' });
+        }, 80);
+      }
+    }
+  });
+
+  // Hookear navTo para guardar sección
+  var _origNavTo = window.navTo;
+  window.navTo = function(id, btn) {
+    saveSec(id);
+    if (_origNavTo) _origNavTo.apply(this, arguments);
+  };
+
+  // Hookear show() para guardar sección
+  var _origShow = window.show;
+  window.show = function(id, tab) {
+    saveSec(id);
+    if (_origShow) _origShow.apply(this, arguments);
+  };
+
+  // Guardar scroll periódicamente (no en cada evento para no saturar)
+  var scrollTimer;
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(saveScroll, 250);
+  }, { passive: true });
+})();
+
+/* ══ LEER MÁS — colapsa párrafos largos en cards ══ */
+(function() {
+  var MIN_LINES = 4; // mínimo de líneas para que valga colapsarlo
+  var approxLineH = 22; // px por línea (font-size ~14px * line-height 1.6)
+  var threshold = MIN_LINES * approxLineH; // ~88px
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Buscar párrafos largos dentro de cards que no sean hero ni soc
+    document.querySelectorAll('.card p, .card-tonal p, .cot p').forEach(function(p) {
+      // Saltar si ya fue procesado o si está en el hero
+      if (p.closest('.hero') || p.closest('.soc') || p.closest('.med-item-body')) return;
+      if (p.scrollHeight <= threshold) return;
+
+      // Crear wrapper colapsable
+      var wrap = document.createElement('div');
+      wrap.className = 'read-more-wrap collapsed';
+
+      var body = document.createElement('div');
+      body.className = 'read-more-body';
+
+      // Mover el párrafo dentro del body
+      p.parentNode.insertBefore(wrap, p);
+      body.appendChild(p);
+      wrap.appendChild(body);
+
+      // Botón
+      var btn = document.createElement('button');
+      btn.className = 'read-more-btn';
+      btn.innerHTML = '<span>Leer más</span><span class="rmb-arrow">▼</span>';
+      wrap.appendChild(btn);
+
+      btn.addEventListener('click', function() {
+        var collapsed = wrap.classList.toggle('collapsed');
+        btn.querySelector('span').textContent = collapsed ? 'Leer más' : 'Ver menos';
+      });
+    });
+  });
+})();
+
+/* ══ BARRA DE PROGRESO DE SECCIÓN ══ */
+(function() {
+  // Insertar barra de progreso en cada sección al inicio
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('section.sec').forEach(function(sec) {
+      var bar = document.createElement('div');
+      bar.className = 'sec-progress-bar';
+      bar.innerHTML = '<div class="sec-progress-fill" style="width:0%"></div>';
+      bar.setAttribute('aria-hidden', 'true');
+      // Insertar como primer hijo
+      sec.insertBefore(bar, sec.firstChild);
+    });
+
+    // Actualizar barra según scroll dentro de la sección activa
+    function updateProgress() {
+      var activeSec = document.querySelector('section.sec.on');
+      if (!activeSec) return;
+      var bar = activeSec.querySelector('.sec-progress-fill');
+      if (!bar) return;
+
+      var rect = activeSec.getBoundingClientRect();
+      var secH = activeSec.offsetHeight;
+      var vh = window.innerHeight;
+      // Qué porcentaje de la sección ya pasó por el viewport
+      var scrolled = Math.max(0, -rect.top);
+      var total = Math.max(1, secH - vh);
+      var pct = Math.min(100, Math.round((scrolled / total) * 100));
+      bar.style.width = pct + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  });
+})();
+</script>
+
+<script>
+/* ══ SERVICE WORKER ══ */
+(function () {
+  // Marca como feed-card todos los hijos directos de cada section.sec
+  function tagCards(sec) {
+    Array.from(sec.children).forEach(function(child) {
+      if (!child.classList.contains('feed-card')) {
+        child.classList.add('feed-card');
+      }
+    });
+  }
+
+  // Observador: cuando una card entra al viewport, la hace visible con delay escalonado
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        // delay según posición entre hermanos para efecto cascada
+        var siblings = Array.from(el.parentElement.children);
+        var idx = siblings.indexOf(el);
+        el.style.transitionDelay = Math.min(idx * 60, 300) + 'ms';
+        el.classList.add('visible');
+        io.unobserve(el); // solo una vez
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+  function observeSec(sec) {
+    tagCards(sec);
+    Array.from(sec.querySelectorAll('.feed-card')).forEach(function(card) {
+      io.observe(card);
+    });
+  }
+
+  // Observa la sección activa al cargar
+  document.querySelectorAll('section.sec').forEach(function(sec) {
+    observeSec(sec);
+    // El primer hijo de la sección activa es inmediatamente visible
+    if (sec.classList.contains('on') && sec.firstElementChild) {
+      sec.firstElementChild.classList.add('visible');
+    }
+  });
+
+  // Cuando el usuario navega, re-observa la nueva sección
+  // Hookear show() y navTo() para que marquen los nuevos elementos
+  var _origShow = window.show;
+  window.show = function(id, tab) {
+    if (_origShow) _origShow.apply(this, arguments);
+    var sec = document.getElementById(id);
+    if (sec) {
+      // Inmediatamente visible el primer elemento; el resto por scroll
+      Array.from(sec.querySelectorAll('.feed-card')).forEach(function(card, i) {
+        if (i === 0) {
+          card.style.transitionDelay = '0ms';
+          card.classList.add('visible');
+        }
+      });
+      // Re-observar los que aún no son visibles
+      Array.from(sec.querySelectorAll('.feed-card:not(.visible)')).forEach(function(card) {
+        io.observe(card);
+      });
+    }
+  };
+
+  var _origNavTo = window.navTo;
+  window.navTo = function(id, btn) {
+    if (_origNavTo) _origNavTo.apply(this, arguments);
+    var sec = document.getElementById(id);
+    if (sec) {
+      Array.from(sec.querySelectorAll('.feed-card')).forEach(function(card, i) {
+        if (i === 0) { card.style.transitionDelay = '0ms'; card.classList.add('visible'); }
+      });
+      Array.from(sec.querySelectorAll('.feed-card:not(.visible)')).forEach(function(card) {
+        io.observe(card);
+      });
+    }
+  };
+})();
 </script>
 
 <script>
