@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmación de Citas · Eutimya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --teal: #006A60;
+    --teal-light: #E9F0EE;
+    --gold: #C9A84C;
+    --bg: #F7F8F6;
+    --card: #ffffff;
+    --text: #1A1A1A;
+    --muted: #5A6472;
+    --border: #E2E8E4;
+    --presencial: #E8F5E9;
+    --presencial-dot: #2E7D32;
+    --online: #E3F2FD;
+    --online-dot: #1565C0;
+    --bariatria: #FFF3E0;
+    --bariatria-dot: #E65100;
+    --moya: #E8EAF6;
+    --moya-dot: #283593;
+    --sharon: #FCE4EC;
+    --sharon-dot: #880E4F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+  }
+  .login-card {
+    background: var(--card); border-radius: 20px; padding: 48px 40px;
+    max-width: 380px; width: 100%;
+    box-shadow: 0 4px 40px rgba(0,0,0,.10);
+    text-align: center;
+  }
+  .login-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+  .login-label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+  .login-input {
+    width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
+    border-radius: 10px; font-size: 15px; font-family: 'DM Sans', sans-serif;
+    outline: none; transition: border .2s;
+  }
+  .login-input:focus { border-color: var(--teal); }
+  .login-btn {
+    margin-top: 20px; width: 100%; padding: 14px;
+    background: var(--navy); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    transition: background .2s;
+  }
+  .login-btn:hover { background: var(--teal); }
+  .login-error { display: none; color: #c62828; font-size: 13px; margin-top: 12px; }
+
+  /* ── APP ── */
+  #app { display: none; }
+  header {
+    background: var(--navy); color: #fff; padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-title { font-family: 'Playfair Display', serif; font-size: 20px; }
+  .header-sub { font-size: 12px; opacity: .65; margin-top: 2px; }
+  .header-badge {
+    background: var(--gold); color: var(--navy); padding: 6px 14px;
+    border-radius: 20px; font-size: 13px; font-weight: 600;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+  /* filtros */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .filter-btn {
+    padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    border: 1.5px solid var(--border); background: var(--card); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: all .15s;
+  }
+  .filter-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+
+  /* grupos de día */
+  .day-group { margin-bottom: 32px; }
+  .day-header {
+    font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .day-count { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
+
+  /* cards */
+  .cita-card {
+    background: var(--card); border-radius: 14px; padding: 16px 18px;
+    margin-bottom: 10px; border: 1.5px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+    transition: box-shadow .15s;
+  }
+  .cita-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+  .cita-hora {
+    font-size: 15px; font-weight: 600; color: var(--navy);
+    min-width: 52px; text-align: center; line-height: 1.2;
+  }
+  .cita-hora span { display: block; font-size: 11px; font-weight: 400; color: var(--muted); }
+  .divider { width: 1px; height: 40px; background: var(--border); }
+  .cita-info { flex: 1; min-width: 0; }
+  .cita-nombre { font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cita-meta { font-size: 12px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge-presencial { background: var(--presencial); color: var(--presencial-dot); }
+  .badge-presencial .badge-dot { background: var(--presencial-dot); }
+  .badge-online { background: var(--online); color: var(--online-dot); }
+  .badge-online .badge-dot { background: var(--online-dot); }
+  .badge-bariatria { background: var(--bariatria); color: var(--bariatria-dot); }
+  .badge-bariatria .badge-dot { background: var(--bariatria-dot); }
+  .badge-moya { background: var(--moya); color: var(--moya-dot); }
+  .badge-moya .badge-dot { background: var(--moya-dot); }
+  .badge-sharon { background: var(--sharon); color: var(--sharon-dot); }
+  .badge-sharon .badge-dot { background: var(--sharon-dot); }
+  .cita-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-wa {
+    background: #25D366; color: #fff; border: none;
+    padding: 10px 14px; border-radius: 10px; font-size: 13px;
+    font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    text-decoration: none; transition: background .15s;
+  }
+  .btn-wa:hover { background: #1ebe5d; }
+  .btn-copy {
+    background: var(--teal-light); color: var(--teal); border: 1.5px solid var(--teal);
+    padding: 10px 14px; border-radius: 10px; font-size: 13px;
+    font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-copy:hover { background: var(--teal); color: #fff; }
+  .btn-copy.copied { background: #388E3C; color: #fff; border-color: #388E3C; }
+
+  /* sin cel */
+  .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
+
+  /* toast */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--navy); color: #fff; padding: 12px 24px; border-radius: 30px;
+    font-size: 14px; font-weight: 500; z-index: 999;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* stats */
+  .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat {
+    background: var(--card); border-radius: 12px; padding: 12px 18px;
+    border: 1.5px solid var(--border); font-size: 13px; color: var(--muted);
+  }
+  .stat strong { display: block; font-size: 22px; font-weight: 600; color: var(--navy); }
+
+  /* hidden via filtro */
+  .cita-card.hidden, .day-group.hidden { display: none; }
+
+  @media (max-width: 600px) {
+    .cita-card { flex-wrap: wrap; }
+    .cita-actions { width: 100%; justify-content: flex-end; }
+    .login-card { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Eutimya</div>
+    <div class="login-sub">Panel de confirmación de citas</div>
+    <label class="login-label">Contraseña</label>
+    <input id="pwd-input" class="login-input" type="password" placeholder="••••••••••••" autocomplete="current-password">
+    <button class="login-btn" onclick="checkLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <header>
+    <div>
+      <div class="header-title">Confirmación de Citas</div>
+      <div class="header-sub">Semana del 9 al 16 de abril 2026</div>
+    </div>
+    <div class="header-badge" id="total-badge">78 citas</div>
+  </header>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat"><strong id="stat-total">78</strong>Total semana</div>
+      <div class="stat"><strong id="stat-moya">—</strong>Dr. Moya</div>
+      <div class="stat"><strong id="stat-sharon">—</strong>Dra. Venecia</div>
+      <div class="stat"><strong id="stat-presencial">—</strong>Presencial</div>
+      <div class="stat"><strong id="stat-online">—</strong>Online</div>
+      <div class="stat"><strong id="stat-bariatria">—</strong>Bariatría</div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>
+      <button class="filter-btn" onclick="filtrar('Dr. Moya', this)">Dr. Moya</button>
+      <button class="filter-btn" onclick="filtrar('Dra. Venecia', this)">Dra. Venecia</button>
+      <button class="filter-btn" onclick="filtrar('Presencial', this)">Presencial</button>
+      <button class="filter-btn" onclick="filtrar('Online', this)">Online</button>
+      <button class="filter-btn" onclick="filtrar('Bariatría', this)">Bariatría</button>
+    </div>
+
+    <div id="lista"></div>
+  </div>
+</div>
+
+<div id="toast">✓ Texto copiado</div>
+
+<script>
+// ── AUTH ──
+const HASH_OK = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkLogin() {
+  const val = document.getElementById('pwd-input').value;
+  const h = await sha256(val);
+  if (h === HASH_OK) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderCitas();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+  }
+}
+document.getElementById('pwd-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
+
+// ── DATOS ──
+const CITAS = [
+  {"doctor":"Dr. Moya","nombre":"Poncho Gutiérrez","celular":"4431687983","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Online","link":"https://meet.google.com/vrc-edty-pzc"},
+  {"doctor":"Dr. Moya","nombre":"Valerie Altamirano","celular":"7712368330","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Online","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Carolina Toro Farias","celular":"7874472432","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Online","link":"https://meet.google.com/pzy-nnsa-ucj"},
+  {"doctor":"Dra. Venecia","nombre":"Ana Fernanda Ruiz Soto","celular":"5566189441","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/hkd-ohvv-kaa"},
+  {"doctor":"Dr. Moya","nombre":"Francisco Javier Torres Perez","celular":"9614561379","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Bariatría","link":"https://meet.google.com/tgu-uzjj-mhb"},
+  {"doctor":"Dr. Moya","nombre":"Andrea Celis","celular":"5532382592","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/wiu-hahg-egj"},
+  {"doctor":"Dr. Moya","nombre":"Luisa Fernanda Flores García","celular":"9931254793","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":"https://meet.google.com/bqw-dgic-rbv"},
+  {"doctor":"Dr. Moya","nombre":"Elba Cantero","celular":"5555242439","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Laura Franco","celular":"5591881544","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Ericka Tapia Saavedra","celular":"5559685315","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Zibel Melgar Gálvez","celular":"5581421627","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"GABRIELA ROCIO FELIPE TITO","celular":"5617199469","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Online","link":"https://meet.google.com/fzg-ohui-egd"},
+  {"doctor":"Dra. Venecia","nombre":"nancy valero","celular":"5534215579","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Luis Hidalgo","celular":"7331271470","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Cristel Sandoval sandoval","celular":"5635388352","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Julio Laudino","celular":"5546118885","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Renée Perezcano","celular":"5554339688","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"17:30","hora_fin":"18:20","modalidad":"Online","link":"https://meet.google.com/kwa-kcin-ozi"},
+  {"doctor":"Dr. Moya","nombre":"Anaid Yvonne Arispuro Pinto","celular":"9612340912","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Bariatría","link":"https://meet.google.com/rjp-gzdr-nyh"},
+  {"doctor":"Dr. Moya","nombre":"Saira Daniela Salazar Marroquin","celular":"9626992091","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"18:30","hora_fin":"19:20","modalidad":"Bariatría","link":"https://meet.google.com/qbx-gcps-ccu"},
+  {"doctor":"Dr. Moya","nombre":"Ana Isabel Flores Espinosa","celular":"5535336093","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/jnz-ubyx-yof"},
+  {"doctor":"Dr. Moya","nombre":"Stephany marisol Chavez osornio","celular":"5549099005","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":"https://meet.google.com/gvi-ofoc-dhm"},
+  {"doctor":"Dr. Moya","nombre":"Daniela Vargas González","celular":"5541938945","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Manuel Omar Reyes ortega","celular":"5527711132","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Karime Solar","celular":"5533320746","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Montserrat Santillan","celular":"5527557127","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/bce-ztcy-agm"},
+  {"doctor":"Dr. Moya","nombre":"Fernanda Santiago","celular":"5538231720","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"IVAN ESTRADA","celular":"5565815110","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Zeltzin Yazmin Sanchez Cortes","celular":"5547942046","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Esmeralda Gutiérrez","celular":"5532443134","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"GLADYS LISSET TORRES JIMENEZ","celular":"5548231197","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Valeria Colmenero","celular":"5584463984","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Maximiliano Vicentico Gutiérrez Mora","celular":"5528991705","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Ruben Fonseca Estrada","celular":"6861603219","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Marcelo Sanders Espinosa","celular":"5551948001","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Noemi Nolasco","celular":"5515982463","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Anayansi Hernández Laredo","celular":"5574897465","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/xvf-uxxz-nkv"},
+  {"doctor":"Dr. Moya","nombre":"Nelson Coronado","celular":"5634121269","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Yolanda Valdespino","celular":"5543961459","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Lizbeth Girón Sandoval","celular":"7712277223","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Martha Perez Lopez","celular":"5540305446","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Thania Lizbeth Silva Medina","celular":"5569604649","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Carlos Alberto Romero","celular":"5554714646","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Alex Monzalvo","celular":"5543585941","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Guadalupe Hernández","celular":"","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Rafael Medero","celular":"3319534808","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Rosa Ortega","celular":"5581034339","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/xqa-jzff-ieg"},
+  {"doctor":"Dr. Moya","nombre":"YAEL ALEJANDRO MARTINEZ MURILLO","celular":"5525252868","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Nadia Pérez Murillo","celular":"9841581207","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Online","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Abigail Colula Morales","celular":"5573978763","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"mario feria ochoa","celular":"5514517587","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Valentina Mears","celular":"8712601115","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Online","link":"https://meet.google.com/zew-emmv-yns"},
+  {"doctor":"Dr. Moya","nombre":"Erick Gastón Zamudio Ramirez","celular":"9613689463","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Bariatría","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Maylet Aguilar","celular":"5523175300","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/ngj-wbiw-shu"},
+  {"doctor":"Dr. Moya","nombre":"Felix Alonso Garcia Montes","celular":"9613670896","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"18:30","hora_fin":"19:20","modalidad":"Bariatría","link":""},
+  {"doctor":"Dr. Moya","nombre":"María del Carmen Muñoz","celular":"5579510298","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"20:35","hora_fin":"21:25","modalidad":"Online","link":""},
+  {"doctor":"Dr. Moya","nombre":"Irma Lara García","celular":"5611261430","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Online","link":""},
+  {"doctor":"Dr. Moya","nombre":"Bere Díaz","celular":"5574892591","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Nils Larsen","celular":"3107706364","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/wht-aqur-eyk"},
+  {"doctor":"Dr. Moya","nombre":"Christian Rosales","celular":"5563603831","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Daniela D'Ovidio","celular":"9988202658","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"13:20","hora_fin":"14:10","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"susana pinzon","celular":"5523671752","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Marcela Trejo","celular":"9611364436","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":""},
+  {"doctor":"Dr. Moya","nombre":"Diego Garcia","celular":"5529540615","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"20:00","hora_fin":"20:50","modalidad":"Online","link":""},
+  {"doctor":"Dr. Moya","nombre":"Lizbeth Girón Sandoval","celular":"7712277223","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":"https://meet.google.com/qmx-yjvm-zfv"},
+  {"doctor":"Dr. Moya","nombre":"Laura Alexia Valdez Olmos","celular":"5530357773","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":"https://meet.google.com/hww-erzf-ejn"},
+  {"doctor":"Dr. Moya","nombre":"Luz María Almaguer","celular":"5535075471","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Monserrat Rincón","celular":"5536474510","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Sandra Karmina Gutierrez Fernandez","celular":"5610171871","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"17:30","hora_fin":"18:20","modalidad":"Bariatría","link":""},
+  {"doctor":"Dr. Moya","nombre":"Adela Veronica Hernandez Tamayo","celular":"5546115132","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Joaquin Muñoz","celular":"5524044528","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Rodrigo Alonso González Vera","celular":"5543546464","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Liliana Mendez","celular":"5521290408","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/qrs-axgp-xmr"},
+  {"doctor":"Dr. Moya","nombre":"Paulina Orozco","celular":"5533344601","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":"https://meet.google.com/ojn-cwhw-ddc"},
+  {"doctor":"Dr. Moya","nombre":"Juan Manuel González Barrón","celular":"5572028106","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"13:20","hora_fin":"14:10","modalidad":"Presencial","link":""},
+  {"doctor":"Dr. Moya","nombre":"Norma Edith Flores Murillo","celular":"4641370329","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Bariatría","link":"https://meet.google.com/ssj-firu-gnw"},
+  {"doctor":"Dra. Venecia","nombre":"Gael Aroche","celular":"5579991836","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
+  {"doctor":"Dra. Venecia","nombre":"Carolina Perezcano","celular":"5554339688","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/hnd-dnsf-ais"},
+  {"doctor":"Dr. Moya","nombre":"Hugo Abraham Varela Delgado","celular":"6672134447","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/wtq-pkqf-nzs"},
+  {"doctor":"Dr. Moya","nombre":"Arely Madaí Pastrana Román","celular":"7442218591","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":""}
+];
+
+// ── RECORDATORIOS ──
+function generarTexto(c) {
+  const mod = c.modalidad;
+  const dia = c.fecha_fmt.charAt(0).toUpperCase() + c.fecha_fmt.slice(1);
+  const horario = `${c.hora_inicio}–${c.hora_fin} (hora cdmx)`;
+
+  if (mod === 'Presencial') {
+    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nPresencial (${c.nombre})\n${dia}⋅${horario}\nMoras 619, Col del Valle,  03104 CDMX.\n\nFormas de pago: eutimya.org/pagos`;
+  } else {
+    // Online y Bariatría usan recordatorio online
+    let linkLine = c.link ? `Google Meet: ${c.link}` : 'El link de tu sesión te será enviado en breve.';
+    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nOnline (${c.nombre})\n${dia}⋅${horario}\n${linkLine}\n\nFormas de pago: eutimya.org/pagos`;
+  }
+}
+
+// ── RENDER ──
+function renderCitas() {
+  // stats
+  const total = CITAS.length;
+  const moya = CITAS.filter(c => c.doctor === 'Dr. Moya').length;
+  const sharon = CITAS.filter(c => c.doctor === 'Dra. Venecia').length;
+  const presencial = CITAS.filter(c => c.modalidad === 'Presencial').length;
+  const online = CITAS.filter(c => c.modalidad === 'Online').length;
+  const baria = CITAS.filter(c => c.modalidad === 'Bariatría').length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-moya').textContent = moya;
+  document.getElementById('stat-sharon').textContent = sharon;
+  document.getElementById('stat-presencial').textContent = presencial;
+  document.getElementById('stat-online').textContent = online;
+  document.getElementById('stat-bariatria').textContent = baria;
+  document.getElementById('total-badge').textContent = total + ' citas';
+
+  // agrupar por fecha
+  const grupos = {};
+  CITAS.forEach((c, i) => {
+    c._idx = i;
+    if (!grupos[c.fecha]) grupos[c.fecha] = [];
+    grupos[c.fecha].push(c);
+  });
+
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '';
+
+  Object.keys(grupos).sort().forEach(fecha => {
+    const citasDelDia = grupos[fecha];
+    const g = document.createElement('div');
+    g.className = 'day-group';
+    g.dataset.fecha = fecha;
+
+    // contar por modalidad/doctor para filtrado
+    const tags = new Set();
+    citasDelDia.forEach(c => { tags.add(c.doctor); tags.add(c.modalidad); });
+
+    const fechaLabel = citasDelDia[0].fecha_fmt;
+    g.innerHTML = `<div class="day-header">
+      ${fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1)}
+      <span class="day-count">${citasDelDia.length} citas</span>
+    </div>`;
+
+    citasDelDia.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'cita-card';
+      card.dataset.doctor = c.doctor;
+      card.dataset.modalidad = c.modalidad;
+
+      const modClass = c.modalidad === 'Presencial' ? 'presencial' :
+                       c.modalidad === 'Online' ? 'online' : 'bariatria';
+      const docClass = c.doctor === 'Dr. Moya' ? 'moya' : 'sharon';
+
+      const tieneCel = c.celular && c.celular.length >= 10;
+      const cel10 = tieneCel ? c.celular.slice(-10) : '';
+      const waUrl = tieneCel ? `https://wa.me/521${cel10}` : '';
+
+      card.innerHTML = `
+        <div class="cita-hora">${c.hora_inicio}<span>${c.hora_fin}</span></div>
+        <div class="divider"></div>
+        <div class="cita-info">
+          <div class="cita-nombre">${c.nombre}</div>
+          <div class="cita-meta">
+            <span class="badge badge-${modClass}"><span class="badge-dot"></span>${c.modalidad}</span>
+            <span class="badge badge-${docClass}"><span class="badge-dot"></span>${c.doctor}</span>
+            ${tieneCel ? `<span>${cel10}</span>` : '<span class="no-cel">Sin celular</span>'}
+          </div>
+        </div>
+        <div class="cita-actions">
+          ${tieneCel ? `
+          <button class="btn-copy" id="copy-${c._idx}" onclick="copiarTexto(${c._idx}, this)">Copiar</button>
+          <a class="btn-wa" href="${waUrl}" target="_blank" onclick="prepararWA(${c._idx})">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.899.512 3.677 1.406 5.207L2 22l4.905-1.386A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm.001 18a8 8 0 0 1-4.073-1.117l-.292-.173-3.03.857.856-3.03-.189-.301A8 8 0 1 1 12 20z"/></svg>
+            WA
+          </a>` : `<span class="no-cel">Sin teléfono</span>`}
+        </div>`;
+      g.appendChild(card);
+    });
+
+    lista.appendChild(g);
+  });
+}
+
+// ── COPIAR ──
+async function copiarTexto(idx, btn) {
+  const c = CITAS[idx];
+  const texto = generarTexto(c);
+  try {
+    await navigator.clipboard.writeText(texto);
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+    showToast('Texto copiado');
+  } catch(e) {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = texto;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+    showToast('Texto copiado');
+  }
+}
+
+// cuando abres WA, también copia el texto al clipboard para pegar
+async function prepararWA(idx) {
+  const c = CITAS[idx];
+  const texto = generarTexto(c);
+  try {
+    await navigator.clipboard.writeText(texto);
+    showToast('Texto copiado — pégalo en WhatsApp');
+  } catch(e) {}
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── FILTROS ──
+let filtroActual = 'todos';
+function filtrar(valor, btn) {
+  filtroActual = valor;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.cita-card').forEach(card => {
+    if (valor === 'todos') {
+      card.classList.remove('hidden');
+    } else if (valor === 'Dr. Moya' || valor === 'Dra. Venecia') {
+      card.dataset.doctor === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
+    } else {
+      card.dataset.modalidad === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
+    }
+  });
+
+  // ocultar grupos vacíos
+  document.querySelectorAll('.day-group').forEach(g => {
+    const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
+    visible ? g.classList.remove('hidden') : g.classList.add('hidden');
+  });
+}
+</script>
+</body>
+</html>
