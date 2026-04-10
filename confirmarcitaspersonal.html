@@ -232,6 +232,9 @@
 <script>
 // ── AUTH ──
 const HASH_OK = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwMQK5Zk6mNWqcT5GUvoJhnrQt4xMaHEQK1HYY7-NpAu9aQQiUHnp0CjOj3zbZO9tkLqQ/exec';
+
+let CITAS = [];
 
 async function sha256(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -244,7 +247,7 @@ async function checkLogin() {
   if (h === HASH_OK) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    renderCitas();
+    cargarYRenderizar();
   } else {
     document.getElementById('login-error').style.display = 'block';
     document.getElementById('pwd-input').value = '';
@@ -253,88 +256,94 @@ async function checkLogin() {
 }
 document.getElementById('pwd-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
 
-// ── DATOS ──
-const CITAS = [
-  {"doctor":"Dr. Moya","nombre":"Poncho Gutiérrez","celular":"4431687983","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Online","link":"https://meet.google.com/vrc-edty-pzc"},
-  {"doctor":"Dr. Moya","nombre":"Valerie Altamirano","celular":"7712368330","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Online","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Carolina Toro Farias","celular":"7874472432","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Online","link":"https://meet.google.com/pzy-nnsa-ucj"},
-  {"doctor":"Dra. Venecia","nombre":"Ana Fernanda Ruiz Soto","celular":"5566189441","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/hkd-ohvv-kaa"},
-  {"doctor":"Dr. Moya","nombre":"Francisco Javier Torres Perez","celular":"9614561379","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Bariatría","link":"https://meet.google.com/tgu-uzjj-mhb"},
-  {"doctor":"Dr. Moya","nombre":"Andrea Celis","celular":"5532382592","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/wiu-hahg-egj"},
-  {"doctor":"Dr. Moya","nombre":"Luisa Fernanda Flores García","celular":"9931254793","fecha":"2026-04-09","fecha_fmt":"jueves, 9 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":"https://meet.google.com/bqw-dgic-rbv"},
-  {"doctor":"Dr. Moya","nombre":"Elba Cantero","celular":"5555242439","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Laura Franco","celular":"5591881544","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Ericka Tapia Saavedra","celular":"5559685315","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Zibel Melgar Gálvez","celular":"5581421627","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"GABRIELA ROCIO FELIPE TITO","celular":"5617199469","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Online","link":"https://meet.google.com/fzg-ohui-egd"},
-  {"doctor":"Dra. Venecia","nombre":"nancy valero","celular":"5534215579","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Luis Hidalgo","celular":"7331271470","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Cristel Sandoval sandoval","celular":"5635388352","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Julio Laudino","celular":"5546118885","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Renée Perezcano","celular":"5554339688","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"17:30","hora_fin":"18:20","modalidad":"Online","link":"https://meet.google.com/kwa-kcin-ozi"},
-  {"doctor":"Dr. Moya","nombre":"Anaid Yvonne Arispuro Pinto","celular":"9612340912","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Bariatría","link":"https://meet.google.com/rjp-gzdr-nyh"},
-  {"doctor":"Dr. Moya","nombre":"Saira Daniela Salazar Marroquin","celular":"9626992091","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"18:30","hora_fin":"19:20","modalidad":"Bariatría","link":"https://meet.google.com/qbx-gcps-ccu"},
-  {"doctor":"Dr. Moya","nombre":"Ana Isabel Flores Espinosa","celular":"5535336093","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/jnz-ubyx-yof"},
-  {"doctor":"Dr. Moya","nombre":"Stephany marisol Chavez osornio","celular":"5549099005","fecha":"2026-04-10","fecha_fmt":"viernes, 10 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":"https://meet.google.com/gvi-ofoc-dhm"},
-  {"doctor":"Dr. Moya","nombre":"Daniela Vargas González","celular":"5541938945","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Manuel Omar Reyes ortega","celular":"5527711132","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Karime Solar","celular":"5533320746","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Montserrat Santillan","celular":"5527557127","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/bce-ztcy-agm"},
-  {"doctor":"Dr. Moya","nombre":"Fernanda Santiago","celular":"5538231720","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"IVAN ESTRADA","celular":"5565815110","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Zeltzin Yazmin Sanchez Cortes","celular":"5547942046","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Esmeralda Gutiérrez","celular":"5532443134","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"GLADYS LISSET TORRES JIMENEZ","celular":"5548231197","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Valeria Colmenero","celular":"5584463984","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Maximiliano Vicentico Gutiérrez Mora","celular":"5528991705","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Ruben Fonseca Estrada","celular":"6861603219","fecha":"2026-04-11","fecha_fmt":"sábado, 11 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Marcelo Sanders Espinosa","celular":"5551948001","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Noemi Nolasco","celular":"5515982463","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Anayansi Hernández Laredo","celular":"5574897465","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/xvf-uxxz-nkv"},
-  {"doctor":"Dr. Moya","nombre":"Nelson Coronado","celular":"5634121269","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Yolanda Valdespino","celular":"5543961459","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Lizbeth Girón Sandoval","celular":"7712277223","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Martha Perez Lopez","celular":"5540305446","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"14:00","hora_fin":"14:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Thania Lizbeth Silva Medina","celular":"5569604649","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Carlos Alberto Romero","celular":"5554714646","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Alex Monzalvo","celular":"5543585941","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Guadalupe Hernández","celular":"","fecha":"2026-04-12","fecha_fmt":"domingo, 12 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Rafael Medero","celular":"3319534808","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Rosa Ortega","celular":"5581034339","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/xqa-jzff-ieg"},
-  {"doctor":"Dr. Moya","nombre":"YAEL ALEJANDRO MARTINEZ MURILLO","celular":"5525252868","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Nadia Pérez Murillo","celular":"9841581207","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"13:00","hora_fin":"13:50","modalidad":"Online","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Abigail Colula Morales","celular":"5573978763","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"15:00","hora_fin":"15:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"mario feria ochoa","celular":"5514517587","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Valentina Mears","celular":"8712601115","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Online","link":"https://meet.google.com/zew-emmv-yns"},
-  {"doctor":"Dr. Moya","nombre":"Erick Gastón Zamudio Ramirez","celular":"9613689463","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Bariatría","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Maylet Aguilar","celular":"5523175300","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/ngj-wbiw-shu"},
-  {"doctor":"Dr. Moya","nombre":"Felix Alonso Garcia Montes","celular":"9613670896","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"18:30","hora_fin":"19:20","modalidad":"Bariatría","link":""},
-  {"doctor":"Dr. Moya","nombre":"María del Carmen Muñoz","celular":"5579510298","fecha":"2026-04-13","fecha_fmt":"lunes, 13 de abril 2026","hora_inicio":"20:35","hora_fin":"21:25","modalidad":"Online","link":""},
-  {"doctor":"Dr. Moya","nombre":"Irma Lara García","celular":"5611261430","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Online","link":""},
-  {"doctor":"Dr. Moya","nombre":"Bere Díaz","celular":"5574892591","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Nils Larsen","celular":"3107706364","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/wht-aqur-eyk"},
-  {"doctor":"Dr. Moya","nombre":"Christian Rosales","celular":"5563603831","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Daniela D'Ovidio","celular":"9988202658","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"13:20","hora_fin":"14:10","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"susana pinzon","celular":"5523671752","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Marcela Trejo","celular":"9611364436","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":""},
-  {"doctor":"Dr. Moya","nombre":"Diego Garcia","celular":"5529540615","fecha":"2026-04-14","fecha_fmt":"martes, 14 de abril 2026","hora_inicio":"20:00","hora_fin":"20:50","modalidad":"Online","link":""},
-  {"doctor":"Dr. Moya","nombre":"Lizbeth Girón Sandoval","celular":"7712277223","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"10:00","hora_fin":"10:50","modalidad":"Presencial","link":"https://meet.google.com/qmx-yjvm-zfv"},
-  {"doctor":"Dr. Moya","nombre":"Laura Alexia Valdez Olmos","celular":"5530357773","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Presencial","link":"https://meet.google.com/hww-erzf-ejn"},
-  {"doctor":"Dr. Moya","nombre":"Luz María Almaguer","celular":"5535075471","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Monserrat Rincón","celular":"5536474510","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"16:00","hora_fin":"16:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Sandra Karmina Gutierrez Fernandez","celular":"5610171871","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"17:30","hora_fin":"18:20","modalidad":"Bariatría","link":""},
-  {"doctor":"Dr. Moya","nombre":"Adela Veronica Hernandez Tamayo","celular":"5546115132","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Joaquin Muñoz","celular":"5524044528","fecha":"2026-04-15","fecha_fmt":"miércoles, 15 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Rodrigo Alonso González Vera","celular":"5543546464","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"09:00","hora_fin":"09:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Liliana Mendez","celular":"5521290408","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"11:00","hora_fin":"11:50","modalidad":"Online","link":"https://meet.google.com/qrs-axgp-xmr"},
-  {"doctor":"Dr. Moya","nombre":"Paulina Orozco","celular":"5533344601","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"12:00","hora_fin":"12:50","modalidad":"Presencial","link":"https://meet.google.com/ojn-cwhw-ddc"},
-  {"doctor":"Dr. Moya","nombre":"Juan Manuel González Barrón","celular":"5572028106","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"13:20","hora_fin":"14:10","modalidad":"Presencial","link":""},
-  {"doctor":"Dr. Moya","nombre":"Norma Edith Flores Murillo","celular":"4641370329","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Bariatría","link":"https://meet.google.com/ssj-firu-gnw"},
-  {"doctor":"Dra. Venecia","nombre":"Gael Aroche","celular":"5579991836","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"17:00","hora_fin":"17:50","modalidad":"Presencial","link":""},
-  {"doctor":"Dra. Venecia","nombre":"Carolina Perezcano","celular":"5554339688","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"18:00","hora_fin":"18:50","modalidad":"Online","link":"https://meet.google.com/hnd-dnsf-ais"},
-  {"doctor":"Dr. Moya","nombre":"Hugo Abraham Varela Delgado","celular":"6672134447","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"19:00","hora_fin":"19:50","modalidad":"Online","link":"https://meet.google.com/wtq-pkqf-nzs"},
-  {"doctor":"Dr. Moya","nombre":"Arely Madaí Pastrana Román","celular":"7442218591","fecha":"2026-04-16","fecha_fmt":"jueves, 16 de abril 2026","hora_inicio":"20:30","hora_fin":"21:20","modalidad":"Online","link":""}
-];
+// ── CARGA DINÁMICA DESDE APPS SCRIPT ──
+async function cargarYRenderizar() {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--muted);font-size:14px">Cargando citas en vivo…</div>';
+
+  try {
+    const resp = await fetch(API_URL + '?action=citas');
+    const json = await resp.json();
+    if (json.status !== 'ok') throw new Error(json.message || 'Error API');
+
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    const fin = new Date(hoy); fin.setDate(hoy.getDate() + 7);
+
+    const DIAS_ES  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+    const seen = new Set();
+    const rows = [];
+
+    json.rows.forEach(r => {
+      const doctor    = (r['Doctor']           || '').trim();
+      const nombre    = (r['Nombre']           || '').trim();
+      const celularRaw= String(r['Celular']    || '').trim().replace(/\.0$/, '');
+      const modalidad = (r['Modalidad']        || '').trim();
+      const link      = (r['Link de Sesión']   || '').trim();
+
+      if (!['Presencial','Online','Bariatría'].includes(modalidad)) return;
+
+      // parsear fecha (viene como ISO string del toISOString())
+      let fechaDate = null;
+      const fRaw = r['Fecha de Cita'];
+      if (fRaw) {
+        const d = new Date(fRaw);
+        if (!isNaN(d)) fechaDate = new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+      }
+      if (!fechaDate || fechaDate < hoy || fechaDate > fin) return;
+
+      // parsear hora (viene como ISO string)
+      let horaInicio = '?', horaFin = '?';
+      const hRaw = r['Hora de Cita'];
+      if (hRaw) {
+        const hd = new Date(hRaw);
+        if (!isNaN(hd)) {
+          const hh = hd.getUTCHours(), mm = hd.getUTCMinutes();
+          horaInicio = String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+          const finMin = hh * 60 + mm + 50;
+          horaFin = String(Math.floor(finMin/60)).padStart(2,'0') + ':' + String(finMin%60).padStart(2,'0');
+        }
+      }
+
+      // dedup por doctor+nombre+fecha+hora
+      const key = `${doctor}|${nombre}|${fechaDate.toISOString().slice(0,10)}|${horaInicio}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+
+      const fechaISO = fechaDate.toISOString().slice(0,10);
+      const dSem     = DIAS_ES[fechaDate.getDay()];
+      const dNum     = fechaDate.getDate();
+      const mes      = MESES_ES[fechaDate.getMonth()];
+      const anio     = fechaDate.getFullYear();
+      const fechaFmt = `${dSem}, ${dNum} de ${mes} ${anio}`;
+      const cel      = celularRaw.replace(/\D/g,'').slice(-10);
+
+      rows.push({ doctor, nombre, celular: cel, fecha: fechaISO, fecha_fmt: fechaFmt,
+                  hora_inicio: horaInicio, hora_fin: horaFin, modalidad,
+                  link: modalidad === 'Presencial' ? '' : link });
+    });
+
+    rows.sort((a,b) => a.fecha.localeCompare(b.fecha) || a.hora_inicio.localeCompare(b.hora_inicio));
+    CITAS = rows;
+
+    // actualizar subtítulo del header con rango real
+    if (rows.length) {
+      const f0 = rows[0].fecha_fmt;
+      const fN = rows[rows.length-1].fecha_fmt;
+      document.querySelector('.header-sub').textContent = `${f0} — ${fN}`;
+    }
+
+    renderCitas();
+
+  } catch(err) {
+    lista.innerHTML = `<div style="text-align:center;padding:48px 0;color:#c62828;font-size:14px">
+      Error al cargar: ${err.message}<br>
+      <button onclick="cargarYRenderizar()" style="margin-top:12px;padding:8px 20px;background:var(--teal);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit">
+        Reintentar
+      </button></div>`;
+  }
+}
 
 // ── RECORDATORIOS ──
 function generarTexto(c) {
@@ -345,7 +354,6 @@ function generarTexto(c) {
   if (mod === 'Presencial') {
     return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nPresencial (${c.nombre})\n${dia}⋅${horario}\nMoras 619, Col del Valle,  03104 CDMX.\n\nFormas de pago: eutimya.org/pagos`;
   } else {
-    // Online y Bariatría usan recordatorio online
     let linkLine = c.link ? `Google Meet: ${c.link}` : 'El link de tu sesión te será enviado en breve.';
     return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nOnline (${c.nombre})\n${dia}⋅${horario}\n${linkLine}\n\nFormas de pago: eutimya.org/pagos`;
   }
@@ -353,22 +361,21 @@ function generarTexto(c) {
 
 // ── RENDER ──
 function renderCitas() {
-  // stats
-  const total = CITAS.length;
-  const moya = CITAS.filter(c => c.doctor === 'Dr. Moya').length;
-  const sharon = CITAS.filter(c => c.doctor === 'Dra. Venecia').length;
+  const total    = CITAS.length;
+  const moya     = CITAS.filter(c => c.doctor === 'Dr. Moya').length;
+  const sharon   = CITAS.filter(c => c.doctor === 'Dra. Venecia').length;
   const presencial = CITAS.filter(c => c.modalidad === 'Presencial').length;
-  const online = CITAS.filter(c => c.modalidad === 'Online').length;
-  const baria = CITAS.filter(c => c.modalidad === 'Bariatría').length;
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-moya').textContent = moya;
-  document.getElementById('stat-sharon').textContent = sharon;
-  document.getElementById('stat-presencial').textContent = presencial;
-  document.getElementById('stat-online').textContent = online;
-  document.getElementById('stat-bariatria').textContent = baria;
-  document.getElementById('total-badge').textContent = total + ' citas';
+  const online   = CITAS.filter(c => c.modalidad === 'Online').length;
+  const baria    = CITAS.filter(c => c.modalidad === 'Bariatría').length;
 
-  // agrupar por fecha
+  document.getElementById('stat-total').textContent    = total;
+  document.getElementById('stat-moya').textContent     = moya;
+  document.getElementById('stat-sharon').textContent   = sharon;
+  document.getElementById('stat-presencial').textContent = presencial;
+  document.getElementById('stat-online').textContent   = online;
+  document.getElementById('stat-bariatria').textContent = baria;
+  document.getElementById('total-badge').textContent   = total + ' citas';
+
   const grupos = {};
   CITAS.forEach((c, i) => {
     c._idx = i;
@@ -384,10 +391,6 @@ function renderCitas() {
     const g = document.createElement('div');
     g.className = 'day-group';
     g.dataset.fecha = fecha;
-
-    // contar por modalidad/doctor para filtrado
-    const tags = new Set();
-    citasDelDia.forEach(c => { tags.add(c.doctor); tags.add(c.modalidad); });
 
     const fechaLabel = citasDelDia[0].fecha_fmt;
     g.innerHTML = `<div class="day-header">
@@ -406,8 +409,8 @@ function renderCitas() {
       const docClass = c.doctor === 'Dr. Moya' ? 'moya' : 'sharon';
 
       const tieneCel = c.celular && c.celular.length >= 10;
-      const cel10 = tieneCel ? c.celular.slice(-10) : '';
-      const waUrl = tieneCel ? `https://wa.me/521${cel10}` : '';
+      const cel10    = tieneCel ? c.celular.slice(-10) : '';
+      const waUrl    = tieneCel ? `https://wa.me/521${cel10}` : '';
 
       card.innerHTML = `
         <div class="cita-hora">${c.hora_inicio}<span>${c.hora_fin}</span></div>
@@ -446,7 +449,6 @@ async function copiarTexto(idx, btn) {
     setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
     showToast('Texto copiado');
   } catch(e) {
-    // fallback
     const ta = document.createElement('textarea');
     ta.value = texto;
     document.body.appendChild(ta);
@@ -460,7 +462,6 @@ async function copiarTexto(idx, btn) {
   }
 }
 
-// cuando abres WA, también copia el texto al clipboard para pegar
 async function prepararWA(idx) {
   const c = CITAS[idx];
   const texto = generarTexto(c);
@@ -495,7 +496,6 @@ function filtrar(valor, btn) {
     }
   });
 
-  // ocultar grupos vacíos
   document.querySelectorAll('.day-group').forEach(g => {
     const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
     visible ? g.classList.remove('hidden') : g.classList.add('hidden');
