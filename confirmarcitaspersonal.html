@@ -293,16 +293,28 @@ async function cargarYRenderizar() {
       }
       if (!fechaDate || fechaDate < hoy || fechaDate > fin) return;
 
-      // parsear hora (viene como ISO string)
+      // parsear hora
+      // Apps Script serializa horas de Sheets como "1899-12-30THH:MM:SS.000Z"
+      // HH:MM en el string ISO ya es la hora local correcta — leer directo sin new Date()
       let horaInicio = '?', horaFin = '?';
       const hRaw = r['Hora de Cita'];
       if (hRaw) {
-        const hd = new Date(hRaw);
-        if (!isNaN(hd)) {
-          const hh = hd.getUTCHours(), mm = hd.getUTCMinutes();
+        const matchHora = String(hRaw).match(/T(\d{2}):(\d{2})/);
+        if (matchHora) {
+          const hh = parseInt(matchHora[1], 10);
+          const mm = parseInt(matchHora[2], 10);
           horaInicio = String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
           const finMin = hh * 60 + mm + 50;
           horaFin = String(Math.floor(finMin/60)).padStart(2,'0') + ':' + String(finMin%60).padStart(2,'0');
+        } else {
+          const matchStr = String(hRaw).match(/^(\d{1,2}):(\d{2})/);
+          if (matchStr) {
+            const hh = parseInt(matchStr[1], 10);
+            const mm = parseInt(matchStr[2], 10);
+            horaInicio = String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
+            const finMin = hh * 60 + mm + 50;
+            horaFin = String(Math.floor(finMin/60)).padStart(2,'0') + ':' + String(finMin%60).padStart(2,'0');
+          }
         }
       }
 
