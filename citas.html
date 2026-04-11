@@ -728,15 +728,14 @@
     <!-- FORM CARD -->
     <div class="card" id="form-card">
       <div class="field">
-        <label for="email-input">Tu correo electrónico</label>
+        <label for="query-input">Nombre completo o correo electrónico</label>
         <div class="field-inner">
-          <span class="material-symbols-outlined">mail</span>
+          <span class="material-symbols-outlined">person_search</span>
           <input
-            type="email"
-            id="email-input"
-            placeholder="nombre@correo.com"
-            autocomplete="email"
-            inputmode="email"
+            type="text"
+            id="query-input"
+            placeholder="Ej. Ana García López o ana@correo.com"
+            autocomplete="name"
             maxlength="254"
           >
         </div>
@@ -944,48 +943,50 @@
 
   // ── LÓGICA ────────────────────────────────────────────────
   async function consultarCita() {
-    const emailInput = document.getElementById("email-input");
+    const queryInput = document.getElementById("query-input");
     const submitBtn  = document.getElementById("submit-btn");
     const statusWrap = document.getElementById("status-wrap");
-    const email      = emailInput.value.trim().toLowerCase();
+    const query      = queryInput.value.trim();
 
-    // Validación
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      emailInput.focus();
-      emailInput.closest(".field-inner").style.borderColor = "var(--md-error)";
-      setTimeout(() => {
-        emailInput.closest(".field-inner").style.borderColor = "";
-      }, 1500);
+    if (!query || query.length < 3) {
+      queryInput.focus();
+      queryInput.closest(".field-inner").style.borderColor = "var(--md-error)";
+      setTimeout(() => queryInput.closest(".field-inner").style.borderColor = "", 1500);
       return;
     }
 
-    // Estado: cargando
     submitBtn.disabled = true;
     submitBtn.classList.add("loading");
     statusWrap.style.display = "none";
 
     try {
-      const res = await fetch(WEB_APP_URL, {
+      const res  = await fetch(WEB_APP_URL, {
         method: "POST",
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ query })
       });
-
       const data = await res.json();
 
       if (data.status === "sent") {
-        mostrarStatus("success", "¡Listo! Revisa tu correo", `Enviamos ${data.count} cita${data.count !== 1 ? "s" : ""} a <strong>${escapeHtml(email)}</strong>. Puede tardar unos minutos en llegar.`);
-        emailInput.value = "";
+        mostrarStatus(
+          "success",
+          "¡Listo! Revisa tu correo",
+          `Enviamos ${data.count} cita${data.count !== 1 ? "s" : ""} a <strong>${escapeHtml(data.maskedEmail)}</strong>. Puede tardar unos minutos en llegar.`
+        );
+        queryInput.value = "";
       } else if (data.status === "not_found") {
-        mostrarStatus("not-found", "Sin citas registradas",
-          `No encontramos citas próximas con el correo <strong>${escapeHtml(email)}</strong>. Verifica que sea el mismo con el que agendaste.`,
-          true);
+        mostrarStatus(
+          "not-found",
+          "Sin citas registradas",
+          `No encontramos citas próximas para <strong>${escapeHtml(query)}</strong>. Verifica que el nombre sea completo o usa el correo con que agendaste.`,
+          true
+        );
       } else {
         throw new Error(data.message || "Error desconocido");
       }
 
     } catch (err) {
       console.error(err);
-      mostrarStatus("error", "Algo salió mal", "No pudimos procesar tu solicitud. Por favor intenta de nuevo o contacta a la clínica directamente.");
+      mostrarStatus("error", "Algo salió mal", "No pudimos procesar tu solicitud. Intenta de nuevo.");
     } finally {
       submitBtn.disabled = false;
       submitBtn.classList.remove("loading");
@@ -1023,7 +1024,7 @@
         ${waHtml}
         <button class="btn-retry" onclick="reintentar()">
           <span class="material-symbols-outlined">refresh</span>
-          Intentar con otro correo
+          Intentar de nuevo
         </button>
       </div>
     `;
@@ -1033,7 +1034,7 @@
 
   function reintentar() {
     document.getElementById("status-wrap").style.display = "none";
-    document.getElementById("email-input").focus();
+    document.getElementById("query-input").focus();
   }
 
   function escapeHtml(str) {
@@ -1041,7 +1042,7 @@
   }
 
   // Enter para enviar
-  document.getElementById("email-input").addEventListener("keydown", function(e) {
+  document.getElementById("query-input").addEventListener("keydown", function(e) {
     if (e.key === "Enter") consultarCita();
   });
 
