@@ -471,6 +471,11 @@
     [data-theme="dark"] .module-row.sueno .module-emoji { background: rgba(99,102,241,.1) }
     [data-theme="dark"] .module-row.ia    .module-emoji { background: rgba(158,242,228,.1) }
     [data-theme="dark"] .module-row.meds  .module-emoji { background: rgba(251,191,36,.08) }
+  
+    .quick-pills { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .quick-pill { margin-bottom: 0 !important; }
+    .quick-pill-docs { background: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,.18); }
+
   </style>
 </head>
 <body>
@@ -493,9 +498,10 @@
   </div>
 
   <!-- QUICK PILL → CITAS -->
-  <a href="/citas" class="quick-pill">
-    📅 Ver mis citas →
-  </a>
+  <div class="quick-pills">
+  <a href="/citas" class="quick-pill">📅 Mis Citas →</a>
+  <a href="/recetasyresumenes" class="quick-pill quick-pill-docs">📄 Mis Documentos →</a>
+</div>
 
   <!-- MAIN GRID: 4 módulos -->
   <p class="section-label">Módulos</p>
@@ -517,6 +523,15 @@
       <div class="card-tag">Gestiona</div>
       <div class="card-name">Mis Citas</div>
       <div class="card-desc">Reserva, confirma y gestiona tus consultas.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <!-- 2b. MIS DOCUMENTOS -->
+    <a href="/recetasyresumenes" class="app-card" style="--card-tint:rgba(0,106,96,.05);border-color:rgba(0,106,96,.15)">
+      <div class="card-icon on-white">📄</div>
+      <div class="card-tag">Descarga</div>
+      <div class="card-name">Mis Docu­mentos</div>
+      <div class="card-desc">Recetas y resúmenes de tus consultas.</div>
       <div class="card-arrow">↗</div>
     </a>
 
