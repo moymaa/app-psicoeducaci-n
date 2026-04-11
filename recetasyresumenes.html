@@ -757,7 +757,82 @@
     <!-- STATUS (hidden initially) -->
     <div class="status-wrap" id="status-wrap" style="display:none"></div>
 
-    <!-- ── DOCTOR SELECTOR ── -->
+    <!-- ── ACCIONES RÁPIDAS ── -->
+    <div class="section-label" style="margin-top:2rem;animation-delay:.28s">Acciones rápidas</div>
+
+    <div class="doctor-tabs">
+      <button class="doc-tab active" onclick="switchDoc('moya', this)">
+        <img src="https://mental.eutimya.org/drmoyaiconpic.png" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0">
+        Dr. Moya
+      </button>
+      <button class="doc-tab" onclick="switchDoc('sharon', this)">
+        <img src="https://mental.eutimya.org/drasharoniconpic.png" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0">
+        Dra. Sharon
+      </button>
+    </div>
+
+    <!-- PANEL DR. MOYA -->
+    <div class="doctor-panel active" id="panel-moya">
+      <div class="links-grid">
+        <a class="link-btn lb-teal" href="https://psiquiatra-cdmx.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">calendar_add_on</span></div>
+          <div class="lb-title">Agendar cita</div>
+          <div class="lb-sub">Dr. Moya</div>
+        </a>
+        <a class="link-btn lb-blue" href="https://psiquiatra-cdmx.eutimya.org/agendar" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">event_repeat</span></div>
+          <div class="lb-title">Reagendar</div>
+          <div class="lb-sub">Nueva fecha disponible</div>
+        </a>
+        <a class="link-btn lb-amber" href="https://psiquiatra-cdmx.eutimya.org/pagos" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">payments</span></div>
+          <div class="lb-title">Formas de pago</div>
+          <div class="lb-sub">Métodos aceptados</div>
+        </a>
+        <a class="link-btn lb-purple" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">receipt_long</span></div>
+          <div class="lb-title">Factura</div>
+          <div class="lb-sub">Solicitar CFDI</div>
+        </a>
+        <a class="link-btn lb-green" href="https://psiquiatra-cdmx.eutimya.org/exp" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">folder_open</span></div>
+          <div class="lb-title">Llenar expediente</div>
+          <div class="lb-sub">Antes de tu primera consulta</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- PANEL DRA. SHARON -->
+    <div class="doctor-panel" id="panel-sharon">
+      <div class="links-grid">
+        <a class="link-btn lb-teal" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">calendar_add_on</span></div>
+          <div class="lb-title">Agendar cita</div>
+          <div class="lb-sub">Dra. Sharon</div>
+        </a>
+        <a class="link-btn lb-blue" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">event_repeat</span></div>
+          <div class="lb-title">Reagendar</div>
+          <div class="lb-sub">Nueva fecha disponible</div>
+        </a>
+        <a class="link-btn lb-amber" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">payments</span></div>
+          <div class="lb-title">Formas de pago</div>
+          <div class="lb-sub">Dra. Sharon</div>
+        </a>
+        <a class="link-btn lb-purple" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+          <div class="lb-icon"><span class="material-symbols-outlined">receipt_long</span></div>
+          <div class="lb-title">Factura</div>
+          <div class="lb-sub">Solicitar CFDI</div>
+        </a>
+        <a class="link-btn lb-green" href="https://psiquiatra-cdmx.eutimya.org/exp" target="_blank" rel="noopener" style="grid-column: span 2">
+          <div class="lb-icon"><span class="material-symbols-outlined">folder_open</span></div>
+          <div class="lb-title">Llenar expediente</div>
+          <div class="lb-sub">Antes de tu primera consulta</div>
+        </a>
+      </div>
+    </div>
+
     </main>
 
   <!-- FOOTER -->
