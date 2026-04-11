@@ -835,11 +835,19 @@
         );
         queryInput.value = "";
 
+      } else if (data.status === "no_docs") {
+        mostrarStatus(
+          "no-docs",
+          "Expediente encontrado",
+          `Tu expediente está registrado en <strong>${escapeHtml(data.maskedEmail)}</strong>, pero aún no tienes documentos disponibles. Solicítalos directamente con tu médico.`,
+          true
+        );
+
       } else if (data.status === "not_found") {
         mostrarStatus(
           "not-found",
-          "No encontramos documentos",
-          `No encontramos documentos registrados para <strong>${escapeHtml(query)}</strong>. Verifica que el nombre sea completo o usa el correo con que agendaste.`,
+          "No encontramos tu expediente",
+          `No encontramos un expediente para <strong>${escapeHtml(query)}</strong>. Verifica que el nombre sea exactamente como lo registraste, o usa tu correo electrónico.`,
           true
         );
       } else {
@@ -859,7 +867,8 @@
     const iconMap = {
       "success":   { icon: "mark_email_read", label: "Éxito" },
       "error":     { icon: "error",            label: "Error" },
-      "not-found": { icon: "search_off",       label: "No encontrado" }
+      "not-found": { icon: "search_off",       label: "No encontrado" },
+      "no-docs":    { icon: "folder_open",     label: "Sin documentos" }
     };
     const { icon } = iconMap[tipo] || iconMap["error"];
     const statusWrap = document.getElementById("status-wrap");
