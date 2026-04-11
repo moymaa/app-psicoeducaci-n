@@ -361,8 +361,8 @@
     [data-theme="dark"] .app-card.amber { background: #2E1800 }
     [data-theme="dark"] .badge-new { background: var(--teal-l); color: #001a17 }
 
-    /* ── EDUC SHEET ── */
-    #educ-overlay {
+    /* ── EDUC SHEET / PAGOS SHEET ── */
+    #educ-overlay, #pagos-overlay {
       position: fixed; inset: 0; z-index: 1050;
       background: rgba(0,0,0,.45);
       display: none; opacity: 0;
@@ -371,7 +371,7 @@
     #educ-overlay.open { display: block }
     #educ-overlay.visible { opacity: 1 }
 
-    #educ-sheet {
+    #educ-sheet, #pagos-sheet {
       position: fixed; bottom: 0; left: 0; right: 0; z-index: 1060;
       background: var(--surface);
       border-radius: 28px 28px 0 0;
@@ -383,8 +383,8 @@
       max-height: 88vh;
       overflow-y: auto;
     }
-    #educ-sheet.open { display: block }
-    #educ-sheet.visible { transform: translateY(0) }
+    #educ-sheet.open, #pagos-sheet.open { display: block }
+    #educ-sheet.visible, #pagos-sheet.visible { transform: translateY(0) }
 
     .sheet-handle {
       width: 36px; height: 4px;
@@ -464,7 +464,7 @@
     #educ-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
     #educ-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
 
-    [data-theme="dark"] #educ-sheet { background: #1A1A1A }
+    [data-theme="dark"] #educ-sheet, [data-theme="dark"] #pagos-sheet { background: #1A1A1A }
     [data-theme="dark"] .module-row { background: #242424; border-color: rgba(255,255,255,.06) }
     [data-theme="dark"] .module-row.neuro .module-emoji { background: rgba(158,242,228,.1) }
     [data-theme="dark"] .module-row.dist  .module-emoji { background: rgba(167,139,250,.1) }
@@ -554,6 +554,15 @@
       <div class="card-arrow">↗</div>
     </a>
 
+    <!-- 5. PAGOS Y FACTURA -->
+    <a href="#" onclick="openPagos(event)" class="app-card" style="--card-tint:rgba(0,106,96,.04)">
+      <div class="card-icon on-white">💳</div>
+      <div class="card-tag">Administra</div>
+      <div class="card-name">Pagos y Factura</div>
+      <div class="card-desc">Métodos de pago y CFDI por doctor.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+
   </div>
 
   <!-- EXTRA ROW: TCC-I y Plan de seguridad -->
@@ -585,35 +594,6 @@
 
   </div>
 
-  <!-- FACTURAS Y PAGOS -->
-  <p class="section-label" style="animation-delay:.45s">Facturas y Pagos</p>
-
-  <div class="app-grid">
-
-    <!-- Dr. Moya -->
-    <a href="https://psiquiatra-cdmx.eutimya.org/pagos" target="_blank" rel="noopener" class="app-card" style="--card-tint:rgba(0,106,96,.04)">
-      <div class="card-icon" style="background:transparent;overflow:hidden;padding:0;width:44px;height:44px;flex-shrink:0">
-        <img src="https://mental.eutimya.org/drmoyaiconpic.png" alt="Dr. Moya" style="width:44px;height:44px;border-radius:12px;object-fit:cover;display:block">
-      </div>
-      <div class="card-tag">Dr. Moya</div>
-      <div class="card-name">Pagos y Factura</div>
-      <div class="card-desc">Métodos de pago, transferencia y CFDI.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <!-- Dra. Sharon -->
-    <a href="https://paido.eutimya.org/pagos" target="_blank" rel="noopener" class="app-card" style="--card-tint:rgba(0,106,96,.04)">
-      <div class="card-icon" style="background:transparent;overflow:hidden;padding:0;width:44px;height:44px;flex-shrink:0">
-        <img src="https://mental.eutimya.org/drasharoniconpic.png" alt="Dra. Sharon" style="width:44px;height:44px;border-radius:12px;object-fit:cover;display:block">
-      </div>
-      <div class="card-tag">Dra. Sharon</div>
-      <div class="card-name">Pagos y Factura</div>
-      <div class="card-desc">Métodos de pago, transferencia y CFDI.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-  </div>
-
   <!-- FOOTER -->
   <div class="hub-footer">
     <strong>Eutimya · Psiquiatría CDMX</strong><br>
@@ -623,7 +603,49 @@
 
 </div><!-- /page -->
 
-<!-- ── EDUC SHEET ── -->
+<!-- ── PAGOS SHEET ── -->
+<div id="pagos-overlay" onclick="closePagos()"></div>
+<div id="pagos-sheet" role="dialog" aria-modal="true" aria-label="Pagos y Factura">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Pagos y Factura</div>
+    <button class="sheet-close" onclick="closePagos()" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="module-list">
+
+    <a class="module-row" href="https://psiquiatra-cdmx.eutimya.org/pagos" target="_blank" rel="noopener" style="--acc:rgba(0,106,96,.1)">
+      <div class="module-emoji" style="background:transparent;padding:0;overflow:hidden">
+        <img src="https://mental.eutimya.org/drmoyaiconpic.png" alt="Dr. Moya" style="width:44px;height:44px;border-radius:12px;object-fit:cover;display:block">
+      </div>
+      <div class="module-body">
+        <div class="module-name">Formas de pago · Dr. Moya</div>
+        <div class="module-sub">Transferencia, tarjeta, PayPal y más</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+      <div class="module-emoji" style="background:transparent;padding:0;overflow:hidden">
+        <img src="https://raw.githubusercontent.com/moymaa/eutimya/main/drasharoniconpic.png" alt="Dra. Sharon" style="width:44px;height:44px;border-radius:12px;object-fit:cover;display:block">
+      </div>
+      <div class="module-body">
+        <div class="module-name">Formas de pago · Dra. Sharon</div>
+        <div class="module-sub">Transferencia, tarjeta, PayPal y más</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener" style="border-color:rgba(0,106,96,.2)">
+      <div class="module-emoji" style="background:#E8F5F3;font-size:1.4rem">🧾</div>
+      <div class="module-body">
+        <div class="module-name">Factura (CFDI)</div>
+        <div class="module-sub">Misma para Dr. Moya y Dra. Sharon</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+  </div>
+</div>
 <div id="educ-overlay" onclick="closeEduc()"></div>
 <div id="educ-sheet" role="dialog" aria-modal="true" aria-label="Módulos de Psicoeducación">
   <div class="sheet-handle" aria-hidden="true"></div>
@@ -682,6 +704,33 @@
 </div>
 
 <script>
+/* ── PAGOS SHEET ── */
+function openPagos(e) {
+  if (e) e.preventDefault();
+  var overlay = document.getElementById('pagos-overlay');
+  var sheet   = document.getElementById('pagos-sheet');
+  overlay.classList.add('open');
+  sheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      overlay.classList.add('visible');
+      sheet.classList.add('visible');
+    });
+  });
+}
+function closePagos() {
+  var overlay = document.getElementById('pagos-overlay');
+  var sheet   = document.getElementById('pagos-sheet');
+  overlay.classList.remove('visible');
+  sheet.classList.remove('visible');
+  document.body.style.overflow = '';
+  setTimeout(function(){
+    overlay.classList.remove('open');
+    sheet.classList.remove('open');
+  }, 380);
+}
+
 /* ── SALUDO POR HORA ── */
 (function(){
   var h = new Date().getHours();
