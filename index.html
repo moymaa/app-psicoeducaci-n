@@ -29,6 +29,7 @@
   <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
@@ -339,6 +340,14 @@
       *, *::before, *::after { animation: none !important; transition: none !important }
     }
 
+    .card-icon .material-symbols-outlined {
+      font-size: 1.6rem;
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .app-card.dark .card-icon .material-symbols-outlined { color: rgba(255,255,255,.85) }
+    .app-card.teal .card-icon .material-symbols-outlined { color: rgba(255,255,255,.9) }
+    .app-card.amber .card-icon .material-symbols-outlined { color: var(--amber) }
+
     /* ── DARK MODE ── */
     [data-theme="dark"] {
       --surface: #121212;
@@ -362,16 +371,16 @@
     [data-theme="dark"] .badge-new { background: var(--teal-l); color: #001a17 }
 
     /* ── EDUC SHEET / PAGOS SHEET ── */
-    #educ-overlay, #pagos-overlay {
+    #educ-overlay, #pagos-overlay, #ia-overlay {
       position: fixed; inset: 0; z-index: 1050;
       background: rgba(0,0,0,.45);
       display: none; opacity: 0;
       transition: opacity .28s ease;
     }
-    #educ-overlay.open { display: block }
-    #educ-overlay.visible { opacity: 1 }
+    #educ-overlay.open, #pagos-overlay.open, #ia-overlay.open { display: block }
+    #educ-overlay.visible, #pagos-overlay.visible, #ia-overlay.visible { opacity: 1 }
 
-    #educ-sheet, #pagos-sheet {
+    #educ-sheet, #pagos-sheet, #ia-sheet {
       position: fixed; bottom: 0; left: 0; right: 0; z-index: 1060;
       background: var(--surface);
       border-radius: 28px 28px 0 0;
@@ -383,8 +392,8 @@
       max-height: 88vh;
       overflow-y: auto;
     }
-    #educ-sheet.open, #pagos-sheet.open { display: block }
-    #educ-sheet.visible, #pagos-sheet.visible { transform: translateY(0) }
+    #educ-sheet.open, #pagos-sheet.open, #ia-sheet.open { display: block }
+    #educ-sheet.visible, #pagos-sheet.visible, #ia-sheet.visible { transform: translateY(0) }
 
     .sheet-handle {
       width: 36px; height: 4px;
@@ -458,13 +467,13 @@
 
     /* Sheet entry stagger */
     .module-row { opacity: 0; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease, box-shadow .18s }
-    #educ-sheet.visible .module-row:nth-child(1), #pagos-sheet.visible .module-row:nth-child(1) { opacity:1; transform:none; transition-delay:.08s }
-    #educ-sheet.visible .module-row:nth-child(2), #pagos-sheet.visible .module-row:nth-child(2) { opacity:1; transform:none; transition-delay:.13s }
-    #educ-sheet.visible .module-row:nth-child(3), #pagos-sheet.visible .module-row:nth-child(3) { opacity:1; transform:none; transition-delay:.18s }
-    #educ-sheet.visible .module-row:nth-child(4), #pagos-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
-    #educ-sheet.visible .module-row:nth-child(5), #pagos-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
+    #educ-sheet.visible .module-row:nth-child(1), #pagos-sheet.visible .module-row:nth-child(1), #ia-sheet.visible .module-row:nth-child(1) { opacity:1; transform:none; transition-delay:.08s }
+    #educ-sheet.visible .module-row:nth-child(2), #pagos-sheet.visible .module-row:nth-child(2), #ia-sheet.visible .module-row:nth-child(2) { opacity:1; transform:none; transition-delay:.13s }
+    #educ-sheet.visible .module-row:nth-child(3), #pagos-sheet.visible .module-row:nth-child(3), #ia-sheet.visible .module-row:nth-child(3) { opacity:1; transform:none; transition-delay:.18s }
+    #educ-sheet.visible .module-row:nth-child(4), #pagos-sheet.visible .module-row:nth-child(4), #ia-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
+    #educ-sheet.visible .module-row:nth-child(5), #pagos-sheet.visible .module-row:nth-child(5), #ia-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
 
-    [data-theme="dark"] #educ-sheet, [data-theme="dark"] #pagos-sheet { background: #1A1A1A }
+    [data-theme="dark"] #educ-sheet, [data-theme="dark"] #pagos-sheet, [data-theme="dark"] #ia-sheet { background: #1A1A1A }
     [data-theme="dark"] .module-row { background: #242424; border-color: rgba(255,255,255,.06) }
     [data-theme="dark"] .module-row.neuro .module-emoji { background: rgba(158,242,228,.1) }
     [data-theme="dark"] .module-row.dist  .module-emoji { background: rgba(167,139,250,.1) }
@@ -503,60 +512,60 @@
   <a href="/recetasyresumenes" class="quick-pill quick-pill-docs">📄 Mis Documentos →</a>
 </div>
 
-  <!-- MAIN GRID: 4 módulos -->
+  <!-- MAIN GRID -->
   <p class="section-label">Módulos</p>
 
   <div class="app-grid">
 
     <!-- 1. PSICOEDUCACIÓN -->
     <a href="/educ" onclick="openEduc(event)" class="app-card teal" style="--card-tint:rgba(255,255,255,.06)">
-      <div class="card-icon on-teal">🧠</div>
+      <div class="card-icon on-teal"><span class="material-symbols-outlined">psychology</span></div>
       <div class="card-tag">Aprende</div>
       <div class="card-name">Psicoeduca­ción</div>
       <div class="card-desc">Tu diagnóstico, cerebro y tratamiento explicados.</div>
       <div class="card-arrow">↗</div>
     </a>
 
-    <!-- 2. MIS CITAS -->
-    <a href="/citas" class="app-card dark" style="--card-tint:rgba(255,255,255,.03)">
-      <div class="card-icon on-dark">📅</div>
-      <div class="card-tag">Gestiona</div>
-      <div class="card-name">Mis Citas</div>
-      <div class="card-desc">Reserva, confirma y gestiona tus consultas.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <!-- 2b. MIS DOCUMENTOS -->
-    <a href="/recetasyresumenes" class="app-card" style="--card-tint:rgba(0,106,96,.05);border-color:rgba(0,106,96,.15)">
-      <div class="card-icon on-white">📄</div>
-      <div class="card-tag">Descarga</div>
-      <div class="card-name">Mis Docu­mentos</div>
-      <div class="card-desc">Recetas y resúmenes de tus consultas.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <!-- 3. IA TERAPÉUTICA -->
+    <!-- 2. IA TERAPÉUTICA -->
     <a href="/educ#ia" onclick="goToIA(event)" class="app-card" style="--card-tint:rgba(0,106,96,.04)">
       <div class="badge-new">Nuevo</div>
-      <div class="card-icon on-white">🤖</div>
+      <div class="card-icon on-white"><span class="material-symbols-outlined" style="color:var(--teal)">smart_toy</span></div>
       <div class="card-tag">Practica</div>
       <div class="card-name">IA Tera­péu­tica</div>
       <div class="card-desc">Prompts clínicos y compañero de TCC entre sesiones.</div>
       <div class="card-arrow">↗</div>
     </a>
 
-    <!-- 4. RED TERAPÉUTICA -->
+    <!-- 3. MIS CITAS -->
+    <a href="/citas" class="app-card dark" style="--card-tint:rgba(255,255,255,.03)">
+      <div class="card-icon on-dark"><span class="material-symbols-outlined">calendar_month</span></div>
+      <div class="card-tag">Gestiona</div>
+      <div class="card-name">Mis Citas</div>
+      <div class="card-desc">Reserva, confirma y gestiona tus consultas.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <!-- 4. MIS DOCUMENTOS -->
+    <a href="/recetasyresumenes" class="app-card" style="--card-tint:rgba(0,106,96,.05);border-color:rgba(0,106,96,.15)">
+      <div class="card-icon on-white"><span class="material-symbols-outlined" style="color:var(--teal)">clinical_notes</span></div>
+      <div class="card-tag">Descarga</div>
+      <div class="card-name">Mis Docu­mentos</div>
+      <div class="card-desc">Recetas y resúmenes de tus consultas.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <!-- 5. RED TERAPÉUTICA -->
     <a href="/educ#red" onclick="goToRed(event)" class="app-card amber">
-      <div class="card-icon on-amber">🤝</div>
+      <div class="card-icon on-amber"><span class="material-symbols-outlined">groups</span></div>
       <div class="card-tag">Conecta</div>
       <div class="card-name">Red Tera­péu­tica</div>
       <div class="card-desc">Tu equipo de psicoterapia y cómo contactarlos.</div>
       <div class="card-arrow">↗</div>
     </a>
 
-    <!-- 5. PAGOS Y FACTURA -->
+    <!-- 6. PAGOS Y FACTURA -->
     <a href="#" onclick="openPagos(event)" class="app-card" style="--card-tint:rgba(0,106,96,.04)">
-      <div class="card-icon on-white">💳</div>
+      <div class="card-icon on-white"><span class="material-symbols-outlined" style="color:var(--teal)">payments</span></div>
       <div class="card-tag">Administra</div>
       <div class="card-name">Pagos y Factura</div>
       <div class="card-desc">Métodos de pago y CFDI por doctor.</div>
@@ -570,9 +579,20 @@
 
   <div class="app-grid" style="grid-template-columns:1fr">
 
+    <!-- IA Entrenada — abre sheet -->
+    <a href="#" onclick="openIA(event)" class="app-card wide dark" style="--card-tint:rgba(255,255,255,.03)">
+      <div class="card-icon on-dark" style="background:rgba(255,255,255,.08)"><span class="material-symbols-outlined">smart_toy</span></div>
+      <div class="card-body">
+        <div class="card-tag">IA entrenada</div>
+        <div class="card-name">Tu asistente de TCC</div>
+        <div class="card-desc">ChatGPT y Gemini configurados para acompañarte entre sesiones.</div>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
     <!-- TCC-I -->
     <a href="/tcci" class="app-card wide dark" style="--card-tint:rgba(255,255,255,.03)">
-      <div class="card-icon on-dark">🌙</div>
+      <div class="card-icon on-dark"><span class="material-symbols-outlined">bedtime</span></div>
       <div class="card-body">
         <div class="card-tag">Tratamiento</div>
         <div class="card-name">TCC para el Insomnio</div>
@@ -583,13 +603,13 @@
 
     <!-- Plan de seguridad -->
     <a href="/educ#seguridad" onclick="goToSeguridad(event)" class="app-card wide" style="--card-tint:rgba(186,26,26,.04);border-color:rgba(186,26,26,.12)">
-      <div class="card-icon" style="background:rgba(186,26,26,.08)">🚨</div>
+      <div class="card-icon" style="background:rgba(186,26,26,.08)"><span class="material-symbols-outlined" style="color:#BA1A1A">crisis_alert</span></div>
       <div class="card-body">
         <div class="card-tag" style="color:#BA1A1A">Crisis</div>
         <div class="card-name" style="color:#BA1A1A">Plan de Seguridad</div>
         <div class="card-desc">Protocolo de emergencia y contactos de crisis.</div>
       </div>
-      <div class="card-arrow" style="color:rgba(186,26,26,.4)">↗</div>
+      <div class="card-arrow" style="color:rgba(186,26,186,.4)">↗</div>
     </a>
 
   </div>
@@ -602,6 +622,41 @@
   </div>
 
 </div><!-- /page -->
+
+<!-- ── IA SHEET ── -->
+<div id="ia-overlay" onclick="closeIA()"></div>
+<div id="ia-sheet" role="dialog" aria-modal="true" aria-label="Tu asistente de TCC">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Tu asistente de TCC</div>
+    <button class="sheet-close" onclick="closeIA()" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="module-list">
+
+    <a class="module-row" href="https://chatgpt.com/g/g-gQzjtnePe-cognitive-behavioral-therapy" target="_blank" rel="noopener">
+      <div class="module-emoji" style="background:rgba(16,163,127,.12)">
+        <svg width="26" height="26" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M37.532 16.87a9.963 9.963 0 0 0-.856-8.184 10.078 10.078 0 0 0-10.855-4.835 9.964 9.964 0 0 0-6.542-2.809 10.079 10.079 0 0 0-9.63 6.977 9.967 9.967 0 0 0-6.65 4.834 10.079 10.079 0 0 0 1.24 11.817 9.965 9.965 0 0 0 .856 8.185 10.079 10.079 0 0 0 10.855 4.835 9.965 9.965 0 0 0 6.542 2.809 10.079 10.079 0 0 0 9.63-6.977 9.967 9.967 0 0 0 6.65-4.834 10.079 10.079 0 0 0-1.24-11.817zm-14.74 20.744a7.477 7.477 0 0 1-4.799-1.735c.061-.033.168-.091.237-.134l7.964-4.6a1.294 1.294 0 0 0 .655-1.134V19.054l3.366 1.944a.12.12 0 0 1 .066.092v9.299a7.505 7.505 0 0 1-7.49 7.225zM4.708 33.64a7.47 7.47 0 0 1-.894-5.023c.06.036.162.099.237.141l7.964 4.6a1.297 1.297 0 0 0 1.308 0l9.724-5.614v3.888a.12.12 0 0 1-.048.103L14.92 36.85a7.505 7.505 0 0 1-10.212-3.21zM3.227 13.99A7.472 7.472 0 0 1 7.53 10.3c0 .068-.004.19-.004.274v9.201a1.294 1.294 0 0 0 .654 1.132l9.723 5.614-3.366 1.944a.12.12 0 0 1-.114.012L6.389 23.73a7.504 7.504 0 0 1-3.162-9.74zm27.658 6.437l-9.724-5.615 3.367-1.943a.121.121 0 0 1 .114-.012l8.048 4.648a7.498 7.498 0 0 1-1.158 13.528v-9.476a1.293 1.293 0 0 0-.647-1.13zm3.35-5.043c-.059-.037-.162-.099-.236-.141l-7.965-4.6a1.298 1.298 0 0 0-1.308 0l-9.723 5.614v-3.888a.12.12 0 0 1 .048-.103l8.051-4.645a7.497 7.497 0 0 1 11.133 7.763zm-21.063 6.929l-3.367-1.944a.12.12 0 0 1-.065-.092v-9.299a7.497 7.497 0 0 1 12.293-5.756 6.94 6.94 0 0 0-.236.134l-7.965 4.6a1.294 1.294 0 0 0-.654 1.132l-.006 11.225zm1.829-3.943l4.33-2.501 4.332 2.5v4.999l-4.331 2.5-4.331-2.5V18.37z" fill="rgba(16,163,127,.9)"/></svg>
+      </div>
+      <div class="module-body">
+        <div class="module-name">GPT de TCC · ChatGPT</div>
+        <div class="module-sub">Cognitive Behavioral Therapy · Entrenado para terapia</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+    <a class="module-row" href="https://gemini.google.com/gem/1MQvzOLHUPA_MLcHRFZKMq8o2JOBohUw_?usp=sharing" target="_blank" rel="noopener">
+      <div class="module-emoji" style="background:rgba(66,133,244,.1)">
+        <svg width="26" height="26" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gG2)"/><defs><linearGradient id="gG2" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#4285F4"/><stop offset=".5" stop-color="#9B72CB"/><stop offset="1" stop-color="#EA4335"/></linearGradient></defs></svg>
+      </div>
+      <div class="module-body">
+        <div class="module-name">Compañero TCC · Gemini</div>
+        <div class="module-sub">Gem de Eutimya · Entre sesiones</div>
+      </div>
+      <div class="module-arrow">↗</div>
+    </a>
+
+  </div>
+</div>
 
 <!-- ── PAGOS SHEET ── -->
 <div id="pagos-overlay" onclick="closePagos()"></div>
@@ -730,6 +785,37 @@ function closePagos() {
     sheet.classList.remove('open');
   }, 380);
 }
+
+function openIA(e) {
+  if (e) e.preventDefault();
+  var overlay = document.getElementById('ia-overlay');
+  var sheet   = document.getElementById('ia-sheet');
+  overlay.classList.add('open');
+  sheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      overlay.classList.add('visible');
+      sheet.classList.add('visible');
+    });
+  });
+}
+function closeIA() {
+  var overlay = document.getElementById('ia-overlay');
+  var sheet   = document.getElementById('ia-sheet');
+  overlay.classList.remove('visible');
+  sheet.classList.remove('visible');
+  document.body.style.overflow = '';
+  setTimeout(function(){
+    overlay.classList.remove('open');
+    sheet.classList.remove('open');
+  }, 380);
+}
+
+/* ── ESC closes any open sheet ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeEduc(); closePagos(); closeIA(); }
+});
 
 /* ── SALUDO POR HORA ── */
 (function(){
