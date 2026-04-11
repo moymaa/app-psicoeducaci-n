@@ -178,7 +178,18 @@
     .cita-actions { width: 100%; justify-content: flex-end; }
     .login-card { padding: 36px 24px; }
   }
-</style>
+
+  .remember-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    margin: 12px 0 4px; text-align: left;
+  }
+  .remember-label input[type="checkbox"] {
+    width: 15px; height: 15px; accent-color: var(--teal);
+    cursor: pointer; flex-shrink: 0;
+  }
+
+  </style>
 </head>
 <body>
 
@@ -189,6 +200,10 @@
     <div class="login-sub">Panel de confirmación de citas</div>
     <label class="login-label">Contraseña</label>
     <input id="pwd-input" class="login-input" type="password" placeholder="••••••••••••" autocomplete="current-password">
+    <label class="remember-label">
+      <input type="checkbox" id="remember-me">
+      <span>Recordar en este dispositivo (30 días)</span>
+    </label>
     <button class="login-btn" onclick="checkLogin()">Entrar</button>
     <div class="login-error" id="login-error">Contraseña incorrecta</div>
   </div>
@@ -231,7 +246,36 @@
 
 <script>
 // ── AUTH ──
-const HASH_OK = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
+const HASH_OK       = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
+const SESSION_KEY   = 'eutimya_admin_tok';
+const SESSION_DAYS  = 30;
+
+// Al cargar: verificar si hay sesión válida guardada
+(function checkSavedSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    const { tok, exp, hash } = JSON.parse(raw);
+    if (!tok || !exp || !hash) return;
+    if (Date.now() > exp) { localStorage.removeItem(SESSION_KEY); return; }
+    // El token guardado debe contener el hash (prueba de que lo generó alguien que sabía la contraseña)
+    if (hash !== HASH_OK) { localStorage.removeItem(SESSION_KEY); return; }
+    // Sesión válida → entrar sin pedir contraseña
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    cargarYRenderizar();
+  } catch(e) { localStorage.removeItem(SESSION_KEY); }
+})();
+
+function saveSession() {
+  const tok = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+  const exp = Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000;
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ tok, exp, hash: HASH_OK }));
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
 const API_URL = 'https://script.google.com/macros/s/AKfycbwMQK5Zk6mNWqcT5GUvoJhnrQt4xMaHEQK1HYY7-NpAu9aQQiUHnp0CjOj3zbZO9tkLqQ/exec';
 
 let CITAS = [];
@@ -243,8 +287,9 @@ async function sha256(str) {
 
 async function checkLogin() {
   const val = document.getElementById('pwd-input').value;
-  const h = await sha256(val);
+  const h   = await sha256(val);
   if (h === HASH_OK) {
+    if (document.getElementById('remember-me').checked) saveSession();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     cargarYRenderizar();
@@ -253,6 +298,14 @@ async function checkLogin() {
     document.getElementById('pwd-input').value = '';
     document.getElementById('pwd-input').focus();
   }
+}
+
+function cerrarSesion() {
+  clearSession();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('login-error').style.display = 'none';
 }
 document.getElementById('pwd-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
 
