@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Recetas y Resúmenes · Eutimya</title>
+
+  <meta name="description" content="Solicita tus recetas y resúmenes médicos. Ingresa tu nombre o correo y te los enviamos directamente.">
+  <meta name="author" content="Eutimya · Psiquiatría CDMX">
+  <meta property="og:title" content="Mis Recetas y Resúmenes · Eutimya">
+  <meta property="og:description" content="Consulta tu próxima cita de forma segura. Te enviamos la información a tu correo.">
+  <meta property="og:image" content="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <meta property="og:url" content="https://app.eutimya.org/recetasyresumenes">
+  <meta name="theme-color" content="#006A60">
+  <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+  <link rel="apple-touch-icon" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Flex:opsz,wght@8..144,300;8..144,500;8..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --md-primary: #006A60;
+      --md-on-primary: #fff;
+      --md-primary-container: #9EF2E4;
+      --md-on-primary-container: #00201C;
+      --md-secondary: #4A6360;
+      --md-on-secondary: #fff;
+      --md-secondary-container: #CCE8E4;
+      --md-on-secondary-container: #051F1D;
+      --md-tertiary: #7A5230;
+      --md-on-tertiary: #fff;
+      --md-tertiary-container: #FFDBBE;
+      --md-on-tertiary-container: #2E1400;
+      --md-error: #BA1A1A;
+      --md-on-error: #fff;
+      --md-error-container: #FFDAD6;
+      --md-on-error-container: #410002;
+      --md-background: #F4FAF8;
+      --md-on-background: #161D1C;
+      --md-surface: #F4FAF8;
+      --md-on-surface: #161D1C;
+      --md-surface-variant: #DAE5E2;
+      --md-on-surface-variant: #3F4947;
+      --md-surface-lowest: #fff;
+      --md-surface-low: #EFF5F3;
+      --md-surface-container: #E9F0EE;
+      --md-surface-high: #E3EAE8;
+      --md-surface-highest: #DEE5E3;
+      --md-outline: #6F7978;
+      --md-outline-variant: #BEC9C7;
+      --elev1: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
+      --elev2: 0 2px 6px rgba(0,0,0,.12), 0 1px 3px rgba(0,0,0,.08);
+      --elev3: 0 4px 12px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.08);
+      --r-xs: 4px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 28px; --r-full: 50px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--md-background);
+      color: var(--md-on-background);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP APP BAR — igual que index.html ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--md-surface-lowest);
+      border-bottom: 1px solid var(--md-outline-variant);
+      box-shadow: var(--elev1);
+    }
+    .hi {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .hb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hcrisis {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      white-space: nowrap;
+      border: 1px solid rgba(0,106,96,.25);
+      text-decoration: none;
+    }
+    .hcrisis:hover { filter: brightness(.96); }
+    .dark-toggle {
+      background: none;
+      border: 1px solid var(--md-outline-variant);
+      border-radius: 20px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--md-on-surface-variant);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Roboto', sans-serif;
+    }
+    .dark-toggle:hover { border-color: var(--md-primary); color: var(--md-primary); }
+    .menu-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--r-md);display:flex;align-items:center;gap:6px;color:var(--md-on-surface);font-family:inherit;font-size:13px;font-weight:500;transition:background .2s}
+    .menu-btn:hover{background:var(--md-surface-high)}
+    .menu-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s ease}
+    .sidebar-overlay.open{opacity:1;pointer-events:auto}
+    .sidebar{position:fixed;top:0;left:-320px;width:300px;max-width:85vw;height:100%;background:var(--md-surface-lowest);z-index:910;transition:left .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:4px 0 24px rgba(0,0,0,.18);display:flex;flex-direction:column}
+    .sidebar.open{left:0}
+    .sb-header{padding:20px 20px 16px;border-bottom:1px solid var(--md-outline-variant);display:flex;align-items:center;gap:12px}
+    .sb-header img{height:36px;width:auto}
+    .sb-header-text{font-size:1.1rem;font-weight:600;color:var(--md-on-surface);letter-spacing:-.01em}
+    .sb-close{background:none;border:none;cursor:pointer;margin-left:auto;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--md-on-surface-variant);transition:background .2s}
+    .sb-close:hover{background:var(--md-surface-high)}
+    .sb-nav{padding:8px 12px;flex:1}
+    .sb-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:var(--r-lg);cursor:pointer;transition:background .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit;color:var(--md-on-surface);text-decoration:none}
+    .sb-item:hover{background:var(--md-surface-high)}
+    .sb-item.active{background:var(--md-primary-container);color:var(--md-on-primary-container)}
+    .sb-icon{width:38px;height:38px;border-radius:50%;background:var(--md-surface-high);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .2s}
+    .sb-label{font-size:.88rem;font-weight:500;line-height:1.2}
+    .sb-sublabel{font-size:.7rem;color:var(--md-on-surface-variant);font-weight:400;margin-top:1px}
+    .sb-divider{height:1px;background:var(--md-outline-variant);margin:8px 20px}
+    .sb-footer{padding:14px 20px;border-top:1px solid var(--md-outline-variant);font-size:.72rem;color:var(--md-on-surface-variant);text-align:center}
+    [data-theme="dark"] .sidebar{background:var(--md-surface)}
+    [data-theme="dark"] .sidebar-overlay.open{background:rgba(0,0,0,.65)}
+
+    /* ── MAIN CONTENT ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .5s ease both;
+    }
+    .hero-icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--md-primary-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .hero-icon-wrap .material-symbols-outlined {
+      font-size: 40px;
+      color: var(--md-primary);
+      font-variation-settings: 'FILL' 1;
+    }
+    .hero h1 {
+      font-family: 'Roboto Flex', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--md-on-background);
+      letter-spacing: -.03em;
+      margin-bottom: .5rem;
+    }
+    .hero p {
+      font-size: .9rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.55;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--md-surface-lowest);
+      border-radius: var(--r-xl);
+      box-shadow: var(--elev2);
+      padding: 2rem 1.75rem;
+      width: 100%;
+      animation: fadeUp .5s .1s ease both;
+    }
+
+    /* ── FIELD ── */
+    .field {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--md-on-surface-variant);
+      margin-bottom: .4rem;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .field-inner {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--md-surface-low);
+      border: 1.5px solid var(--md-outline-variant);
+      border-radius: var(--r-md);
+      padding: 0 .9rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .field-inner:focus-within {
+      border-color: var(--md-primary);
+      box-shadow: 0 0 0 3px rgba(0,106,96,.15);
+    }
+    .field-inner .material-symbols-outlined {
+      font-size: 20px;
+      color: var(--md-on-surface-variant);
+      flex-shrink: 0;
+      font-variation-settings: 'FILL' 0;
+      transition: color .2s;
+    }
+    .field-inner:focus-within .material-symbols-outlined {
+      color: var(--md-primary);
+    }
+    .field-inner input {
+      flex: 1;
+      font-family: 'Roboto', sans-serif;
+      font-size: .95rem;
+      color: var(--md-on-background);
+      background: none;
+      border: none;
+      outline: none;
+      padding: .85rem 0;
+      -webkit-appearance: none;
+    }
+    .field-inner input::placeholder { color: var(--md-outline); }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-primary {
+      width: 100%;
+      font-family: 'Roboto', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 1rem;
+      border: none;
+      border-radius: var(--r-full);
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      transition: filter .15s, transform .1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled {
+      background: var(--md-surface-high);
+      color: var(--md-outline);
+      cursor: not-allowed;
+      filter: none;
+    }
+    .btn-primary .material-symbols-outlined { font-size: 20px; }
+
+    /* Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-primary.loading .spinner { display: block; }
+    .btn-primary.loading .btn-text,
+    .btn-primary.loading .btn-icon { display: none; }
+
+    /* ── PRIVACY NOTE ── */
+    .privacy-note {
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      margin-top: 1.25rem;
+      padding: .85rem 1rem;
+      background: var(--md-primary-container);
+      border-radius: var(--r-md);
+      font-size: .78rem;
+      color: var(--md-on-primary-container);
+      line-height: 1.5;
+    }
+    .privacy-note .material-symbols-outlined {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-variation-settings: 'FILL' 1;
+    }
+
+    /* ── STATUS CARDS ── */
+    .status-wrap {
+      width: 100%;
+      margin-top: 1.5rem;
+      animation: fadeUp .35s ease both;
+    }
+    .status-card {
+      border-radius: var(--r-xl);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: .75rem;
+    }
+    .status-card.success {
+      background: var(--md-secondary-container);
+    }
+    .status-card.error {
+      background: var(--md-error-container);
+    }
+    .status-card.not-found {
+      background: var(--md-tertiary-container);
+    }
+    .status-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-card.success .status-icon { background: var(--md-on-secondary-container); }
+    .status-card.error .status-icon { background: var(--md-on-error-container); }
+    .status-card.not-found .status-icon { background: var(--md-on-tertiary-container); }
+    .status-icon .material-symbols-outlined {
+      font-size: 28px;
+      color: #fff;
+      font-variation-settings: 'FILL' 1;
+    }
+    .status-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--md-on-background);
+    }
+    .status-card.success h3 { color: var(--md-on-secondary-container); }
+    .status-card.error h3 { color: var(--md-on-error-container); }
+    .status-card.not-found h3 { color: var(--md-on-tertiary-container); }
+    .status-card p {
+      font-size: .86rem;
+      line-height: 1.55;
+    }
+    .status-card.success p { color: var(--md-on-secondary-container); }
+    .status-card.error p { color: var(--md-on-error-container); }
+    .status-card.not-found p { color: var(--md-on-tertiary-container); }
+
+    .btn-retry {
+      font-family: 'Roboto', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      padding: .65rem 1.5rem;
+      border-radius: var(--r-full);
+      border: 1.5px solid currentColor;
+      background: none;
+      cursor: pointer;
+      transition: background .15s;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .status-card.success .btn-retry { color: var(--md-on-secondary-container); }
+    .status-card.error .btn-retry { color: var(--md-on-error-container); }
+    .status-card.not-found .btn-retry { color: var(--md-on-tertiary-container); }
+    .btn-retry:hover { background: rgba(0,0,0,.06); }
+    .btn-retry .material-symbols-outlined { font-size: 16px; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin: 2.25rem 0 .9rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      animation: fadeUp .5s .2s ease both;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--md-outline-variant);
+    }
+
+    /* ── QUICK LINKS GRID ── */
+    .links-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .7rem;
+      animation: fadeUp .5s .25s ease both;
+    }
+    .link-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .35rem;
+      padding: 1rem 1.1rem;
+      border-radius: var(--r-lg);
+      background: var(--md-surface-lowest);
+      border: 1.5px solid var(--md-outline-variant);
+      text-decoration: none;
+      color: var(--md-on-background);
+      transition: border-color .18s, box-shadow .18s, transform .12s;
+      cursor: pointer;
+    }
+    .link-btn:hover {
+      border-color: var(--md-primary);
+      box-shadow: 0 2px 12px rgba(0,106,96,.12);
+      transform: translateY(-1px);
+    }
+    .link-btn:active { transform: translateY(0); }
+    .link-btn .lb-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: .15rem;
+    }
+    .link-btn .lb-icon .material-symbols-outlined {
+      font-size: 20px;
+      font-variation-settings: 'FILL' 1;
+    }
+    .link-btn .lb-title {
+      font-size: .85rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .link-btn .lb-sub {
+      font-size: .72rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.3;
+    }
+
+    /* Color variants */
+    .lb-teal .lb-icon { background: var(--md-primary-container); color: var(--md-primary); }
+    .lb-blue .lb-icon { background: #e3f2fd; color: #1565c0; }
+    .lb-amber .lb-icon { background: #fff8e1; color: #f57f17; }
+    .lb-purple .lb-icon { background: #f3e5f5; color: #7b1fa2; }
+    .lb-green .lb-icon { background: #e8f5e9; color: #2e7d32; }
+    .lb-red .lb-icon { background: #fce4ec; color: #c62828; }
+
+    /* ── INFO CARDS ── */
+    .info-card {
+      width: 100%;
+      background: var(--md-surface-lowest);
+      border-radius: var(--r-lg);
+      border: 1.5px solid var(--md-outline-variant);
+      overflow: hidden;
+      animation: fadeUp .5s .3s ease both;
+    }
+    .info-card-header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .info-card-header .ich-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-card-header .ich-icon .material-symbols-outlined {
+      font-size: 20px;
+      font-variation-settings: 'FILL' 1;
+    }
+    .info-card-header .ich-text { flex: 1; }
+    .info-card-header .ich-title {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--md-on-background);
+    }
+    .info-card-header .ich-sub {
+      font-size: .74rem;
+      color: var(--md-on-surface-variant);
+    }
+    .info-card-header .ich-chevron {
+      font-size: 20px;
+      color: var(--md-outline);
+      transition: transform .25s;
+    }
+    .info-card.open .ich-chevron { transform: rotate(180deg); }
+
+    .info-card-body {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    .info-card.open .info-card-body { display: block; }
+
+    .info-steps {
+      list-style: none;
+      margin: .9rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+    }
+    .info-steps li {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      font-size: .85rem;
+      color: var(--md-on-surface-variant);
+      line-height: 1.5;
+    }
+    .info-steps li .step-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--md-primary);
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .info-steps li strong { color: var(--md-on-background); }
+    .info-steps li a {
+      color: var(--md-primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .info-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: 1rem;
+      padding: .65rem 1.25rem;
+      border-radius: var(--r-full);
+      background: #25D366;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: filter .15s;
+    }
+    .info-wa-btn:hover { filter: brightness(1.08); }
+    .info-wa-btn .material-symbols-outlined { font-size: 18px; }
+
+    /* ── DOCTOR TABS ── */
+    .doctor-tabs {
+      width: 100%;
+      display: flex;
+      gap: .5rem;
+      margin-bottom: .9rem;
+      animation: fadeUp .5s .22s ease both;
+    }
+    .doc-tab {
+      flex: 1;
+      padding: .65rem .5rem;
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--md-outline-variant);
+      background: var(--md-surface-lowest);
+      font-family: 'Roboto', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--md-on-surface-variant);
+      cursor: pointer;
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+    .doc-tab.active {
+      background: var(--md-primary);
+      border-color: var(--md-primary);
+      color: #fff;
+    }
+    .doc-tab .material-symbols-outlined { font-size: 18px; }
+
+    .doctor-panel { display: none; width: 100%; }
+    .doctor-panel.active { display: contents; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: .72rem;
+      color: var(--md-outline);
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    footer a { color: var(--md-primary); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 360px) {
+      .card { padding: 1.5rem 1.25rem; }
+      .hero h1 { font-size: 1.5rem; }
+    }
+  
+    .wa-btns { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; justify-content: center; }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #25D366; color: #fff;
+      padding: 10px 18px; border-radius: var(--r-full);
+      font-size: .8rem; font-weight: 700; text-decoration: none;
+      transition: filter .2s;
+    }
+    .wa-btn:hover { filter: brightness(.9); }
+
+  </style>
+</head>
+<body>
+
+  <!-- TOP APP BAR — idéntico al index.html -->
+  <header class="top-bar">
+    <div class="hi">
+      <div class="hb">
+        <button class="menu-btn" onclick="openSidebar()" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:34px;width:auto;display:block">
+      </div>
+      <a href="/" class="hcrisis" aria-label="Ir a Psicoeducación">📚 Psicoeducación</a>
+      <button class="dark-toggle" onclick="toggleDark()" aria-label="Cambiar modo oscuro">🌙</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR MENU -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="sidebar" id="sidebar" role="navigation" aria-label="Menú principal">
+    <div class="sb-header">
+      <img src="https://psiquiatra-cdmx.eutimya.org/unnamed.png" alt="Eutimya" style="height:32px">
+      <div class="sb-header-text">Eutimya</div>
+      <button class="sb-close" onclick="closeSidebar()" aria-label="Cerrar menú">✕</button>
+    </div>
+    <div class="sb-nav">
+      <a class="sb-item" href="/">
+        <div class="sb-icon">📚</div>
+        <div><div class="sb-label">Psicoeducación</div><div class="sb-sublabel">Neurobiología, TCC, medicamentos</div></div>
+      </a>
+      <a class="sb-item" href="/citas">
+        <div class="sb-icon">📅</div>
+        <div><div class="sb-label">Mis Citas</div><div class="sb-sublabel">Consultar y gestionar citas</div></div>
+      </a>
+      <a class="sb-item active" href="/recetasyresumenes">
+        <div class="sb-icon">📄</div>
+        <div><div class="sb-label">Mis Recetas y Resúmenes</div><div class="sb-sublabel">Solicitar documentos clínicos</div></div>
+      </a>
+      <div class="sb-divider"></div>
+      <a class="sb-item" href="https://psiquiatra-cdmx.eutimya.org/agendar" target="_blank" rel="noopener">
+        <div class="sb-icon">🗓️</div>
+        <div><div class="sb-label">Agendar cita</div><div class="sb-sublabel">Dr. Moya</div></div>
+      </a>
+      <a class="sb-item" href="https://paido.eutimya.org/cita" target="_blank" rel="noopener">
+        <div class="sb-icon">👶</div>
+        <div><div class="sb-label">Agendar cita</div><div class="sb-sublabel">Dra. Sharon · Paidopsiquiatría</div></div>
+      </a>
+      <div class="sb-divider"></div>
+      <a class="sb-item" href="https://psiquiatra-cdmx.eutimya.org/factura" target="_blank" rel="noopener">
+        <div class="sb-icon">🧾</div>
+        <div><div class="sb-label">Factura</div><div class="sb-sublabel">Solicitar CFDI</div></div>
+      </a>
+    </div>
+    <div class="sb-footer">Eutimya · Psiquiatría CDMX · Dr. Moya</div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-icon-wrap">
+        <span class="material-symbols-outlined">clinical_notes</span>
+      </div>
+      <h1>Mis Recetas y Resúmenes</h1>
+      <p>Ingresa tu nombre completo o correo electrónico y te enviamos tus documentos clínicos directamente a tu bandeja de entrada.</p>
+    </section>
+
+    <!-- FORM CARD -->
+    <div class="card" id="form-card">
+      <div class="field">
+        <label for="query-input">Nombre completo o correo electrónico</label>
+        <div class="field-inner">
+          <span class="material-symbols-outlined">person_search</span>
+          <input
+            type="text"
+            id="query-input"
+            placeholder="Ej. Ana García López o ana@correo.com"
+            autocomplete="name"
+            maxlength="254"
+          >
+        </div>
+      </div>
+
+      <button class="btn-primary" id="submit-btn" onclick="consultarDocs()">
+        <span class="material-symbols-outlined btn-icon">send</span>
+        <span class="btn-text">Enviar mis documentos</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="privacy-note">
+        <span class="material-symbols-outlined">lock</span>
+        <span>Tus documentos se envían únicamente al correo registrado en tu expediente. No se muestran en pantalla.</span>
+      </div>
+    </div>
+
+    <!-- STATUS (hidden initially) -->
+    <div class="status-wrap" id="status-wrap" style="display:none"></div>
+
+    <!-- ── DOCTOR SELECTOR ── -->
+    </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Eutimya · Psiquiatría CDMX &mdash;
+    <a href="/">Psicoeducación</a> ·
+    <a href="/cdn-cgi/l/email-protection#91f4e4e5f8fce8f0bffcf4ffe5f0fdd1f6fcf0f8fdbff2fefc">Contacto</a>
+  </footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── SIDEBAR ────────────────────────────────────────────────
+  function openSidebar(){
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeSidebar(){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  // ── DARK MODE (igual que index.html) ──────────────────────
+  function toggleDark(){
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('eutimya-theme', isDark ? 'light' : 'dark');
+    document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+  }
+  (function(){
+    const saved = localStorage.getItem('eutimya-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme','dark');
+      document.addEventListener('DOMContentLoaded', () => {
+        const b = document.querySelector('.dark-toggle');
+        if (b) b.textContent = '☀️';
+      });
+    }
+  })();
+
+  // ── CONFIGURACIÓN ──────────────────────────────────────────
+  // Reemplaza esta URL con la de tu Apps Script Web App desplegada
+  const WEB_APP_URL = "PEGAR_URL_DEL_NUEVO_APPS_SCRIPT_AQUI";  // reemplazar después de desplegar
+
+  // ── LÓGICA ────────────────────────────────────────────────
+  async function consultarDocs() {
+    const queryInput = document.getElementById("query-input");
+    const submitBtn  = document.getElementById("submit-btn");
+    const statusWrap = document.getElementById("status-wrap");
+    const query      = queryInput.value.trim();
+
+    if (!query || query.length < 3) {
+      queryInput.focus();
+      queryInput.closest(".field-inner").style.borderColor = "var(--md-error)";
+      setTimeout(() => queryInput.closest(".field-inner").style.borderColor = "", 1500);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add("loading");
+    statusWrap.style.display = "none";
+
+    try {
+      const res  = await fetch(WEB_APP_URL, {
+        method: "POST",
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+
+      if (data.status === "sent") {
+        mostrarStatus(
+          "success",
+          "¡Documentos enviados!",
+          `Enviamos ${data.count} documento${data.count !== 1 ? "s" : ""} al correo <strong>${escapeHtml(data.maskedEmail)}</strong>. Revisa tu bandeja de entrada y carpeta de spam.`
+        );
+        queryInput.value = "";
+
+      } else if (data.status === "not_found") {
+        mostrarStatus(
+          "not-found",
+          "No encontramos documentos",
+          `No encontramos documentos registrados para <strong>${escapeHtml(query)}</strong>. Verifica que el nombre sea completo o usa el correo con que agendaste.`,
+          true
+        );
+      } else {
+        throw new Error(data.message || "Error desconocido");
+      }
+
+    } catch (err) {
+      console.error(err);
+      mostrarStatus("error", "Algo salió mal", "No pudimos procesar tu solicitud. Por favor intenta de nuevo.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("loading");
+    }
+  }
+
+  function mostrarStatus(tipo, titulo, mensaje, showWA = false) {
+    const iconMap = {
+      "success":   { icon: "mark_email_read", label: "Éxito" },
+      "error":     { icon: "error",            label: "Error" },
+      "not-found": { icon: "search_off",       label: "No encontrado" }
+    };
+    const { icon } = iconMap[tipo] || iconMap["error"];
+    const statusWrap = document.getElementById("status-wrap");
+
+    const waHtml = showWA ? `
+      <p style="margin-top:8px;font-size:.8rem;color:var(--md-on-surface-variant)">Comunícate con tu médico tratante:</p>
+      <div class="wa-btns">
+        <a href="https://wa.me/526731205121" target="_blank" class="wa-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.853L.058 23.486a.5.5 0 0 0 .609.61l5.757-1.511A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.5-5.207-1.378l-.373-.214-3.868 1.015 1-3.768-.234-.388A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Dr. Moya
+        </a>
+        <a href="https://wa.me/525513580092" target="_blank" class="wa-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.853L.058 23.486a.5.5 0 0 0 .609.61l5.757-1.511A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.5-5.207-1.378l-.373-.214-3.868 1.015 1-3.768-.234-.388A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Dra. Venecia
+        </a>
+      </div>` : "";
+
+    statusWrap.innerHTML = `
+      <div class="status-card ${tipo}">
+        <div class="status-icon">
+          <span class="material-symbols-outlined">${icon}</span>
+        </div>
+        <h3>${titulo}</h3>
+        <p>${mensaje}</p>
+        ${waHtml}
+        <button class="btn-retry" onclick="reintentar()">
+          <span class="material-symbols-outlined">refresh</span>
+          Intentar de nuevo
+        </button>
+      </div>
+    `;
+    statusWrap.style.display = "block";
+    statusWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function reintentar() {
+    document.getElementById("status-wrap").style.display = "none";
+    document.getElementById("email-input").focus();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  // Enter para enviar
+  document.getElementById("query-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") consultarDocs();
+  });
+
+  // ── TABS DE DOCTOR ────────────────────────────────────────
+  function switchDoc(doc, btn) {
+    document.querySelectorAll(".doc-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".doctor-panel").forEach(p => {
+      p.classList.remove("active");
+      p.style.display = "none";
+    });
+    btn.classList.add("active");
+    const panel = document.getElementById("panel-" + doc);
+    panel.classList.add("active");
+    panel.style.display = "contents";
+  }
+
+    // ── ACCORDION ─────────────────────────────────────────
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    if (card) card.classList.toggle("open");
+  }
+
+</script>
+</body>
+</html>
