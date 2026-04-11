@@ -458,11 +458,11 @@
 
     /* Sheet entry stagger */
     .module-row { opacity: 0; transform: translateY(10px); transition: opacity .3s ease, transform .3s ease, box-shadow .18s }
-    #educ-sheet.visible .module-row:nth-child(1) { opacity:1; transform:none; transition-delay:.08s }
-    #educ-sheet.visible .module-row:nth-child(2) { opacity:1; transform:none; transition-delay:.13s }
-    #educ-sheet.visible .module-row:nth-child(3) { opacity:1; transform:none; transition-delay:.18s }
-    #educ-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
-    #educ-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
+    #educ-sheet.visible .module-row:nth-child(1), #pagos-sheet.visible .module-row:nth-child(1) { opacity:1; transform:none; transition-delay:.08s }
+    #educ-sheet.visible .module-row:nth-child(2), #pagos-sheet.visible .module-row:nth-child(2) { opacity:1; transform:none; transition-delay:.13s }
+    #educ-sheet.visible .module-row:nth-child(3), #pagos-sheet.visible .module-row:nth-child(3) { opacity:1; transform:none; transition-delay:.18s }
+    #educ-sheet.visible .module-row:nth-child(4), #pagos-sheet.visible .module-row:nth-child(4) { opacity:1; transform:none; transition-delay:.23s }
+    #educ-sheet.visible .module-row:nth-child(5), #pagos-sheet.visible .module-row:nth-child(5) { opacity:1; transform:none; transition-delay:.28s }
 
     [data-theme="dark"] #educ-sheet, [data-theme="dark"] #pagos-sheet { background: #1A1A1A }
     [data-theme="dark"] .module-row { background: #242424; border-color: rgba(255,255,255,.06) }
