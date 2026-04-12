@@ -147,10 +147,26 @@
     cursor: pointer; transition: all .15s;
   }
   .btn-copy:hover { background: var(--teal); color: #fff; }
-  .btn-copy.copied { background: #388E3C; color: #fff; border-color: #388E3C; }
+  .btn-copy.copied {
+    background: #9E9E9E; color: #fff; border-color: #bbb;
+    opacity: 0.72; cursor: default;
+  }
 
   /* sin cel */
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
+
+  /* meet link */
+  .meet-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--online-dot); background: var(--online);
+    padding: 2px 7px; border-radius: 8px; max-width: 200px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-weight: 500;
+  }
+  .meet-link-missing {
+    font-size: 11px; color: #c62828; background: #FFEBEE;
+    padding: 2px 7px; border-radius: 8px; font-weight: 500;
+  }
 
   /* toast */
   #toast {
@@ -333,7 +349,7 @@ async function cargarYRenderizar() {
       const nombre    = (r['Nombre']           || '').trim();
       const celularRaw= String(r['Celular']    || '').trim().replace(/\.0$/, '');
       const modalidad = (r['Modalidad']        || '').trim();
-      const link      = (r['Link de Sesión']   || '').trim();
+      const link      = (r['Link de Sesión'] || r['Link de Sesion'] || r['Link'] || r['Meet'] || r['link de sesión'] || r['link de sesion'] || '').trim();
 
       if (!['Presencial','Online','Bariatría'].includes(modalidad)) return;
 
@@ -477,6 +493,11 @@ function renderCitas() {
             <span class="badge badge-${modClass}"><span class="badge-dot"></span>${c.modalidad}</span>
             <span class="badge badge-${docClass}"><span class="badge-dot"></span>${c.doctor}</span>
             ${tieneCel ? `<span>${cel10}</span>` : '<span class="no-cel">Sin celular</span>'}
+            ${c.modalidad !== 'Presencial'
+              ? (c.link
+                  ? `<span class="meet-link" title="${c.link}">🎥 ${c.link.replace(/^https?:\/\//,'')}</span>`
+                  : `<span class="meet-link-missing">⚠ Sin link Meet</span>`)
+              : ''}
           </div>
         </div>
         <div class="cita-actions">
@@ -496,13 +517,13 @@ function renderCitas() {
 
 // ── COPIAR ──
 async function copiarTexto(idx, btn) {
+  if (btn.classList.contains('copied')) return; // ya copiado
   const c = CITAS[idx];
   const texto = generarTexto(c);
   try {
     await navigator.clipboard.writeText(texto);
     btn.textContent = '✓ Copiado';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
     showToast('Texto copiado');
   } catch(e) {
     const ta = document.createElement('textarea');
@@ -513,7 +534,6 @@ async function copiarTexto(idx, btn) {
     document.body.removeChild(ta);
     btn.textContent = '✓ Copiado';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
     showToast('Texto copiado');
   }
 }
