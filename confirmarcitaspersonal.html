@@ -294,6 +294,7 @@
 const HASH_OK       = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
 const SESSION_KEY   = 'eutimya_admin_tok';
 const SESSION_DAYS  = 30;
+const API_URL       = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1WraHF5fjINcq7j493kjGyqHA3DK71Bm2NqWi5j1aU16QYd4UeG5yO-g/exec';
 
 // Al cargar: verificar si hay sesión válida guardada
 (function checkSavedSession() {
@@ -321,7 +322,6 @@ function saveSession() {
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
-const API_URL = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1WraHF5fjINcq7j493kjGyqHA3DK71Bm2NqWi5j1aU16QYd4UeG5yO-g/exec';
 
 let CITAS = [];
 
@@ -706,6 +706,7 @@ function marcarCopiado(c) {
 let filtroActual = 'todos';
 function filtrar(valor, btn) {
   filtroActual = valor;
+  localStorage.setItem(FILTER_KEY, valor);
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
@@ -713,7 +714,8 @@ function filtrar(valor, btn) {
     if (valor === 'todos') {
       card.classList.remove('hidden');
     } else if (valor === 'Dr. Moya' || valor === 'Dra. Venecia') {
-      card.dataset.doctor === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
+      const esDoc = card.dataset.doctor === valor && card.dataset.modalidad !== 'Bariatría';
+      esDoc ? card.classList.remove('hidden') : card.classList.add('hidden');
     } else {
       card.dataset.modalidad === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
     }
