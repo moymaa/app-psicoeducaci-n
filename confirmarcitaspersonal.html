@@ -164,6 +164,23 @@
     opacity: 0.72; cursor: default;
   }
 
+  /* conflicto de consultorio */
+  @keyframes conflict-pulse {
+    0%, 100% { border-color: #e53935; box-shadow: 0 0 0 0 rgba(229,57,53,.35); }
+    50%       { border-color: #ff8a80; box-shadow: 0 0 0 6px rgba(229,57,53,.0); }
+  }
+  .cita-conflict {
+    background: #fff5f5;
+    border-color: #e53935 !important;
+    animation: conflict-pulse 1.4s ease-in-out infinite;
+  }
+  .cita-conflict .cita-hora { color: #c62828; }
+  .conflict-label {
+    font-size: 11px; font-weight: 700; color: #c62828;
+    background: #ffebee; padding: 2px 7px; border-radius: 8px;
+    letter-spacing: .03em;
+  }
+
   /* sin cel */
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
 
@@ -274,8 +291,6 @@
       <button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>
       <button class="filter-btn" onclick="filtrar('Dr. Moya', this)">Dr. Moya</button>
       <button class="filter-btn" onclick="filtrar('Dra. Venecia', this)">Dra. Venecia</button>
-      <button class="filter-btn" onclick="filtrar('Presencial', this)">Presencial</button>
-      <button class="filter-btn" onclick="filtrar('Online', this)">Online</button>
       <button class="filter-btn" onclick="filtrar('Bariatría', this)">Bariatría</button>
     </div>
 
@@ -487,6 +502,24 @@ function renderCitas() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '';
 
+  // ── Detectar conflictos de consultorio (Presencial, misma hora, Moya + Venecia) ──
+  const conflictIdx = new Set();
+  Object.values(grupos).forEach(citasDia => {
+    const presenciales = citasDia.filter(c => c.modalidad === 'Presencial');
+    presenciales.forEach(a => {
+      presenciales.forEach(b => {
+        if (a._idx !== b._idx &&
+            a.hora_inicio === b.hora_inicio &&
+            a.doctor !== b.doctor &&
+            ((a.doctor === 'Dr. Moya' && b.doctor === 'Dra. Venecia') ||
+             (a.doctor === 'Dra. Venecia' && b.doctor === 'Dr. Moya'))) {
+          conflictIdx.add(a._idx);
+          conflictIdx.add(b._idx);
+        }
+      });
+    });
+  });
+
   Object.keys(grupos).sort().forEach(fecha => {
     const citasDelDia = grupos[fecha];
     const g = document.createElement('div');
@@ -508,7 +541,8 @@ function renderCitas() {
 
     citasDelDia.forEach(c => {
       const card = document.createElement('div');
-      card.className = 'cita-card';
+      const isConflict = conflictIdx.has(c._idx);
+      card.className = 'cita-card' + (isConflict ? ' cita-conflict' : '');
       card.dataset.doctor    = c.doctor;
       card.dataset.modalidad = c.modalidad;
 
@@ -529,6 +563,7 @@ function renderCitas() {
             <span class="badge badge-${modClass}"><span class="badge-dot"></span>${c.modalidad}</span>
             <span class="badge badge-${docClass}"><span class="badge-dot"></span>${c.doctor}</span>
             ${tieneCel ? `<span>${cel10}</span>` : '<span class="no-cel">Sin celular</span>'}
+            ${isConflict ? `<span class="conflict-label">⚠ Conflicto consultorio</span>` : ''}
             ${c.modalidad !== 'Presencial'
               ? (c.link
                   ? `<span class="meet-link" title="${c.link}">🎥 ${c.link.replace(/^https?:\/\//,'')}</span>`
@@ -568,7 +603,6 @@ async function copiarTexto(idx, btn) {
     btn.classList.add('copied');
     marcarCopiado(c);
     showToast('Texto copiado');
-    advanceDayIfComplete(c.fecha);
   } catch(e) {
     const ta = document.createElement('textarea');
     ta.value = texto;
@@ -580,7 +614,6 @@ async function copiarTexto(idx, btn) {
     btn.classList.add('copied');
     marcarCopiado(c);
     showToast('Texto copiado');
-    advanceDayIfComplete(c.fecha);
   }
 }
 
@@ -591,6 +624,7 @@ async function prepararWA(idx) {
     await navigator.clipboard.writeText(texto);
     showToast('Texto copiado — pégalo en WhatsApp');
   } catch(e) {}
+  advanceDayIfComplete(c.fecha);
 }
 
 
