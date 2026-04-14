@@ -91,24 +91,12 @@
   .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
 
   /* grupos de día */
-  .day-group { margin-bottom: 16px; }
+  .day-group { margin-bottom: 32px; }
   .day-header {
     font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
-    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 0;
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;
     display: flex; align-items: center; gap: 10px;
-    cursor: pointer; user-select: none; padding: 10px 4px;
-    border-radius: 8px; transition: background .15s;
   }
-  .day-header:hover { background: rgba(13,27,42,.04); }
-  .day-chevron {
-    font-size: 12px; color: var(--muted);
-    transition: transform .22s ease; display: inline-block; margin-right: 2px;
-  }
-  .day-group.collapsed .day-chevron { transform: rotate(-90deg); }
-  .day-cards { padding-top: 10px; margin-bottom: 8px; }
-  .day-group.collapsed .day-cards { display: none; }
-  .day-done .day-header { border-bottom-color: #4CAF50; }
-  .day-done .day-chevron { color: #4CAF50; }
   .day-count { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
 
   /* cards */
@@ -160,11 +148,8 @@
   }
   .btn-copy:hover { background: var(--teal); color: #fff; }
   .btn-copy.copied {
-    background: #4CAF50; color: #fff; border-color: #388E3C;
-    cursor: pointer;
-  }
-  .btn-copy.copied:hover {
-    background: #388E3C;
+    background: #9E9E9E; color: #fff; border-color: #bbb;
+    opacity: 0.72; cursor: default;
   }
 
   /* sin cel */
@@ -192,6 +177,21 @@
     pointer-events: none;
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── BOTÓN FLOTANTE REFRESH ── */
+  #btn-refresh {
+    position: fixed; bottom: 24px; right: 20px; z-index: 998;
+    background: var(--teal); color: #fff; border: none;
+    width: 52px; height: 52px; border-radius: 50%;
+    font-size: 20px; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,106,96,.35);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .2s;
+  }
+  #btn-refresh:hover { background: var(--navy); transform: scale(1.08); }
+  #btn-refresh.spinning svg { animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
 
   /* stats */
   .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
@@ -272,6 +272,14 @@
     <div id="lista"></div>
   </div>
 </div>
+
+
+<button id="btn-refresh" title="Actualizar citas" onclick="refrescarCitas()">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="23 4 23 10 17 10"></polyline>
+    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+  </svg>
+</button>
 
 <div id="toast">✓ Texto copiado</div>
 
@@ -423,15 +431,6 @@ async function cargarYRenderizar() {
 
     renderCitas();
 
-    // Restaurar filtro guardado
-    const savedFiltro = localStorage.getItem(FILTER_KEY);
-    if (savedFiltro && savedFiltro !== 'todos') {
-      const btn = [...document.querySelectorAll('.filter-btn')]
-        .find(b => b.textContent.trim() === savedFiltro ||
-                   b.getAttribute('onclick')?.includes(`'${savedFiltro}'`));
-      if (btn) filtrar(savedFiltro, btn);
-    }
-
   } catch(err) {
     lista.innerHTML = `<div style="text-align:center;padding:48px 0;color:#c62828;font-size:14px">
       Error al cargar: ${err.message}<br>
@@ -485,27 +484,19 @@ function renderCitas() {
   Object.keys(grupos).sort().forEach(fecha => {
     const citasDelDia = grupos[fecha];
     const g = document.createElement('div');
-    g.className = 'day-group collapsed';   // collapsed por defecto
+    g.className = 'day-group';
     g.dataset.fecha = fecha;
 
     const fechaLabel = citasDelDia[0].fecha_fmt;
-    const labelCap   = fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1);
-
-    g.innerHTML = `
-      <div class="day-header" onclick="toggleDay(this.parentElement)">
-        <span class="day-chevron">▼</span>
-        ${labelCap}
-        <span class="day-count">${citasDelDia.length} citas</span>
-      </div>
-      <div class="day-cards"></div>`;
-
-    const cardsWrap = g.querySelector('.day-cards');
-    const copiados  = getCopiados();
+    g.innerHTML = `<div class="day-header">
+      ${fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1)}
+      <span class="day-count">${citasDelDia.length} citas</span>
+    </div>`;
 
     citasDelDia.forEach(c => {
       const card = document.createElement('div');
       card.className = 'cita-card';
-      card.dataset.doctor    = c.doctor;
+      card.dataset.doctor = c.doctor;
       card.dataset.modalidad = c.modalidad;
 
       const modClass = c.modalidad === 'Presencial' ? 'presencial' :
@@ -540,129 +531,23 @@ function renderCitas() {
             WA
           </a>` : `<span class="no-cel">Sin teléfono</span>`}
         </div>`;
-
-      // Restaurar estado copiado desde localStorage
-      if (copiados[copiadoKey(c)]) {
-        const btn = card.querySelector(`#copy-${c._idx}`);
-        if (btn) { btn.textContent = '✓ Copiado'; btn.classList.add('copied'); }
-      }
-
-      cardsWrap.appendChild(card);
+      g.appendChild(card);
     });
 
     lista.appendChild(g);
   });
-
-  // Abrir automáticamente el primer día con citas sin copiar
-  abrirPrimerDiaPendiente();
-}
-
-// ── PERSISTENCIA DE COPIADOS ──
-function copiadoKey(c) {
-  return `${c.doctor}|${c.nombre}|${c.fecha}|${c.hora_inicio}`;
-}
-
-function getCopiados() {
-  try {
-    const raw = localStorage.getItem(COPIED_KEY);
-    if (!raw) return {};
-    const data = JSON.parse(raw);
-    // Limpiar entradas cuya fecha ya pasó
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
-    let limpiado = false;
-    Object.keys(data).forEach(k => {
-      const fecha = k.split('|')[2]; // 'YYYY-MM-DD'
-      if (fecha && new Date(fecha) < hoy) { delete data[k]; limpiado = true; }
-    });
-    if (limpiado) localStorage.setItem(COPIED_KEY, JSON.stringify(data));
-    return data;
-  } catch(e) { return {}; }
-}
-
-function marcarCopiado(c) {
-  const data = getCopiados();
-  data[copiadoKey(c)] = true;
-  localStorage.setItem(COPIED_KEY, JSON.stringify(data));
-}
-
-// ── DÍAS COLAPSABLES ──
-function toggleDay(group) {
-  group.classList.toggle('collapsed');
-}
-
-// Abre el primer día que tenga citas pendientes de copiar (con teléfono y visible)
-function abrirPrimerDiaPendiente() {
-  const groups = [...document.querySelectorAll('.day-group')]
-    .filter(g => !g.classList.contains('hidden'));
-
-  let opened = false;
-  for (const g of groups) {
-    const btns = [...g.querySelectorAll('.btn-copy')]
-      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
-    if (btns.length === 0) continue;
-    const tienesPendientes = btns.some(b => !b.classList.contains('copied'));
-    if (tienesPendientes) {
-      g.classList.remove('collapsed');
-      opened = true;
-      break;
-    } else {
-      // Día completamente copiado — marcar visualmente
-      g.classList.add('day-done');
-    }
-  }
-  // Si todo está copiado, abrir el primero
-  if (!opened && groups.length) groups[0].classList.remove('collapsed');
-}
-
-// Después de cada copia: si el día quedó completo, colapsar y abrir el siguiente
-function advanceDayIfComplete(fecha) {
-  const groups = [...document.querySelectorAll('.day-group')]
-    .filter(g => !g.classList.contains('hidden'));
-
-  let currentIdx = -1;
-  groups.forEach((g, i) => { if (g.dataset.fecha === fecha) currentIdx = i; });
-  if (currentIdx === -1) return;
-
-  const current = groups[currentIdx];
-  const btns    = [...current.querySelectorAll('.btn-copy')]
-    .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
-
-  // ¿Todos los botones de copiar de este día están copiados?
-  const todosCopiadados = btns.length > 0 && btns.every(b => b.classList.contains('copied'));
-  if (!todosCopiadados) return;
-
-  // Marcar día como completado y colapsar
-  current.classList.add('day-done', 'collapsed');
-
-  // Abrir siguiente día con pendientes
-  const next = groups.slice(currentIdx + 1).find(g => {
-    const bs = [...g.querySelectorAll('.btn-copy')]
-      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
-    return bs.some(b => !b.classList.contains('copied'));
-  });
-
-  if (next) {
-    next.classList.remove('collapsed');
-    setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
-    const label = (next.querySelector('.day-header')?.textContent || '')
-      .replace('▼', '').replace(/\d+\s*citas?/i, '').replace(/\s+/g, ' ').trim();
-    showToast('→ ' + (label || 'Siguiente día'));
-  } else {
-    showToast('✓ Todos los días completados');
-  }
 }
 
 // ── COPIAR ──
 async function copiarTexto(idx, btn) {
+  if (btn.classList.contains('copied')) return; // ya copiado
   const c = CITAS[idx];
   const texto = generarTexto(c);
   try {
     await navigator.clipboard.writeText(texto);
     btn.textContent = '✓ Copiado';
     btn.classList.add('copied');
-    marcarCopiado(c);
     showToast('Texto copiado');
-    advanceDayIfComplete(c.fecha);
   } catch(e) {
     const ta = document.createElement('textarea');
     ta.value = texto;
@@ -672,9 +557,7 @@ async function copiarTexto(idx, btn) {
     document.body.removeChild(ta);
     btn.textContent = '✓ Copiado';
     btn.classList.add('copied');
-    marcarCopiado(c);
     showToast('Texto copiado');
-    advanceDayIfComplete(c.fecha);
   }
 }
 
@@ -687,6 +570,18 @@ async function prepararWA(idx) {
   } catch(e) {}
 }
 
+
+// ── REFRESH FLOTANTE ──
+async function refrescarCitas() {
+  const btn = document.getElementById('btn-refresh');
+  btn.classList.add('spinning');
+  btn.disabled = true;
+  await cargarYRenderizar();
+  btn.classList.remove('spinning');
+  btn.disabled = false;
+  showToast('Citas actualizadas');
+}
+
 // ── TOAST ──
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -696,14 +591,9 @@ function showToast(msg) {
 }
 
 // ── FILTROS ──
-const FILTER_KEY  = 'eutimya_filtro';
-const COPIED_KEY  = 'eutimya_copiados';
-
 let filtroActual = 'todos';
-
 function filtrar(valor, btn) {
   filtroActual = valor;
-  localStorage.setItem(FILTER_KEY, valor);
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
@@ -711,9 +601,7 @@ function filtrar(valor, btn) {
     if (valor === 'todos') {
       card.classList.remove('hidden');
     } else if (valor === 'Dr. Moya' || valor === 'Dra. Venecia') {
-      // Bariatría es categoría independiente — no aparece en filtros de doctor
-      const esDoc = card.dataset.doctor === valor && card.dataset.modalidad !== 'Bariatría';
-      esDoc ? card.classList.remove('hidden') : card.classList.add('hidden');
+      card.dataset.doctor === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
     } else {
       card.dataset.modalidad === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
     }
@@ -723,10 +611,6 @@ function filtrar(valor, btn) {
     const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
     visible ? g.classList.remove('hidden') : g.classList.add('hidden');
   });
-
-  // Re-colapsar todos los visibles y abrir el primero con pendientes
-  document.querySelectorAll('.day-group:not(.hidden)').forEach(g => g.classList.add('collapsed'));
-  abrirPrimerDiaPendiente();
 }
 </script>
 </body>
