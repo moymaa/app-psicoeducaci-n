@@ -90,13 +90,27 @@
   .filter-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
   .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
 
+
+  /* grupos de día — colapsables */
+  .day-chevron {
+    font-size: 12px; color: var(--muted);
+    transition: transform .22s ease; display: inline-block; margin-right: 2px;
+  }
+  .day-group.collapsed .day-chevron { transform: rotate(-90deg); }
+  .day-cards { padding-top: 10px; margin-bottom: 8px; }
+  .day-group.collapsed .day-cards { display: none; }
+  .day-done .day-header { border-bottom-color: #4CAF50; }
+  .day-done .day-chevron { color: #4CAF50; }
   /* grupos de día */
   .day-group { margin-bottom: 32px; }
   .day-header {
     font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
-    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 0;
     display: flex; align-items: center; gap: 10px;
+    cursor: pointer; user-select: none; padding: 10px 4px;
+    border-radius: 8px; transition: background .15s;
   }
+  .day-header:hover { background: rgba(13,27,42,.04); }
   .day-count { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
 
   /* cards */
@@ -457,8 +471,8 @@ function generarTexto(c) {
 // ── RENDER ──
 function renderCitas() {
   const total    = CITAS.length;
-  const moya     = CITAS.filter(c => c.doctor === 'Dr. Moya').length;
-  const sharon   = CITAS.filter(c => c.doctor === 'Dra. Venecia').length;
+  const moya     = CITAS.filter(c => c.doctor === 'Dr. Moya' && c.modalidad !== 'Bariatría').length;
+  const sharon   = CITAS.filter(c => c.doctor === 'Dra. Venecia' && c.modalidad !== 'Bariatría').length;
   const presencial = CITAS.filter(c => c.modalidad === 'Presencial').length;
   const online   = CITAS.filter(c => c.modalidad === 'Online').length;
   const baria    = CITAS.filter(c => c.modalidad === 'Bariatría').length;
@@ -484,19 +498,26 @@ function renderCitas() {
   Object.keys(grupos).sort().forEach(fecha => {
     const citasDelDia = grupos[fecha];
     const g = document.createElement('div');
-    g.className = 'day-group';
+    g.className = 'day-group collapsed';
     g.dataset.fecha = fecha;
 
     const fechaLabel = citasDelDia[0].fecha_fmt;
-    g.innerHTML = `<div class="day-header">
-      ${fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1)}
-      <span class="day-count">${citasDelDia.length} citas</span>
-    </div>`;
+    const labelCap   = fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1);
+    g.innerHTML = `
+      <div class="day-header" onclick="toggleDay(this.parentElement)">
+        <span class="day-chevron">▼</span>
+        ${labelCap}
+        <span class="day-count">${citasDelDia.length} citas</span>
+      </div>
+      <div class="day-cards"></div>`;
+
+    const cardsWrap = g.querySelector('.day-cards');
+    const copiados  = getCopiados();
 
     citasDelDia.forEach(c => {
       const card = document.createElement('div');
       card.className = 'cita-card';
-      card.dataset.doctor = c.doctor;
+      card.dataset.doctor    = c.doctor;
       card.dataset.modalidad = c.modalidad;
 
       const modClass = c.modalidad === 'Presencial' ? 'presencial' :
@@ -531,11 +552,77 @@ function renderCitas() {
             WA
           </a>` : `<span class="no-cel">Sin teléfono</span>`}
         </div>`;
-      g.appendChild(card);
+      // Restaurar estado copiado
+      if (copiados[copiadoKey(c)]) {
+        const btn = card.querySelector(`#copy-${c._idx}`);
+        if (btn) { btn.textContent = '✓ Copiado'; btn.classList.add('copied'); }
+      }
+      cardsWrap.appendChild(card);
     });
 
     lista.appendChild(g);
   });
+
+  abrirPrimerDiaPendiente();
+}
+
+
+// ── DÍAS COLAPSABLES ──
+function toggleDay(group) {
+  group.classList.toggle('collapsed');
+}
+
+function abrirPrimerDiaPendiente() {
+  const groups = [...document.querySelectorAll('.day-group')]
+    .filter(g => !g.classList.contains('hidden'));
+
+  let opened = false;
+  for (const g of groups) {
+    const btns = [...g.querySelectorAll('.btn-copy')]
+      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    if (btns.length === 0) continue;
+    if (btns.some(b => !b.classList.contains('copied'))) {
+      g.classList.remove('collapsed');
+      opened = true;
+      break;
+    } else {
+      g.classList.add('day-done');
+    }
+  }
+  if (!opened && groups.length) groups[0].classList.remove('collapsed');
+}
+
+function advanceDayIfComplete(fecha) {
+  const groups = [...document.querySelectorAll('.day-group')]
+    .filter(g => !g.classList.contains('hidden'));
+
+  let idx = -1;
+  groups.forEach((g, i) => { if (g.dataset.fecha === fecha) idx = i; });
+  if (idx === -1) return;
+
+  const current = groups[idx];
+  const btns = [...current.querySelectorAll('.btn-copy')]
+    .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+
+  if (!btns.length || !btns.every(b => b.classList.contains('copied'))) return;
+
+  current.classList.add('day-done', 'collapsed');
+
+  const next = groups.slice(idx + 1).find(g => {
+    const bs = [...g.querySelectorAll('.btn-copy')]
+      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    return bs.some(b => !b.classList.contains('copied'));
+  });
+
+  if (next) {
+    next.classList.remove('collapsed');
+    setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+    const label = (next.querySelector('.day-header')?.textContent || '')
+      .replace('▼','').replace(/\d+\s*citas?/i,'').replace(/\s+/g,' ').trim();
+    showToast('→ ' + (label || 'Siguiente día'));
+  } else {
+    showToast('✓ Todos los días completados');
+  }
 }
 
 // ── COPIAR ──
@@ -611,6 +698,9 @@ function filtrar(valor, btn) {
     const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
     visible ? g.classList.remove('hidden') : g.classList.add('hidden');
   });
+
+  document.querySelectorAll('.day-group:not(.hidden)').forEach(g => g.classList.add('collapsed'));
+  abrirPrimerDiaPendiente();
 }
 </script>
 </body>
