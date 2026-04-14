@@ -185,13 +185,25 @@
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
 
   /* meet link */
+  .meet-wrap {
+    display: inline-flex; align-items: center; gap: 4px;
+  }
   .meet-link {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 11px; color: var(--online-dot); background: var(--online);
     padding: 2px 7px; border-radius: 8px; max-width: 200px;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    font-weight: 500;
+    font-weight: 500; text-decoration: none;
   }
+  .meet-link:hover { text-decoration: underline; }
+  .btn-copy-link {
+    background: var(--online); border: 1px solid var(--online-dot);
+    color: var(--online-dot); border-radius: 6px;
+    padding: 3px 5px; cursor: pointer; display: inline-flex;
+    align-items: center; transition: all .15s; flex-shrink: 0;
+  }
+  .btn-copy-link:hover { background: var(--online-dot); color: #fff; }
+  .btn-copy-link.copied { background: #c8e6c9; border-color: #388e3c; color: #388e3c; }
   .meet-link-missing {
     font-size: 11px; color: #c62828; background: #FFEBEE;
     padding: 2px 7px; border-radius: 8px; font-weight: 500;
@@ -566,7 +578,12 @@ function renderCitas() {
             ${isConflict ? `<span class="conflict-label">⚠ Conflicto consultorio</span>` : ''}
             ${c.modalidad !== 'Presencial'
               ? (c.link
-                  ? `<span class="meet-link" title="${c.link}">🎥 ${c.link.replace(/^https?:\/\//,'')}</span>`
+                  ? `<span class="meet-wrap">
+                       <a class="meet-link" href="${c.link}" target="_blank" title="${c.link}">🎥 ${c.link.replace(/^https?:\/\//,'')}</a>
+                       <button class="btn-copy-link" onclick="copiarLink(event,'${c.link}',this)" title="Copiar link">
+                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                       </button>
+                     </span>`
                   : `<span class="meet-link-missing">⚠ Sin link Meet</span>`)
               : ''}
           </div>
@@ -591,6 +608,25 @@ function renderCitas() {
   });
 
   abrirPrimerDiaPendiente();
+}
+
+// ── COPIAR LINK MEET ──
+async function copiarLink(e, link, btn) {
+  e.preventDefault();
+  try { await navigator.clipboard.writeText(link); }
+  catch(_) {
+    const ta = document.createElement('textarea');
+    ta.value = link; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  btn.classList.add('copied');
+  btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+  showToast('Link Meet copiado');
+  setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  }, 2000);
 }
 
 // ── COPIAR ──
