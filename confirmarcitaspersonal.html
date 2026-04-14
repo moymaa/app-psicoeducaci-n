@@ -91,12 +91,24 @@
   .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
 
   /* grupos de día */
-  .day-group { margin-bottom: 32px; }
+  .day-group { margin-bottom: 16px; }
   .day-header {
     font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
-    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;
+    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 0;
     display: flex; align-items: center; gap: 10px;
+    cursor: pointer; user-select: none; padding: 10px 4px;
+    border-radius: 8px; transition: background .15s;
   }
+  .day-header:hover { background: rgba(13,27,42,.04); }
+  .day-chevron {
+    font-size: 12px; color: var(--muted);
+    transition: transform .22s ease; display: inline-block; margin-right: 2px;
+  }
+  .day-group.collapsed .day-chevron { transform: rotate(-90deg); }
+  .day-cards { padding-top: 10px; margin-bottom: 8px; }
+  .day-group.collapsed .day-cards { display: none; }
+  .day-done .day-header { border-bottom-color: #4CAF50; }
+  .day-done .day-chevron { color: #4CAF50; }
   .day-count { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
 
   /* cards */
@@ -295,7 +307,7 @@ function saveSession() {
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
-const API_URL = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1WraHF5fjINcq7j493kjGyqHA3DK71Bm2NqWi5j1aU16QYd4UeG5yO-g/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwMQK5Zk6mNWqcT5GUvoJhnrQt4xMaHEQK1HYY7-NpAu9aQQiUHnp0CjOj3zbZO9tkLqQ/exec';
 
 let CITAS = [];
 
@@ -473,19 +485,27 @@ function renderCitas() {
   Object.keys(grupos).sort().forEach(fecha => {
     const citasDelDia = grupos[fecha];
     const g = document.createElement('div');
-    g.className = 'day-group';
+    g.className = 'day-group collapsed';   // collapsed por defecto
     g.dataset.fecha = fecha;
 
     const fechaLabel = citasDelDia[0].fecha_fmt;
-    g.innerHTML = `<div class="day-header">
-      ${fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1)}
-      <span class="day-count">${citasDelDia.length} citas</span>
-    </div>`;
+    const labelCap   = fechaLabel.charAt(0).toUpperCase() + fechaLabel.slice(1);
+
+    g.innerHTML = `
+      <div class="day-header" onclick="toggleDay(this.parentElement)">
+        <span class="day-chevron">▼</span>
+        ${labelCap}
+        <span class="day-count">${citasDelDia.length} citas</span>
+      </div>
+      <div class="day-cards"></div>`;
+
+    const cardsWrap = g.querySelector('.day-cards');
+    const copiados  = getCopiados();
 
     citasDelDia.forEach(c => {
       const card = document.createElement('div');
       card.className = 'cita-card';
-      card.dataset.doctor = c.doctor;
+      card.dataset.doctor    = c.doctor;
       card.dataset.modalidad = c.modalidad;
 
       const modClass = c.modalidad === 'Presencial' ? 'presencial' :
@@ -520,18 +540,21 @@ function renderCitas() {
             WA
           </a>` : `<span class="no-cel">Sin teléfono</span>`}
         </div>`;
-      g.appendChild(card);
 
       // Restaurar estado copiado desde localStorage
-      const copiados = getCopiados();
       if (copiados[copiadoKey(c)]) {
         const btn = card.querySelector(`#copy-${c._idx}`);
         if (btn) { btn.textContent = '✓ Copiado'; btn.classList.add('copied'); }
       }
+
+      cardsWrap.appendChild(card);
     });
 
     lista.appendChild(g);
   });
+
+  // Abrir automáticamente el primer día con citas sin copiar
+  abrirPrimerDiaPendiente();
 }
 
 // ── PERSISTENCIA DE COPIADOS ──
@@ -562,6 +585,73 @@ function marcarCopiado(c) {
   localStorage.setItem(COPIED_KEY, JSON.stringify(data));
 }
 
+// ── DÍAS COLAPSABLES ──
+function toggleDay(group) {
+  group.classList.toggle('collapsed');
+}
+
+// Abre el primer día que tenga citas pendientes de copiar (con teléfono y visible)
+function abrirPrimerDiaPendiente() {
+  const groups = [...document.querySelectorAll('.day-group')]
+    .filter(g => !g.classList.contains('hidden'));
+
+  let opened = false;
+  for (const g of groups) {
+    const btns = [...g.querySelectorAll('.btn-copy')]
+      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    if (btns.length === 0) continue;
+    const tienesPendientes = btns.some(b => !b.classList.contains('copied'));
+    if (tienesPendientes) {
+      g.classList.remove('collapsed');
+      opened = true;
+      break;
+    } else {
+      // Día completamente copiado — marcar visualmente
+      g.classList.add('day-done');
+    }
+  }
+  // Si todo está copiado, abrir el primero
+  if (!opened && groups.length) groups[0].classList.remove('collapsed');
+}
+
+// Después de cada copia: si el día quedó completo, colapsar y abrir el siguiente
+function advanceDayIfComplete(fecha) {
+  const groups = [...document.querySelectorAll('.day-group')]
+    .filter(g => !g.classList.contains('hidden'));
+
+  let currentIdx = -1;
+  groups.forEach((g, i) => { if (g.dataset.fecha === fecha) currentIdx = i; });
+  if (currentIdx === -1) return;
+
+  const current = groups[currentIdx];
+  const btns    = [...current.querySelectorAll('.btn-copy')]
+    .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+
+  // ¿Todos los botones de copiar de este día están copiados?
+  const todosCopiadados = btns.length > 0 && btns.every(b => b.classList.contains('copied'));
+  if (!todosCopiadados) return;
+
+  // Marcar día como completado y colapsar
+  current.classList.add('day-done', 'collapsed');
+
+  // Abrir siguiente día con pendientes
+  const next = groups.slice(currentIdx + 1).find(g => {
+    const bs = [...g.querySelectorAll('.btn-copy')]
+      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    return bs.some(b => !b.classList.contains('copied'));
+  });
+
+  if (next) {
+    next.classList.remove('collapsed');
+    setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+    const label = (next.querySelector('.day-header')?.textContent || '')
+      .replace('▼', '').replace(/\d+\s*citas?/i, '').replace(/\s+/g, ' ').trim();
+    showToast('→ ' + (label || 'Siguiente día'));
+  } else {
+    showToast('✓ Todos los días completados');
+  }
+}
+
 // ── COPIAR ──
 async function copiarTexto(idx, btn) {
   const c = CITAS[idx];
@@ -572,6 +662,7 @@ async function copiarTexto(idx, btn) {
     btn.classList.add('copied');
     marcarCopiado(c);
     showToast('Texto copiado');
+    advanceDayIfComplete(c.fecha);
   } catch(e) {
     const ta = document.createElement('textarea');
     ta.value = texto;
@@ -583,6 +674,7 @@ async function copiarTexto(idx, btn) {
     btn.classList.add('copied');
     marcarCopiado(c);
     showToast('Texto copiado');
+    advanceDayIfComplete(c.fecha);
   }
 }
 
@@ -631,6 +723,10 @@ function filtrar(valor, btn) {
     const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
     visible ? g.classList.remove('hidden') : g.classList.add('hidden');
   });
+
+  // Re-colapsar todos los visibles y abrir el primero con pendientes
+  document.querySelectorAll('.day-group:not(.hidden)').forEach(g => g.classList.add('collapsed'));
+  abrirPrimerDiaPendiente();
 }
 </script>
 </body>
