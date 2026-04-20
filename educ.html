@@ -791,7 +791,43 @@
       transition:width .4s ease
     }
 
-  </style>
+  
+    /* ── GEMINI FAB ── */
+    .fab-gemini {
+      position: fixed;
+      bottom: 24px; right: 20px;
+      z-index: 9999;
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #1a73e8 0%, #4285f4 50%, #8ab4f8 100%);
+      color: #fff;
+      border: none; border-radius: 999px;
+      padding: 0 20px 0 6px;
+      height: 52px;
+      box-shadow: 0 4px 20px rgba(26,115,232,.38), 0 1px 6px rgba(0,0,0,.14);
+      cursor: pointer; font-family: inherit;
+      font-size: 14px; font-weight: 600; letter-spacing: .01em;
+      text-decoration: none;
+      transition: transform .18s, box-shadow .18s;
+      animation: fabGemIn .5s .6s cubic-bezier(.22,.9,.3,1) both;
+    }
+    .fab-gemini:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 28px rgba(26,115,232,.45), 0 2px 8px rgba(0,0,0,.14);
+    }
+    .fab-gemini:active { transform: scale(.97); }
+    .fab-gemini-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 20px;
+    }
+    .fab-gemini-label { line-height: 1.2; }
+    .fab-gemini-label span { display: block; font-size: 10px; font-weight: 400; opacity: .75; letter-spacing: .04em; text-transform: uppercase; }
+    @keyframes fabGemIn {
+      from { opacity:0; transform: translateY(16px) scale(.9); }
+      to   { opacity:1; transform: translateY(0)    scale(1);  }
+    }
+</style>
 </head>
 <body>
 
@@ -3580,5 +3616,17 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+<!-- ── GEMINI FAB ── -->
+<a href="https://gemini.google.com/gem/1b2da440fbe4?usp=sharing"
+   target="_blank" rel="noopener"
+   class="fab-gemini"
+   aria-label="Asistente Eutimya con Gemini">
+  <div class="fab-gemini-icon">✦</div>
+  <div class="fab-gemini-label">
+    Asistente Eutimya
+    <span>Con Gemini</span>
+  </div>
+</a>
 </body>
 </html>
