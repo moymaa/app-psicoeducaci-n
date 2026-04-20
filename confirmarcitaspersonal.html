@@ -160,7 +160,7 @@
   .badge-moya .badge-dot { background: var(--moya-dot); }
   .badge-sharon { background: var(--sharon); color: var(--sharon-dot); }
   .badge-sharon .badge-dot { background: var(--sharon-dot); }
-  .cita-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .cita-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: center; }
   .btn-wa {
     background: #25D366; color: #fff; border: none;
     padding: 10px 14px; border-radius: 10px; font-size: 13px;
@@ -301,14 +301,14 @@
   <header>
     <div>
       <div class="header-title">Confirmación de Citas</div>
-      <div class="header-sub">Semana del 9 al 16 de abril 2026</div>
+      <div class="header-sub" id="header-sub">Cargando…</div>
     </div>
-    <div class="header-badge" id="total-badge">78 citas</div>
+    <div class="header-badge" id="total-badge">— citas</div>
   </header>
 
   <div class="container">
     <div class="stats">
-      <div class="stat"><strong id="stat-total">78</strong>Total semana</div>
+      <div class="stat"><strong id="stat-total">—</strong>Total semana</div>
       <div class="stat"><strong id="stat-moya">—</strong>Dr. Moya</div>
       <div class="stat"><strong id="stat-sharon">—</strong>Dra. Venecia</div>
       <div class="stat"><strong id="stat-presencial">—</strong>Presencial</div>
@@ -340,7 +340,13 @@ const SESSION_KEY   = 'eutimya_admin_tok';
 const SESSION_DAYS  = 30;
 const API_URL       = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1WraHF5fjINcq7j493kjGyqHA3DK71Bm2NqWi5j1aU16QYd4UeG5yO-g/exec';
 
-// Al cargar: verificar si hay sesión válida guardada
+// ── URLs DE PAGOS POR DOCTOR ──
+// FIX: Sharon usa URL con #pagos
+const PAGOS_URL = {
+  'Dr. Moya':     'https://psiquiatra-cdmx.eutimya.org/cita',
+  'Dra. Venecia': 'https://paido.eutimya.org/cita#pagos'
+};
+
 (function checkSavedSession() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
@@ -348,9 +354,7 @@ const API_URL       = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1Wra
     const { tok, exp, hash } = JSON.parse(raw);
     if (!tok || !exp || !hash) return;
     if (Date.now() > exp) { localStorage.removeItem(SESSION_KEY); return; }
-    // El token guardado debe contener el hash (prueba de que lo generó alguien que sabía la contraseña)
     if (hash !== HASH_OK) { localStorage.removeItem(SESSION_KEY); return; }
-    // Sesión válida → entrar sin pedir contraseña
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     cargarYRenderizar();
@@ -426,7 +430,6 @@ async function cargarYRenderizar() {
 
       if (!['Presencial','Online','Bariatría'].includes(modalidad)) return;
 
-      // parsear fecha — ahora llega como "yyyy-MM-dd" limpio desde Apps Script
       let fechaDate = null;
       const fRaw = r['Fecha de Cita'];
       if (fRaw) {
@@ -437,7 +440,6 @@ async function cargarYRenderizar() {
       }
       if (!fechaDate || fechaDate < hoy || fechaDate > fin) return;
 
-      // parsear hora — ahora llega como "HH:mm" limpio desde Apps Script
       let horaInicio = '?', horaFin = '?';
       const hRaw = r['Hora de Cita'];
       if (hRaw) {
@@ -451,7 +453,6 @@ async function cargarYRenderizar() {
         }
       }
 
-      // dedup por doctor+nombre+fecha+hora
       const key = `${doctor}|${nombre}|${fechaDate.toISOString().slice(0,10)}|${horaInicio}`;
       if (seen.has(key)) return;
       seen.add(key);
@@ -472,11 +473,10 @@ async function cargarYRenderizar() {
     rows.sort((a,b) => a.fecha.localeCompare(b.fecha) || a.hora_inicio.localeCompare(b.hora_inicio));
     CITAS = rows;
 
-    // actualizar subtítulo del header con rango real
     if (rows.length) {
       const f0 = rows[0].fecha_fmt;
       const fN = rows[rows.length-1].fecha_fmt;
-      document.querySelector('.header-sub').textContent = `${f0} — ${fN}`;
+      document.getElementById('header-sub').textContent = `${f0} — ${fN}`;
     }
 
     renderCitas();
@@ -491,16 +491,18 @@ async function cargarYRenderizar() {
 }
 
 // ── RECORDATORIOS ──
+// FIX: usa URL de pagos correcta según el doctor
 function generarTexto(c) {
   const mod = c.modalidad;
   const dia = c.fecha_fmt.charAt(0).toUpperCase() + c.fecha_fmt.slice(1);
   const horario = `${c.hora_inicio}–${c.hora_fin} (hora cdmx)`;
+  const urlPagos = PAGOS_URL[c.doctor] || PAGOS_URL['Dr. Moya'];
 
   if (mod === 'Presencial') {
-    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nPresencial (${c.nombre})\n${dia}⋅${horario}\nMoras 619, Col del Valle,  03104 CDMX.\n\nFormas de pago: eutimya.org/pagos`;
+    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nPresencial (${c.nombre})\n${dia}⋅${horario}\nMoras 619, Col del Valle,  03104 CDMX.\n\nFormas de pago: ${urlPagos}`;
   } else {
     let linkLine = c.link ? `Google Meet: ${c.link}` : 'El link de tu sesión te será enviado en breve.';
-    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nOnline (${c.nombre})\n${dia}⋅${horario}\n${linkLine}\n\nFormas de pago: eutimya.org/pagos`;
+    return `Hola! Te recordamos tu cita programada. Por favor, confírmanos tu asistencia por aquí. En caso de que no puedas asistir, te agradeceríamos avisarnos con anticipación para liberar el espacio y ofrecérselo a otro paciente que lo necesite. ¡Muchas gracias! \n\nOnline (${c.nombre})\n${dia}⋅${horario}\n${linkLine}\n\nFormas de pago: ${urlPagos}`;
   }
 }
 
@@ -531,7 +533,7 @@ function renderCitas() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '';
 
-  // ── Detectar conflictos de consultorio (Presencial, misma hora, Moya + Venecia) ──
+  // ── Detectar conflictos de consultorio ──
   const conflictIdx = new Set();
   Object.values(grupos).forEach(citasDia => {
     const presenciales = citasDia.filter(c => c.modalidad === 'Presencial');
@@ -583,6 +585,7 @@ function renderCitas() {
       const cel10    = tieneCel ? c.celular.slice(-10) : '';
       const waUrl    = tieneCel ? `https://wa.me/521${cel10}` : '';
 
+      // FIX: botón Copiar SIEMPRE visible; WA solo si hay celular
       card.innerHTML = `
         <div class="cita-hora">${c.hora_inicio}<span>${c.hora_fin}</span></div>
         <div class="divider"></div>
@@ -614,13 +617,15 @@ function renderCitas() {
           </div>
         </div>
         <div class="cita-actions">
-          ${tieneCel ? `
           <button class="btn-copy" id="copy-${c._idx}" onclick="copiarTexto(${c._idx}, this)">Copiar</button>
-          <a class="btn-wa" href="${waUrl}" target="_blank" onclick="prepararWA(${c._idx})">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.899.512 3.677 1.406 5.207L2 22l4.905-1.386A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm.001 18a8 8 0 0 1-4.073-1.117l-.292-.173-3.03.857.856-3.03-.189-.301A8 8 0 1 1 12 20z"/></svg>
-            WA
-          </a>` : `<span class="no-cel">Sin teléfono</span>`}
+          ${tieneCel
+            ? `<a class="btn-wa" href="${waUrl}" target="_blank" onclick="prepararWA(${c._idx})">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.899.512 3.677 1.406 5.207L2 22l4.905-1.386A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm.001 18a8 8 0 0 1-4.073-1.117l-.292-.173-3.03.857.856-3.03-.189-.301A8 8 0 1 1 12 20z"/></svg>
+                WA
+              </a>`
+            : ''}
         </div>`;
+
       // Restaurar estado copiado
       if (copiados[copiadoKey(c)]) {
         const btn = card.querySelector(`#copy-${c._idx}`);
