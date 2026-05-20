@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-profile="moya">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  /* ── TEMA MOYA (default) ── */
   :root {
     --navy: #0D1B2A;
     --teal: #006A60;
@@ -23,29 +24,58 @@
     --presencial-dot: #2E7D32;
     --online: #E3F2FD;
     --online-dot: #1565C0;
-    --bariatria: #FFF3E0;
-    --bariatria-dot: #E65100;
-    --moya: #E8EAF6;
-    --moya-dot: #283593;
-    --sharon: #FCE4EC;
-    --sharon-dot: #880E4F;
+    --refresh-shadow: rgba(0,106,96,.35);
   }
+  /* ── TEMA SHARON (pastel) ── */
+  html[data-profile="sharon"] {
+    --navy: #6B4858;
+    --teal: #C97B92;
+    --teal-light: #FCE7EE;
+    --gold: #F2C994;
+    --bg: #FBF6F8;
+    --card: #ffffff;
+    --text: #2A1F25;
+    --muted: #7A6470;
+    --border: #EDDDE3;
+    --presencial: #F1E7F0;
+    --presencial-dot: #7A5673;
+    --online: #FDEBF1;
+    --online-dot: #B86A85;
+    --refresh-shadow: rgba(201,123,146,.40);
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background .25s; }
 
   /* ── LOGIN ── */
-  #login-screen {
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100vh; padding: 24px;
-  }
+  #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
   .login-card {
-    background: var(--card); border-radius: 20px; padding: 48px 40px;
-    max-width: 380px; width: 100%;
+    background: var(--card); border-radius: 20px; padding: 36px 32px;
+    max-width: 420px; width: 100%;
     box-shadow: 0 4px 40px rgba(0,0,0,.10);
     text-align: center;
   }
   .login-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 4px; }
-  .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 36px; }
+  .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  .profile-picker { display: flex; gap: 14px; margin-bottom: 22px; justify-content: center; }
+  .profile-option {
+    flex: 1; max-width: 160px; padding: 14px 10px;
+    border: 2px solid var(--border); border-radius: 16px;
+    background: var(--card); cursor: pointer;
+    transition: all .18s; display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+  }
+  .profile-option:hover { transform: translateY(-2px); }
+  .profile-option.selected[data-profile="moya"]   { border-color: #006A60; box-shadow: 0 4px 16px rgba(0,106,96,.20); }
+  .profile-option.selected[data-profile="sharon"] { border-color: #C97B92; box-shadow: 0 4px 16px rgba(201,123,146,.25); }
+  .profile-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    object-fit: cover; background: var(--border);
+  }
+  .profile-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .profile-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
   .login-label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
   .login-input {
     width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
@@ -54,7 +84,7 @@
   }
   .login-input:focus { border-color: var(--teal); }
   .login-btn {
-    margin-top: 20px; width: 100%; padding: 14px;
+    margin-top: 18px; width: 100%; padding: 14px;
     background: var(--navy); color: #fff; border: none;
     border-radius: 10px; font-size: 15px; font-weight: 600;
     font-family: 'DM Sans', sans-serif; cursor: pointer;
@@ -63,25 +93,52 @@
   .login-btn:hover { background: var(--teal); }
   .login-error { display: none; color: #c62828; font-size: 13px; margin-top: 12px; }
 
+  .remember-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    margin: 12px 0 4px; text-align: left;
+  }
+  .remember-label input[type="checkbox"] {
+    width: 15px; height: 15px; accent-color: var(--teal);
+    cursor: pointer; flex-shrink: 0;
+  }
+
   /* ── APP ── */
   #app { display: none; }
   header {
-    background: var(--navy); color: #fff; padding: 16px 24px;
+    background: var(--navy); color: #fff; padding: 12px 18px;
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
+    position: sticky; top: 0; z-index: 100; gap: 10px;
   }
-  .header-title { font-family: 'Playfair Display', serif; font-size: 20px; }
-  .header-sub { font-size: 12px; opacity: .65; margin-top: 2px; }
+  .header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .header-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.25); flex-shrink: 0; }
+  .header-title { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.15; }
+  .header-sub { font-size: 11px; opacity: .7; margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .header-badge {
-    background: var(--gold); color: var(--navy); padding: 6px 14px;
-    border-radius: 20px; font-size: 13px; font-weight: 600;
+    background: var(--gold); color: var(--navy); padding: 5px 12px;
+    border-radius: 20px; font-size: 12px; font-weight: 600;
   }
+  .sync-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; padding: 4px 8px; border-radius: 10px;
+    background: rgba(255,255,255,.14); color: #fff; opacity: .9;
+    font-weight: 500;
+  }
+  .sync-badge.offline { background: rgba(255,170,0,.30); }
+  .btn-logout {
+    background: rgba(255,255,255,.12); color: #fff; border: none;
+    padding: 7px 11px; border-radius: 8px; font-size: 12px;
+    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    display: flex; align-items: center; gap: 5px;
+    transition: background .15s;
+  }
+  .btn-logout:hover { background: rgba(255,255,255,.22); }
+
   .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
 
   /* filtros */
-  .filters {
-    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
-  }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
   .filter-btn {
     padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
     border: 1.5px solid var(--border); background: var(--card); cursor: pointer;
@@ -90,20 +147,17 @@
   .filter-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
   .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
 
-  /* grupos de día — colapsables */
+  /* días */
   .day-group { margin-bottom: 16px; }
   .day-header {
     font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
-    border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 0;
+    border-bottom: 2px solid var(--border); padding-bottom: 8px;
     display: flex; align-items: center; gap: 10px;
     cursor: pointer; user-select: none; padding: 10px 4px;
     border-radius: 8px; transition: background .15s;
   }
-  .day-header:hover { background: rgba(13,27,42,.04); }
-  .day-chevron {
-    font-size: 12px; color: var(--muted);
-    transition: transform .22s ease; display: inline-block; margin-right: 2px;
-  }
+  .day-header:hover { background: rgba(0,0,0,.04); }
+  .day-chevron { font-size: 12px; color: var(--muted); transition: transform .22s ease; display: inline-block; margin-right: 2px; }
   .day-group.collapsed .day-chevron { transform: rotate(-90deg); }
   .day-cards { padding-top: 10px; margin-bottom: 8px; }
   .day-group.collapsed .day-cards { display: none; }
@@ -116,9 +170,12 @@
     background: var(--card); border-radius: 14px; padding: 16px 18px;
     margin-bottom: 10px; border: 1.5px solid var(--border);
     display: flex; align-items: center; gap: 14px;
-    transition: box-shadow .15s;
+    transition: box-shadow .15s, background .15s, border-color .15s;
   }
   .cita-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+  .cita-card.confirmada { background: #F1F8F2; border-color: #A5D6A7; }
+  .cita-card.confirmada .cita-nombre::before { content: "✓ "; color: #2E7D32; font-weight: 800; }
+
   .cita-hora {
     font-size: 15px; font-weight: 600; color: var(--navy);
     min-width: 52px; text-align: center; line-height: 1.2;
@@ -131,10 +188,7 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     display: flex; align-items: center; gap: 6px;
   }
-  .btn-drive {
-    display: inline-flex; align-items: center; flex-shrink: 0;
-    opacity: .55; transition: opacity .15s;
-  }
+  .btn-drive { display: inline-flex; align-items: center; flex-shrink: 0; opacity: .55; transition: opacity .15s; }
   .btn-drive:hover { opacity: 1; }
   .btn-copy-nombre {
     background: none; border: none; padding: 2px 3px;
@@ -154,12 +208,7 @@
   .badge-presencial .badge-dot { background: var(--presencial-dot); }
   .badge-online { background: var(--online); color: var(--online-dot); }
   .badge-online .badge-dot { background: var(--online-dot); }
-  .badge-bariatria { background: var(--bariatria); color: var(--bariatria-dot); }
-  .badge-bariatria .badge-dot { background: var(--bariatria-dot); }
-  .badge-moya { background: var(--moya); color: var(--moya-dot); }
-  .badge-moya .badge-dot { background: var(--moya-dot); }
-  .badge-sharon { background: var(--sharon); color: var(--sharon-dot); }
-  .badge-sharon .badge-dot { background: var(--sharon-dot); }
+
   .cita-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: center; }
   .btn-wa {
     background: #25D366; color: #fff; border: none;
@@ -180,31 +229,20 @@
     background: #9E9E9E; color: #fff; border-color: #bbb;
     opacity: 0.72; cursor: default;
   }
-
-  /* conflicto de consultorio */
-  @keyframes conflict-pulse {
-    0%, 100% { border-color: #e53935; box-shadow: 0 0 0 0 rgba(229,57,53,.35); }
-    50%       { border-color: #ff8a80; box-shadow: 0 0 0 6px rgba(229,57,53,.0); }
+  .btn-confirm {
+    background: #fff; color: #2E7D32; border: 1.5px solid #A5D6A7;
+    padding: 10px 12px; border-radius: 10px;
+    cursor: pointer; transition: all .15s;
+    display: flex; align-items: center; justify-content: center;
   }
-  .cita-conflict {
-    background: #fff5f5;
-    border-color: #e53935 !important;
-    animation: conflict-pulse 1.4s ease-in-out infinite;
-  }
-  .cita-conflict .cita-hora { color: #c62828; }
-  .conflict-label {
-    font-size: 11px; font-weight: 700; color: #c62828;
-    background: #ffebee; padding: 2px 7px; border-radius: 8px;
-    letter-spacing: .03em;
-  }
+  .btn-confirm:hover { background: #E8F5E9; }
+  .btn-confirm.active { background: #2E7D32; border-color: #2E7D32; color: #fff; }
 
   /* sin cel */
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
 
   /* meet link */
-  .meet-wrap {
-    display: inline-flex; align-items: center; gap: 4px;
-  }
+  .meet-wrap { display: inline-flex; align-items: center; gap: 4px; }
   .meet-link {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 11px; color: var(--online-dot); background: var(--online);
@@ -236,12 +274,12 @@
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* botón flotante refresh */
+  /* refresh flotante */
   #btn-refresh {
     position: fixed; bottom: 24px; right: 20px; z-index: 998;
     background: var(--teal); color: #fff; border: none;
     width: 52px; height: 52px; border-radius: 50%;
-    cursor: pointer; box-shadow: 0 4px 16px rgba(0,106,96,.35);
+    cursor: pointer; box-shadow: 0 4px 16px var(--refresh-shadow);
     display: flex; align-items: center; justify-content: center;
     transition: background .2s, transform .2s;
   }
@@ -257,26 +295,17 @@
   }
   .stat strong { display: block; font-size: 22px; font-weight: 600; color: var(--navy); }
 
-  /* hidden via filtro */
   .cita-card.hidden, .day-group.hidden { display: none; }
 
   @media (max-width: 600px) {
     .cita-card { flex-wrap: wrap; }
     .cita-actions { width: 100%; justify-content: flex-end; }
-    .login-card { padding: 36px 24px; }
+    .login-card { padding: 30px 22px; }
+    .header-sub { display: none; }
+    .header-title { font-size: 15px; }
+    .btn-logout span { display: none; }
   }
-
-  .remember-label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: var(--muted); cursor: pointer;
-    margin: 12px 0 4px; text-align: left;
-  }
-  .remember-label input[type="checkbox"] {
-    width: 15px; height: 15px; accent-color: var(--teal);
-    cursor: pointer; flex-shrink: 0;
-  }
-
-  </style>
+</style>
 </head>
 <body>
 
@@ -285,6 +314,24 @@
   <div class="login-card">
     <div class="login-logo">Eutimya</div>
     <div class="login-sub">Panel de confirmación de citas</div>
+
+    <div class="profile-picker">
+      <div class="profile-option selected" data-profile="moya" onclick="selectProfile('moya')">
+        <img class="profile-avatar" src="https://psiquiatra-cdmx.eutimya.org/perfilmoya.jpg" alt="Dr. Moya">
+        <div>
+          <div class="profile-name">Dr. Moya</div>
+          <div class="profile-role">Psiquiatría</div>
+        </div>
+      </div>
+      <div class="profile-option" data-profile="sharon" onclick="selectProfile('sharon')">
+        <img class="profile-avatar" src="https://paido.eutimya.org/perfilsharon.jpg" alt="Dra. Venecia">
+        <div>
+          <div class="profile-name">Dra. Venecia</div>
+          <div class="profile-role">Nutrición</div>
+        </div>
+      </div>
+    </div>
+
     <label class="login-label">Contraseña</label>
     <input id="pwd-input" class="login-input" type="password" placeholder="••••••••••••" autocomplete="current-password">
     <label class="remember-label">
@@ -299,28 +346,36 @@
 <!-- ── APP ── -->
 <div id="app">
   <header>
-    <div>
-      <div class="header-title">Confirmación de Citas</div>
-      <div class="header-sub" id="header-sub">Cargando…</div>
+    <div class="header-left">
+      <img id="header-avatar" class="header-avatar" src="" alt="">
+      <div>
+        <div class="header-title" id="header-doctor">—</div>
+        <div class="header-sub" id="header-sub">Cargando…</div>
+      </div>
     </div>
-    <div class="header-badge" id="total-badge">— citas</div>
+    <div class="header-right">
+      <span class="header-badge" id="total-badge">— citas</span>
+      <span class="sync-badge" id="sync-badge" title="Estado de sincronización">☁</span>
+      <button class="btn-logout" onclick="cerrarSesion()" title="Cerrar sesión">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Salir</span>
+      </button>
+    </div>
   </header>
 
   <div class="container">
     <div class="stats">
       <div class="stat"><strong id="stat-total">—</strong>Total semana</div>
-      <div class="stat"><strong id="stat-moya">—</strong>Dr. Moya</div>
-      <div class="stat"><strong id="stat-sharon">—</strong>Dra. Venecia</div>
       <div class="stat"><strong id="stat-presencial">—</strong>Presencial</div>
       <div class="stat"><strong id="stat-online">—</strong>Online</div>
-      <div class="stat"><strong id="stat-bariatria">—</strong>Bariatría</div>
+      <div class="stat"><strong id="stat-confirmadas">—</strong>Confirmadas</div>
     </div>
 
     <div class="filters">
       <button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>
-      <button class="filter-btn" onclick="filtrar('Dr. Moya', this)">Dr. Moya</button>
-      <button class="filter-btn" onclick="filtrar('Dra. Venecia', this)">Dra. Venecia</button>
-      <button class="filter-btn" onclick="filtrar('Bariatría', this)">Bariatría</button>
+      <button class="filter-btn" onclick="filtrar('Presencial', this)">Presencial</button>
+      <button class="filter-btn" onclick="filtrar('Online', this)">Online</button>
+      <button class="filter-btn" onclick="filtrar('pendientes', this)">Pendientes</button>
     </div>
 
     <div id="lista"></div>
@@ -334,29 +389,60 @@
 <div id="toast">✓ Texto copiado</div>
 
 <script>
-// ── AUTH ──
+// ── CONFIG ──
 const HASH_OK       = '81d528310678bb4f38ff7c985ee62b94e58826cb4eb451fb72f61166f6d3c4ba';
 const SESSION_KEY   = 'eutimya_admin_tok';
+const FILTER_KEY    = 'eutimya_filtro';
+const COPIED_KEY    = 'eutimya_copiados';
+const CONFIRMED_KEY = 'eutimya_confirmados';
 const SESSION_DAYS  = 30;
 const API_URL       = 'https://script.google.com/macros/s/AKfycbzhaHfMhmjcWp1WraHF5fjINcq7j493kjGyqHA3DK71Bm2NqWi5j1aU16QYd4UeG5yO-g/exec';
 
-// ── URLs DE PAGOS POR DOCTOR ──
-// FIX: Sharon usa URL con #pagos
+const PROFILES = {
+  moya:   { doctor: 'Dr. Moya',     nombre: 'Dr. Moya',     foto: 'https://psiquiatra-cdmx.eutimya.org/perfilmoya.jpg' },
+  sharon: { doctor: 'Dra. Venecia', nombre: 'Dra. Venecia', foto: 'https://paido.eutimya.org/perfilsharon.jpg' }
+};
+
 const PAGOS_URL = {
   'Dr. Moya':     'eutimya.org/pagos',
   'Dra. Venecia': 'paido.eutimya.org/cita#pagos'
 };
 
+let PROFILE_ACTIVE = 'moya';
+let CITAS = [];
+let filtroActual = 'todos';
+
+// ── PROFILE ──
+function selectProfile(p) {
+  if (!PROFILES[p]) return;
+  PROFILE_ACTIVE = p;
+  document.querySelectorAll('.profile-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.profile === p);
+  });
+  document.documentElement.dataset.profile = p;
+}
+
+function applyProfileUI() {
+  document.documentElement.dataset.profile = PROFILE_ACTIVE;
+  const cfg = PROFILES[PROFILE_ACTIVE];
+  document.getElementById('header-doctor').textContent = cfg.nombre;
+  document.getElementById('header-avatar').src = cfg.foto;
+  document.getElementById('header-avatar').alt = cfg.nombre;
+}
+
+// ── AUTH ──
 (function checkSavedSession() {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return;
-    const { tok, exp, hash } = JSON.parse(raw);
+    const { tok, exp, hash, profile } = JSON.parse(raw);
     if (!tok || !exp || !hash) return;
     if (Date.now() > exp) { localStorage.removeItem(SESSION_KEY); return; }
-    if (hash !== HASH_OK) { localStorage.removeItem(SESSION_KEY); return; }
+    if (hash !== HASH_OK)  { localStorage.removeItem(SESSION_KEY); return; }
+    if (profile && PROFILES[profile]) selectProfile(profile);
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    applyProfileUI();
     cargarYRenderizar();
   } catch(e) { localStorage.removeItem(SESSION_KEY); }
 })();
@@ -364,14 +450,10 @@ const PAGOS_URL = {
 function saveSession() {
   const tok = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
   const exp = Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000;
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ tok, exp, hash: HASH_OK }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ tok, exp, hash: HASH_OK, profile: PROFILE_ACTIVE }));
 }
 
-function clearSession() {
-  localStorage.removeItem(SESSION_KEY);
-}
-
-let CITAS = [];
+function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
 async function sha256(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
@@ -385,6 +467,7 @@ async function checkLogin() {
     if (document.getElementById('remember-me').checked) saveSession();
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    applyProfileUI();
     cargarYRenderizar();
   } else {
     document.getElementById('login-error').style.display = 'block';
@@ -400,12 +483,96 @@ function cerrarSesion() {
   document.getElementById('pwd-input').value = '';
   document.getElementById('login-error').style.display = 'none';
 }
+
 document.getElementById('pwd-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkLogin(); });
 
-// ── CARGA DINÁMICA DESDE APPS SCRIPT ──
+// ── ESTADOS (copiados + confirmadas) — sync local ↔ nube ──
+function citaKey(c) {
+  return `${c.doctor}|${c.nombre}|${c.fecha}|${c.hora_inicio}`;
+}
+
+function getLocalMap(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return {};
+    const data = JSON.parse(raw);
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    let limpiado = false;
+    Object.keys(data).forEach(k => {
+      const fecha = k.split('|')[2];
+      if (fecha && new Date(fecha) < hoy) { delete data[k]; limpiado = true; }
+    });
+    if (limpiado) localStorage.setItem(key, JSON.stringify(data));
+    return data;
+  } catch(e) { return {}; }
+}
+
+function setLocalMap(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+function setSyncStatus(state) {
+  const b = document.getElementById('sync-badge');
+  if (!b) return;
+  if      (state === 'syncing') { b.textContent = '⟳ sync';   b.classList.remove('offline'); }
+  else if (state === 'ok')      { b.textContent = '☁ sync';   b.classList.remove('offline'); }
+  else                          { b.textContent = '☁ local';  b.classList.add('offline'); }
+}
+
+async function fetchEstadosRemoto() {
+  setSyncStatus('syncing');
+  try {
+    const resp = await fetch(API_URL + '?action=estados', { method: 'GET' });
+    const json = await resp.json();
+    if (json.status !== 'ok') throw new Error(json.message || 'no-ok');
+    const remCop = json.copiados    || {};
+    const remCon = json.confirmados || {};
+    // Merge: la nube manda; lo local que la nube no tiene se preserva.
+    const locCop = getLocalMap(COPIED_KEY);
+    const locCon = getLocalMap(CONFIRMED_KEY);
+    const merCop = { ...locCop, ...remCop };
+    const merCon = { ...locCon, ...remCon };
+    setLocalMap(COPIED_KEY, merCop);
+    setLocalMap(CONFIRMED_KEY, merCon);
+    setSyncStatus('ok');
+    return true;
+  } catch(e) {
+    setSyncStatus('offline');
+    return false;
+  }
+}
+
+async function marcarRemoto(tipo, key, valor) {
+  try {
+    const url = `${API_URL}?action=marcar&tipo=${encodeURIComponent(tipo)}&key=${encodeURIComponent(key)}&valor=${valor ? '1' : '0'}`;
+    await fetch(url, { method: 'GET' });
+    setSyncStatus('ok');
+  } catch(e) { setSyncStatus('offline'); }
+}
+
+function marcarCopiado(c) {
+  const data = getLocalMap(COPIED_KEY);
+  const k = citaKey(c);
+  data[k] = true;
+  setLocalMap(COPIED_KEY, data);
+  marcarRemoto('copiado', k, true);
+}
+
+function toggleConfirmada(c) {
+  const data = getLocalMap(CONFIRMED_KEY);
+  const k = citaKey(c);
+  const nuevo = !data[k];
+  if (nuevo) data[k] = true; else delete data[k];
+  setLocalMap(CONFIRMED_KEY, data);
+  marcarRemoto('confirmado', k, nuevo);
+  return nuevo;
+}
+
+// ── CARGA DE CITAS ──
 async function cargarYRenderizar() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--muted);font-size:14px">Cargando citas en vivo…</div>';
+
+  // estados en paralelo (no bloquear la carga)
+  const estadosPromise = fetchEstadosRemoto();
 
   try {
     const resp = await fetch(API_URL + '?action=citas');
@@ -418,6 +585,7 @@ async function cargarYRenderizar() {
     const DIAS_ES  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
     const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
+    const docFiltro = PROFILES[PROFILE_ACTIVE].doctor;
     const seen = new Set();
     const rows = [];
 
@@ -428,25 +596,24 @@ async function cargarYRenderizar() {
       const modalidad = (r['Modalidad']        || '').trim();
       const link      = (r['Link de Sesión'] || r['Link de Sesion'] || r['Link'] || r['Meet'] || r['link de sesión'] || r['link de sesion'] || '').trim();
 
-      if (!['Presencial','Online','Bariatría'].includes(modalidad)) return;
+      if (!['Presencial','Online'].includes(modalidad)) return;
+      if (doctor !== docFiltro) return;
 
       let fechaDate = null;
       const fRaw = r['Fecha de Cita'];
       if (fRaw) {
         const parts = String(fRaw).split('-');
-        if (parts.length === 3) {
-          fechaDate = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
-        }
+        if (parts.length === 3) fechaDate = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
       }
       if (!fechaDate || fechaDate < hoy || fechaDate > fin) return;
 
       let horaInicio = '?', horaFin = '?';
       const hRaw = r['Hora de Cita'];
       if (hRaw) {
-        const matchStr = String(hRaw).match(/^(\d{1,2}):(\d{2})/);
-        if (matchStr) {
-          const hh = parseInt(matchStr[1], 10);
-          const mm = parseInt(matchStr[2], 10);
+        const m = String(hRaw).match(/^(\d{1,2}):(\d{2})/);
+        if (m) {
+          const hh = parseInt(m[1], 10);
+          const mm = parseInt(m[2], 10);
           horaInicio = String(hh).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
           const finMin = hh * 60 + mm + 50;
           horaFin = String(Math.floor(finMin/60)).padStart(2,'0') + ':' + String(finMin%60).padStart(2,'0');
@@ -465,9 +632,12 @@ async function cargarYRenderizar() {
       const fechaFmt = `${dSem}, ${dNum} de ${mes} ${anio}`;
       const cel      = celularRaw.replace(/\D/g,'').slice(-10);
 
-      rows.push({ doctor, nombre, celular: cel, fecha: fechaISO, fecha_fmt: fechaFmt,
-                  hora_inicio: horaInicio, hora_fin: horaFin, modalidad,
-                  link: modalidad === 'Presencial' ? '' : link });
+      rows.push({
+        doctor, nombre, celular: cel,
+        fecha: fechaISO, fecha_fmt: fechaFmt,
+        hora_inicio: horaInicio, hora_fin: horaFin,
+        modalidad, link: modalidad === 'Presencial' ? '' : link
+      });
     });
 
     rows.sort((a,b) => a.fecha.localeCompare(b.fecha) || a.hora_inicio.localeCompare(b.hora_inicio));
@@ -477,8 +647,12 @@ async function cargarYRenderizar() {
       const f0 = rows[0].fecha_fmt;
       const fN = rows[rows.length-1].fecha_fmt;
       document.getElementById('header-sub').textContent = `${f0} — ${fN}`;
+    } else {
+      document.getElementById('header-sub').textContent = 'Sin citas en los próximos 7 días';
     }
 
+    // esperar a estados antes de renderizar (mejor consistencia visual)
+    await estadosPromise;
     renderCitas();
 
   } catch(err) {
@@ -490,8 +664,7 @@ async function cargarYRenderizar() {
   }
 }
 
-// ── RECORDATORIOS ──
-// FIX: usa URL de pagos correcta según el doctor
+// ── RECORDATORIO ──
 function generarTexto(c) {
   const mod = c.modalidad;
   const dia = c.fecha_fmt.charAt(0).toUpperCase() + c.fecha_fmt.slice(1);
@@ -508,20 +681,19 @@ function generarTexto(c) {
 
 // ── RENDER ──
 function renderCitas() {
-  const total    = CITAS.length;
-  const moya     = CITAS.filter(c => c.doctor === 'Dr. Moya' && c.modalidad !== 'Bariatría').length;
-  const sharon   = CITAS.filter(c => c.doctor === 'Dra. Venecia' && c.modalidad !== 'Bariatría').length;
-  const presencial = CITAS.filter(c => c.modalidad === 'Presencial').length;
-  const online   = CITAS.filter(c => c.modalidad === 'Online').length;
-  const baria    = CITAS.filter(c => c.modalidad === 'Bariatría').length;
+  const copiados    = getLocalMap(COPIED_KEY);
+  const confirmados = getLocalMap(CONFIRMED_KEY);
 
-  document.getElementById('stat-total').textContent    = total;
-  document.getElementById('stat-moya').textContent     = moya;
-  document.getElementById('stat-sharon').textContent   = sharon;
-  document.getElementById('stat-presencial').textContent = presencial;
-  document.getElementById('stat-online').textContent   = online;
-  document.getElementById('stat-bariatria').textContent = baria;
-  document.getElementById('total-badge').textContent   = total + ' citas';
+  const total       = CITAS.length;
+  const presencial  = CITAS.filter(c => c.modalidad === 'Presencial').length;
+  const online      = CITAS.filter(c => c.modalidad === 'Online').length;
+  const numConfirm  = CITAS.filter(c => confirmados[citaKey(c)]).length;
+
+  document.getElementById('stat-total').textContent       = total;
+  document.getElementById('stat-presencial').textContent  = presencial;
+  document.getElementById('stat-online').textContent      = online;
+  document.getElementById('stat-confirmadas').textContent = numConfirm;
+  document.getElementById('total-badge').textContent      = total + ' citas';
 
   const grupos = {};
   CITAS.forEach((c, i) => {
@@ -532,24 +704,6 @@ function renderCitas() {
 
   const lista = document.getElementById('lista');
   lista.innerHTML = '';
-
-  // ── Detectar conflictos de consultorio ──
-  const conflictIdx = new Set();
-  Object.values(grupos).forEach(citasDia => {
-    const presenciales = citasDia.filter(c => c.modalidad === 'Presencial');
-    presenciales.forEach(a => {
-      presenciales.forEach(b => {
-        if (a._idx !== b._idx &&
-            a.hora_inicio === b.hora_inicio &&
-            a.doctor !== b.doctor &&
-            ((a.doctor === 'Dr. Moya' && b.doctor === 'Dra. Venecia') ||
-             (a.doctor === 'Dra. Venecia' && b.doctor === 'Dr. Moya'))) {
-          conflictIdx.add(a._idx);
-          conflictIdx.add(b._idx);
-        }
-      });
-    });
-  });
 
   Object.keys(grupos).sort().forEach(fecha => {
     const citasDelDia = grupos[fecha];
@@ -568,24 +722,23 @@ function renderCitas() {
       <div class="day-cards"></div>`;
 
     const cardsWrap = g.querySelector('.day-cards');
-    const copiados  = getCopiados();
 
     citasDelDia.forEach(c => {
+      const k = citaKey(c);
+      const isCopiada    = !!copiados[k];
+      const isConfirmada = !!confirmados[k];
+
       const card = document.createElement('div');
-      const isConflict = conflictIdx.has(c._idx);
-      card.className = 'cita-card' + (isConflict ? ' cita-conflict' : '');
+      card.className = 'cita-card' + (isConfirmada ? ' confirmada' : '');
       card.dataset.doctor    = c.doctor;
       card.dataset.modalidad = c.modalidad;
+      card.dataset.key       = k;
 
-      const modClass = c.modalidad === 'Presencial' ? 'presencial' :
-                       c.modalidad === 'Online' ? 'online' : 'bariatria';
-      const docClass = c.doctor === 'Dr. Moya' ? 'moya' : 'sharon';
-
+      const modClass = c.modalidad === 'Presencial' ? 'presencial' : 'online';
       const tieneCel = c.celular && c.celular.length >= 10;
       const cel10    = tieneCel ? c.celular.slice(-10) : '';
       const waUrl    = tieneCel ? `https://wa.me/521${cel10}` : '';
 
-      // FIX: botón Copiar SIEMPRE visible; WA solo si hay celular
       card.innerHTML = `
         <div class="cita-hora">${c.hora_inicio}<span>${c.hora_fin}</span></div>
         <div class="divider"></div>
@@ -601,9 +754,7 @@ function renderCitas() {
           </div>
           <div class="cita-meta">
             <span class="badge badge-${modClass}"><span class="badge-dot"></span>${c.modalidad}</span>
-            <span class="badge badge-${docClass}"><span class="badge-dot"></span>${c.doctor}</span>
             ${tieneCel ? `<span>${cel10}</span>` : '<span class="no-cel">Sin celular</span>'}
-            ${isConflict ? `<span class="conflict-label">⚠ Conflicto consultorio</span>` : ''}
             ${c.modalidad !== 'Presencial'
               ? (c.link
                   ? `<span class="meet-wrap">
@@ -617,26 +768,26 @@ function renderCitas() {
           </div>
         </div>
         <div class="cita-actions">
-          <button class="btn-copy" id="copy-${c._idx}" onclick="copiarTexto(${c._idx}, this)">Copiar</button>
+          <button class="btn-copy${isCopiada ? ' copied' : ''}" id="copy-${c._idx}" onclick="copiarTexto(${c._idx}, this)">${isCopiada ? '✓ Copiado' : 'Copiar'}</button>
           ${tieneCel
             ? `<a class="btn-wa" href="${waUrl}" target="_blank" onclick="prepararWA(${c._idx})">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.899.512 3.677 1.406 5.207L2 22l4.905-1.386A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 11.999 2zm.001 18a8 8 0 0 1-4.073-1.117l-.292-.173-3.03.857.856-3.03-.189-.301A8 8 0 1 1 12 20z"/></svg>
                 WA
               </a>`
             : ''}
+          <button class="btn-confirm${isConfirmada ? ' active' : ''}" onclick="toggleConfirmadaCard(${c._idx}, this)" title="${isConfirmada ? 'Marcar como pendiente' : 'Marcar como confirmada'}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
         </div>`;
-
-      // Restaurar estado copiado
-      if (copiados[copiadoKey(c)]) {
-        const btn = card.querySelector(`#copy-${c._idx}`);
-        if (btn) { btn.textContent = '✓ Copiado'; btn.classList.add('copied'); }
-      }
       cardsWrap.appendChild(card);
     });
 
     lista.appendChild(g);
   });
 
+  // Reaplicar filtro activo
+  const fb = document.querySelector('.filter-btn.active');
+  filtrar(filtroActual, fb, true);
   abrirPrimerDiaPendiente();
 }
 
@@ -678,28 +829,21 @@ async function copiarLink(e, link, btn) {
   }, 2000);
 }
 
-// ── COPIAR ──
+// ── COPIAR TEXTO ──
 async function copiarTexto(idx, btn) {
   const c = CITAS[idx];
   const texto = generarTexto(c);
-  try {
-    await navigator.clipboard.writeText(texto);
-    btn.textContent = '✓ Copiado';
-    btn.classList.add('copied');
-    marcarCopiado(c);
-    showToast('Texto copiado');
-  } catch(e) {
+  try { await navigator.clipboard.writeText(texto); }
+  catch(e) {
     const ta = document.createElement('textarea');
-    ta.value = texto;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
+    ta.value = texto; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
     document.body.removeChild(ta);
-    btn.textContent = '✓ Copiado';
-    btn.classList.add('copied');
-    marcarCopiado(c);
-    showToast('Texto copiado');
   }
+  btn.textContent = '✓ Copiado';
+  btn.classList.add('copied');
+  marcarCopiado(c);
+  showToast('Texto copiado');
 }
 
 async function prepararWA(idx) {
@@ -709,23 +853,40 @@ async function prepararWA(idx) {
     await navigator.clipboard.writeText(texto);
     showToast('Texto copiado — pégalo en WhatsApp');
   } catch(e) {}
+  marcarCopiado(c);
+  const cb = document.getElementById('copy-' + idx);
+  if (cb) { cb.textContent = '✓ Copiado'; cb.classList.add('copied'); }
   advanceDayIfComplete(c.fecha);
 }
 
+// ── CONFIRMAR (manual) ──
+function toggleConfirmadaCard(idx, btn) {
+  const c = CITAS[idx];
+  const nuevo = toggleConfirmada(c);
+  btn.classList.toggle('active', nuevo);
+  btn.title = nuevo ? 'Marcar como pendiente' : 'Marcar como confirmada';
+  const card = btn.closest('.cita-card');
+  if (card) card.classList.toggle('confirmada', nuevo);
 
-// ── DÍAS COLAPSABLES ──
-function toggleDay(group) {
-  group.classList.toggle('collapsed');
+  const confirmados = getLocalMap(CONFIRMED_KEY);
+  const numConfirm  = CITAS.filter(x => confirmados[citaKey(x)]).length;
+  document.getElementById('stat-confirmadas').textContent = numConfirm;
+  showToast(nuevo ? '✓ Confirmada' : 'Marcada como pendiente');
+
+  if (filtroActual === 'pendientes') {
+    const fb = document.querySelector('.filter-btn.active');
+    filtrar('pendientes', fb, true);
+  }
 }
 
-function abrirPrimerDiaPendiente() {
-  const groups = [...document.querySelectorAll('.day-group')]
-    .filter(g => !g.classList.contains('hidden'));
+// ── DÍAS COLAPSABLES ──
+function toggleDay(group) { group.classList.toggle('collapsed'); }
 
+function abrirPrimerDiaPendiente() {
+  const groups = [...document.querySelectorAll('.day-group')].filter(g => !g.classList.contains('hidden'));
   let opened = false;
   for (const g of groups) {
-    const btns = [...g.querySelectorAll('.btn-copy')]
-      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    const btns = [...g.querySelectorAll('.btn-copy')].filter(b => !b.closest('.cita-card').classList.contains('hidden'));
     if (btns.length === 0) continue;
     if (btns.some(b => !b.classList.contains('copied'))) {
       g.classList.remove('collapsed');
@@ -739,39 +900,29 @@ function abrirPrimerDiaPendiente() {
 }
 
 function advanceDayIfComplete(fecha) {
-  const groups = [...document.querySelectorAll('.day-group')]
-    .filter(g => !g.classList.contains('hidden'));
-
+  const groups = [...document.querySelectorAll('.day-group')].filter(g => !g.classList.contains('hidden'));
   let idx = -1;
   groups.forEach((g, i) => { if (g.dataset.fecha === fecha) idx = i; });
   if (idx === -1) return;
-
   const current = groups[idx];
-  const btns = [...current.querySelectorAll('.btn-copy')]
-    .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
-
+  const btns = [...current.querySelectorAll('.btn-copy')].filter(b => !b.closest('.cita-card').classList.contains('hidden'));
   if (!btns.length || !btns.every(b => b.classList.contains('copied'))) return;
-
   current.classList.add('day-done', 'collapsed');
-
   const next = groups.slice(idx + 1).find(g => {
-    const bs = [...g.querySelectorAll('.btn-copy')]
-      .filter(b => !b.closest('.cita-card').classList.contains('hidden'));
+    const bs = [...g.querySelectorAll('.btn-copy')].filter(b => !b.closest('.cita-card').classList.contains('hidden'));
     return bs.some(b => !b.classList.contains('copied'));
   });
-
   if (next) {
     next.classList.remove('collapsed');
     setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
-    const label = (next.querySelector('.day-header')?.textContent || '')
-      .replace('▼','').replace(/\d+\s*citas?/i,'').replace(/\s+/g,' ').trim();
+    const label = (next.querySelector('.day-header')?.textContent || '').replace('▼','').replace(/\d+\s*citas?/i,'').replace(/\s+/g,' ').trim();
     showToast('→ ' + (label || 'Siguiente día'));
   } else {
     showToast('✓ Todos los días completados');
   }
 }
 
-// ── REFRESH FLOTANTE ──
+// ── REFRESH ──
 async function refrescarCitas() {
   const btn = document.getElementById('btn-refresh');
   btn.classList.add('spinning');
@@ -790,59 +941,26 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-
-// ── PERSISTENCIA ──
-const FILTER_KEY = 'eutimya_filtro';
-const COPIED_KEY = 'eutimya_copiados';
-
-function copiadoKey(c) {
-  return `${c.doctor}|${c.nombre}|${c.fecha}|${c.hora_inicio}`;
-}
-
-function getCopiados() {
-  try {
-    const raw = localStorage.getItem(COPIED_KEY);
-    if (!raw) return {};
-    const data = JSON.parse(raw);
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
-    let limpiado = false;
-    Object.keys(data).forEach(k => {
-      const fecha = k.split('|')[2];
-      if (fecha && new Date(fecha) < hoy) { delete data[k]; limpiado = true; }
-    });
-    if (limpiado) localStorage.setItem(COPIED_KEY, JSON.stringify(data));
-    return data;
-  } catch(e) { return {}; }
-}
-
-function marcarCopiado(c) {
-  const data = getCopiados();
-  data[copiadoKey(c)] = true;
-  localStorage.setItem(COPIED_KEY, JSON.stringify(data));
-}
-
 // ── FILTROS ──
-let filtroActual = 'todos';
-function filtrar(valor, btn) {
+function filtrar(valor, btn, silent) {
   filtroActual = valor;
-  localStorage.setItem(FILTER_KEY, valor);
+  if (!silent) localStorage.setItem(FILTER_KEY, valor);
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (btn && btn.classList) btn.classList.add('active');
 
+  const confirmados = getLocalMap(CONFIRMED_KEY);
   document.querySelectorAll('.cita-card').forEach(card => {
-    if (valor === 'todos') {
-      card.classList.remove('hidden');
-    } else if (valor === 'Dr. Moya' || valor === 'Dra. Venecia') {
-      const esDoc = card.dataset.doctor === valor && card.dataset.modalidad !== 'Bariatría';
-      esDoc ? card.classList.remove('hidden') : card.classList.add('hidden');
-    } else {
-      card.dataset.modalidad === valor ? card.classList.remove('hidden') : card.classList.add('hidden');
-    }
+    const mod = card.dataset.modalidad;
+    const k   = card.dataset.key;
+    let visible = true;
+    if (valor === 'Presencial' || valor === 'Online') visible = (mod === valor);
+    else if (valor === 'pendientes') visible = !confirmados[k];
+    card.classList.toggle('hidden', !visible);
   });
 
   document.querySelectorAll('.day-group').forEach(g => {
-    const visible = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
-    visible ? g.classList.remove('hidden') : g.classList.add('hidden');
+    const any = [...g.querySelectorAll('.cita-card')].some(c => !c.classList.contains('hidden'));
+    g.classList.toggle('hidden', !any);
   });
 
   document.querySelectorAll('.day-group:not(.hidden)').forEach(g => g.classList.add('collapsed'));
