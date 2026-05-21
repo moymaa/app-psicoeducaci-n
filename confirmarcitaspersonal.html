@@ -238,6 +238,26 @@
   .btn-confirm:hover { background: #E8F5E9; }
   .btn-confirm.active { background: #2E7D32; border-color: #2E7D32; color: #fff; }
 
+  /* registros / escalas */
+  .cita-registros { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+  .reg-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; text-decoration: none;
+    padding: 3px 9px; border-radius: 8px;
+    border: 1.5px solid; cursor: pointer; line-height: 1.45;
+    font-family: 'DM Sans', sans-serif; transition: all .15s;
+  }
+  .reg-exp  { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .reg-exp:hover  { background: var(--navy); border-color: var(--navy); }
+  .reg-asrs { background: var(--card); color: #5E35B1; border-color: #D1C4E9; }
+  .reg-asrs:hover { background: #EDE7F6; }
+  .reg-diva { background: var(--card); color: #00838F; border-color: #B2EBF2; }
+  .reg-diva:hover { background: #E0F7FA; }
+  .reg-es   { background: var(--card); color: #1565C0; border-color: #BBDEFB; }
+  .reg-es:hover   { background: #E3F2FD; }
+  .reg-eb   { background: var(--card); color: #2E7D32; border-color: #C8E6C9; }
+  .reg-eb:hover   { background: #E8F5E9; }
+
   /* sin cel */
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
 
@@ -411,6 +431,19 @@ const PAGOS_URL = {
 let PROFILE_ACTIVE = 'moya';
 let CITAS = [];
 let filtroActual = 'todos';
+let REGISTROS = null;
+
+// Fuentes de registros (expediente + escalas). El orden = orden de los botones.
+const REGISTROS_FUENTES = [
+  { key: 'expediente', label: 'Expediente' },
+  { key: 'asrs',       label: 'ASRS' },
+  { key: 'diva',       label: 'DIVA' },
+  { key: 'es',         label: 'ES' },
+  { key: 'eb',         label: 'EB' }
+];
+// Umbrales de similitud de nombre (0–1). Conservadores para evitar homónimos.
+const SIM_STRONG = 0.84;  // coincidencia fuerte: basta el nombre
+const SIM_MIN    = 0.66;  // coincidencia dudosa: además exige fecha de nacimiento
 
 // ── PROFILE ──
 function selectProfile(p) {
@@ -566,13 +599,185 @@ function toggleConfirmada(c) {
   return nuevo;
 }
 
+// ── REGISTROS (expediente + escalas) ──
+// El navegador no puede leer hojas privadas: el endpoint ?action=registros
+// (Apps Script) devuelve un índice y aquí emparejamos cada cita.
+async function fetchRegistros() {
+  try {
+    const resp = await fetch(API_URL + '?action=registros');
+    const json = await resp.json();
+    if (json.status !== 'ok' || !json.fuentes) throw new Error('no-ok');
+    REGISTROS = json.fuentes;
+    return true;
+  } catch(e) {
+    REGISTROS = null;
+    return false;
+  }
+}
+
+// Normaliza nombres: sin acentos, MAYÚSCULAS, sin puntuación, 1 espacio.
+function normNombre(s) {
+  return String(s == null ? '' : s)
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toUpperCase().replace(/[^A-Z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+// Normaliza fecha de nacimiento de la cita a 'aaaa-mm-dd' (o 'aaaa').
+function normFnacCita(v) {
+  if (v == null) return '';
+  const s = String(v).trim();
+  if (!s) return '';
+  let m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);                       // ISO / aaaa-mm-dd
+  if (m) return m[1] + '-' + m[2] + '-' + m[3];
+  m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})$/);         // dd/mm/aaaa
+  if (m) {
+    let d = +m[1], mo = +m[2], y = +m[3];
+    if (y < 100) y += (y > 30 ? 1900 : 2000);
+    return y + '-' + String(mo).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+  }
+  if (/^(19|20)\d{2}$/.test(s)) return s;                            // solo año
+  return '';
+}
+
+function bigramas(s) {
+  s = s.replace(/\s/g, '');
+  const b = {};
+  for (let i = 0; i < s.length - 1; i++) {
+    const g = s.substr(i, 2);
+    b[g] = (b[g] || 0) + 1;
+  }
+  return b;
+}
+
+// Coeficiente de Dice sobre bigramas (0–1): tolera errores ortográficos.
+function diceCoef(a, b) {
+  if (a === b) return a ? 1 : 0;
+  if (a.length < 2 || b.length < 2) return 0;
+  const ba = bigramas(a), bb = bigramas(b);
+  let inter = 0, total = 0;
+  for (const g in ba) { total += ba[g]; if (bb[g]) inter += Math.min(ba[g], bb[g]); }
+  for (const g in bb) { total += bb[g]; }
+  return total ? 2 * inter / total : 0;
+}
+
+function tokensNombre(s) {
+  return normNombre(s).split(' ').filter(t => t.length > 1);
+}
+
+// Similitud máxima: directa y con tokens ordenados (tolera reordenar apellidos).
+function nombreSimilitud(a, b) {
+  const na = normNombre(a), nb = normNombre(b);
+  if (!na || !nb) return 0;
+  const ord = x => x.split(' ').sort().join(' ');
+  return Math.max(diceCoef(na, nb), diceCoef(ord(na), ord(nb)));
+}
+
+// Cobertura de tokens: cuántas palabras del nombre más corto están en el otro.
+function tokenCobertura(a, b) {
+  const ta = tokensNombre(a), tb = tokensNombre(b);
+  if (!ta.length || !tb.length) return { cov: 0, n: 0 };
+  const corto = ta.length <= tb.length ? ta : tb;
+  const largo = ta.length <= tb.length ? tb : ta;
+  let hit = 0;
+  corto.forEach(t => {
+    if (largo.some(u => u === t || diceCoef(t, u) >= 0.82)) hit++;
+  });
+  return { cov: hit / corto.length, n: corto.length };
+}
+
+// true = coincide, false = contradice, null = no se puede comparar.
+function fnacCoincide(a, b) {
+  if (!a || !b) return null;
+  if (a === b) return true;
+  if (a.length === 4 || b.length === 4) return a.slice(0,4) === b.slice(0,4);
+  return false;
+}
+
+// items: [nombreNorm, fnac, email, fila] → devuelve la fila coincidente o 0.
+function matchFuente(cita, items) {
+  if (!items || !items.length) return 0;
+  const emailC = (cita.email || '').toLowerCase().trim();
+  const dobC   = cita.fnacKey || '';
+  let emailFila = 0, nameFila = 0, nameScore = 0;
+
+  for (const it of items) {
+    const nom = it[0], fnac = it[1], email = it[2], fila = it[3];
+
+    // 1) Correo idéntico → identificador fuerte.
+    if (emailC && email && emailC === email) { emailFila = fila; continue; }
+
+    // 2) Nombre difuso (+ fecha de nacimiento como respaldo).
+    const sim = nombreSimilitud(cita.nombre, nom);
+    const { cov, n } = tokenCobertura(cita.nombre, nom);
+    if (sim < SIM_MIN && !(cov >= 0.66 && n >= 3)) continue;
+
+    const fuerte = sim >= SIM_STRONG || (cov === 1 && n >= 3);
+    const dob    = fnacCoincide(dobC, fnac);
+    let ok;
+    if (fuerte) ok = !(dobC && fnac && dob === false); // fuerte: acepta salvo que la fecha contradiga
+    else        ok = (dob === true);                   // dudoso: solo si la fecha confirma
+    const score = Math.max(sim, cov);
+    if (ok && score >= nameScore) { nameScore = score; nameFila = fila; }
+  }
+  return emailFila || nameFila || 0;
+}
+
+// Devuelve { key: url } por cada fuente donde se encontró al paciente.
+function matchRegistros(cita) {
+  const res = {};
+  if (!REGISTROS) return res;
+  REGISTROS_FUENTES.forEach(f => {
+    const src = REGISTROS[f.key];
+    if (!src || !src.items) return;
+    const fila = matchFuente(cita, src.items);
+    if (fila) {
+      res[f.key] = `https://docs.google.com/spreadsheets/d/${src.id}/edit#gid=${src.gid}&range=A${fila}`;
+    }
+  });
+  return res;
+}
+
+const SVG_EXPEDIENTE = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>';
+
+function chipRegistro(key, label, url) {
+  if (key === 'expediente') {
+    return `<a class="reg-btn reg-exp" href="${url}" target="_blank" rel="noopener" title="Abrir expediente de primera vez">${SVG_EXPEDIENTE}Expediente</a>`;
+  }
+  return `<a class="reg-btn reg-${key}" href="${url}" target="_blank" rel="noopener" title="Abrir ${label} de este paciente">${label}</a>`;
+}
+
+// Inserta/actualiza los botones de registros en cada tarjeta ya pintada.
+function pintarRegistros() {
+  if (!REGISTROS) return;
+  document.querySelectorAll('.cita-card').forEach(card => {
+    const idx = +card.dataset.idx;
+    const c = CITAS[idx];
+    if (!c) return;
+    const reg = matchRegistros(c);
+    const chips = REGISTROS_FUENTES
+      .filter(f => reg[f.key])
+      .map(f => chipRegistro(f.key, f.label, reg[f.key]))
+      .join('');
+    let cont = card.querySelector('.cita-registros');
+    if (!chips) { if (cont) cont.remove(); return; }
+    if (!cont) {
+      cont = document.createElement('div');
+      cont.className = 'cita-registros';
+      card.querySelector('.cita-info').appendChild(cont);
+    }
+    cont.innerHTML = chips;
+  });
+}
+
 // ── CARGA DE CITAS ──
 async function cargarYRenderizar() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--muted);font-size:14px">Cargando citas en vivo…</div>';
 
-  // estados en paralelo (no bloquear la carga)
-  const estadosPromise = fetchEstadosRemoto();
+  // estados + registros en paralelo (no bloquear la carga)
+  const estadosPromise   = fetchEstadosRemoto();
+  const registrosPromise = fetchRegistros();
+  registrosPromise.then(() => pintarRegistros()); // pinta los botones al llegar
 
   try {
     const resp = await fetch(API_URL + '?action=citas');
@@ -595,6 +800,8 @@ async function cargarYRenderizar() {
       const celularRaw= String(r['Celular']    || '').trim().replace(/\.0$/, '');
       const modalidad = (r['Modalidad']        || '').trim();
       const link      = (r['Link de Sesión'] || r['Link de Sesion'] || r['Link'] || r['Meet'] || r['link de sesión'] || r['link de sesion'] || '').trim();
+      const emailP    = String(r['Email Paciente'] || r['Email'] || r['Correo'] || '').trim().toLowerCase();
+      const fnacRaw   = r['Fecha de Nacimiento'] || r['Fecha de nacimiento'] || r['Fecha de Nac'] || '';
 
       if (!['Presencial','Online'].includes(modalidad)) return;
       if (doctor !== docFiltro) return;
@@ -636,7 +843,8 @@ async function cargarYRenderizar() {
         doctor, nombre, celular: cel,
         fecha: fechaISO, fecha_fmt: fechaFmt,
         hora_inicio: horaInicio, hora_fin: horaFin,
-        modalidad, link: modalidad === 'Presencial' ? '' : link
+        modalidad, link: modalidad === 'Presencial' ? '' : link,
+        email: emailP, fnacKey: normFnacCita(fnacRaw)
       });
     });
 
@@ -733,6 +941,7 @@ function renderCitas() {
       card.dataset.doctor    = c.doctor;
       card.dataset.modalidad = c.modalidad;
       card.dataset.key       = k;
+      card.dataset.idx       = c._idx;
 
       const modClass = c.modalidad === 'Presencial' ? 'presencial' : 'online';
       const tieneCel = c.celular && c.celular.length >= 10;
@@ -789,6 +998,7 @@ function renderCitas() {
   const fb = document.querySelector('.filter-btn.active');
   filtrar(filtroActual, fb, true);
   abrirPrimerDiaPendiente();
+  pintarRegistros(); // botones de expediente/escalas (si ya cargaron)
 }
 
 // ── COPIAR NOMBRE ──
