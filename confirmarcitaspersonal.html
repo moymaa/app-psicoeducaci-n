@@ -261,6 +261,14 @@
   /* sin cel */
   .no-cel { opacity: .4; font-size: 11px; color: var(--muted); }
 
+  /* pago confirmado */
+  .badge-pago {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 17px; height: 17px; border-radius: 50%;
+    background: #E8F5E9; color: #2E7D32; font-size: 10px; font-weight: 800;
+    border: 1.5px solid #A5D6A7; flex-shrink: 0; line-height: 1; cursor: default;
+  }
+
   /* meet link */
   .meet-wrap { display: inline-flex; align-items: center; gap: 4px; }
   .meet-link {
@@ -432,6 +440,9 @@ let PROFILE_ACTIVE = 'moya';
 let CITAS = [];
 let filtroActual = 'todos';
 let REGISTROS = null;
+let lastKnownCitaKeys = null;
+let pollingTimer = null;
+let PAGOS_DATA = [];
 
 // Fuentes de registros (expediente + escalas). El orden = orden de los botones.
 const REGISTROS_FUENTES = [
@@ -463,6 +474,94 @@ function applyProfileUI() {
   document.getElementById('header-avatar').alt = cfg.nombre;
 }
 
+// ── NOTIFICACIONES ──
+async function pedirPermisoNotificaciones() {
+  if (!('Notification' in window)) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  const perm = await Notification.requestPermission();
+  return perm === 'granted';
+}
+
+function abrirDia(fecha) {
+  const grupo = [...document.querySelectorAll('.day-group')].find(g => g.dataset.fecha === fecha);
+  if (!grupo) return;
+  grupo.classList.remove('collapsed', 'hidden');
+  setTimeout(() => grupo.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function mostrarNotifNuevaCita(c) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const diaFmt = c.fecha_fmt.charAt(0).toUpperCase() + c.fecha_fmt.slice(1);
+  const notif = new Notification('🗓 Nueva cita agendada', {
+    body: `${c.nombre}\n${diaFmt} · ${c.hora_inicio}`,
+    icon: 'https://psiquiatra-cdmx.eutimya.org/favicon.png',
+    tag: `${c.doctor}|${c.nombre}|${c.fecha}|${c.hora_inicio}`,
+    requireInteraction: false
+  });
+  notif.onclick = () => { notif.close(); window.focus(); abrirDia(c.fecha); };
+}
+
+function iniciarPolling() {
+  if (pollingTimer) clearInterval(pollingTimer);
+  pollingTimer = setInterval(pollSilencioso, 5 * 60 * 1000);
+}
+
+async function pollSilencioso() {
+  if (document.getElementById('app').style.display === 'none') return;
+  try {
+    const resp = await fetch(API_URL + '?action=citas');
+    const json = await resp.json();
+    if (json.status !== 'ok' || !json.rows) return;
+
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    const fin = new Date(hoy); fin.setDate(hoy.getDate() + 7);
+    const docFiltro = PROFILES[PROFILE_ACTIVE].doctor;
+    const DIAS_ES  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const seen = new Set();
+    const novedades = [];
+
+    json.rows.forEach(r => {
+      const doctor    = (r['Doctor']    || '').trim();
+      const nombre    = (r['Nombre']    || '').trim();
+      const modalidad = (r['Modalidad'] || '').trim();
+      if (!['Presencial','Online'].includes(modalidad) || doctor !== docFiltro) return;
+
+      let fechaDate = null;
+      const fRaw = r['Fecha de Cita'];
+      if (fRaw) {
+        const parts = String(fRaw).split('-');
+        if (parts.length === 3) fechaDate = new Date(+parts[0], +parts[1]-1, +parts[2]);
+      }
+      if (!fechaDate || fechaDate < hoy || fechaDate > fin) return;
+
+      let horaInicio = '?';
+      const hRaw = r['Hora de Cita'];
+      if (hRaw) {
+        const m = String(hRaw).match(/^(\d{1,2}):(\d{2})/);
+        if (m) horaInicio = String(+m[1]).padStart(2,'0') + ':' + m[2];
+      }
+
+      const fechaISO = fechaDate.toISOString().slice(0,10);
+      const k = `${doctor}|${nombre}|${fechaISO}|${horaInicio}`;
+      if (seen.has(k)) return;
+      seen.add(k);
+
+      if (lastKnownCitaKeys && !lastKnownCitaKeys.has(k)) {
+        novedades.push({
+          doctor, nombre, fecha: fechaISO, hora_inicio: horaInicio,
+          fecha_fmt: `${DIAS_ES[fechaDate.getDay()]}, ${fechaDate.getDate()} de ${MESES_ES[fechaDate.getMonth()]} ${fechaDate.getFullYear()}`
+        });
+      }
+    });
+
+    lastKnownCitaKeys = seen;
+    novedades.forEach(c => mostrarNotifNuevaCita(c));
+    if (novedades.length > 0) setTimeout(cargarYRenderizar, 600);
+  } catch(e) {}
+}
+
 // ── AUTH ──
 (function checkSavedSession() {
   try {
@@ -476,6 +575,8 @@ function applyProfileUI() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     applyProfileUI();
+    pedirPermisoNotificaciones();
+    iniciarPolling();
     cargarYRenderizar();
   } catch(e) { localStorage.removeItem(SESSION_KEY); }
 })();
@@ -501,6 +602,8 @@ async function checkLogin() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     applyProfileUI();
+    pedirPermisoNotificaciones();
+    iniciarPolling();
     cargarYRenderizar();
   } else {
     document.getElementById('login-error').style.display = 'block';
@@ -511,6 +614,7 @@ async function checkLogin() {
 
 function cerrarSesion() {
   clearSession();
+  if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pwd-input').value = '';
@@ -769,14 +873,36 @@ function pintarRegistros() {
   });
 }
 
+// ── PAGOS (cruce con pestaña Pagos del Sheet) ──
+async function fetchPagos() {
+  try {
+    const resp = await fetch(API_URL + '?action=pagos');
+    const json = await resp.json();
+    PAGOS_DATA = (json.status === 'ok' && json.pagos) ? json.pagos : [];
+  } catch(e) { PAGOS_DATA = []; }
+}
+
+function citaTienePago(nombre, email) {
+  if (!PAGOS_DATA.length) return false;
+  const emailC = (email || '').toLowerCase().trim();
+  const limite = new Date(); limite.setDate(limite.getDate() - 60);
+  const limitStr = limite.toISOString().slice(0, 10);
+  return PAGOS_DATA.some(p => {
+    if (p.fechaPago && p.fechaPago < limitStr) return false;
+    if (emailC && p.email && emailC === p.email) return true;
+    return nombreSimilitud(nombre, p.nombre) >= 0.78;
+  });
+}
+
 // ── CARGA DE CITAS ──
 async function cargarYRenderizar() {
   const lista = document.getElementById('lista');
   lista.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--muted);font-size:14px">Cargando citas en vivo…</div>';
 
-  // estados + registros en paralelo (no bloquear la carga)
+  // estados + registros + pagos en paralelo (no bloquear la carga)
   const estadosPromise   = fetchEstadosRemoto();
   const registrosPromise = fetchRegistros();
+  const pagosPromise     = fetchPagos();
   registrosPromise.then(() => pintarRegistros()); // pinta los botones al llegar
 
   try {
@@ -794,6 +920,7 @@ async function cargarYRenderizar() {
     const seen = new Set();
     const rows = [];
 
+    await pagosPromise; // esperar pagos antes de cruzar datos
     json.rows.forEach(r => {
       const doctor    = (r['Doctor']           || '').trim();
       const nombre    = (r['Nombre']           || '').trim();
@@ -802,6 +929,7 @@ async function cargarYRenderizar() {
       const link      = (r['Link de Sesión'] || r['Link de Sesion'] || r['Link'] || r['Meet'] || r['link de sesión'] || r['link de sesion'] || '').trim();
       const emailP    = String(r['Email Paciente'] || r['Email'] || r['Correo'] || '').trim().toLowerCase();
       const fnacRaw   = r['Fecha de Nacimiento'] || r['Fecha de nacimiento'] || r['Fecha de Nac'] || '';
+      const pagado    = citaTienePago(nombre, emailP);
 
       if (!['Presencial','Online'].includes(modalidad)) return;
       if (doctor !== docFiltro) return;
@@ -844,12 +972,13 @@ async function cargarYRenderizar() {
         fecha: fechaISO, fecha_fmt: fechaFmt,
         hora_inicio: horaInicio, hora_fin: horaFin,
         modalidad, link: modalidad === 'Presencial' ? '' : link,
-        email: emailP, fnacKey: normFnacCita(fnacRaw)
+        email: emailP, fnacKey: normFnacCita(fnacRaw), pagado
       });
     });
 
     rows.sort((a,b) => a.fecha.localeCompare(b.fecha) || a.hora_inicio.localeCompare(b.hora_inicio));
     CITAS = rows;
+    lastKnownCitaKeys = new Set(rows.map(c => citaKey(c)));
 
     if (rows.length) {
       const f0 = rows[0].fecha_fmt;
@@ -954,6 +1083,7 @@ function renderCitas() {
         <div class="cita-info">
           <div class="cita-nombre">
             ${c.nombre}
+            ${c.pagado ? '<span class="badge-pago" title="Pago confirmado ✓">$</span>' : ''}
             <a class="btn-drive" href="https://drive.google.com/drive/u/0/search?q=${encodeURIComponent(c.nombre)}" target="_blank" title="Buscar en Drive">
               <svg width="13" height="13" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
             </a>
