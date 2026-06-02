@@ -1016,6 +1016,22 @@ function generarTexto(c) {
   }
 }
 
+// ── NÚMERO DE WHATSAPP ──
+// Construye el número E.164 (solo dígitos) para wa.me a partir del valor
+// almacenado en la hoja. Es tolerante con datos viejos (10 dígitos) y nuevos
+// (ya con lada de país), y corrige la doble lada "5252".
+function waNumero(raw) {
+  let d = String(raw || '').replace(/\D/g, '');
+  if (!d) return '';
+  while (d.startsWith('5252')) d = d.slice(2);   // arregla doble lada MX (52 52…)
+  if (d.length === 11 && d.startsWith('1'))  return d;          // EE.UU./Canadá
+  if (d.length === 13 && d.startsWith('521')) return d;         // MX móvil completo
+  if (d.length === 12 && d.startsWith('52'))  return '521' + d.slice(-10); // MX sin el 1
+  if (d.length >= 11) return d;                  // ya trae lada de país, respetar
+  if (d.length === 10) return '521' + d;         // número nacional MX → +52 1
+  return d;
+}
+
 // ── RENDER ──
 function renderCitas() {
   const copiados    = getLocalMap(COPIED_KEY);
@@ -1075,7 +1091,7 @@ function renderCitas() {
       const modClass = c.modalidad === 'Presencial' ? 'presencial' : 'online';
       const tieneCel = c.celular && c.celular.length >= 10;
       const cel10    = tieneCel ? c.celular.slice(-10) : '';
-      const waUrl    = tieneCel ? `https://wa.me/521${cel10}` : '';
+      const waUrl    = tieneCel ? `https://wa.me/${waNumero(c.celular)}` : '';
 
       card.innerHTML = `
         <div class="cita-hora">${c.hora_inicio}<span>${c.hora_fin}</span></div>
