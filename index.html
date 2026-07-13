@@ -31,7 +31,9 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
 
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="eutimya-glass.css"/>
+<style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 
     :root {
@@ -117,7 +119,7 @@
       margin-bottom: .4rem;
     }
     .greeting-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
       line-height: 1.15;
       color: var(--ink);
@@ -406,7 +408,7 @@
       display: flex; align-items: center; justify-content: space-between;
     }
     .sheet-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
       color: var(--ink);
     }
@@ -560,6 +562,22 @@
       to   { opacity:1; transform: translateY(0)    scale(1);  }
     }
     [data-theme="dark"] .fab-gemini { box-shadow: 0 4px 20px rgba(26,115,232,.25), 0 1px 6px rgba(0,0,0,.4); }
+
+/* ===== Eutimya iOS Liquid Glass adapter ===== */
+
+:root{
+  --teal:#b8893a;--teal-d:#96702f;--teal-l:#F4EDE0;--teal-bg:rgba(184,137,58,.10);
+  --amber:#2a4a6b;--amber-l:#e7edf3;
+  --surface:#F5F5F7;--bg:#F5F5F7;--white:#fff;
+  --ink:#0d1b2a;--ink-2:#2a4a6b;--ink-3:#5a7a9e;--text:#0d1b2a;--muted:#5a7a9e;
+  --border:rgba(13,27,42,.10);--shadow:0 4px 24px rgba(13,27,42,.08);
+}
+
+.top-bar{background:var(--ilg-glass-strong)!important;backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);border-bottom:var(--ilg-glass-border)!important;}
+.app-card:not(.dark):not(.teal):not(.amber){background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),box-shadow .2s!important;}
+.app-card:not(.dark):not(.teal):not(.amber):active{transform:scale(1.02);}
+.sheet-header{backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);}
+.dark-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s;}.dark-btn:active{transform:scale(1.06);}
 </style>
 </head>
 <body>

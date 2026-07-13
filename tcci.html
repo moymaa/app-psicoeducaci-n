@@ -30,7 +30,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 
-  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="eutimya-glass.css"/>
+<style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 
     :root {
@@ -146,7 +148,7 @@
       margin-bottom: 1rem;
     }
     .hero-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       font-size: 2.2rem;
       line-height: 1.1;
       color: var(--white);
@@ -245,7 +247,7 @@
       margin-bottom: .3rem;
     }
     .card-h2 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
       color: var(--white);
       margin-bottom: .6rem;
@@ -333,7 +335,7 @@
     }
     .result-box.show { display: block; animation: fadeUp .3s ease }
     .result-eff {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       font-size: 2.8rem;
       color: var(--teal);
       line-height: 1;
@@ -485,7 +487,7 @@
       font-size: 6rem;
       color: var(--teal);
       opacity: .1;
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Playfair Display', serif;
       line-height: 1;
     }
     .mot-text {
@@ -720,6 +722,26 @@
       from { opacity:0; transform: translateY(16px) scale(.9); }
       to   { opacity:1; transform: translateY(0)    scale(1);  }
     }
+
+/* ===== Eutimya iOS Liquid Glass adapter ===== */
+
+:root{
+  --teal:#d9b36a;--teal-d:#b8893a;--teal-bg:rgba(184,137,58,.12);
+  --amber:#d9b36a;--amber-bg:rgba(184,137,58,.12);
+  --ilg-glass:rgba(30,44,69,.55);--ilg-glass-strong:rgba(20,23,32,.80);
+  --ilg-glass-selected:rgba(184,137,58,.22);--ilg-glass-border:1px solid rgba(255,255,255,.08);
+  --ilg-glass-border-strong:1px solid rgba(255,255,255,.14);--ilg-specular:inset 0 1px 0 rgba(255,255,255,.10);
+  --ilg-ink:#E8EDF4;--ilg-pri:#E8EDF4;
+}
+[data-theme="light"]{
+  --ilg-glass:rgba(255,255,255,.72);--ilg-glass-strong:rgba(255,255,255,.86);
+  --ilg-glass-border:1px solid rgba(13,27,42,.09);--ilg-ink:#0d1b2a;--ilg-pri:#0d1b2a;
+}
+
+.top-bar,.mod-nav{background:var(--ilg-glass-strong)!important;backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);border-color:rgba(255,255,255,.10)!important;}
+.mot-card,.result-box,.env-header{background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;}
+.mod-btn,.mot-btn,.rate-btn,.ia-btn,.dark-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s!important;}
+.mod-btn:active,.mot-btn:active,.rate-btn:active,.ia-btn:active,.dark-btn:active{transform:scale(1.045);}
 </style>
 </head>
 <body>

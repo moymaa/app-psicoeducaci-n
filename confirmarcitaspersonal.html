@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="https://psiquiatra-cdmx.eutimya.org/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="eutimya-glass.css"/>
 <style>
   /* ── TEMA MOYA (default) ── */
   :root {
@@ -67,7 +69,7 @@
     align-items: center; gap: 10px;
   }
   .profile-option:hover { transform: translateY(-2px); }
-  .profile-option.selected[data-profile="moya"]   { border-color: #006A60; box-shadow: 0 4px 16px rgba(0,106,96,.20); }
+  .profile-option.selected[data-profile="moya"]   { border-color: #b8893a; box-shadow: 0 4px 16px rgba(184,137,58,.22); }
   .profile-option.selected[data-profile="sharon"] { border-color: #C97B92; box-shadow: 0 4px 16px rgba(201,123,146,.25); }
   .profile-avatar {
     width: 72px; height: 72px; border-radius: 50%;
@@ -333,6 +335,17 @@
     .header-title { font-size: 15px; }
     .btn-logout span { display: none; }
   }
+
+/* ===== Eutimya iOS Liquid Glass adapter ===== */
+
+:root{
+  --navy:#0d1b2a;--teal:#b8893a;--teal-light:#F4EDE0;--gold:#b8893a;
+  --bg:#F5F5F7;--card:#fff;--text:#0d1b2a;--muted:#5a7a9e;--border:rgba(13,27,42,.10);
+}
+
+.login-card,.cita-card{background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;}
+.login-btn,.reg-btn,.filter-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s!important;}
+.login-btn:active,.reg-btn:active,.filter-btn:active{transform:scale(1.045);}
 </style>
 </head>
 <body>
