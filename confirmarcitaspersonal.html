@@ -9,9 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="eutimya-glass.css?v=6"/>
-<link rel="stylesheet" href="glasskit.css?v=6"/>
-<link rel="stylesheet" href="glasskit-eutimya.css?v=6"/>
+<link rel="stylesheet" href="eutimya-glass.css?v=7"/>
+<link rel="stylesheet" href="glasskit.css?v=7"/>
+<link rel="stylesheet" href="glasskit-eutimya.css?v=7"/>
+<script src="eutimya-ios.js?v=1" defer></script>
 <style>
   /* ── TEMA MOYA (default) ── */
   :root {
@@ -49,7 +50,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background .25s; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background .25s; }
 
   /* ── LOGIN ── */
   #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
@@ -59,7 +60,7 @@
     box-shadow: 0 4px 40px rgba(0,0,0,.10);
     text-align: center;
   }
-  .login-logo { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 4px; }
+  .login-logo { font-family: ui-serif, 'New York', 'Playfair Display', Georgia, serif; font-size: 28px; color: var(--navy); margin-bottom: 4px; }
   .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
 
   .profile-picker { display: flex; gap: 14px; margin-bottom: 22px; justify-content: center; }
@@ -83,7 +84,7 @@
   .login-label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
   .login-input {
     width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
-    border-radius: 10px; font-size: 15px; font-family: 'DM Sans', sans-serif;
+    border-radius: 10px; font-size: 15px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif;
     outline: none; transition: border .2s;
   }
   .login-input:focus { border-color: var(--teal); }
@@ -91,7 +92,7 @@
     margin-top: 18px; width: 100%; padding: 14px;
     background: var(--navy); color: #fff; border: none;
     border-radius: 10px; font-size: 15px; font-weight: 600;
-    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; cursor: pointer;
     transition: background .2s;
   }
   .login-btn:hover { background: var(--teal); }
@@ -116,7 +117,7 @@
   }
   .header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
   .header-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.25); flex-shrink: 0; }
-  .header-title { font-family: 'Playfair Display', serif; font-size: 17px; line-height: 1.15; }
+  .header-title { font-family: ui-serif, 'New York', 'Playfair Display', Georgia, serif; font-size: 17px; line-height: 1.15; }
   .header-sub { font-size: 11px; opacity: .7; margin-top: 2px; }
   .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .header-badge {
@@ -133,7 +134,7 @@
   .btn-logout {
     background: rgba(255,255,255,.12); color: #fff; border: none;
     padding: 7px 11px; border-radius: 8px; font-size: 12px;
-    font-family: 'DM Sans', sans-serif; cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; cursor: pointer;
     display: flex; align-items: center; gap: 5px;
     transition: background .15s;
   }
@@ -146,7 +147,7 @@
   .filter-btn {
     padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
     border: 1.5px solid var(--border); background: var(--card); cursor: pointer;
-    font-family: 'DM Sans', sans-serif; transition: all .15s;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; transition: all .15s;
   }
   .filter-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
   .filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
@@ -154,7 +155,7 @@
   /* días */
   .day-group { margin-bottom: 16px; }
   .day-header {
-    font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy);
+    font-family: ui-serif, 'New York', 'Playfair Display', Georgia, serif; font-size: 17px; color: var(--navy);
     border-bottom: 2px solid var(--border); padding-bottom: 8px;
     display: flex; align-items: center; gap: 10px;
     cursor: pointer; user-select: none; padding: 10px 4px;
@@ -167,7 +168,7 @@
   .day-group.collapsed .day-cards { display: none; }
   .day-done .day-header { border-bottom-color: #4CAF50; }
   .day-done .day-chevron { color: #4CAF50; }
-  .day-count { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
+  .day-count { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: auto; }
 
   /* cards */
   .cita-card {
@@ -217,7 +218,7 @@
   .btn-wa {
     background: #25D366; color: #fff; border: none;
     padding: 10px 14px; border-radius: 10px; font-size: 13px;
-    font-weight: 600; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif;
     cursor: pointer; display: flex; align-items: center; gap: 6px;
     text-decoration: none; transition: background .15s;
   }
@@ -225,7 +226,7 @@
   .btn-copy {
     background: var(--teal-light); color: var(--teal); border: 1.5px solid var(--teal);
     padding: 10px 14px; border-radius: 10px; font-size: 13px;
-    font-weight: 600; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif;
     cursor: pointer; transition: all .15s;
   }
   .btn-copy:hover { background: var(--teal); color: #fff; }
@@ -249,7 +250,7 @@
     font-size: 11px; font-weight: 600; text-decoration: none;
     padding: 3px 9px; border-radius: 8px;
     border: 1.5px solid; cursor: pointer; line-height: 1.45;
-    font-family: 'DM Sans', sans-serif; transition: all .15s;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'DM Sans', sans-serif; transition: all .15s;
   }
   .reg-exp  { background: var(--teal); color: #fff; border-color: var(--teal); }
   .reg-exp:hover  { background: var(--navy); border-color: var(--navy); }
@@ -1140,7 +1141,7 @@ function renderCitas() {
           </div>
           <div class="cita-meta">
             <span class="badge badge-${modClass}"><span class="badge-dot"></span>${c.modalidad}</span>
-            ${tieneCel ? `<span>${cel10}</span>` : '<span class="no-cel">Sin celular</span>'}
+            ${tieneCel ? `<span class="eu-masked" data-eu-val="${cel10}" onclick="euToggleMask(this)" title="Tocar para mostrar">···· ${cel10.slice(-4)}</span>` : '<span class="no-cel">Sin celular</span>'}
             ${c.modalidad !== 'Presencial'
               ? (c.link
                   ? `<span class="meet-wrap">

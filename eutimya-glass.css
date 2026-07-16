@@ -12,8 +12,8 @@
   /* brand */
   --ilg-accent:#b8893a; --ilg-accent-d:#96702f; --ilg-accent-soft:#F4EDE0;
   --ilg-accent-dim:rgba(184,137,58,.12); --ilg-accent-border:rgba(184,137,58,.28);
-  --ilg-font:'DM Sans','Helvetica Neue',-apple-system,BlinkMacSystemFont,sans-serif;
-  --ilg-font-display:'Playfair Display',Georgia,serif;
+  --ilg-font:-apple-system,BlinkMacSystemFont,'SF Pro Text','DM Sans','Helvetica Neue',sans-serif;
+  --ilg-font-display:ui-serif,'New York','Playfair Display',Georgia,serif;
 
   /* surface + ink (cita.html) */
   --ilg-canvas:#F5F5F7;
@@ -31,7 +31,7 @@
   --ilg-glass-border-strong:1px solid rgba(255,255,255,.92);
   --ilg-blur:saturate(200%) blur(22px);
   --ilg-blur-heavy:saturate(200%) blur(28px);
-  --ilg-specular:inset 0 1px 0 rgba(255,255,255,.65);
+  --ilg-specular:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(13,27,42,.07);
 
   /* radius — concentric scale */
   --ilg-r-pill:980px; --ilg-r-lg:20px; --ilg-r-md:14px; --ilg-r-sm:10px;
@@ -60,7 +60,7 @@
   --ilg-glass-strong:rgba(20,23,32,.80);
   --ilg-glass-border:1px solid rgba(255,255,255,.08);
   --ilg-glass-border-strong:1px solid rgba(255,255,255,.14);
-  --ilg-specular:inset 0 1px 0 rgba(255,255,255,.10);
+  --ilg-specular:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(0,0,0,.35);
   --ilg-pri:#E8EDF4; --ilg-pri-lt:rgba(184,137,58,.16);
   --ilg-shadow-1:0 2px 10px rgba(0,0,0,.35);
   --ilg-shadow-2:0 10px 28px rgba(0,0,0,.45);
@@ -189,3 +189,26 @@
  *          --md-tertiary:var(--ilg-accent); --md-background:var(--ilg-canvas); --md-surface:var(--ilg-canvas);
  *          --md-on-background:var(--ilg-ink); --md-on-surface:var(--ilg-ink); ... }
  */
+
+/* ══ SF-Symbol-like bounce al presionar (SymbolEffect) ══ */
+@keyframes ilgSymbolBounce{0%{transform:scale(1)}38%{transform:scale(1.18)}68%{transform:scale(.94)}100%{transform:scale(1)}}
+a:active .card-icon,button:active .card-icon,.app-card:active .card-icon,
+.module-row:active .module-emoji,.sb-item:active .sb-icon,
+a:active .fab-gem,.fab-gemini:active .fab-gemini-icon,
+.scard:active .scard-icon,.wa-btn:active .material-symbols-outlined{
+  animation:ilgSymbolBounce .45s var(--ilg-ease-spring);
+}
+@media(prefers-reduced-motion:reduce){
+  a:active .card-icon,button:active .card-icon,.app-card:active .card-icon,
+  .module-row:active .module-emoji,.sb-item:active .sb-icon,
+  a:active .fab-gem,.fab-gemini:active .fab-gemini-icon,
+  .scard:active .scard-icon,.wa-btn:active .material-symbols-outlined{animation:none}
+}
+
+/* ══ Datos sensibles enmascarados (tap para revelar, estilo Wallet) ══ */
+.eu-masked{background:rgba(13,27,42,.06);border:1px dashed rgba(13,27,42,.22);border-radius:8px;
+  padding:1px 8px;cursor:pointer;letter-spacing:.08em;font-variant-numeric:tabular-nums;
+  -webkit-user-select:none;user-select:none;transition:background .2s,border-color .2s;}
+.eu-masked:active{background:rgba(184,137,58,.16);}
+.eu-masked.eu-revealed{border-style:solid;border-color:rgba(184,137,58,.4);letter-spacing:normal;}
+[data-theme="dark"] .eu-masked,.dark .eu-masked{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.22);}
