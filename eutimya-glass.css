@@ -4,7 +4,7 @@
  * the ios-liquid-glass skill's material + interaction system (frosted surfaces,
  * concentric radii, two-family spring motion, expanding pill).
  * Prefix: --ilg-* tokens, .ilg-* / .eu-* classes. Link this, then per page append
- * the legacy-token adapter (see PATRÓN below) so old --md-*/--teal vars resolve gold.
+ * the legacy-token adapter (see PATRÓN below) so old --md- and --teal vars resolve gold.
  */
 
 /* ============================== TOKENS (Eutimya brand) ============================== */
