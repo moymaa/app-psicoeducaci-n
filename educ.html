@@ -876,6 +876,56 @@
 .ios-close-btn{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.26)!important;color:#fff!important;}
 .ios-close-btn:hover{background:rgba(255,255,255,.20)!important;}
 .ios-close-btn:active{background:rgba(255,255,255,.28)!important;}
+
+/* ═══ Eutimya iOS 26 — lienzo con profundidad, material definido, esquinas ═══ */
+body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.16), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(42,74,107,.13), transparent 55%),
+    linear-gradient(180deg,#FBFAF6 0%,#F1F0EC 60%,#EDECE8 100%);
+  background-attachment:fixed;
+}
+[data-theme="dark"] body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.20), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(66,110,158,.20), transparent 55%),
+    linear-gradient(180deg,#0e1626 0%,#0b1120 60%,#090d18 100%);
+  background-attachment:fixed;
+}
+.nt-card,.prob-card,.cbti-panel{
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 34px rgba(13,27,42,.10),0 3px 10px rgba(13,27,42,.06)!important;
+}
+[data-theme="dark"] .nt-card,[data-theme="dark"] .prob-card,[data-theme="dark"] .cbti-panel{
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 16px 40px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.4)!important;
+}
+/* Overlays: difuminar el fondo tipo iOS */
+#ai-modal-overlay,.sidebar-overlay,#ai-fab-overlay{
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+}
+/* FAB Gemini → pastilla de vidrio */
+.fab-gemini{
+  background:rgba(255,255,255,.86)!important;
+  backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);
+  color:#0d1b2a!important;
+  border:1px solid rgba(255,255,255,.6)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 20px 60px rgba(13,27,42,.14)!important;
+}
+[data-theme="dark"] .fab-gemini{
+  background:rgba(22,28,40,.82)!important;
+  color:#E8EDF4!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 20px 50px rgba(0,0,0,.5)!important;
+}
+.fab-gemini-icon{background:linear-gradient(135deg,#4285F4 0%,#9B72CB 52%,#EA4335 100%)!important;color:#fff;box-shadow:0 2px 8px rgba(66,133,244,.4);}
+.fab-gemini-label span{opacity:.6!important;}
+.fab-gemini:active{transform:scale(.95)!important;}
+@supports (corner-shape: squircle){
+  .nt-card,.prob-card,.cbti-panel,.is-btn,.ai-btn,.ai-hero-btn,.ai-tool-btn,.btn,.bo,.bg,
+  .fab-gemini,.sb-item,.module-emoji,.ios-header,.sec-next,.gc,.slide{corner-shape:squircle;}
+}
 </style>
 </head>
 <body>

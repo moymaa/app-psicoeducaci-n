@@ -685,7 +685,35 @@
 .top-bar,.sb-header{background:var(--ilg-glass-strong)!important;backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);border-color:var(--ilg-glass-border)!important;}
 .info-card,.status-card,.doctor-panel{background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;}
 .wa-btn,.info-wa-btn,.link-btn,.menu-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s!important;}
-.wa-btn:active,.info-wa-btn:active,.link-btn:active,.menu-btn:active{transform:scale(1.045);}
+.wa-btn:active,.info-wa-btn:active,.link-btn:active,.menu-btn:active{transform:scale(.96);}
+
+/* ═══ Eutimya iOS 26 — lienzo con profundidad, material definido, esquinas ═══ */
+body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.16), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(42,74,107,.13), transparent 55%),
+    linear-gradient(180deg,#FBFAF6 0%,#F1F0EC 60%,#EDECE8 100%);
+  background-attachment:fixed;
+}
+[data-theme="dark"] body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.20), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(66,110,158,.20), transparent 55%),
+    linear-gradient(180deg,#0e1626 0%,#0b1120 60%,#090d18 100%);
+  background-attachment:fixed;
+}
+.info-card,.status-card,.doctor-panel{
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 34px rgba(13,27,42,.10),0 3px 10px rgba(13,27,42,.06)!important;
+}
+[data-theme="dark"] .info-card,[data-theme="dark"] .status-card,[data-theme="dark"] .doctor-panel{
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 16px 40px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.4)!important;
+}
+.sidebar-overlay{backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);}
+@supports (corner-shape: squircle){
+  .info-card,.status-card,.doctor-panel,.wa-btn,.info-wa-btn,.link-btn,.sb-item,.top-bar{corner-shape:squircle;}
+}
 </style>
 </head>
 <body>

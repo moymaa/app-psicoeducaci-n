@@ -347,7 +347,23 @@
 
 .login-card,.cita-card{background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;}
 .login-btn,.reg-btn,.filter-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s!important;}
-.login-btn:active,.reg-btn:active,.filter-btn:active{transform:scale(1.045);}
+.login-btn:active,.reg-btn:active,.filter-btn:active{transform:scale(.96);}
+
+/* ═══ Eutimya iOS 26 — lienzo con profundidad, material definido, esquinas ═══ */
+body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.16), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(42,74,107,.13), transparent 55%),
+    linear-gradient(180deg,#FBFAF6 0%,#F1F0EC 60%,#EDECE8 100%);
+  background-attachment:fixed;
+}
+.login-card,.cita-card{
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 34px rgba(13,27,42,.10),0 3px 10px rgba(13,27,42,.06)!important;
+}
+@supports (corner-shape: squircle){
+  .login-card,.cita-card,.login-btn,.reg-btn,.filter-btn{corner-shape:squircle;}
+}
 </style>
 </head>
 <body>
