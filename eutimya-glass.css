@@ -212,3 +212,64 @@ a:active .fab-gem,.fab-gemini:active .fab-gemini-icon,
 .eu-masked:active{background:rgba(184,137,58,.16);}
 .eu-masked.eu-revealed{border-style:solid;border-color:rgba(184,137,58,.4);letter-spacing:normal;}
 [data-theme="dark"] .eu-masked,.dark .eu-masked{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.22);}
+
+/* ══════════════ HIG pass 2 ══════════════ */
+
+/* Overscroll: la página no rebota entera; el elástico vive en los
+   contenedores que scrollean (sheets, listas) */
+html,body{overscroll-behavior-y:none;}
+#educ-sheet,#pagos-sheet,#ia-sheet,#install-sheet,#ios-sheet,.sidebar,.module-list{
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;}
+
+/* Sin tap-highlight gris de WebKit: el feedback es el spring + háptica */
+*{-webkit-tap-highlight-color:transparent;}
+
+/* Área segura superior (Dynamic Island / notch): el vidrio pasa por
+   detrás de la hora y la batería en modo standalone */
+.top-bar{padding-top:max(.9rem,env(safe-area-inset-top))!important;}
+.mod-nav{padding-top:env(safe-area-inset-top);}
+
+/* Iconos SF (swap runtime desde Material Symbols) */
+.sf-icon{display:inline-flex;align-items:center;justify-content:center;font-size:inherit;}
+.sf-icon svg{width:1em;height:1em;display:block;}
+
+/* Vibrancy: el texto secundario sobre vidrio mezcla la saturación del
+   fondo en lugar de ser gris opaco. Se desactiva si el usuario pide
+   más contraste. */
+@media (prefers-contrast: no-preference){
+  .card-desc,.module-sub,.sb-sublabel,.greeting-sub,.section-label,
+  .cita-meta,.sc-label,.hub-footer{mix-blend-mode:multiply;}
+  [data-theme="dark"] .card-desc,[data-theme="dark"] .module-sub,
+  [data-theme="dark"] .sb-sublabel,[data-theme="dark"] .greeting-sub,
+  [data-theme="dark"] .section-label,[data-theme="dark"] .hub-footer,
+  .app-card.dark .card-desc,.app-card.teal .card-desc{
+    mix-blend-mode:plus-lighter;}
+}
+
+/* Transiciones espaciales entre páginas (View Transitions API, MPA):
+   la vista nueva entra deslizándose desde la derecha (push) */
+@view-transition{navigation:auto;}
+@media (prefers-reduced-motion: no-preference){
+  ::view-transition-old(root){animation:euVtOut .28s var(--ilg-ease-fluid) both;}
+  ::view-transition-new(root){animation:euVtIn .32s var(--ilg-ease-fluid) both;}
+  @keyframes euVtIn{from{opacity:.4;transform:translateX(24px);}to{opacity:1;transform:none;}}
+  @keyframes euVtOut{from{opacity:1;transform:none;}to{opacity:0;transform:translateX(-14px);}}
+}
+
+/* Dynamic Type: en iOS el tamaño raíz sigue el ajuste de letra del
+   sistema (Ajustes > Pantalla y brillo); todo lo dimensionado en rem
+   escala con él */
+@supports (-webkit-touch-callout: none){
+  html{font:-apple-system-body;}
+}
+
+/* Indicador de modo sin conexión */
+#eu-offline{position:fixed;top:max(10px,env(safe-area-inset-top));left:50%;
+  transform:translate(-50%,-200%);z-index:4000;
+  padding:7px 16px;border-radius:980px;font:600 12.5px var(--ilg-font);
+  color:var(--ilg-ink);background:var(--ilg-glass-strong);
+  backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);
+  border:var(--ilg-glass-border);box-shadow:var(--ilg-shadow-2),var(--ilg-specular);
+  transition:transform .45s var(--ilg-ease-spring);pointer-events:none;}
+#eu-offline.on{transform:translate(-50%,0);}
+@supports (corner-shape: squircle){#eu-offline{corner-shape:squircle;}}

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eutimya-v6';
+const CACHE_NAME = 'eutimya-v7';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -38,14 +38,19 @@ self.addEventListener('fetch', (e) => {
   // Solo interceptar requests del mismo origen o fuentes confiables
   if (request.method !== 'GET') return;
 
-  // Estrategia según el tipo de recurso
-  if (url.origin === self.location.origin) {
-    // Network-first para páginas HTML
+  // Datos vivos (Google Apps Script): network-first; sin conexión se
+  // devuelve el último estado conocido guardado en caché.
+  const isGAS = /script\.google(usercontent)?\.com$/.test(url.hostname);
+
+  if (url.origin === self.location.origin || isGAS) {
+    // Network-first para páginas HTML y datos GAS
     e.respondWith(
       fetch(request)
         .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+          }
           return res;
         })
         .catch(() => caches.match(request))
