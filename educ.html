@@ -36,6 +36,8 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="eutimya-glass.css"/>
+<link rel="stylesheet" href="glasskit.css"/>
+<link rel="stylesheet" href="glasskit-eutimya.css"/>
 <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -857,8 +859,23 @@
 /* dark hero surfaces -> Eutimya ink, white text preserved */
 .ai-hero-card{background:linear-gradient(135deg,#1a3a5c 0%,#0d1b2a 100%)!important;border:1px solid var(--ilg-accent-border)!important;}
 .ios-header{background:var(--ilg-glass-strong)!important;backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);}
-.is-btn,.ai-btn,.ai-hero-btn,.ai-tool-btn,.copy-btn,.menu-btn,.cbti-mod-btn,.med-cat-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s!important;}
-.is-btn:active,.ai-btn:active,.ai-hero-btn:active,.ai-tool-btn:active,.copy-btn:active,.menu-btn:active{transform:scale(1.045);}
+.is-btn,.ai-btn,.ai-hero-btn,.ai-tool-btn,.copy-btn,.menu-btn,.cbti-mod-btn,.med-cat-btn,.btn,.bo,.bg,.ios-close-btn,.notif-copy-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s,box-shadow .2s!important;}
+/* Feedback de presión iOS: encoger + volverse MÁS sólido (no crecer ni transparentar) */
+.is-btn:active,.ai-btn:active,.ai-hero-btn:active,.ai-tool-btn:active,.copy-btn:active,.menu-btn:active,.cbti-mod-btn:active,.med-cat-btn:active,.btn:active,.bo:active,.ios-close-btn:active,.notif-copy-btn:active{transform:scale(.96)!important;}
+
+/* ── Botones glass fantasma (7-8% de opacidad) → material sólido y legible ── */
+.bo{background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.32)!important;color:#fff!important;}
+.bo:hover{background:rgba(255,255,255,.24)!important;}
+.bo:active{background:rgba(255,255,255,.32)!important;}
+.ai-tool-gpt,.ai-hero-gpt{background:rgba(255,255,255,.16)!important;border-color:rgba(255,255,255,.34)!important;}
+.ai-tool-gpt:hover,.ai-hero-gpt:hover{background:rgba(255,255,255,.24)!important;border-color:rgba(255,255,255,.44)!important;}
+.ai-tool-gpt:active,.ai-hero-gpt:active{background:rgba(255,255,255,.32)!important;}
+.copy-btn,.notif-copy-btn{background:rgba(158,242,228,.22)!important;border-color:rgba(158,242,228,.40)!important;color:#fff!important;}
+.copy-btn:hover,.notif-copy-btn:hover{background:rgba(158,242,228,.30)!important;}
+.copy-btn:active,.notif-copy-btn:active{background:rgba(158,242,228,.40)!important;}
+.ios-close-btn{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.26)!important;color:#fff!important;}
+.ios-close-btn:hover{background:rgba(255,255,255,.20)!important;}
+.ios-close-btn:active{background:rgba(255,255,255,.28)!important;}
 </style>
 </head>
 <body>

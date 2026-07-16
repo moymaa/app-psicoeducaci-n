@@ -1,0 +1,61 @@
+/* ============================================================
+   GlassKit · Tema Eutimya
+   Remapea los tokens --gl-* de GlassKit a la paleta de marca
+   (gold/ink, DM Sans, radios iOS concéntricos).
+   Enlazar DESPUÉS de glasskit.css:
+     <link rel="stylesheet" href="glasskit.css">
+     <link rel="stylesheet" href="glasskit-eutimya.css">
+   GlassKit ya trae [data-theme="light"], que se sincroniza con
+   el toggle de tema de la app (html[data-theme]).
+   ============================================================ */
+
+:root,
+[data-theme="dark"],
+[data-theme="light"]{
+  /* Primario → gold Eutimya */
+  --gl-color-primary:        #b8893a;
+  --gl-color-primary-dark:   #96702f;
+  --gl-color-primary-mid:    #a67c34;
+
+  /* Bordes / foco cálidos en gold */
+  --gl-border-warm:          rgba(184,137,58,.35);
+  --gl-border-focus:         rgba(184,137,58,.60);
+
+  /* Sombras de acento en gold + ink */
+  --gl-shadow-btn-primary:   0 8px 24px rgba(184,137,58,.38),
+                             0 2px 8px rgba(13,27,42,.16);
+  --gl-shadow-focus:         0 0 0 3px rgba(184,137,58,.30);
+  --gl-tab-bar-spotlight-color: #b8893a;
+
+  /* Tipografía de marca */
+  --gl-font-family:          'DM Sans','Helvetica Neue',-apple-system,BlinkMacSystemFont,sans-serif;
+
+  /* Radios iOS concéntricos (mismos que el sistema Eutimya) */
+  --gl-radius-card:          28px;
+  --gl-radius-btn:           20px;
+  --gl-radius-input:         16px;
+}
+
+/* Fondo oscuro de GlassKit → ink Eutimya (solo dark; en light hereda el
+   fondo claro propio de GlassKit para que el toggle de tema funcione) */
+[data-theme="dark"]{
+  --gl-color-bg-dark:        #0d1b2a;
+  --gl-color-bg-mid:         #16273c;
+  --gl-color-bg-light:       #1c3350;
+}
+:root{ --gl-color-text-on-light: #0d1b2a; }
+/* Canvas claro Eutimya cuando el tema es claro */
+[data-theme="light"]{
+  --gl-color-bg-dark:        #FBFAF6;
+  --gl-color-bg-mid:         #F1F0EC;
+  --gl-color-bg-light:       #EDECE8;
+}
+
+/* Esquinas continuas iOS 26 en los componentes GlassKit */
+@supports (corner-shape: squircle){
+  .glass-card,.glass-btn,.glass-pill,.glass-badge,.glass-input,
+  .glass-select,.glass-textarea,.glass-search,.glass-modal,
+  .glass-toast,.glass-nav,.glass-tab-bar,.glass-avatar,.glass-popover{
+    corner-shape: squircle;
+  }
+}

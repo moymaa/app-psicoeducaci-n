@@ -1,9 +1,12 @@
-const CACHE_NAME = 'eutimya-v4';
+const CACHE_NAME = 'eutimya-v5';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/cerebro.png'
+  '/cerebro.png',
+  '/eutimya-glass.css',
+  '/glasskit.css',
+  '/glasskit-eutimya.css'
 ];
 
 // Instalar: cachear recursos esenciales

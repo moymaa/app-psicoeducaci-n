@@ -33,6 +33,8 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="eutimya-glass.css"/>
+<link rel="stylesheet" href="glasskit.css"/>
+<link rel="stylesheet" href="glasskit-eutimya.css"/>
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 
@@ -563,7 +565,10 @@
     }
     [data-theme="dark"] .fab-gemini { box-shadow: 0 4px 20px rgba(26,115,232,.25), 0 1px 6px rgba(0,0,0,.4); }
 
-/* ===== Eutimya iOS Liquid Glass adapter ===== */
+/* ============================================================
+   Eutimya · iOS Liquid Glass — sistema cohesivo (Apple-grade)
+   Última capa: gana la cascada sobre los tokens legacy.
+   ============================================================ */
 
 :root{
   --teal:#b8893a;--teal-d:#96702f;--teal-l:#F4EDE0;--teal-bg:rgba(184,137,58,.10);
@@ -573,11 +578,179 @@
   --border:rgba(13,27,42,.10);--shadow:0 4px 24px rgba(13,27,42,.08);
 }
 
-.top-bar{background:var(--ilg-glass-strong)!important;backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);border-bottom:var(--ilg-glass-border)!important;}
-.app-card:not(.dark):not(.teal):not(.amber){background:var(--ilg-glass)!important;backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:var(--ilg-glass-border)!important;box-shadow:var(--ilg-shadow-2),var(--ilg-specular)!important;transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),box-shadow .2s!important;}
-.app-card:not(.dark):not(.teal):not(.amber):active{transform:scale(1.02);}
-.sheet-header{backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);}
-.dark-btn{transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s;}.dark-btn:active{transform:scale(1.06);}
+/* ── Lienzo con profundidad: el vidrio necesita algo que refractar ── */
+body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.16), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(42,74,107,.13), transparent 55%),
+    radial-gradient(90% 60% at 50% 108%, rgba(184,137,58,.08), transparent 60%),
+    linear-gradient(180deg,#FBFAF6 0%,#F1F0EC 60%,#EDECE8 100%);
+  background-attachment:fixed;
+}
+[data-theme="dark"] body{
+  background:
+    radial-gradient(115% 75% at 12% -8%, rgba(184,137,58,.20), transparent 58%),
+    radial-gradient(105% 70% at 102% 4%, rgba(66,110,158,.20), transparent 55%),
+    radial-gradient(90% 60% at 50% 108%, rgba(184,137,58,.10), transparent 60%),
+    linear-gradient(180deg,#0e1626 0%,#0b1120 60%,#090d18 100%);
+  background-attachment:fixed;
+}
+
+/* ── Header flotante de vidrio, sticky ── */
+.top-bar{
+  position:sticky;top:0;z-index:120;
+  margin:0 -1.25rem;padding:.9rem 1.25rem;
+  background:var(--ilg-glass-strong);
+  backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);
+  border-bottom:1px solid rgba(13,27,42,.06);
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset;
+}
+[data-theme="dark"] .top-bar{border-bottom-color:rgba(255,255,255,.07);box-shadow:0 1px 0 rgba(255,255,255,.05) inset;}
+.logo-img{filter:drop-shadow(0 1px 2px rgba(13,27,42,.08));}
+.dark-btn{
+  width:38px;height:38px;padding:0;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--ilg-glass);backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);
+  border:1px solid rgba(13,27,42,.08);box-shadow:var(--ilg-specular);
+  transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),background .2s;
+}
+.dark-btn:active{transform:scale(.9);}
+[data-theme="dark"] .dark-btn{border-color:rgba(255,255,255,.1);}
+
+/* ── Encabezado (greeting) ── */
+.greeting{padding:2.1rem 0 1.4rem;}
+.greeting-time{color:var(--ilg-accent);}
+.greeting-title{letter-spacing:-.02em;}
+
+/* ── Quick pills: material vidrio + resorte ── */
+.quick-pills{gap:.55rem;}
+.quick-pill{
+  gap:7px;padding:11px 18px;font-size:.82rem;font-weight:600;letter-spacing:-.01em;
+  border-radius:var(--ilg-r-pill);
+  background:linear-gradient(180deg,#c79a4c,#b8893a);
+  color:#fff;border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 8px 22px rgba(184,137,58,.32),0 2px 6px rgba(13,27,42,.12);
+  transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),box-shadow .2s,filter .2s;
+}
+.quick-pill:hover{filter:brightness(1.05);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 12px 28px rgba(184,137,58,.4),0 2px 6px rgba(13,27,42,.12);}
+.quick-pill:active{transform:scale(.95);}
+.quick-pill .material-symbols-outlined{font-size:19px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20;}
+.quick-pill .qp-arrow{font-size:17px;margin-left:1px;opacity:.85;transition:transform .18s;}
+.quick-pill:hover .qp-arrow{transform:translateX(3px);}
+.quick-pill-docs{
+  background:linear-gradient(180deg,#1f3049,#0d1b2a);
+  border-color:rgba(255,255,255,.12);
+  box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 22px rgba(13,27,42,.28),0 2px 6px rgba(13,27,42,.14);
+}
+.quick-pill-docs:hover{box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 12px 28px rgba(13,27,42,.34),0 2px 6px rgba(13,27,42,.14);}
+
+/* ── Rejilla: filas de igual altura ── */
+.app-grid{grid-auto-rows:1fr;gap:.8rem;}
+
+/* ── Tarjetas de vidrio: material definido que flota sobre el lienzo ── */
+.app-card{border-radius:var(--ilg-r-lg);transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),box-shadow .24s var(--ilg-ease-fluid);}
+.app-card:not(.dark):not(.teal):not(.amber){
+  background:var(--ilg-glass);
+  backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 14px 34px rgba(13,27,42,.10),
+    0 3px 10px rgba(13,27,42,.06);
+}
+.app-card:not(.dark):not(.teal):not(.amber):hover{
+  transform:translateY(-3px);
+  box-shadow:0 1px 0 rgba(255,255,255,.75) inset,0 20px 46px rgba(13,27,42,.14),0 4px 12px rgba(13,27,42,.08);
+}
+.app-card:active{transform:scale(.97);}
+[data-theme="dark"] .app-card:not(.dark):not(.teal):not(.amber){
+  background:var(--ilg-glass);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 16px 40px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.4);
+}
+
+/* Variantes tintadas: mismo lenguaje de elevación + brillo especular */
+.app-card.teal{background:linear-gradient(180deg,#c79a4c,#b0812f);box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 16px 38px rgba(184,137,58,.34),0 3px 10px rgba(13,27,42,.1);}
+.app-card.dark{background:linear-gradient(180deg,#182740,#0c1727);box-shadow:0 1px 0 rgba(255,255,255,.1) inset,0 16px 38px rgba(13,27,42,.3),0 3px 10px rgba(13,27,42,.16);}
+.app-card.amber{background:var(--ilg-glass);backdrop-filter:var(--ilg-blur);-webkit-backdrop-filter:var(--ilg-blur);border:1px solid rgba(42,74,107,.14);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 14px 34px rgba(42,74,107,.12),0 3px 10px rgba(13,27,42,.05);}
+.app-card.teal:hover,.app-card.dark:hover,.app-card.amber:hover{transform:translateY(-3px);}
+
+/* ── Icon tiles: chip de vidrio concéntrico ── */
+.card-icon{border-radius:14px;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 2px 6px rgba(13,27,42,.06);}
+.card-icon.on-white{background:linear-gradient(180deg,rgba(184,137,58,.18),rgba(184,137,58,.1));}
+
+/* ── Etiquetas de sección ── */
+.section-label{letter-spacing:.14em;color:var(--ilg-ink-soft);}
+
+/* ── Sheets: refinado de vidrio ── */
+#educ-sheet,#pagos-sheet,#ia-sheet{background:var(--ilg-glass-strong);backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);border-top:1px solid rgba(255,255,255,.5);}
+[data-theme="dark"] #educ-sheet,[data-theme="dark"] #pagos-sheet,[data-theme="dark"] #ia-sheet{background:var(--ilg-glass-strong);border-top-color:rgba(255,255,255,.08);}
+.sheet-header{backdrop-filter:none;}
+.sheet-handle{background:var(--ilg-ink-soft);opacity:.35;}
+.module-row{border-radius:16px;transition:transform var(--ilg-dur-spring) var(--ilg-ease-spring),box-shadow .18s;}
+.module-row:active{transform:scale(.97);}
+
+/* ── FAB Gemini: pastilla de vidrio (deja de competir con la paleta) ── */
+.fab{
+  background:var(--ilg-glass-strong);
+  backdrop-filter:var(--ilg-blur-heavy);-webkit-backdrop-filter:var(--ilg-blur-heavy);
+  color:var(--ilg-ink);
+  border:1px solid rgba(255,255,255,.55);
+  height:50px;padding:0 18px 0 6px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,var(--ilg-shadow-3);
+}
+.fab:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 24px 60px rgba(13,27,42,.2);}
+.fab:active{transform:scale(.95);}
+.fab-gem{
+  width:38px;height:38px;font-size:19px;color:#fff;
+  background:linear-gradient(135deg,#4285F4 0%,#9B72CB 52%,#EA4335 100%);
+  box-shadow:0 2px 8px rgba(66,133,244,.4);
+}
+.fab-label span{color:var(--ilg-ink-soft);opacity:1;}
+[data-theme="dark"] .fab{border-color:rgba(255,255,255,.12);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 20px 50px rgba(0,0,0,.55);}
+
+/* El FAB no debe tapar el contenido */
+.page{padding-bottom:calc(90px + env(safe-area-inset-bottom));}
+.hub-footer a{color:var(--ilg-accent);}
+
+/* ============================================================
+   Lenguaje de esquinas iOS 26 — squircles + radios generosos
+   ============================================================ */
+:root{--ilg-r-lg:28px;--ilg-r-md:18px;--ilg-r-sm:13px;}
+
+.app-card{border-radius:28px;}
+.app-card.wide{border-radius:24px;}
+.card-icon{border-radius:15px;width:48px;height:48px;}
+.module-emoji{border-radius:15px;}
+.module-row{border-radius:20px;}
+.badge-new{border-radius:var(--ilg-r-pill);}
+#educ-sheet,#pagos-sheet,#ia-sheet{border-radius:34px 34px 0 0;}
+.sheet-close{border-radius:50%;}
+.logo-img{border-radius:9px;}
+.dark-btn{border-radius:50%;}
+
+/* Esquinas continuas Apple (superellipse). Fallback: border-radius normal. */
+@supports (corner-shape: squircle){
+  .app-card,.app-card.wide,.card-icon,.module-emoji,.module-row,
+  .quick-pill,.dark-btn,.fab,.fab-gem,.badge-new,.logo-img,
+  .top-bar,.sheet-close,#educ-sheet,#pagos-sheet,#ia-sheet{
+    corner-shape:squircle;
+  }
+}
+
+/* ── Dark mode: re-mapear tokens legacy (mi :root los pisaba) ── */
+[data-theme="dark"]{
+  --teal:#d8a862;--teal-d:#b0812f;--teal-l:#F4EDE0;--teal-bg:rgba(184,137,58,.16);
+  --amber:#8fb4dd;--amber-l:#1a2740;
+  --surface:#0b1120;--bg:#0b1120;--white:#161d2b;
+  --ink:#E8EDF4;--ink-2:#b9c4d2;--ink-3:#8aa0b8;--text:#E8EDF4;--muted:#8aa0b8;
+  --border:rgba(255,255,255,.10);--shadow:0 4px 24px rgba(0,0,0,.5);
+}
+/* Variantes tintadas en dark: mantener el lenguaje de vidrio, no revertir a teal/negro */
+[data-theme="dark"] .app-card.teal{background:linear-gradient(180deg,#b0812f,#8a6526);box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 16px 40px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.4);}
+[data-theme="dark"] .app-card.dark{background:linear-gradient(180deg,#141d2e,#0a0f1a);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 16px 40px rgba(0,0,0,.55),0 3px 10px rgba(0,0,0,.4);}
+[data-theme="dark"] .app-card.amber{background:var(--ilg-glass);border:1px solid rgba(143,180,221,.18);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 16px 40px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.4);}
+[data-theme="dark"] .card-icon.on-white{background:linear-gradient(180deg,rgba(184,137,58,.28),rgba(184,137,58,.14));}
 </style>
 </head>
 <body>
@@ -601,8 +774,8 @@
 
   <!-- QUICK PILL → CITAS -->
   <div class="quick-pills">
-  <a href="/citas" class="quick-pill">📅 Mis Citas →</a>
-  <a href="/recetasyresumenes" class="quick-pill quick-pill-docs">📄 Mis Documentos →</a>
+  <a href="/citas" class="quick-pill"><span class="material-symbols-outlined">calendar_month</span>Mis Citas<span class="qp-arrow material-symbols-outlined">arrow_forward</span></a>
+  <a href="/recetasyresumenes" class="quick-pill quick-pill-docs"><span class="material-symbols-outlined">description</span>Mis Documentos<span class="qp-arrow material-symbols-outlined">arrow_forward</span></a>
 </div>
 
   <!-- MAIN GRID -->
@@ -922,7 +1095,7 @@ document.addEventListener('keydown', function(e) {
 /* ── SALUDO POR HORA ── */
 (function(){
   var h = new Date().getHours();
-  var t = h < 12 ? 'Buenos días ☀️' : h < 19 ? 'Buenas tardes 🌤' : 'Buenas noches 🌙';
+  var t = h < 12 ? 'Buenos días' : h < 19 ? 'Buenas tardes' : 'Buenas noches';
   var el = document.getElementById('greet-time');
   if (el) el.textContent = t;
 })();
